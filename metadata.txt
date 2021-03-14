@@ -1,0 +1,39 @@
+# This file contains metadata for your plugin. Since 
+# version 2.0 of QGIS this is the proper way to supply 
+# information about a plugin. The old method of 
+# embedding metadata in __init__.py will 
+# is no longer supported since version 2.0.
+
+# This file should be included when you package your plugin.# Mandatory items:
+
+[general]
+name=Swiss Geodata Downloader
+qgisMinimumVersion=3.0
+description=This plugin lets you comfortably download open geo data from swisstopo.
+version=0.1
+author=Patricia Moll
+email=pimoll.dev@gmail.com
+
+about=This plugin allows you to download swiss open geodata (mainly from swisstopo) in an easy and convenient way.
+
+tracker=https://github.com/piMoll/swiss-geodata-downloader/issues
+repository=https://github.com/piMoll/swiss-geodata-downloader
+# End of mandatory metadata
+
+# Recommended items:
+
+# Uncomment the following line and add your changelog:
+# changelog=
+
+# Tags are comma separated with spaces allowed
+tags=geodata opendata switzerland downloader
+
+homepage=https://pimoll.github.io/swiss-geodata-downloader/
+category=Web
+icon=icon.png
+# experimental flag
+experimental=False
+
+# deprecated flag (applies to the whole plugin, not just a single version)
+deprecated=False
+
