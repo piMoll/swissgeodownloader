@@ -30,7 +30,7 @@ tags=geodata opendata switzerland downloader
 
 homepage=https://pimoll.github.io/swiss-geodata-downloader/
 category=Web
-icon=icon.png
+icon=resources/icon.png
 # experimental flag
 experimental=False
 

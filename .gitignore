@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+# Files that will be copied into the PKGDIR by the build script
+swiss-geodata-downloader/ATTRIBUTION.txt
+swiss-geodata-downloader/CHANGELOG.txt
+swiss-geodata-downloader/LICENSE.txt

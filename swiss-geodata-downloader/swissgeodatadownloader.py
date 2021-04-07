@@ -25,10 +25,10 @@ from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
 # Initialize Qt resources from file resources.py
-from .resources import *
+from .resources.resources import *
 
 # Import the code for the DockWidget
-from .swissgeodatadownloader_dockwidget import SwissGeodataDownloaderDockWidget
+from .ui.swissgeodatadownloader_dockwidget import SwissGeodataDownloaderDockWidget
 import os.path
 
 
