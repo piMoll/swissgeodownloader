@@ -32,5 +32,5 @@ def classFactory(iface):  # pylint: disable=invalid-name
     :type iface: QgsInterface
     """
     #
-    from .swissgeodatadownloader import SwissGeodataDownloader
+    from .plugin.swissgeodatadownloader import SwissGeodataDownloader
     return SwissGeodataDownloader(iface)
