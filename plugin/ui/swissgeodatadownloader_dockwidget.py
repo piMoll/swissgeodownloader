@@ -22,29 +22,127 @@
  ***************************************************************************/
 """
 
-import os
 
-from PyQt5 import QtGui, QtWidgets, uic
+from PyQt5 import QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSignal
+from .swissgeodatadownloader_dockwidget_base import Ui_SwissGeodataDownloaderDockWidgetBase
+from ..core.api_datageoadmin import getDatasetList, getFileList, downloadFiles
 
-FORM_CLASS, _ = uic.loadUiType(os.path.join(
-    os.path.dirname(__file__), 'swissgeodatadownloader_dockwidget_base.ui'))
+EXTENT_SELECT_MODES = [
+    'Draw Rectangle',
+    'Entire dataset'
+]
 
-
-class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, FORM_CLASS):
+class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDownloaderDockWidgetBase):
 
     closingPlugin = pyqtSignal()
 
     def __init__(self, parent=None):
         """Constructor."""
         super(SwissGeodataDownloaderDockWidget, self).__init__(parent)
-        # Set up the user interface from Designer.
-        # After setupUI you can access any designer object by doing
-        # self.<objectname>, and you can use autoconnect slots - see
-        # http://doc.qt.io/qt-5/designer-using-a-ui-file.html
-        # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+
+        # Initialize variables
+        self.datasetList = {}
+        self.currentDataset = {}
+        
+        # Connect signals
+        self.guiDatasetList.currentItemChanged.connect(self.onDatasetSelected)
+        
+        # Deactivate unused ui-elements
+        self.onUnselectDataset()
+        
+        self.guiSelectMode.addItems(EXTENT_SELECT_MODES)
+        # Load available datasets from api
+        self.loadAvailableDatsets()
+        
+        # TODO Remove
+        # self.guiExtentWest.setText(7.43)
+        # self.guiExtentSouth.setText(46.95)
+        # self.guiExtentEast.setText(7.44)
+        # self.guiExtentNorth.setText(46.96)
 
     def closeEvent(self, event):
         self.closingPlugin.emit()
         event.accept()
+    
+    def loadAvailableDatsets(self):
+        # Call api to get a list of downloadable datasets
+        self.datasetList = getDatasetList()
+        for dsId in self.datasetList.keys():
+            self.guiDatasetList.addItem(dsId)
+    
+    def onDatasetSelected(self, item):
+        self.currentDataset = self.datasetList[item.text()]
+        # Show dataset in search field
+        self.guiSearchField.setText(self.currentDataset['id'])
+        
+        # Activate options and extent groups
+        self.clearOptions()
+        self.guiGroupOptions.setDisabled(False)
+        self.guiGroupExtent.setDisabled(False)
+        
+        for optionKey, option in self.currentDataset['options'].items():
+            if optionKey == 'format':
+                self.guiFormatL.setDisabled(False)
+                self.guiFormat.setDisabled(False)
+                self.guiFormat.addItems(option)
+            if optionKey == 'resolution':
+                self.guiResolutionL.setDisabled(False)
+                self.guiResolution.setDisabled(False)
+                self.guiResolution.addItems(option)
+            if optionKey == 'coordsys':
+                self.guiCoordsysL.setDisabled(False)
+                self.guiCoordsys.setDisabled(False)
+                self.guiCoordsys.addItems(option)
+        
+        # TODO: Remove
+        self.getFileList()
+        
+    def clearOptions(self):
+        self.guiFormat.clear()
+        self.guiFormat.setDisabled(True)
+        self.guiFormatL.setDisabled(True)
+        self.guiResolution.clear()
+        self.guiResolution.setDisabled(True)
+        self.guiResolutionL.setDisabled(True)
+        self.guiCoordsys.clear()
+        self.guiCoordsys.setDisabled(True)
+        self.guiCoordsysL.setDisabled(True)
+        self.guiTimestamp.clear()
+        self.guiTimestamp.setDisabled(True)
+        self.guiTimestampL.setDisabled(True)
+    
+    def clearExtent(self):
+        self.guiExtentWest.clear()
+        self.guiExtentEast.clear()
+        self.guiExtentSouth.clear()
+        self.guiExtentNorth.clear()
+        
+    def onUnselectDataset(self):
+        self.currentDataset = {}
+        self.clearOptions()
+        # self.clearExtent()
+
+        self.guiGroupExtent.setDisabled(True)
+        self.guiGroupFiles.setDisabled(True)
+        self.guiDownloadBtn.setDisabled(True)
+
+    def getFileList(self):
+        # Read out options and extent
+        options = {}
+        for optionKey, option in self.currentDataset['options'].items():
+            if optionKey == 'format':
+                options[optionKey] = self.guiFormat.currentText()
+            if optionKey == 'resolution':
+                options[optionKey] = self.guiResolution.currentText()
+            if optionKey == 'coordsys':
+                # options[optionKey] = self.guiCoordsys.currentText()
+                options[optionKey] = '2056'
+            
+        bbox = [7.43,46.95,7.44,46.96]
+        fileList = getFileList(self.currentDataset, bbox, options)
+
+        self.guiGroupFiles.setDisabled(False)
+        self.guiDownloadBtn.setDisabled(False)
+        self.guiFileListStatus.setText(f"{len(fileList)} File(s) are ready to download.")

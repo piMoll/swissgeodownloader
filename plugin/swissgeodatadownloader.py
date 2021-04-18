@@ -21,6 +21,7 @@
  *                                                                         *
  ***************************************************************************/
 """
+import sys
 from PyQt5.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QAction
@@ -175,8 +176,7 @@ class SwissGeodataDownloader:
             text=self.tr(u'Swiss Geodata Downloader'),
             callback=self.run,
             parent=self.iface.mainWindow())
-
-    #--------------------------------------------------------------------------
+    
 
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
@@ -212,16 +212,26 @@ class SwissGeodataDownloader:
 
     def run(self):
         """Run method that loads and starts the plugin"""
+        
+        # Uncomment when debugging
+        try:
+            # Add pydevd to path
+            sys.path.insert(0, '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
+            import pydevd_pycharm
+            pydevd_pycharm.settrace('localhost', port=53100,
+                                    stdoutToServer=True, stderrToServer=True)
+        except ConnectionRefusedError:
+            pass
+        except ImportError:
+            pass
 
         if not self.pluginIsActive:
             self.pluginIsActive = True
 
-            #print "** STARTING SwissGeodataDownloader"
-
             # dockwidget may not exist if:
             #    first run of plugin
             #    removed on close (see self.onClosePlugin method)
-            if self.dockwidget == None:
+            if self.dockwidget is None:
                 # Create the dockwidget (after translation) and keep reference
                 self.dockwidget = SwissGeodataDownloaderDockWidget()
 
