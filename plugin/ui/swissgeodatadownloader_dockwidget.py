@@ -22,9 +22,10 @@
  ***************************************************************************/
 """
 
-
+import os
 from qgis.PyQt.QtCore import pyqtSignal
-from qgis.PyQt.QtWidgets import QDockWidget, QListWidget
+from qgis.PyQt.QtWidgets import (QDockWidget, QListWidget, QFileDialog,
+                                 QMessageBox)
 from qgis.gui import QgsExtentGroupBox
 from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
                        QgsProject, QgsPoint, QgsRectangle)
@@ -48,6 +49,8 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
         self.datasetList = {}
         self.currentDataset = {}
         self.selectMode = None
+        self.fileList = []
+        self.outputPath = None
         
         # Coordinate system
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
@@ -82,7 +85,8 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
         self.guiCoordsys.currentIndexChanged.connect(self.onOptionChanged)
         self.guiTimestamp.currentIndexChanged.connect(self.onOptionChanged)
         self.guiFullExtentChbox.clicked.connect(self.onUseFullExtentChanged)
-        self.guiRequestListBtn.clicked.connect(self.loadFileList)
+        self.guiRequestListBtn.clicked.connect(self.onLoadFileList)
+        self.guiDownloadBtn.clicked.connect(self.onDownloadFiles)
         QgsProject.instance().crsChanged.connect(self.onChangeMapRefSys)
         self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChange)
 
@@ -216,7 +220,7 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
         self.guiFileListStatus.setText('')
     
     def onOptionChanged(self, newVal):
-        pass
+        self.resetFileList()
     
     def updateSelectMode(self):
         if self.guiFullExtentChbox.isChecked():
@@ -246,7 +250,7 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
                 urPoint.x(),
                 urPoint.y()]
 
-    def loadFileList(self):
+    def onLoadFileList(self):
         """Collect options and call api to retrieve list of items"""
         # Remove current file list
         self.guiFileList.clear()
@@ -270,16 +274,19 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
                 timestamp = option[self.guiTimestamp.currentIndex()]
         
         # Call api
-        fileList, metadata = getFileList(self.currentDataset, bbox, timestamp, options)
-        # Activate ui group containers that display the file list and download
-        #  button
-        self.displayFileList(fileList)
+        self.fileList, metadata = getFileList(self.currentDataset, bbox, timestamp, options)
+        # Show file list
+        self.guiFileList.addItems([file['id'] for file in self.fileList])
+        # Display file list summary
         if metadata['count'] > 0:
             self.guiFileListStatus.setText(
                 f"{metadata['count']} File(s) with a "
-                f"total size of {filesizeFormatter(metadata['size'])} are ready to be downloaded.")
+                f"total size of {filesizeFormatter(metadata['size'])} are ready to download.")
         else:
             self.guiFileListStatus.setText('No files found.')
+        # Enable download button
+        if self.fileList:
+            self.guiDownloadBtn.setDisabled(False)
 
         # task = QgsTask.fromFunction('heavy function', getFileList,
         #                             on_finished=self.displayFileList,
@@ -298,7 +305,57 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
     #                                  'MESSAGE_CATEGORY', Qgis.Critical)
     #         raise exception
 
-    def displayFileList(self, fileList):
-        self.guiFileList.addItems([file['id'] for file in fileList])
-        if fileList:
-            self.guiDownloadBtn.setDisabled(False)
+    def onDownloadFiles(self):
+        # Let user choose output directory
+        if self.outputPath:
+            openDir = self.outputPath
+        else:
+            openDir = os.path.expanduser('~')
+        folder = QFileDialog.getExistingDirectory(self, 'Choose output folder',
+                                                  openDir, QFileDialog.ShowDirsOnly)
+        if folder:
+            # Save path for later
+            self.outputPath = folder
+            # Check if there are files that are going to be overwritten
+            waitForConfirm = False
+            for file in self.fileList:
+                savePath = os.path.join(folder, file['id'])
+                if os.path.exists(savePath):
+                    waitForConfirm = True
+                    break
+            
+            if waitForConfirm:
+                confirmed = self.showDialog('Overwrite files?',
+                    'At least one file will be overwritten. Continue?')
+                if not confirmed:
+                    return
+
+            exception = downloadFiles(self.fileList, folder)
+            if exception:
+                self.showDialog('Error', 'An error happened when requesting or saving data.', 'Ok')
+                return
+            
+            # Confirm successful download
+            self.guiFileListStatus.setText('Files successfully downloaded!')
+            self.guiFileList.clear()
+    
+    @staticmethod
+    def showDialog(title, msg, mode='OkCancel'):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Question)
+        msgBox.setWindowTitle(title)
+        msgBox.setText(msg)
+        if mode == 'OkCancel':
+            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+        elif mode == 'YesNo':
+            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        elif mode == 'error':
+            msgBox.setIcon(QMessageBox.Critical)
+            msgBox.setStandardButtons(QMessageBox.Ok)
+        elif mode == 'Ok':
+            msgBox.setStandardButtons(QMessageBox.Ok)
+        else:
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            
+        returnValue = msgBox.exec()
+        return returnValue == QMessageBox.Ok or returnValue == QMessageBox.Yes

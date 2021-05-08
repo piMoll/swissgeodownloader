@@ -1,3 +1,4 @@
+import os
 import requests
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
@@ -119,20 +120,34 @@ def filterFileListByOptions(items, options):
     
     return fileList, metadata
 
-def downloadFiles():
-    pass
+def downloadFiles(fileList, outputDir):
+    exception = None
+    
+    for file in fileList:
+        response = call(file['href'], None, file['type'])
+        savePath = os.path.join(outputDir, file['id'])
+        try:
+            open(savePath, 'wb').write(response.content)
+        except OSError as exc:
+            exception = '{!r}: {}'.format(savePath, exc.strerror)
+            break
+    return exception
 
-def call(url, params=None):
+def call(url, params=None, responseFormat='json'):
     """Fire GET call with URL parameters"""
     if params is None:
         params = {}
     params = {
         **params,
-        'format': 'json'
+        'format': responseFormat
     }
     try:
         response = requests.get(url, params=params)
-        return response.json()
+        print(response.url)
+        if responseFormat == 'json':
+            return response.json()
+        else:
+            return response
     
     except requests.exceptions.Timeout:
         # Maybe set up for a retry, or continue in a retry loop
