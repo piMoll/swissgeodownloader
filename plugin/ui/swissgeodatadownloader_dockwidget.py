@@ -23,27 +23,26 @@
 """
 
 
-from PyQt5 import QtGui, QtWidgets
-from PyQt5.QtCore import pyqtSignal
-from qgis.core import QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsProject, QgsPoint
-from qgis.core import QgsTask, QgsApplication, QgsMessageLog, Qgis
+from qgis.PyQt.QtCore import pyqtSignal
+from qgis.PyQt.QtWidgets import QDockWidget, QListWidget
+from qgis.gui import QgsExtentGroupBox
+from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
+                       QgsProject, QgsPoint, QgsRectangle)
 from .swissgeodatadownloader_dockwidget_base import Ui_SwissGeodataDownloaderDockWidgetBase
-from .ui_utilities import formatCoordinate, castToNum, filesizeFormatter, getDateFromIsoString
-from ..core.api_datageoadmin import getDatasetList, getFileList, downloadFiles
+from .ui_utilities import (filesizeFormatter, getDateFromIsoString)
+from ..core.api_datageoadmin import (API_EPSG, getDatasetList,
+                                     getFileList, downloadFiles)
 
-EXTENT_SELECT_MODES = [
-    'Entire dataset',
-    'Draw Rectangle'
-]
 
-class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDownloaderDockWidgetBase):
+class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDockWidgetBase):
 
     closingPlugin = pyqtSignal()
 
-    def __init__(self, parent=None):
+    def __init__(self, interface, parent=None):
         """Constructor."""
         super(SwissGeodataDownloaderDockWidget, self).__init__(parent)
         self.setupUi(self)
+        self.iface = interface
 
         # Initialize variables
         self.datasetList = {}
@@ -51,25 +50,30 @@ class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDow
         self.selectMode = None
         
         # Coordinate system
-        self.projectRefSys = QgsCoordinateReferenceSystem('EPSG:2056')
-        self.apiRefSys = QgsCoordinateReferenceSystem(f'EPSG:4326')
+        self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
+        self.apiRefSys = QgsCoordinateReferenceSystem(API_EPSG)
         self.transformProj2Api = QgsCoordinateTransform(
-            self.projectRefSys, self.apiRefSys, QgsProject.instance())
+            self.mapRefSys, self.apiRefSys, QgsProject.instance())
         self.transformApi2Proj = QgsCoordinateTransform(
-            self.apiRefSys, self.projectRefSys, QgsProject.instance())
+            self.apiRefSys, self.mapRefSys, QgsProject.instance())
         
-        # Populate ui fields with data
-        
-        # Select mode drop down list
-        for item in EXTENT_SELECT_MODES:
-            self.guiSelectMode.addItem(item)
-        self.guiSelectMode.setCurrentIndex(-1)
-    
+        # Init QgsExtentBoxGroup Widget
+        self.guiExtentWidget: QgsExtentGroupBox
+        self.guiExtentWidget.setOriginalExtent(self.iface.mapCanvas().extent(),
+                                         self.mapRefSys)
+        # Set current (=map view) extent
+        self.guiExtentWidget.setCurrentExtent(self.iface.mapCanvas().extent(),
+                                        self.mapRefSys)
+        self.guiExtentWidget.setOutputExtentFromCurrent()
+        # Activate option to update map canvas extent
+        self.guiExtentWidget.setMapCanvas(self.iface.mapCanvas(),
+                                          drawOnCanvasOption=False)
+
         # Deactivate unused ui-elements
         self.onUnselectDataset()
         
         # Load available datasets from api
-        self.loadAvailableDatsets()
+        self.loadAvailableDatasets()
         
         # Connect signals
         self.guiDatasetList.currentItemChanged.connect(self.onDatasetSelected)
@@ -77,28 +81,59 @@ class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDow
         self.guiResolution.currentIndexChanged.connect(self.onOptionChanged)
         self.guiCoordsys.currentIndexChanged.connect(self.onOptionChanged)
         self.guiTimestamp.currentIndexChanged.connect(self.onOptionChanged)
-        self.guiSelectMode.currentIndexChanged.connect(self.onSelectModeChanged)
+        self.guiFullExtentChbox.clicked.connect(self.onUseFullExtentChanged)
+        self.guiRequestListBtn.clicked.connect(self.loadFileList)
+        QgsProject.instance().crsChanged.connect(self.onChangeMapRefSys)
+        self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChange)
 
     def closeEvent(self, event):
         self.closingPlugin.emit()
         event.accept()
     
-    def loadAvailableDatsets(self):
+    def onChangeMapRefSys(self):
+        """Listen for map canvas reference system changes and apply to new
+        crs to extent widget."""
+        self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
+        mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
+        self.updateExtentValues(mapExtent, self.mapRefSys)
+
+    def onMapExtentChange(self):
+        """Show extent of current map view in extent widget."""
+        if self.guiExtentWidget.extentState() == 1:
+            # Only update widget if its current state is to display the map
+            #  view extent
+            mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
+            self.updateExtentValues(mapExtent, self.mapRefSys)
+    
+    def onUseFullExtentChanged(self):
+        if self.guiFullExtentChbox.isChecked():
+            self.updateSelectMode()
+            self.guiExtentWidget.setDisabled(True)
+        else:
+            self.guiExtentWidget.setDisabled(False)
+    
+    def updateExtentValues(self, extent, refSys):
+        self.guiExtentWidget.setCurrentExtent(extent, refSys)
+        self.guiExtentWidget.setOutputExtentFromCurrent()
+    
+    def loadAvailableDatasets(self):
         """Call api to get a list of available datasets"""
         self.datasetList = getDatasetList()
         for dsId in self.datasetList.keys():
             self.guiDatasetList.addItem(dsId)
     
-    def onDatasetSelected(self, item):
-        """Set up ui according to the options of the newly selected dataset"""
+    def onDatasetSelected(self, item: QListWidget):
+        """Set up ui according to the options of the selected dataset"""
         self.currentDataset = self.datasetList[item.text()]
         # Show dataset in search field
         self.guiSearchField.setText(self.currentDataset['id'])
         
         # Activate options and extent groups
         self.clearOptions()
+        self.blockUiSignals()
         self.guiGroupOptions.setDisabled(False)
-        self.guiGroupExtent.setDisabled(False)
+        self.guiGroupFiles.setDisabled(False)
+        self.resetFileList()
         
         for optionKey, option in self.currentDataset['options'].items():
             if optionKey == 'format':
@@ -124,10 +159,20 @@ class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDow
                 self.guiTimestamp.addItems(optionStr)
                 self.guiTimestampL.setDisabled(False)
                 self.guiTimestamp.setDisabled(False)
-        
+
+        if not self.currentDataset['selectByBBox']:
+            self.guiFullExtentChbox.setChecked(True)
+            self.guiGroupExtent.setDisabled(True)
+        else:
+            self.guiFullExtentChbox.setChecked(False)
+            self.guiGroupExtent.setDisabled(False)
+
         self.updateSelectMode()
+        self.unblockUiSignals()
         
     def clearOptions(self):
+        """Deactivate and disable option drop down menus"""
+        self.blockUiSignals()
         self.guiFormat.clear()
         self.guiFormat.setDisabled(True)
         self.guiFormatL.setDisabled(True)
@@ -140,12 +185,21 @@ class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDow
         self.guiTimestamp.clear()
         self.guiTimestamp.setDisabled(True)
         self.guiTimestampL.setDisabled(True)
+        self.unblockUiSignals()
     
-    def clearExtent(self):
-        self.guiExtentWest.clear()
-        self.guiExtentEast.clear()
-        self.guiExtentSouth.clear()
-        self.guiExtentNorth.clear()
+    def blockUiSignals(self):
+        self.guiFormat.blockSignals(True)
+        self.guiResolution.blockSignals(True)
+        self.guiCoordsys.blockSignals(True)
+        self.guiTimestamp.blockSignals(True)
+        self.guiFullExtentChbox.blockSignals(True)
+    
+    def unblockUiSignals(self):
+        self.guiFormat.blockSignals(False)
+        self.guiResolution.blockSignals(False)
+        self.guiCoordsys.blockSignals(False)
+        self.guiTimestamp.blockSignals(False)
+        self.guiFullExtentChbox.blockSignals(False)
         
     def onUnselectDataset(self):
         self.currentDataset = {}
@@ -156,43 +210,35 @@ class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDow
         self.guiGroupFiles.setDisabled(True)
         self.guiDownloadBtn.setDisabled(True)
     
-    def onOptionChanged(self, newVal):
-        self.loadFileList()
+    def resetFileList(self):
+        self.guiFileList.clear()
+        self.guiDownloadBtn.setDisabled(True)
+        self.guiFileListStatus.setText('')
     
-    def onSelectModeChanged(self, itemIdx):
-        """When user selected an item from drop down list"""
-        self.selectMode = itemIdx
-        self.updateSelectMode()
+    def onOptionChanged(self, newVal):
+        pass
     
     def updateSelectMode(self):
-        """When select mode was programmatically or manually changed"""
-        if self.selectMode == 0:
-            self.setBbox(self.currentDataset['bbox'])
-            self.loadFileList()
-        elif self.selectMode == 1:
-            # TODO remove
-            self.setBbox([7.43,46.95,7.44,46.96])
-            self.loadFileList()
+        if self.guiFullExtentChbox.isChecked():
+            bbox = QgsRectangle(*tuple(self.currentDataset['bbox']))
+            self.updateExtentValues(bbox, self.apiRefSys)
     
-    def setBbox(self, bbox):
-        """Fill in coordinates of bounding box, transform coordinates if
-        necessary"""
-        llPoint = QgsPoint(bbox[0], bbox[1])
-        urPoint = QgsPoint(bbox[2], bbox[3])
-        llPoint.transform(self.transformApi2Proj)
-        urPoint.transform(self.transformApi2Proj)
-        self.guiExtentWest.setText(formatCoordinate(llPoint.x()))
-        self.guiExtentSouth.setText(formatCoordinate(llPoint.y()))
-        self.guiExtentEast.setText(formatCoordinate(urPoint.x()))
-        self.guiExtentNorth.setText(formatCoordinate(urPoint.y()))
-    
-    def getBbox(self):
+    def getBbox(self) -> list:
         """Read out coordinates of bounding box, transform coordinates if
         necessary"""
-        llPoint = QgsPoint(castToNum(self.guiExtentWest.text()),
-                           castToNum(self.guiExtentSouth.text()))
-        urPoint = QgsPoint(castToNum(self.guiExtentEast.text()),
-                           castToNum(self.guiExtentNorth.text()))
+        if self.guiFullExtentChbox.isChecked():
+            return []
+        
+        rectangle: QgsRectangle = self.guiExtentWidget.currentExtent()
+        llCoord = (rectangle.xMinimum(), rectangle.yMinimum())
+        urCoord = (rectangle.xMaximum(), rectangle.yMaximum())
+
+        # Cancel if there are no actual coords in input fields
+        if not all(llCoord) or not all(urCoord):
+            return []
+
+        llPoint = QgsPoint(*tuple(llCoord))
+        urPoint = QgsPoint(*tuple(urCoord))
         llPoint.transform(self.transformProj2Api)
         urPoint.transform(self.transformProj2Api)
         return [llPoint.x(),
@@ -202,12 +248,14 @@ class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDow
 
     def loadFileList(self):
         """Collect options and call api to retrieve list of items"""
+        # Remove current file list
+        self.guiFileList.clear()
+        
         # Read out extent
         bbox = self.getBbox()
-        if not bbox or float('inf') in bbox:
-            self.guiGroupFiles.setDisabled(True)
-            self.guiDownloadBtn.setDisabled(True)
-            return
+        if float('inf') in bbox:
+            bbox = []
+            
         # Read out options
         options = {}
         timestamp = ''
@@ -225,11 +273,13 @@ class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDow
         fileList, metadata = getFileList(self.currentDataset, bbox, timestamp, options)
         # Activate ui group containers that display the file list and download
         #  button
-        self.guiGroupFiles.setDisabled(False)
-        self.guiDownloadBtn.setDisabled(False)
-        self.guiFileListStatus.setText(
-            f"{metadata['count']} File(s) with a "
-            f"total size of {filesizeFormatter(metadata['size'])} are ready to be downloaded.")
+        self.displayFileList(fileList)
+        if metadata['count'] > 0:
+            self.guiFileListStatus.setText(
+                f"{metadata['count']} File(s) with a "
+                f"total size of {filesizeFormatter(metadata['size'])} are ready to be downloaded.")
+        else:
+            self.guiFileListStatus.setText('No files found.')
 
         # task = QgsTask.fromFunction('heavy function', getFileList,
         #                             on_finished=self.displayFileList,
@@ -247,3 +297,8 @@ class SwissGeodataDownloaderDockWidget(QtWidgets.QDockWidget, Ui_SwissGeodataDow
     #         QgsMessageLog.logMessage(f"Exception: {exception}",
     #                                  'MESSAGE_CATEGORY', Qgis.Critical)
     #         raise exception
+
+    def displayFileList(self, fileList):
+        self.guiFileList.addItems([file['id'] for file in fileList])
+        if fileList:
+            self.guiDownloadBtn.setDisabled(False)

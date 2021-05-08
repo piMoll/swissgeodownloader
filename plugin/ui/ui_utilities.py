@@ -25,12 +25,14 @@ def filesizeFormatter(num, suffix='B'):
     """Formats data sizes to human readable units"""
     for unit in ['','K','M','G','T','P','E','Z']:
         if abs(num) < 1024.0:
-            return "%3.1f%s%s" % (num, unit, suffix)
+            return "%3.1f %s%s" % (num, unit, suffix)
         num /= 1024.0
-    return "%.1f%s%s" % (num, 'Yi', suffix)
+    return "%.1f %s%s" % (num, 'Yi', suffix)
 
 def getDateFromIsoString(isoString):
     """Translate ISO date string to swiss date format"""
+    if not isoString:
+        return ''
     if isoString[-1] == 'Z':
         isoString = isoString[:-1]
     dt = datetime.fromisoformat(isoString)
