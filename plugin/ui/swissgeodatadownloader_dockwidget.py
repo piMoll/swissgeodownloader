@@ -50,6 +50,8 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
         self.currentDataset = {}
         self.selectMode = None
         self.fileList = []
+        self.fileListFiltered = []
+        self.currentFilter = 'all'
         self.outputPath = None
         
         # Coordinate system
@@ -84,9 +86,11 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
         self.guiResolution.currentIndexChanged.connect(self.onOptionChanged)
         self.guiCoordsys.currentIndexChanged.connect(self.onOptionChanged)
         self.guiTimestamp.currentIndexChanged.connect(self.onOptionChanged)
+        self.guiExtentWidget.extentChanged.connect(self.onExtentChanged)
         self.guiFullExtentChbox.clicked.connect(self.onUseFullExtentChanged)
         self.guiRequestListBtn.clicked.connect(self.onLoadFileList)
         self.guiDownloadBtn.clicked.connect(self.onDownloadFiles)
+        self.guiFileType.currentIndexChanged.connect(self.onChangeFileType)
         QgsProject.instance().crsChanged.connect(self.onChangeMapRefSys)
         self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChange)
 
@@ -100,7 +104,10 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
         mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
         self.updateExtentValues(mapExtent, self.mapRefSys)
-
+    
+    def onExtentChanged(self):
+        self.resetFileList()
+    
     def onMapExtentChange(self):
         """Show extent of current map view in extent widget."""
         if self.guiExtentWidget.extentState() == 1:
@@ -115,6 +122,11 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
             self.guiExtentWidget.setDisabled(True)
         else:
             self.guiExtentWidget.setDisabled(False)
+    
+    def onChangeFileType(self, idx):
+        if idx != -1:
+            selectedFileType = self.guiFileType.itemText(idx)
+            self.filterFileList(selectedFileType)
     
     def updateExtentValues(self, extent, refSys):
         self.guiExtentWidget.setCurrentExtent(extent, refSys)
@@ -138,6 +150,7 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
         self.guiGroupOptions.setDisabled(False)
         self.guiGroupFiles.setDisabled(False)
         self.resetFileList()
+        self.currentFilter = 'all'
         
         for optionKey, option in self.currentDataset['options'].items():
             if optionKey == 'format':
@@ -274,16 +287,11 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
                 timestamp = option[self.guiTimestamp.currentIndex()]
         
         # Call api
-        self.fileList, metadata = getFileList(self.currentDataset, bbox, timestamp, options)
-        # Show file list
-        self.guiFileList.addItems([file['id'] for file in self.fileList])
-        # Display file list summary
-        if metadata['count'] > 0:
-            self.guiFileListStatus.setText(
-                f"{metadata['count']} File(s) with a "
-                f"total size of {filesizeFormatter(metadata['size'])} are ready to download.")
-        else:
-            self.guiFileListStatus.setText('No files found.')
+        self.fileList = getFileList(self.currentDataset, bbox, timestamp, options)
+        # Update file type filter and file list
+        self.updateFilterList()
+        self.filterFileList(self.currentFilter)
+        
         # Enable download button
         if self.fileList:
             self.guiDownloadBtn.setDisabled(False)
@@ -304,7 +312,45 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
     #         QgsMessageLog.logMessage(f"Exception: {exception}",
     #                                  'MESSAGE_CATEGORY', Qgis.Critical)
     #         raise exception
+    
+    def updateFilterList(self):
+        self.guiFileType.blockSignals(True)
+        self.guiFileType.clear()
+        # Get unique values from extension list and add to drop down
+        fileTypeList = list(set([file['ext'] for file in self.fileList]))
+        fileTypeList.insert(0, 'all')
+        self.guiFileType.addItems(fileTypeList)
+        # Set list to 'all'
+        if self.currentFilter not in fileTypeList:
+            self.currentFilter = 'all'
+        
+        self.guiFileType.setCurrentIndex(fileTypeList.index(self.currentFilter))
+        self.guiFileType.blockSignals(False)
+    
+    def populateFileList(self, fileList):
+        self.guiFileList.clear()
+        fileNames = [file['id'] for file in fileList]
+        if fileNames:
+            self.guiFileList.addItems(fileNames)
+        self.updateSummary()
 
+    def filterFileList(self, filetype):
+        if filetype == 'all':
+            self.fileListFiltered = [file for file in self.fileList]
+        else:
+            self.fileListFiltered = [file for file in self.fileList if file['ext'] == filetype]
+        self.currentFilter = filetype
+        self.populateFileList(self.fileListFiltered)
+    
+    def updateSummary(self):
+        if len(self.fileListFiltered) > 0:
+            fileSize = sum([file['size'] for file in self.fileListFiltered])
+            self.guiFileListStatus.setText(
+                f"{len(self.fileListFiltered)} File(s) with a "
+                f"total size of {filesizeFormatter(fileSize)} are ready to download.")
+        else:
+            self.guiFileListStatus.setText('No files found.')
+    
     def onDownloadFiles(self):
         # Let user choose output directory
         if self.outputPath:
@@ -318,7 +364,7 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
             self.outputPath = folder
             # Check if there are files that are going to be overwritten
             waitForConfirm = False
-            for file in self.fileList:
+            for file in self.fileListFiltered:
                 savePath = os.path.join(folder, file['id'])
                 if os.path.exists(savePath):
                     waitForConfirm = True
@@ -330,7 +376,7 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
                 if not confirmed:
                     return
 
-            exception = downloadFiles(self.fileList, folder)
+            exception = downloadFiles(self.fileListFiltered, folder)
             if exception:
                 self.showDialog('Error', 'An error happened when requesting or saving data.', 'Ok')
                 return

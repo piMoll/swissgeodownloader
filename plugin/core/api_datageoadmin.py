@@ -79,17 +79,13 @@ def getFileList(dataset, bbox, timestamp, options):
     items = call(url, params=params)
     
     # Filter list
-    fileList, metadata = filterFileListByOptions(items, options)
-    return fileList, metadata
+    return filterFileListByOptions(items, options)
 
 def filterFileListByOptions(items, options):
     """Filter a list of file items and only return the ones that match the
     currently selected options"""
     fileList = []
-    metadata = {
-        'count': 0,
-        'size': 0
-    }
+    
     if items and isinstance(items, dict) and 'features' in items:
         for item in items['features']:
             # Filter assets so that we only get the one file that matches the
@@ -110,15 +106,18 @@ def filterFileListByOptions(items, options):
                     file['id'] = assetId
                     file['type'] = asset['type']
                     file['href'] = asset['href']
-                    fileList.append(file)
+                    
+                    # Analyse file extension
+                    extension = os.path.splitext(assetId)[1]
+                    file['ext'] = extension
                     
                     # Get Metadata if this file
                     meta = getFileMetadata(file['href'])
-                    if meta:
-                        metadata['count'] += 1
-                        metadata['size'] += int(meta.headers['Content-Length'])
+                    file['size'] = int(meta.headers['Content-Length'])
+
+                    fileList.append(file)
     
-    return fileList, metadata
+    return fileList
 
 def downloadFiles(fileList, outputDir):
     exception = None
