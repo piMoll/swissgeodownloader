@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/plugins/swissgeodatadownloader" >
+    <qresource prefix="/plugins/swiss-geodata-downloader/plugin/resources" >
         <file>icon.png</file>
     </qresource>
 </RCC>

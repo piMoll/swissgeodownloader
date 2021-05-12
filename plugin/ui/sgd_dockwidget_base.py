@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'swissgeodatadownloader_dockwidget_base.ui'
+# Form implementation generated from reading ui file 'ui/sgd_dockwidget_base.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.1
 #
@@ -10,10 +10,10 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_SwissGeodataDownloaderDockWidgetBase(object):
-    def setupUi(self, SwissGeodataDownloaderDockWidgetBase):
-        SwissGeodataDownloaderDockWidgetBase.setObjectName("SwissGeodataDownloaderDockWidgetBase")
-        SwissGeodataDownloaderDockWidgetBase.resize(467, 864)
+class Ui_sgdDockWidgetBase(object):
+    def setupUi(self, sgdDockWidgetBase):
+        sgdDockWidgetBase.setObjectName("sgdDockWidgetBase")
+        sgdDockWidgetBase.resize(467, 864)
         self.dockWidgetContents = QtWidgets.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.dockWidgetContents)
@@ -130,25 +130,25 @@ class Ui_SwissGeodataDownloaderDockWidgetBase(object):
         self.gridLayout.addLayout(self.verticalLayout, 2, 0, 1, 1)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem2, 3, 0, 1, 1)
-        SwissGeodataDownloaderDockWidgetBase.setWidget(self.dockWidgetContents)
+        sgdDockWidgetBase.setWidget(self.dockWidgetContents)
 
-        self.retranslateUi(SwissGeodataDownloaderDockWidgetBase)
-        QtCore.QMetaObject.connectSlotsByName(SwissGeodataDownloaderDockWidgetBase)
+        self.retranslateUi(sgdDockWidgetBase)
+        QtCore.QMetaObject.connectSlotsByName(sgdDockWidgetBase)
 
-    def retranslateUi(self, SwissGeodataDownloaderDockWidgetBase):
+    def retranslateUi(self, sgdDockWidgetBase):
         _translate = QtCore.QCoreApplication.translate
-        SwissGeodataDownloaderDockWidgetBase.setWindowTitle(_translate("SwissGeodataDownloaderDockWidgetBase", "swiss geodata downloader"))
-        self.guiGroupSearch.setTitle(_translate("SwissGeodataDownloaderDockWidgetBase", "1. Dataset"))
-        self.guiSearchField.setPlaceholderText(_translate("SwissGeodataDownloaderDockWidgetBase", "Search for dataset..."))
-        self.guiGroupOptions.setTitle(_translate("SwissGeodataDownloaderDockWidgetBase", "2. Options"))
-        self.guiFormatL.setText(_translate("SwissGeodataDownloaderDockWidgetBase", "Format"))
-        self.guiResolutionL.setText(_translate("SwissGeodataDownloaderDockWidgetBase", "Resolution [m]"))
-        self.guiCoordsysL.setText(_translate("SwissGeodataDownloaderDockWidgetBase", "Coord.sys"))
-        self.guiTimestampL.setText(_translate("SwissGeodataDownloaderDockWidgetBase", "Timestamp"))
-        self.guiGroupExtent.setTitle(_translate("SwissGeodataDownloaderDockWidgetBase", "3. Extent"))
-        self.guiFullExtentChbox.setText(_translate("SwissGeodataDownloaderDockWidgetBase", "Full datset extent"))
-        self.guiGroupFiles.setTitle(_translate("SwissGeodataDownloaderDockWidgetBase", "4. Files"))
-        self.guiRequestListBtn.setText(_translate("SwissGeodataDownloaderDockWidgetBase", "Request file list"))
-        self.guiLabel23.setText(_translate("SwissGeodataDownloaderDockWidgetBase", "Filter by type"))
-        self.guiDownloadBtn.setText(_translate("SwissGeodataDownloaderDockWidgetBase", "Download"))
+        sgdDockWidgetBase.setWindowTitle(_translate("sgdDockWidgetBase", "Swiss Geo Downloader"))
+        self.guiGroupSearch.setTitle(_translate("sgdDockWidgetBase", "1. Dataset"))
+        self.guiSearchField.setPlaceholderText(_translate("sgdDockWidgetBase", "Search for dataset..."))
+        self.guiGroupOptions.setTitle(_translate("sgdDockWidgetBase", "2. Options"))
+        self.guiFormatL.setText(_translate("sgdDockWidgetBase", "Format"))
+        self.guiResolutionL.setText(_translate("sgdDockWidgetBase", "Resolution [m]"))
+        self.guiCoordsysL.setText(_translate("sgdDockWidgetBase", "Coord.sys"))
+        self.guiTimestampL.setText(_translate("sgdDockWidgetBase", "Timestamp"))
+        self.guiGroupExtent.setTitle(_translate("sgdDockWidgetBase", "3. Extent"))
+        self.guiFullExtentChbox.setText(_translate("sgdDockWidgetBase", "Full datset extent"))
+        self.guiGroupFiles.setTitle(_translate("sgdDockWidgetBase", "4. Files"))
+        self.guiRequestListBtn.setText(_translate("sgdDockWidgetBase", "Request file list"))
+        self.guiLabel23.setText(_translate("sgdDockWidgetBase", "Filter by type"))
+        self.guiDownloadBtn.setText(_translate("sgdDockWidgetBase", "Download"))
 from qgis import gui

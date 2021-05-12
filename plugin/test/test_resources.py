@@ -17,8 +17,11 @@ import unittest
 from PyQt5.QtGui import QIcon
 
 
+class SwissGeoDownloaderResourcesTest(unittest.TestCase):
+    pass
 
-class SwissGeodataDownloaderDialogTest(unittest.TestCase):
+
+class SwissGeoDownloaderDialogTest(unittest.TestCase):
     """Test rerources work."""
 
     def setUp(self):
@@ -31,14 +34,11 @@ class SwissGeodataDownloaderDialogTest(unittest.TestCase):
 
     def test_icon_png(self):
         """Test we can click OK."""
-        path = ':/plugins/SwissGeodataDownloader/icon.png'
+        path = ':/plugins/SwissGeoDownloader/resources/icon.png'
         icon = QIcon(path)
         self.assertFalse(icon.isNull())
 
 if __name__ == "__main__":
-    suite = unittest.makeSuite(SwissGeodataDownloaderResourcesTest)
+    suite = unittest.makeSuite(SwissGeoDownloaderResourcesTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
-
-
-

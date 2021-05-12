@@ -14,21 +14,20 @@ __copyright__ = 'Copyright 2021, Patricia Moll'
 
 import unittest
 
-from PyQt5.QtGui import QDockWidget
-
-from swissgeodatadownloader_dockwidget import SwissGeodataDownloaderDockWidget
+from ..ui.sgd_dockwidget import SwissGeoDownloaderDockWidget
+from test_resources import SwissGeoDownloaderDialogTest
 
 from utilities import get_qgis_app
 
 QGIS_APP = get_qgis_app()
 
 
-class SwissGeodataDownloaderDockWidgetTest(unittest.TestCase):
+class SwissGeoDownloaderDockWidgetTest(unittest.TestCase):
     """Test dockwidget works."""
 
     def setUp(self):
         """Runs before each test."""
-        self.dockwidget = SwissGeodataDownloaderDockWidget(None)
+        self.dockwidget = SwissGeoDownloaderDockWidget(None)
 
     def tearDown(self):
         """Runs after each test."""
@@ -39,7 +38,7 @@ class SwissGeodataDownloaderDockWidgetTest(unittest.TestCase):
         pass
 
 if __name__ == "__main__":
-    suite = unittest.makeSuite(SwissGeodataDownloaderDialogTest)
+    suite = unittest.makeSuite(SwissGeoDownloaderDialogTest)
     runner = unittest.TextTestRunner(verbosity=2)
     runner.run(suite)
 
