@@ -1,2 +1,2 @@
-# swiss-geodata-downloader
-QGIS Plugin for downloading swiss open geodata 
+# Swiss Geo Downloader 
+QGIS Plugin to download swiss geodata comfortably from inside [QGIS](https://qgis.org)

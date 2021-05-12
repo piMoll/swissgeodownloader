@@ -1,37 +1,9 @@
-## Welcome to GitHub Pages
 
-You can use the [editor on GitHub](https://github.com/piMoll/swiss-geodata-downloader/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+## About
+This plugin allows you to download swiss geodata in an easy and convenient way. Just select a topic, specify the data options and define the download extent. The plugin requests files, downloads and adds them as layers to QGIS.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Currently, the plugin provides access to some of the most requested topics like the precise height model [swissALTI3D](https://www.swisstopo.admin.ch/de/geodata/height/alti3d.html) or the [national maps](https://www.swisstopo.admin.ch/de/geodata/maps/smr/smr25.html). Additional swisstopo data and further providers will be added in future releases.
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/piMoll/swiss-geodata-downloader/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Download
+Download this plugin directly from the QGIS plugin manager by searching for _Swiss Geo Downloader_.

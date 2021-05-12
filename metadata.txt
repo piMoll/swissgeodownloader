@@ -7,28 +7,37 @@
 # This file should be included when you package your plugin.# Mandatory items:
 
 [general]
-name=Swiss Geodata Downloader
+name=Swiss Geo Downloader
 qgisMinimumVersion=3.0
-description=This plugin lets you comfortably download open geo data from swisstopo.
+qgisMaximumVersion=
+description=Download swiss geodata comfortably inside QGIS
 version=0.1
 author=Patricia Moll
 email=pimoll.dev@gmail.com
 
-about=This plugin allows you to download swiss open geodata (mainly from swisstopo) in an easy and convenient way.
+about=(EN) This plugin allows you to download swiss geodata in an easy and convenient way.
+    Currently, the plugin provides access to some of the most requested topics like
+    the precise height model swissALTI3D or the national maps.
+    Additional swisstopo data and further providers will be added in future releases.
 
-tracker=https://github.com/piMoll/swiss-geodata-downloader/issues
-repository=https://github.com/piMoll/swiss-geodata-downloader
+    (DE) Lade Schweizer Geodaten direkt in QGIS herunter.
+    In dieser ersten Version stehen einige der meistgefragten Geodaten-Themen wie
+    das präzise Höhenmodell swissALTI3D oder die Schweizer Landeskarten zur Verfügung.
+    Zusätzliche Daten der swisstopo und weitere Anbieter werden in zukünftigen Versionen ergänzt.
+tracker=https://github.com/piMoll/swiss-geo-downloader/issues
+repository=https://github.com/piMoll/swiss-geo-downloader
 # End of mandatory metadata
 
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=
+    0.1 Initial version
 
 # Tags are comma separated with spaces allowed
-tags=geodata opendata switzerland downloader
+tags=web,geodata,switzerland,download
 
-homepage=https://pimoll.github.io/swiss-geodata-downloader/
+homepage=https://pimoll.github.io/swiss-geo-downloader/
 category=Web
 icon=plugin/resources/icon.png
 # experimental flag
