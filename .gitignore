@@ -128,6 +128,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# pycharm
+.idea/
+
 
 # Files that will be copied into the PKGDIR by the build script
 plugin/ATTRIBUTION.txt

@@ -24,8 +24,8 @@ about=(EN) This plugin allows you to download swiss geodata in an easy and conve
     In dieser ersten Version stehen einige der meistgefragten Geodaten-Themen wie
     das präzise Höhenmodell swissALTI3D oder die Schweizer Landeskarten zur Verfügung.
     Zusätzliche Daten der swisstopo und weitere Anbieter werden in zukünftigen Versionen ergänzt.
-tracker=https://github.com/piMoll/swiss-geo-downloader/issues
-repository=https://github.com/piMoll/swiss-geo-downloader
+tracker=https://github.com/piMoll/swissgeodownloader/issues
+repository=https://github.com/piMoll/swissgeodownloader
 # End of mandatory metadata
 
 # Recommended items:
@@ -37,7 +37,7 @@ changelog=
 # Tags are comma separated with spaces allowed
 tags=web,geodata,switzerland,download
 
-homepage=https://pimoll.github.io/swiss-geo-downloader/
+homepage=https://pimoll.github.io/swissgeodownloader/
 category=Web
 icon=plugin/resources/icon.png
 # experimental flag
