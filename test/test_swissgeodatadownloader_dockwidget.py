@@ -14,7 +14,7 @@ __copyright__ = 'Copyright 2021, Patricia Moll'
 
 import unittest
 
-from ..ui.sgd_dockwidget import SwissGeoDownloaderDockWidget
+from ui.sgd_dockwidget import SwissGeoDownloaderDockWidget
 from test_resources import SwissGeoDownloaderDialogTest
 
 from utilities import get_qgis_app

@@ -1,5 +1,8 @@
 # execute everything in plugin/
 
+# Compile resources
+pyrcc5 -o resources/resources.py resources/resources.qrc
+
 # Compile gui
  pyuic5 ui/sgd_dockwidget_base.ui -o ui/sgd_dockwidget_base.py
 

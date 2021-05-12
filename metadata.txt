@@ -39,7 +39,7 @@ tags=web,geodata,switzerland,download
 
 homepage=https://pimoll.github.io/swissgeodownloader/
 category=Web
-icon=plugin/resources/icon.png
+icon=resources/icon.png
 # experimental flag
 experimental=False
 
