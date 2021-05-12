@@ -113,8 +113,10 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
         if self.guiExtentWidget.extentState() == 1:
             # Only update widget if its current state is to display the map
             #  view extent
-            mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
-            self.updateExtentValues(mapExtent, self.mapRefSys)
+            if self.guiGroupExtent.isEnabled() and self.guiExtentWidget.isEnabled():
+                # Check if extent widget is currently active
+                mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
+                self.updateExtentValues(mapExtent, self.mapRefSys)
     
     def onUseFullExtentChanged(self):
         if self.guiFullExtentChbox.isChecked():
@@ -179,12 +181,13 @@ class SwissGeodataDownloaderDockWidget(QDockWidget, Ui_SwissGeodataDownloaderDoc
 
         if not self.currentDataset['selectByBBox']:
             self.guiFullExtentChbox.setChecked(True)
+            self.updateSelectMode()
             self.guiGroupExtent.setDisabled(True)
         else:
             self.guiFullExtentChbox.setChecked(False)
+            self.updateSelectMode()
             self.guiGroupExtent.setDisabled(False)
-
-        self.updateSelectMode()
+        
         self.unblockUiSignals()
         
     def clearOptions(self):
