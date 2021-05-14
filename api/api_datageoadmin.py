@@ -1,5 +1,6 @@
 import os
 import requests
+from qgis.core import QgsTask
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
 API_EPSG = 'EPSG:4326'
@@ -11,7 +12,7 @@ OPTION_MAPPER = {
 API_OPTION_MAPPER =  {y:x for x,y in OPTION_MAPPER.items()}
 
 
-def getDatasetList():
+def getDatasetList(task: QgsTask):
     """Get a list of all available datasets and read out with options the
     dataset supports"""
     datasetList = {}
@@ -19,6 +20,10 @@ def getDatasetList():
     
     if collection and isinstance(collection, dict) and 'collections' in collection:
         for ds in collection['collections']:
+            
+            if task.isCanceled():
+                return False
+            
             dataset = {
                 'id': ds['id'],
                 'bbox': ds['extent']['spatial']['bbox'][0],
@@ -66,7 +71,7 @@ def getMetaData(dataset):
     else:
         return 0
 
-def getFileList(dataset, bbox, timestamp, options):
+def getFileList(task: QgsTask, dataset, bbox, timestamp, options):
     """Request a list of available files that are within a bounding box and
     have a specified timestamp"""
     params = {}
@@ -79,9 +84,9 @@ def getFileList(dataset, bbox, timestamp, options):
     items = call(url, params=params)
     
     # Filter list
-    return filterFileListByOptions(items, options)
+    return filterFileListByOptions(task, items, options)
 
-def filterFileListByOptions(items, options):
+def filterFileListByOptions(task: QgsTask, items, options):
     """Filter a list of file items and only return the ones that match the
     currently selected options"""
     fileList = []
@@ -91,6 +96,10 @@ def filterFileListByOptions(items, options):
             # Filter assets so that we only get the one file that matches the
             #  defined options
             for assetId in item['assets']:
+                
+                if task.isCanceled():
+                    return False
+                
                 file = {}
                 asset = item['assets'][assetId]
                 
@@ -119,10 +128,14 @@ def filterFileListByOptions(items, options):
     
     return fileList
 
-def downloadFiles(fileList, outputDir):
+def downloadFiles(task: QgsTask, fileList, outputDir):
     exception = None
     
     for file in fileList:
+        
+        if task.isCanceled():
+            return False
+        
         response = call(file['href'], None, file['type'])
         savePath = os.path.join(outputDir, file['id'])
         try:

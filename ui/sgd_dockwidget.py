@@ -24,15 +24,17 @@
 
 import os
 from qgis.PyQt.QtCore import pyqtSignal
+from qgis.PyQt.QtGui import QColor
 from qgis.PyQt.QtWidgets import (QDockWidget, QListWidget, QFileDialog,
                                  QMessageBox)
 from qgis.gui import QgsExtentGroupBox
 from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
-                       QgsProject, QgsPoint, QgsRectangle)
+                       QgsProject, QgsPoint, QgsRectangle, QgsApplication)
 from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
+from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import (filesizeFormatter, getDateFromIsoString)
-from ..api.api_datageoadmin import (API_EPSG, getDatasetList,
-                                    getFileList, downloadFiles)
+from ..api.api_datageoadmin import API_EPSG
+from ..api.apiCallerTask import ApiCallerTask
 
 
 class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
@@ -77,8 +79,33 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Deactivate unused ui-elements
         self.onUnselectDataset()
         
-        # Load available datasets from api
-        self.loadAvailableDatasets()
+        # Create spinners to indicate data loading
+        # Spinner for dataset request
+        self.spinnerDs = QtWaitingSpinner(self)
+        self.spinnerDs.setRoundness(70.0)
+        self.spinnerDs.setMinimumTrailOpacity(15.0)
+        self.spinnerDs.setTrailFadePercentage(70.0)
+        self.spinnerDs.setNumberOfLines(16)
+        self.spinnerDs.setLineLength(16)
+        self.spinnerDs.setLineWidth(5)
+        self.spinnerDs.setInnerRadius(12)
+        self.spinnerDs.setRevolutionsPerSecond(1)
+        self.spinnerDs.setColor(QColor(200, 200, 200))
+        self.verticalLayout_3.addWidget(self.spinnerDs)
+        self.spinnerDs.start()
+        
+        # Spinner for file list request
+        self.spinnerFl = QtWaitingSpinner(self)
+        self.spinnerFl.setRoundness(70.0)
+        self.spinnerFl.setMinimumTrailOpacity(15.0)
+        self.spinnerFl.setTrailFadePercentage(70.0)
+        self.spinnerFl.setNumberOfLines(16)
+        self.spinnerFl.setLineLength(16)
+        self.spinnerFl.setLineWidth(5)
+        self.spinnerFl.setInnerRadius(12)
+        self.spinnerFl.setRevolutionsPerSecond(1)
+        self.spinnerFl.setColor(QColor(200, 200, 200))
+        self.verticalLayout_4.addWidget(self.spinnerFl)
         
         # Connect signals
         self.guiDatasetList.currentItemChanged.connect(self.onDatasetSelected)
@@ -93,6 +120,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFileType.currentIndexChanged.connect(self.onChangeFileType)
         QgsProject.instance().crsChanged.connect(self.onChangeMapRefSys)
         self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChange)
+        
+        # Finally, request available datasets
+        # Create separate task for request to not block ui
+        callerTask = ApiCallerTask('Get available datasets', 'getDatasetList', {})
+        # Listen for finished api call
+        callerTask.taskCompleted.connect(
+            lambda: self.onReceiveDatasets(callerTask.output))
+        QgsApplication.taskManager().addTask(callerTask)
 
     def closeEvent(self, event):
         self.closingPlugin.emit()
@@ -134,11 +169,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiExtentWidget.setCurrentExtent(extent, refSys)
         self.guiExtentWidget.setOutputExtentFromCurrent()
     
-    def loadAvailableDatasets(self):
-        """Call api to get a list of available datasets"""
-        self.datasetList = getDatasetList()
-        for dsId in self.datasetList.keys():
-            self.guiDatasetList.addItem(dsId)
+    def onReceiveDatasets(self, datasetList):
+        """Recieve list of available datasets"""
+        self.datasetList = datasetList
+        self.guiDatasetList.clear()
+        if self.datasetList:
+            for dsId in self.datasetList.keys():
+                self.guiDatasetList.addItem(dsId)
+        self.spinnerDs.stop()
     
     def onDatasetSelected(self, item: QListWidget):
         """Set up ui according to the options of the selected dataset"""
@@ -290,31 +328,34 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 timestamp = option[self.guiTimestamp.currentIndex()]
         
         # Call api
-        self.fileList = getFileList(self.currentDataset, bbox, timestamp, options)
+        # Create a separate task for request to not block ui
+        callerTask = ApiCallerTask('Get file list', 'getFileList', {
+            'dataset': self.currentDataset,
+            'bbox': bbox,
+            'timestamp': timestamp,
+            'options': options
+        })
+        # Listen for finished api call
+        callerTask.taskCompleted.connect(
+            lambda: self.onReceiveFileList(callerTask.output))
+        # Start spinner to indicate data loading
+        self.spinnerFl.start()
+        # Add task to task manager
+        QgsApplication.taskManager().addTask(callerTask)
+    
+    def onReceiveFileList(self, fileList):
+        if fileList is None:
+            fileList = []
+        self.fileList = fileList
         # Update file type filter and file list
         self.updateFilterList()
         self.filterFileList(self.currentFilter)
-        
+
         # Enable download button
         if self.fileList:
             self.guiDownloadBtn.setDisabled(False)
 
-        # task = QgsTask.fromFunction('heavy function', getFileList,
-        #                             on_finished=self.displayFileList,
-        #                             dataset=self.currentDataset, bbox=bbox,
-        #                             options=options)
-        # QgsApplication.taskManager().addTask(task)
-
-    # def displayFileList(self, exception, files=None):
-    #     if not exception:
-    #         self.guiGroupFiles.setDisabled(False)
-    #         self.guiDownloadBtn.setDisabled(False)
-    #         self.guiFileListStatus.setText(f"{files['metadata']['count']} File(s) with a "
-    #             f"total size of {files['metadata']['size']} MB are ready to be download.")
-    #     else:
-    #         QgsMessageLog.logMessage(f"Exception: {exception}",
-    #                                  'MESSAGE_CATEGORY', Qgis.Critical)
-    #         raise exception
+        self.spinnerFl.stop()
     
     def updateFilterList(self):
         self.guiFileType.blockSignals(True)
@@ -362,31 +403,50 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             openDir = os.path.expanduser('~')
         folder = QFileDialog.getExistingDirectory(self, 'Choose output folder',
                                                   openDir, QFileDialog.ShowDirsOnly)
-        if folder:
-            # Save path for later
-            self.outputPath = folder
-            # Check if there are files that are going to be overwritten
-            waitForConfirm = False
-            for file in self.fileListFiltered:
-                savePath = os.path.join(folder, file['id'])
-                if os.path.exists(savePath):
-                    waitForConfirm = True
-                    break
+        if not folder:
+            return
             
-            if waitForConfirm:
-                confirmed = self.showDialog('Overwrite files?',
-                    'At least one file will be overwritten. Continue?')
-                if not confirmed:
-                    return
-
-            exception = downloadFiles(self.fileListFiltered, folder)
-            if exception:
-                self.showDialog('Error', 'An error happened when requesting or saving data.', 'Ok')
+        # Save path for later
+        self.outputPath = folder
+        # Check if there are files that are going to be overwritten
+        waitForConfirm = False
+        for file in self.fileListFiltered:
+            savePath = os.path.join(folder, file['id'])
+            if os.path.exists(savePath):
+                waitForConfirm = True
+                break
+        
+        if waitForConfirm:
+            confirmed = self.showDialog('Overwrite files?',
+                'At least one file will be overwritten. Continue?')
+            if not confirmed:
                 return
-            
-            # Confirm successful download
-            self.guiFileListStatus.setText('Files successfully downloaded!')
-            self.guiFileList.clear()
+
+        # Call api
+        # Create separate task for request to not block ui
+        callerTask = ApiCallerTask('Download files', 'downloadFiles', {
+            'fileList': self.fileListFiltered,
+            'folder': folder,
+        })
+        # Listen for finished api call
+        callerTask.taskCompleted.connect(
+            lambda: self.onFinishDownload(callerTask.output))
+        # Start spinner to indicate data loading
+        self.spinnerFl.start()
+        # Add task to task manager
+        QgsApplication.taskManager().addTask(callerTask)
+    
+    def onFinishDownload(self, exception):
+        if exception:
+            self.showDialog('Error', 'An error happened when requesting or saving data.', 'Ok')
+            return
+        
+        # Confirm successful download
+        self.guiFileListStatus.setText('Files successfully downloaded!')
+        self.guiFileList.clear()
+        self.spinnerFl.stop()
+        
+        # TODO Add layers to qgis
     
     @staticmethod
     def showDialog(title, msg, mode='OkCancel'):
