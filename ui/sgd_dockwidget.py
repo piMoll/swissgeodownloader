@@ -33,7 +33,8 @@ from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
 from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import (filesizeFormatter, getDateFromIsoString)
-from ..api.api_datageoadmin import API_EPSG, ApiDataGeoAdmin
+from ..api.api_datageoadmin import API_EPSG
+from ..api.apidatageoadmin import ApiDataGeoAdmin
 from ..api.apiCallerTask import ApiCallerTask
 
 
