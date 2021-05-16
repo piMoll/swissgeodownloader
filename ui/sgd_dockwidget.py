@@ -56,6 +56,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.fileListFiltered = []
         self.currentFilter = 'all'
         self.outputPath = None
+        self.msgBar = self.iface.messageBar()
         
         # Coordinate system
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
@@ -125,11 +126,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Finally, initialize apis and request available datasets
         # Create separate task for request to not block ui
         self.apiDGA = ApiDataGeoAdmin(self)
-        callerTask = ApiCallerTask(self.apiDGA, 'getDatasetList', {})
+        caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetList', {})
         # Listen for finished api call
-        callerTask.taskCompleted.connect(
-            lambda: self.onReceiveDatasets(callerTask.output))
-        QgsApplication.taskManager().addTask(callerTask)
+        caller.taskCompleted.connect(
+            lambda: self.onReceiveDatasets(caller.output))
+        QgsApplication.taskManager().addTask(caller)
 
     def closeEvent(self, event):
         self.closingPlugin.emit()
@@ -181,8 +182,26 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.spinnerDs.stop()
     
     def onDatasetSelected(self, item: QListWidget):
-        """Set up ui according to the options of the selected dataset"""
+        """Set dataset and load details on first selection"""
         self.currentDataset = self.datasetList[item.text()]
+        
+        if not 'selectByBBox' in self.currentDataset:
+            caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetDetails',
+                                   {'dataset': self.currentDataset})
+            # Listen for finished api call
+            caller.taskCompleted.connect(
+                lambda: self.onLoadDatasetDetails(caller.output))
+            QgsApplication.taskManager().addTask(caller)
+        else:
+            self.applyDatasetState()
+    
+    def onLoadDatasetDetails(self, details):
+        for key, value in details.items():
+            self.currentDataset[key] = value
+        self.applyDatasetState()
+    
+    def applyDatasetState(self):
+        """Set up ui according to the options of the selected dataset"""
         # Show dataset in search field
         self.guiSearchField.setText(self.currentDataset['id'])
         
@@ -331,19 +350,19 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         # Call api
         # Create a separate task for request to not block ui
-        callerTask = ApiCallerTask('Get file list', 'getFileList', {
+        caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getFileList', {
             'dataset': self.currentDataset,
             'bbox': bbox,
             'timestamp': timestamp,
             'options': options
         })
         # Listen for finished api call
-        callerTask.taskCompleted.connect(
-            lambda: self.onReceiveFileList(callerTask.output))
+        caller.taskCompleted.connect(
+            lambda: self.onReceiveFileList(caller.output))
         # Start spinner to indicate data loading
         self.spinnerFl.start()
         # Add task to task manager
-        QgsApplication.taskManager().addTask(callerTask)
+        QgsApplication.taskManager().addTask(caller)
     
     def onReceiveFileList(self, fileList):
         if fileList is None:
@@ -426,26 +445,24 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
         # Call api
         # Create separate task for request to not block ui
-        callerTask = ApiCallerTask('Download files', 'downloadFiles', {
+        caller = ApiCallerTask(self.apiDGA, self.msgBar, 'downloadFiles', {
             'fileList': self.fileListFiltered,
             'folder': folder,
         })
         # Listen for finished api call
-        callerTask.taskCompleted.connect(
-            lambda: self.onFinishDownload(callerTask.output))
+        caller.taskCompleted.connect(
+            lambda: self.onFinishDownload(caller.output))
         # Start spinner to indicate data loading
         self.spinnerFl.start()
         # Add task to task manager
-        QgsApplication.taskManager().addTask(callerTask)
+        QgsApplication.taskManager().addTask(caller)
     
-    def onFinishDownload(self, exception):
-        if exception:
-            self.showDialog('Error', 'An error happened when requesting or saving data.', 'Ok')
-            return
-        
-        # Confirm successful download
-        self.guiFileListStatus.setText('Files successfully downloaded!')
-        self.guiFileList.clear()
+    def onFinishDownload(self, success):
+        if success:
+            # Confirm successful download
+            self.guiFileListStatus.setText('Files successfully downloaded!')
+            self.guiFileList.clear()
+
         self.spinnerFl.stop()
         
         # TODO Add layers to qgis

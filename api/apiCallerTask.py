@@ -1,15 +1,15 @@
 from qgis.core import QgsTask, QgsMessageLog, Qgis
-from .api_datageoadmin import (getFileList, downloadFiles)
 
 MESSAGE_CATEGORY = 'Swiss Geo Downloader'
 
 
 class ApiCallerTask(QgsTask):
-    def __init__(self, apiRef, func, callParams):
+    def __init__(self, apiRef, msgBar, func, callParams):
         # TODO
         description = func
         super().__init__(description, QgsTask.CanCancel)
         self.apiRef = apiRef
+        self.msgBar = msgBar
         self.func = func
         self.callParams = callParams
         self.output = None
@@ -23,15 +23,19 @@ class ApiCallerTask(QgsTask):
         if self.func == 'getDatasetList':
             self.output = self.apiRef.getDatasetList(self)
         
+        elif self.func == 'getDatasetDetails':
+            self.output = self.apiRef.getDatasetDetails(self,
+                                        self.callParams['dataset'])
+        
         elif self.func == 'getFileList':
-            self.output = getFileList(self,
-                                      self.callParams['dataset'],
-                                      self.callParams['bbox'],
-                                      self.callParams['timestamp'],
-                                      self.callParams['options'])
+            self.output = self.apiRef.getFileList(self,
+                                        self.callParams['dataset'],
+                                        self.callParams['bbox'],
+                                        self.callParams['timestamp'],
+                                        self.callParams['options'])
         
         elif self.func == 'downloadFiles':
-            self.output = downloadFiles(self,
+            self.output = self.apiRef.downloadFiles(self,
                                         self.callParams['fileList'],
                                         self.callParams['folder'])
         return True
@@ -39,7 +43,7 @@ class ApiCallerTask(QgsTask):
     def finished(self, result):
         """This function is automatically called when the task has
         completed (successfully or not)"""
-        if result:
+        if result and self.output is not False:
             msg = 'request completed'
             if self.func == 'getDatasetList':
                 msg = 'available datasets received'
@@ -47,16 +51,23 @@ class ApiCallerTask(QgsTask):
                 msg = 'file list received'
             elif self.func == 'downloadFiles':
                 msg = 'files downloaded'
-            QgsMessageLog.logMessage(msg, MESSAGE_CATEGORY, Qgis.Success)
+            self.log(msg, Qgis.Success)
         else:
             if self.exception is None:
-                QgsMessageLog.logMessage('an unknown error occured',
-                    MESSAGE_CATEGORY, Qgis.Warning)
+                self.exception = 'An unknown error occurred'
+                self.log(self.exception, Qgis.Critical)
+                self.message(self.exception, Qgis.Warning)
             else:
-                QgsMessageLog.logMessage(
-                    f'Exception: {self.exception}',
-                    MESSAGE_CATEGORY, Qgis.Critical)
+                self.exception = f'Exception: {self.exception}'
+                self.log(f'Exception: {self.exception}', Qgis.Critical)
+                self.message(self.exception, Qgis.Warning)
                 # raise self.exception
+
+    def log(self, msg, level=Qgis.Info):
+        QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
+    
+    def message(self, msg, level=Qgis.Info):
+        self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}", level)
 
     def cancel(self):
         super().cancel()
