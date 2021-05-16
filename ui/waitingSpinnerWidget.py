@@ -6,6 +6,9 @@ Copyright (c) 2014 William Hallatt
 Copyright (c) 2015 Jacob Dawid
 Copyright (c) 2016 Luca Weiss
 
+source:
+https://github.com/z3ntu/QtWaitingSpinner
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -83,8 +86,10 @@ class QtWaitingSpinner(QWidget):
             color = self.currentLineColor(distance, self._numberOfLines, self._trailFadePercentage,
                                           self._minimumTrailOpacity, self._color)
             painter.setBrush(color)
-            painter.drawRoundedRect(QRect(0, -self._lineWidth / 2, self._lineLength, self._lineWidth), self._roundness,
-                                    self._roundness, Qt.RelativeSize)
+            painter.drawRoundedRect(
+                QRect(0, int(round(-self._lineWidth / 2)),
+                      self._lineLength, self._lineWidth),
+                self._roundness, self._roundness, Qt.RelativeSize)
             painter.restore()
 
     def start(self):
@@ -184,12 +189,13 @@ class QtWaitingSpinner(QWidget):
         self.setFixedSize(size, size)
 
     def updateTimer(self):
-        self._timer.setInterval(1000 / (self._numberOfLines * self._revolutionsPerSecond))
+        self._timer.setInterval(int(round(1000 / (self._numberOfLines * self._revolutionsPerSecond))))
 
     def updatePosition(self):
         if self.parentWidget() and self._centerOnParent:
-            self.move(self.parentWidget().width() / 2 - self.width() / 2,
-                      self.parentWidget().height() / 2 - self.height() / 2)
+            self.move(
+                int(round(self.parentWidget().width() / 2 - self.width() / 2)),
+                int(round(self.parentWidget().height() / 2 - self.height() / 2)))
 
     def lineCountDistanceFromPrimary(self, current, primary, totalNrOfLines):
         distance = primary - current
