@@ -33,7 +33,7 @@ from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
 from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import (filesizeFormatter, getDateFromIsoString)
-from ..api.api_datageoadmin import API_EPSG
+from ..api.api_datageoadmin import API_EPSG, ApiDataGeoAdmin
 from ..api.apiCallerTask import ApiCallerTask
 
 
@@ -121,9 +121,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         QgsProject.instance().crsChanged.connect(self.onChangeMapRefSys)
         self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChange)
         
-        # Finally, request available datasets
+        # Finally, initialize apis and request available datasets
         # Create separate task for request to not block ui
-        callerTask = ApiCallerTask('Get available datasets', 'getDatasetList', {})
+        self.apiDGA = ApiDataGeoAdmin(self)
+        callerTask = ApiCallerTask(self.apiDGA, 'getDatasetList', {})
         # Listen for finished api call
         callerTask.taskCompleted.connect(
             lambda: self.onReceiveDatasets(callerTask.output))

@@ -1,12 +1,15 @@
 from qgis.core import QgsTask, QgsMessageLog, Qgis
-from .api_datageoadmin import (getDatasetList, getFileList, downloadFiles)
+from .api_datageoadmin import (getFileList, downloadFiles)
 
 MESSAGE_CATEGORY = 'Swiss Geo Downloader'
 
 
 class ApiCallerTask(QgsTask):
-    def __init__(self, description, func, callParams):
+    def __init__(self, apiRef, func, callParams):
+        # TODO
+        description = func
         super().__init__(description, QgsTask.CanCancel)
+        self.apiRef = apiRef
         self.func = func
         self.callParams = callParams
         self.output = None
@@ -18,7 +21,7 @@ class ApiCallerTask(QgsTask):
          handle them internally and raise them in self.finished"""
         
         if self.func == 'getDatasetList':
-            self.output = getDatasetList(self)
+            self.output = self.apiRef.getDatasetList(self)
         
         elif self.func == 'getFileList':
             self.output = getFileList(self,
