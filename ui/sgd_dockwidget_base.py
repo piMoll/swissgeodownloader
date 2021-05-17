@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui/sgd_dockwidget_base.ui'
+# Form implementation generated from reading ui file 'sgd_dockwidget_base.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.1
 #
@@ -41,6 +41,10 @@ class Ui_sgdDockWidgetBase(object):
         self.guiDatasetList.setAlternatingRowColors(False)
         self.guiDatasetList.setObjectName("guiDatasetList")
         self.verticalLayout_3.addWidget(self.guiDatasetList)
+        self.guiDatasetStatus = QtWidgets.QLabel(self.guiGroupSearch)
+        self.guiDatasetStatus.setText("")
+        self.guiDatasetStatus.setObjectName("guiDatasetStatus")
+        self.verticalLayout_3.addWidget(self.guiDatasetStatus)
         self.verticalLayout.addWidget(self.guiGroupSearch)
         self.guiGroupOptions = QtWidgets.QGroupBox(self.dockWidgetContents)
         self.guiGroupOptions.setEnabled(True)
@@ -82,16 +86,13 @@ class Ui_sgdDockWidgetBase(object):
         self.guiGroupExtent.setObjectName("guiGroupExtent")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.guiGroupExtent)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
+        self.guiFullExtentChbox = QtWidgets.QCheckBox(self.guiGroupExtent)
+        self.guiFullExtentChbox.setObjectName("guiFullExtentChbox")
+        self.verticalLayout_2.addWidget(self.guiFullExtentChbox)
         self.guiExtentWidget = gui.QgsExtentGroupBox(self.guiGroupExtent)
         self.guiExtentWidget.setTitleBase("")
         self.guiExtentWidget.setObjectName("guiExtentWidget")
         self.verticalLayout_2.addWidget(self.guiExtentWidget)
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.guiFullExtentChbox = QtWidgets.QCheckBox(self.guiGroupExtent)
-        self.guiFullExtentChbox.setObjectName("guiFullExtentChbox")
-        self.horizontalLayout_2.addWidget(self.guiFullExtentChbox)
-        self.verticalLayout_2.addLayout(self.horizontalLayout_2)
         self.verticalLayout.addWidget(self.guiGroupExtent)
         self.guiGroupFiles = QtWidgets.QGroupBox(self.dockWidgetContents)
         self.guiGroupFiles.setObjectName("guiGroupFiles")

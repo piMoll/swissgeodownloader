@@ -84,13 +84,11 @@ class ApiDataGeoAdmin:
             fileCount = len(items['features'])
             
             # Check if it makes sense to select by bbox
+            # TODO: this should also check options and see, if there is only
+            #  one file per option (e.g. farbe-pk100)
             if fileCount <= 1 or ('timestamp' in dataset['options']
                 and fileCount == len(dataset['options']['timestamp'])):
                 useBBox = False
-            
-            # TODO Check tile size to warn user for big download sizes
-            # firstItem = items['features'][0]
-            # bbox = firstItem['extent']['spatial']['bbox'][0]
             
             # Analyze size of an item to estimate download sizes later on
             if fileCount > 0:
@@ -159,12 +157,14 @@ class ApiDataGeoAdmin:
                     # Analyse file extension
                     extension = os.path.splitext(assetId)[1]
                     file['ext'] = extension
-            
-                    # Get Metadata if this file
-                    # TODO: Write method to fetch header info
-                    # meta = getFileMetadata(file['href'])
-                    # file['size'] = int(meta.headers['Content-Length'])
-                    file['size'] = 1024
+                    
+                    # # Make a HEAD request to get the precise file size
+                    # This make A LOT of calls, use with care
+                    # header = self.fetch(task, asset['href'], method='head')
+                    # # Check Content-Length header
+                    # file['size'] = 0
+                    # if header.hasRawHeader(b'Content-Length'):
+                    #     file['size'] = int(header.rawHeader(b'Content-Length'))
             
                     fileList.append(file)
 
@@ -247,6 +247,3 @@ class ApiDataGeoAdmin:
         fileFetcher.downloadCompleted.connect(eventLoop.quit)
         eventLoop.exec_(QEventLoop.ExcludeUserInputEvent)
         fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
-
-
-

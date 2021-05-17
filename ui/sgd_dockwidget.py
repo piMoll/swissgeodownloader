@@ -80,6 +80,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
         # Deactivate unused ui-elements
         self.onUnselectDataset()
+        self.guiDatasetStatus.hide()
         
         # Create spinners to indicate data loading
         # Spinner for dataset request
@@ -185,7 +186,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         """Set dataset and load details on first selection"""
         self.currentDataset = self.datasetList[item.text()]
         
-        if not 'selectByBBox' in self.currentDataset:
+        if not 'selectByBBox' in self.currentDataset.keys():
             caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetDetails',
                                    {'dataset': self.currentDataset})
             # Listen for finished api call
@@ -208,11 +209,22 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Activate options and extent groups
         self.clearOptions()
         self.blockUiSignals()
-        self.guiGroupOptions.setDisabled(False)
-        self.guiGroupFiles.setDisabled(False)
-        self.resetFileList()
-        self.currentFilter = 'all'
         
+        # Show dataset status if no files are available
+        if self.currentDataset['isEmpty']:
+            self.guiGroupOptions.setDisabled(True)
+            self.guiGroupExtent.setDisabled(True)
+            self.guiGroupFiles.setDisabled(True)
+            self.guiDatasetStatus.show()
+            self.guiDatasetStatus.setStyleSheet('QLabel { color : red; }')
+            self.guiDatasetStatus.setText('No files available in this dataset')
+            return
+        else:
+            self.guiDatasetStatus.setText('')
+            self.guiDatasetStatus.hide()
+        
+        # Setup 2. Options
+        self.guiGroupOptions.setDisabled(False)
         for optionKey, option in self.currentDataset['options'].items():
             if optionKey == 'format':
                 self.guiFormat.addItems(option)
@@ -238,6 +250,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 self.guiTimestampL.setDisabled(False)
                 self.guiTimestamp.setDisabled(False)
 
+        # Activate / deactivate 3. Extent
         if not self.currentDataset['selectByBBox']:
             self.guiFullExtentChbox.setChecked(True)
             self.updateSelectMode()
@@ -246,6 +259,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiFullExtentChbox.setChecked(False)
             self.updateSelectMode()
             self.guiGroupExtent.setDisabled(False)
+        
+        # Activate 4. Files
+        self.guiGroupFiles.setDisabled(False)
+        self.resetFileList()
+        self.currentFilter = 'all'
         
         self.unblockUiSignals()
         
@@ -409,10 +427,20 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     
     def updateSummary(self):
         if len(self.fileListFiltered) > 0:
-            fileSize = sum([file['size'] for file in self.fileListFiltered])
-            self.guiFileListStatus.setText(
-                f"{len(self.fileListFiltered)} File(s) with a "
-                f"total size of {filesizeFormatter(fileSize)} are ready to download.")
+            fileSize = 0
+            for file in self.fileListFiltered:
+                if file['type'] in self.currentDataset['size'].keys():
+                    fileSize += self.currentDataset['size'][file['type']]
+
+            # fileSize = sum([file['size'] for file in self.fileListFiltered])
+            
+            if fileSize > 0:
+                self.guiFileListStatus.setText(
+                    f"{len(self.fileListFiltered)} File(s) with an estimated "
+                    f"total size of {filesizeFormatter(fileSize)} are ready to download.")
+            else:
+                self.guiFileListStatus.setText(f"{len(self.fileListFiltered)} "
+                                               f"File(s) are ready to download.")
         else:
             self.guiFileListStatus.setText('No files found.')
     
