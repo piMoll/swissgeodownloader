@@ -1,4 +1,6 @@
 from datetime import datetime
+import os
+from qgis.core import QgsProject, QgsRasterLayer, QgsVectorLayer
 
 def formatCoordinate(number):
     """Format big numbers with thousand separator, swiss-style"""
@@ -37,3 +39,34 @@ def getDateFromIsoString(isoString):
         isoString = isoString[:-1]
     dt = datetime.fromisoformat(isoString)
     return dt.strftime('%d.%m.%Y')
+
+def addToQgis(fileList):
+    # # Create new layer group in table of content
+    # root = QgsProject.instance().layerTreeRoot()
+    # projGroup = root.insertGroup(0, projName)
+
+    already_added = [lyr.source() for lyr in
+                     QgsProject.instance().mapLayers().values()]
+
+    for file in fileList:
+        if os.path.exists(file['path']) and not '.zip' in file['ext']:
+            if file['path'] in already_added:
+                continue
+            try:
+                rasterLyr = QgsRasterLayer(file['path'], file['id'])
+                if rasterLyr.isValid():
+                    QgsProject.instance().addMapLayer(rasterLyr)
+                    continue
+                else:
+                    del rasterLyr
+            except Exception as e:
+                pass
+            try:
+                vectorLyr = QgsVectorLayer(file['path'], file['id'], "ogr")
+                if vectorLyr.isValid():
+                    QgsProject.instance().addMapLayer(vectorLyr)
+                    continue
+                else:
+                    del vectorLyr
+            except Exception as e:
+                pass

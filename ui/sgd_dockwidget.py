@@ -32,7 +32,7 @@ from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
                        QgsProject, QgsPoint, QgsRectangle, QgsApplication)
 from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
-from .ui_utilities import (filesizeFormatter, getDateFromIsoString)
+from .ui_utilities import (filesizeFormatter, getDateFromIsoString, addToQgis)
 from ..api.api_datageoadmin import API_EPSG
 from ..api.apidatageoadmin import ApiDataGeoAdmin
 from ..api.apiCallerTask import ApiCallerTask
@@ -470,6 +470,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 'At least one file will be overwritten. Continue?')
             if not confirmed:
                 return
+        
+        # Save full path
+        for file in self.fileListFiltered:
+            file['path'] = os.path.join(folder, file['id'])
 
         # Call api
         # Create separate task for request to not block ui
@@ -493,7 +497,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
         self.spinnerFl.stop()
         
-        # TODO Add layers to qgis
+        # Add file as layers to qgis
+        addToQgis(self.fileListFiltered)
     
     @staticmethod
     def showDialog(title, msg, mode='OkCancel'):

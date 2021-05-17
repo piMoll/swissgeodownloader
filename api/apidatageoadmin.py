@@ -245,5 +245,5 @@ class ApiDataGeoAdmin:
         fileFetcher.downloadError.connect(onError)
         fileFetcher.downloadCanceled.connect(onCancel)
         fileFetcher.downloadCompleted.connect(eventLoop.quit)
-        eventLoop.exec_(QEventLoop.ExcludeUserInputEvent)
+        eventLoop.exec_(QEventLoop.ExcludeUserInputEvents)
         fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
