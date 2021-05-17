@@ -3,7 +3,7 @@ import json
 
 from qgis.PyQt.QtCore import QEventLoop, QUrl, QUrlQuery
 from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
-from qgis.core import QgsTask, QgsNetworkContentFetcher, QgsFileDownloader
+from qgis.core import QgsTask, QgsFileDownloader, QgsBlockingNetworkRequest
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
 API_EPSG = 'EPSG:4326'
@@ -20,13 +20,13 @@ class ApiDataGeoAdmin:
     def __init__(self, parent):
         self.baseUrl = BASEURL
         self.parent = parent
-        self.fetcher = QgsNetworkContentFetcher()
+        self.http = QgsBlockingNetworkRequest()
         self.task = None
     
     def getDatasetList(self, task: QgsTask):
         """Get a list of all available datasets and read out with options the
         dataset supports"""
-        collection = self.fetch(self.baseUrl, task)
+        collection = self.fetch(task, self.baseUrl)
         
         if not collection or not isinstance(collection, dict) \
                 or 'collections' not in collection:
@@ -74,10 +74,11 @@ class ApiDataGeoAdmin:
         """Analyse dataset to figure out available options in gui"""
         url = dataset['links']['files']
         # Get max. 40 features
-        items = self.fetch(url, task, {'limit' : 40})
+        items = self.fetch(task, url, params={'limit' : 40})
 
         fileCount = 0
         useBBox = True
+        estimate = {}
         
         if items and isinstance(items, dict) and 'features' in items:
             fileCount = len(items['features'])
@@ -90,8 +91,25 @@ class ApiDataGeoAdmin:
             # TODO Check tile size to warn user for big download sizes
             # firstItem = items['features'][0]
             # bbox = firstItem['extent']['spatial']['bbox'][0]
+            
+            # Analyze size of an item to estimate download sizes later on
+            if fileCount > 0:
+                item = items['features'][-1]
+                
+                # Get an estimate of file size
+                for assetId in item['assets']:
+                    asset = item['assets'][assetId]
+                    # Don't request again if we have this estimate already
+                    if asset['type'] in estimate.keys():
+                        continue
+                    # Make a HEAD request to get the file size
+                    header = self.fetch(task, asset['href'], method='head')
+                    # Check Content-Length header
+                    if header.hasRawHeader(b'Content-Length'):
+                        estimate[asset['type']] = int(header.rawHeader(b'Content-Length'))
         
-        return {'selectByBBox': useBBox, 'isEmpty': fileCount == 0}
+        return {'selectByBBox': useBBox, 'isEmpty': fileCount == 0,
+                'size': estimate}
 
     def getFileList(self, task: QgsTask, dataset, bbox, timestamp, options):
         """Request a list of available files that are within a bounding box and
@@ -103,7 +121,7 @@ class ApiDataGeoAdmin:
             params['datetime'] = timestamp
     
         url = dataset['links']['files']
-        items = self.fetch(url, task, params=params)
+        items = self.fetch(task, url, params=params)
     
         # Filter list
         fileList = []
@@ -152,7 +170,7 @@ class ApiDataGeoAdmin:
 
         return fileList
     
-    def fetch(self, url, task: QgsTask, params=None, header=None):
+    def fetch(self, task: QgsTask, url, params=None, header=None, method='get'):
         request = QNetworkRequest()
         # Prepare url
         callUrl = QUrl(url)
@@ -167,25 +185,28 @@ class ApiDataGeoAdmin:
             request.setHeader(*tuple(header))
 
         task.log(f'Start request {callUrl.toString()}')
-        self.fetcher.fetchContent(callUrl)
-        
-        # Run fetcher in separate event loop
-        eventLoop = QEventLoop()
-        self.fetcher.finished.connect(eventLoop.quit)
-        eventLoop.exec_(QEventLoop.ExcludeUserInputEvents)
-        self.fetcher.finished.disconnect(eventLoop.quit)
+        # Start request
+        if method == 'get':
+            self.http.get(request)
+        elif method == 'head':
+            self.http.head(request)
         
         # Check if request was successful
-        r = self.fetcher.reply()
+        r = self.http.reply()
         assert r.error() == QNetworkReply.NoError, r.error()
         
         # Process response
-        try:
-            return json.loads(self.fetcher.contentAsString())
-        
-        except json.JSONDecodeError as e:
-            task.exception = str(e)
-            return False
+        if method == 'get':
+            try:
+                return json.loads(str(r.content(), 'utf-8'))
+            
+            except json.JSONDecodeError as e:
+                task.exception = str(e)
+                return False
+        elif method == 'head':
+            return r
+        else:
+            return None
 
     def downloadFiles(self, task: QgsTask, fileList, outputDir):
         task.setProgress(0)
@@ -224,7 +245,7 @@ class ApiDataGeoAdmin:
         fileFetcher.downloadError.connect(onError)
         fileFetcher.downloadCanceled.connect(onCancel)
         fileFetcher.downloadCompleted.connect(eventLoop.quit)
-        eventLoop.exec_(QEventLoop.ExcludeUserInputEvents)
+        eventLoop.exec_(QEventLoop.ExcludeUserInputEvent)
         fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
 
 
