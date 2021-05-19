@@ -120,13 +120,16 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiResolution.currentIndexChanged.connect(self.onOptionChanged)
         self.guiCoordsys.currentIndexChanged.connect(self.onOptionChanged)
         self.guiTimestamp.currentIndexChanged.connect(self.onOptionChanged)
+        
         self.guiExtentWidget.extentChanged.connect(self.onExtentChanged)
-        self.guiFullExtentChbox.clicked.connect(self.onUseFullExtentChanged)
-        self.guiRequestListBtn.clicked.connect(self.onLoadFileList)
-        self.guiDownloadBtn.clicked.connect(self.onDownloadFiles)
-        self.guiFileType.currentIndexChanged.connect(self.onChangeFileType)
-        QgsProject.instance().crsChanged.connect(self.onChangeMapRefSys)
-        self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChange)
+        self.guiFullExtentChbox.clicked.connect(self.onUseFullExtentClicked)
+        
+        self.guiRequestListBtn.clicked.connect(self.onLoadFileListClicked)
+        self.guiDownloadBtn.clicked.connect(self.onDownloadFilesClicked)
+        self.guiFileType.currentIndexChanged.connect(self.onFilterOptionChanged)
+        
+        QgsProject.instance().crsChanged.connect(self.onMapRefSysChanged)
+        self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChanged)
         
         # Finally, initialize apis and request available datasets
         # Create separate task for request to not block ui
@@ -141,7 +144,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.closingPlugin.emit()
         event.accept()
     
-    def onChangeMapRefSys(self):
+    def onMapRefSysChanged(self):
         """Listen for map canvas reference system changes and apply to new
         crs to extent widget."""
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
@@ -151,7 +154,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def onExtentChanged(self):
         self.resetFileList()
     
-    def onMapExtentChange(self):
+    def onMapExtentChanged(self):
         """Show extent of current map view in extent widget."""
         if self.guiExtentWidget.extentState() == 1:
             # Only update widget if its current state is to display the map
@@ -161,14 +164,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
                 self.updateExtentValues(mapExtent, self.mapRefSys)
     
-    def onUseFullExtentChanged(self):
+    def onUseFullExtentClicked(self):
         if self.guiFullExtentChbox.isChecked():
             self.updateSelectMode()
             self.guiExtentWidget.setDisabled(True)
         else:
             self.guiExtentWidget.setDisabled(False)
     
-    def onChangeFileType(self, idx):
+    def onFilterOptionChanged(self, idx):
         if idx != -1:
             selectedFileType = self.guiFileType.itemText(idx)
             self.filterFileList(selectedFileType)
@@ -356,7 +359,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 urPoint.x(),
                 urPoint.y()]
 
-    def onLoadFileList(self):
+    def onLoadFileListClicked(self):
         """Collect options and call api to retrieve list of items"""
         # Remove current file list
         self.guiFileList.clear()
@@ -457,7 +460,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         else:
             self.guiFileListStatus.setText('No files found.')
     
-    def onDownloadFiles(self):
+    def onDownloadFilesClicked(self):
         # Let user choose output directory
         if self.outputPath:
             openDir = self.outputPath

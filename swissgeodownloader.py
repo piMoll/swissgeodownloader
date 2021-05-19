@@ -22,7 +22,8 @@
  ***************************************************************************/
 """
 import sys
-from qgis.PyQt.QtCore import QSettings, QTranslator, qVersion, QCoreApplication, Qt
+from qgis.PyQt.QtCore import (QSettings, QTranslator, qVersion,
+                              QCoreApplication, Qt)
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 # Initialize Qt resources from file resources.py
@@ -71,8 +72,6 @@ class SwissGeoDownloader:
         self.toolbar = self.iface.addToolBar(u'SwissGeoDownloader')
         self.toolbar.setObjectName(u'SwissGeoDownloader')
 
-        #print "** INITIALIZING SwissGeoDownloader"
-
         self.pluginIsActive = False
         self.dockwidget = None
 
@@ -90,7 +89,7 @@ class SwissGeoDownloader:
         :rtype: QString
         """
         # noinspection PyTypeChecker,PyArgumentList,PyCallByClass
-        return QCoreApplication.translate('SwissGeoDownloader', message)
+        return QCoreApplication.translate(type(self).__name__, message)
 
 
     def add_action(
@@ -175,15 +174,16 @@ class SwissGeoDownloader:
             icon_path,
             text=self.tr(u'Swiss Geo Downloader'),
             callback=self.run,
-            status_tip=self.tr('Swiss Geo Downloader allows you to download opendata in an easy and convenient way.'),
-            whats_this=self.tr('Swiss Geo Downloader is a plugin to to download geodata.'),
+            status_tip=self.tr('Swiss Geo Downloader allows you to download '
+                               'geodata of Switzerland in an easy and '
+                               'convenient way.'),
+            whats_this=self.tr('Swiss Geo Downloader is a plugin to to '
+                               'download swiss geodata.'),
             parent=self.iface.mainWindow())
     
 
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
-
-        #print "** CLOSING SwissGeoDownloader"
 
         # disconnects
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
@@ -216,16 +216,17 @@ class SwissGeoDownloader:
         """Run method that loads and starts the plugin"""
         
         # Uncomment when debugging
-        try:
-            # Add pydevd to path
-            sys.path.insert(0, '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
-            import pydevd_pycharm
-            pydevd_pycharm.settrace('localhost', port=53100,
-                                    stdoutToServer=True, stderrToServer=True)
-        except ConnectionRefusedError:
-            pass
-        except ImportError:
-            pass
+        
+        # try:
+        #     # Add pydevd to path
+        #     sys.path.insert(0, '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
+        #     import pydevd_pycharm
+        #     pydevd_pycharm.settrace('localhost', port=53100,
+        #                             stdoutToServer=True, stderrToServer=True)
+        # except ConnectionRefusedError:
+        #     pass
+        # except ImportError:
+        #     pass
 
         if not self.pluginIsActive:
             self.pluginIsActive = True
