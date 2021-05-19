@@ -1,6 +1,5 @@
 from qgis.core import QgsTask, QgsMessageLog, Qgis
-
-MESSAGE_CATEGORY = 'Swiss Geo Downloader'
+from ..ui.ui_utilities import MESSAGE_CATEGORY
 
 
 class ApiCallerTask(QgsTask):

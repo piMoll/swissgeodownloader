@@ -32,7 +32,8 @@ from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
                        QgsProject, QgsPoint, QgsRectangle, QgsApplication)
 from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
-from .ui_utilities import (filesizeFormatter, getDateFromIsoString, addToQgis)
+from .ui_utilities import (filesizeFormatter, getDateFromIsoString, addToQgis,
+                           addOverviewMap, MESSAGE_CATEGORY)
 from ..api.api_datageoadmin import API_EPSG
 from ..api.apidatageoadmin import ApiDataGeoAdmin
 from ..api.apiCallerTask import ApiCallerTask
@@ -111,6 +112,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.verticalLayout_4.addWidget(self.spinnerFl)
         
         # Connect signals
+        self.guiShowMapBtn.clicked.connect(self.onShowMapClicked)
+        self.guiInfoBtn.clicked.connect(self.onInfoClicked)
+        
         self.guiDatasetList.currentItemChanged.connect(self.onDatasetSelected)
         self.guiFormat.currentTextChanged.connect(self.onOptionChanged)
         self.guiResolution.currentIndexChanged.connect(self.onOptionChanged)
@@ -168,6 +172,15 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if idx != -1:
             selectedFileType = self.guiFileType.itemText(idx)
             self.filterFileList(selectedFileType)
+    
+    def onShowMapClicked(self):
+        message, level = addOverviewMap(self.iface.mapCanvas(),
+                                        self.mapRefSys.authid())
+        self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {message}", level)
+    
+    def onInfoClicked(self):
+        self.showDialog('Swiss Geo Downloader - Info',
+                        'PLUGIN_INFO', 'Ok')
     
     def updateExtentValues(self, extent, refSys):
         self.guiExtentWidget.setCurrentExtent(extent, refSys)

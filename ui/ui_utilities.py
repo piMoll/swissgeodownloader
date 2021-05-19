@@ -1,6 +1,8 @@
 from datetime import datetime
 import os
-from qgis.core import QgsProject, QgsRasterLayer, QgsVectorLayer
+from qgis.core import QgsProject, QgsRasterLayer, QgsVectorLayer, Qgis
+
+MESSAGE_CATEGORY = 'Swiss Geo Downloader'
 
 def formatCoordinate(number):
     """Format big numbers with thousand separator, swiss-style"""
@@ -59,7 +61,7 @@ def addToQgis(fileList):
                     continue
                 else:
                     del rasterLyr
-            except Exception as e:
+            except Exception:
                 pass
             try:
                 vectorLyr = QgsVectorLayer(file['path'], file['id'], "ogr")
@@ -68,5 +70,30 @@ def addToQgis(fileList):
                     continue
                 else:
                     del vectorLyr
-            except Exception as e:
+            except Exception:
                 pass
+
+
+def addOverviewMap(canvas, crs):
+    swisstopoUrl = 'http://wms.geo.admin.ch/'
+    swisstopoOverviewMap = 'ch.swisstopo.pixelkarte-grau'
+    layerName = 'Swisstopo National Map (grey)'
+
+    wmsUrl = (f'contextualWMSLegend=0&crs={crs}&dpiMode=7'
+              f'&featureCount=10&format=image/png'
+              f'&layers={swisstopoOverviewMap}'
+              f'&styles=&url={swisstopoUrl}')
+    
+    already_added = [lyr.source() for lyr in
+                     QgsProject.instance().mapLayers().values()]
+    
+    if wmsUrl not in already_added:
+        wmsLayer = QgsRasterLayer(wmsUrl, layerName, 'wms')
+        if wmsLayer.isValid():
+            QgsProject.instance().addMapLayer(wmsLayer)
+            canvas.refresh()
+            return f"Layer '{layerName}' added to map", Qgis.Success
+        else:
+            return f"Not able to add layer '{layerName}' to map", Qgis.Warning
+    else:
+        return f"Layer '{layerName}' already added to map", Qgis.Info
