@@ -220,7 +220,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def applyDatasetState(self):
         """Set up ui according to the options of the selected dataset"""
         # Show dataset in search field
-        self.guiSearchField.setText(self.currentDataset['id'])
+        # self.guiSearchField.setText(self.currentDataset['id'])
         
         # Activate options and extent groups
         self.clearOptions()
@@ -230,6 +230,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if self.currentDataset['isEmpty']:
             self.guiGroupOptions.setDisabled(True)
             self.guiGroupExtent.setDisabled(True)
+            self.guiExtentWidget.setCollapsed(True)
             self.guiGroupFiles.setDisabled(True)
             self.guiDatasetStatus.show()
             self.guiDatasetStatus.setStyleSheet('QLabel { color : red; }')
@@ -269,11 +270,13 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Activate / deactivate 3. Extent
         if not self.currentDataset['selectByBBox']:
             self.guiFullExtentChbox.setChecked(True)
+            self.guiExtentWidget.setCollapsed(True)
             self.updateSelectMode()
             self.guiGroupExtent.setDisabled(True)
         else:
-            self.guiFullExtentChbox.setChecked(False)
+            # self.guiFullExtentChbox.setChecked(False)
             self.updateSelectMode()
+            self.guiExtentWidget.setCollapsed(False)
             self.guiGroupExtent.setDisabled(False)
         
         # Activate 4. Files
@@ -319,7 +322,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.clearOptions()
         # self.clearExtent()
 
+        self.guiGroupOptions.setDisabled(True)
         self.guiGroupExtent.setDisabled(True)
+        self.guiExtentWidget.setCollapsed(True)
         self.guiGroupFiles.setDisabled(True)
         self.guiDownloadBtn.setDisabled(True)
     

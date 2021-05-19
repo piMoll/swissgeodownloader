@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>467</width>
-    <height>871</height>
+    <height>860</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,19 +43,18 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <item>
-          <widget class="QLineEdit" name="guiSearchField">
-           <property name="placeholderText">
-            <string>Search for dataset...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QListWidget" name="guiDatasetList">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>80</height>
+            </size>
            </property>
            <property name="maximumSize">
             <size>
@@ -107,7 +106,11 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="guiFormat"/>
+          <widget class="QComboBox" name="guiFormat">
+           <property name="toolTip">
+            <string>Select format</string>
+           </property>
+          </widget>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="guiResolutionL">
@@ -117,7 +120,11 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="guiResolution"/>
+          <widget class="QComboBox" name="guiResolution">
+           <property name="toolTip">
+            <string>Select resolution (only raster based datasets)</string>
+           </property>
+          </widget>
          </item>
          <item row="3" column="0">
           <widget class="QLabel" name="guiCoordsysL">
@@ -127,7 +134,11 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QComboBox" name="guiCoordsys"/>
+          <widget class="QComboBox" name="guiCoordsys">
+           <property name="toolTip">
+            <string>Select coordinate reference system</string>
+           </property>
+          </widget>
          </item>
          <item row="4" column="0">
           <widget class="QLabel" name="guiTimestampL">
@@ -137,7 +148,11 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QComboBox" name="guiTimestamp"/>
+          <widget class="QComboBox" name="guiTimestamp">
+           <property name="toolTip">
+            <string>Select timestamp</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -153,7 +168,7 @@
            <item>
             <widget class="QCheckBox" name="guiFullExtentChbox">
              <property name="text">
-              <string>Full datset extent</string>
+              <string>Full dataset extent</string>
              </property>
             </widget>
            </item>
@@ -192,6 +207,9 @@
           <layout class="QHBoxLayout" name="horizontalLayout_3">
            <item>
             <widget class="QPushButton" name="guiRequestListBtn">
+             <property name="toolTip">
+              <string>Requests are limited to max. 100 files</string>
+             </property>
              <property name="text">
               <string>Request file list</string>
              </property>
@@ -218,12 +236,35 @@
             </widget>
            </item>
            <item>
-            <widget class="QComboBox" name="guiFileType"/>
+            <widget class="QComboBox" name="guiFileType">
+             <property name="toolTip">
+              <string>Filter file list by type</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
          <item>
-          <widget class="QListWidget" name="guiFileList"/>
+          <widget class="QListWidget" name="guiFileList">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>1600</height>
+            </size>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QLabel" name="guiFileListStatus">
@@ -252,6 +293,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="guiDownloadBtn">
+          <property name="toolTip">
+           <string>Download list of files</string>
+          </property>
           <property name="text">
            <string>Download</string>
           </property>
@@ -281,19 +325,6 @@
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <widget class="QPushButton" name="guiInfoBtn">
         <property name="toolTip">
          <string>Plugin info</string>
@@ -309,6 +340,19 @@
          <bool>false</bool>
         </property>
        </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </item>
