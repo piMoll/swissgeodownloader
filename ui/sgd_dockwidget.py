@@ -76,8 +76,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                                         self.mapRefSys)
         self.guiExtentWidget.setOutputExtentFromCurrent()
         # Activate option to update map canvas extent
-        self.guiExtentWidget.setMapCanvas(self.iface.mapCanvas(),
-                                          drawOnCanvasOption=False)
+        self.guiExtentWidget.setMapCanvas(self.iface.mapCanvas())
+        # TODO: Deactivate DrawOnCanvas Option
 
         # Deactivate unused ui-elements
         self.onUnselectDataset()
