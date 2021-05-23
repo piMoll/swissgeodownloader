@@ -317,7 +317,7 @@
         </property>
         <property name="icon">
          <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/icon.png</normaloff>:/plugins/swissgeodownloader/resources/icon.png</iconset>
+          <normaloff>:/plugins/swissgeodownloader/resources/switzerland.png</normaloff>:/plugins/swissgeodownloader/resources/switzerland.png</iconset>
         </property>
         <property name="flat">
          <bool>false</bool>

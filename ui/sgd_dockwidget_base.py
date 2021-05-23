@@ -146,7 +146,7 @@ class Ui_sgdDockWidgetBase(object):
         self.guiShowMapBtn = QtWidgets.QPushButton(self.dockWidgetContents)
         self.guiShowMapBtn.setText("")
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/plugins/swissgeodownloader/resources/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap(":/plugins/swissgeodownloader/resources/switzerland.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.guiShowMapBtn.setIcon(icon)
         self.guiShowMapBtn.setFlat(False)
         self.guiShowMapBtn.setObjectName("guiShowMapBtn")
