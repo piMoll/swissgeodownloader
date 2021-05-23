@@ -1,8 +1,17 @@
 from datetime import datetime
 import os
+
+from qgis.PyQt.QtCore import QCoreApplication
 from qgis.core import QgsProject, QgsRasterLayer, QgsVectorLayer, Qgis
 
 MESSAGE_CATEGORY = 'Swiss Geo Downloader'
+
+
+def tr(message, **kwargs):
+    """Get the translation for a string using Qt translation API.
+    We implement this ourselves since we do not inherit QObject.
+    """
+    return QCoreApplication.translate('@default', message)
 
 def formatCoordinate(number):
     """Format big numbers with thousand separator, swiss-style"""
@@ -77,7 +86,7 @@ def addToQgis(fileList):
 def addOverviewMap(canvas, crs):
     swisstopoUrl = 'http://wms.geo.admin.ch/'
     swisstopoOverviewMap = 'ch.swisstopo.pixelkarte-grau'
-    layerName = 'Swisstopo National Map (grey)'
+    layerName = tr('Swisstopo National Map (grey)')
 
     wmsUrl = (f'contextualWMSLegend=0&crs={crs}&dpiMode=7'
               f'&featureCount=10&format=image/png'
@@ -92,8 +101,8 @@ def addOverviewMap(canvas, crs):
         if wmsLayer.isValid():
             QgsProject.instance().addMapLayer(wmsLayer)
             canvas.refresh()
-            return f"Layer '{layerName}' added to map", Qgis.Success
+            return tr("Layer '{}' added to map").format(layerName), Qgis.Success
         else:
-            return f"Not able to add layer '{layerName}' to map", Qgis.Warning
+            return tr("Not able to add layer '{}' to map").format(layerName), Qgis.Warning
     else:
-        return f"Layer '{layerName}' already added to map", Qgis.Info
+        return tr("Layer '{}' already added to map").format(layerName), Qgis.Info

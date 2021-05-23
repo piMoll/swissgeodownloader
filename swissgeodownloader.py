@@ -67,7 +67,7 @@ class SwissGeoDownloader:
 
         # Declare instance attributes
         self.actions = []
-        self.menu = self.tr(u'&Swiss Geo Downloader')
+        self.menu = u'&Swiss Geo Downloader'
         # TODO: We are going to let the user set this up in a future iteration
         self.toolbar = self.iface.addToolBar(u'SwissGeoDownloader')
         self.toolbar.setObjectName(u'SwissGeoDownloader')
@@ -172,7 +172,7 @@ class SwissGeoDownloader:
         icon_path = ':/plugins/swissgeodownloader/resources/icon.png'
         self.add_action(
             icon_path,
-            text=self.tr(u'Swiss Geo Downloader'),
+            text=u'Swiss Geo Downloader',
             callback=self.run,
             status_tip=self.tr('Swiss Geo Downloader allows you to download '
                                'geodata of Switzerland in an easy and '
@@ -204,7 +204,7 @@ class SwissGeoDownloader:
 
         for action in self.actions:
             self.iface.removePluginWebMenu(
-                self.tr(u'&Swiss Geo Downloader'),
+                u'&Swiss Geo Downloader',
                 action)
             self.iface.removeToolBarIcon(action)
         # remove the toolbar

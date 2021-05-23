@@ -43,17 +43,17 @@ class ApiCallerTask(QgsTask):
         """This function is automatically called when the task has
         completed (successfully or not)"""
         if result and self.output is not False:
-            msg = 'request completed'
+            msg = self.tr('request completed')
             if self.func == 'getDatasetList':
-                msg = 'available datasets received'
+                msg = self.tr('available datasets received')
             elif self.func == 'getFileList':
-                msg = 'file list received'
+                msg = self.tr('file list received')
             elif self.func == 'downloadFiles':
-                msg = 'files downloaded'
+                msg = self.tr('files downloaded')
             self.log(msg, Qgis.Success)
         else:
             if self.exception is None:
-                self.exception = 'An unknown error occurred'
+                self.exception = self.tr('An unknown error occurred')
                 self.log(self.exception, Qgis.Critical)
                 self.message(self.exception, Qgis.Warning)
             else:

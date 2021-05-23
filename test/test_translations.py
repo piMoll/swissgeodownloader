@@ -8,11 +8,6 @@
 
 """
 from .utilities import get_qgis_app
-
-__author__ = 'ismailsunni@yahoo.co.id'
-__date__ = '12/10/2011'
-__copyright__ = ('Copyright 2012, Australia Indonesia Facility for '
-                 'Disaster Reduction')
 import unittest
 import os
 
@@ -44,8 +39,8 @@ class SafeTranslationsTest(unittest.TestCase):
         translator.load(file_path)
         QCoreApplication.installTranslator(translator)
 
-        expected_message = 'Goeie more'
-        real_message = QCoreApplication.translate("@default", 'Good morning')
+        expected_message = 'Swisstopo Landeskarte (grau)'
+        real_message = QCoreApplication.translate("@default", 'Swisstopo National Map (grey)')
         self.assertEqual(real_message, expected_message)
 
 

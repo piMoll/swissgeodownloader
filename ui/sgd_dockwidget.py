@@ -55,7 +55,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.selectMode = None
         self.fileList = []
         self.fileListFiltered = []
-        self.currentFilter = 'all'
+        self.currentFilter = self.tr('all')
         self.outputPath = None
         self.msgBar = self.iface.messageBar()
         
@@ -188,8 +188,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {message}", level)
     
     def onInfoClicked(self):
-        self.showDialog('Swiss Geo Downloader - Info',
-                        'PLUGIN_INFO', 'Ok')
+        self.showDialog(self.tr('Swiss Geo Downloader - Info'),
+                        self.tr('PLUGIN_INFO'), 'Ok')
     
     def updateExtentValues(self, extent, refSys):
         self.guiExtentWidget.setCurrentExtent(extent, refSys)
@@ -240,7 +240,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiGroupFiles.setDisabled(True)
             self.guiDatasetStatus.show()
             self.guiDatasetStatus.setStyleSheet('QLabel { color : red; }')
-            self.guiDatasetStatus.setText('No files available in this dataset')
+            self.guiDatasetStatus.setText(self.tr('No files available in this dataset'))
             return
         else:
             self.guiDatasetStatus.setText('')
@@ -288,7 +288,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Activate 4. Files
         self.guiGroupFiles.setDisabled(False)
         self.resetFileList()
-        self.currentFilter = 'all'
+        self.currentFilter = self.tr('all')
         
         self.unblockUiSignals()
         
@@ -432,7 +432,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFileType.addItems(fileTypeList)
         # Set list to 'all'
         if self.currentFilter not in fileTypeList:
-            self.currentFilter = 'all'
+            self.currentFilter = self.tr('all')
         
         self.guiFileType.setCurrentIndex(fileTypeList.index(self.currentFilter))
         self.guiFileType.blockSignals(False)
@@ -445,7 +445,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.updateSummary()
 
     def filterFileList(self, filetype):
-        if filetype == 'all':
+        if filetype == self.tr('all'):
             self.fileListFiltered = [file for file in self.fileList]
         else:
             self.fileListFiltered = [file for file in self.fileList if file['ext'] == filetype]
@@ -462,14 +462,15 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             # fileSize = sum([file['size'] for file in self.fileListFiltered])
             
             if fileSize > 0:
-                self.guiFileListStatus.setText(
-                    f"{len(self.fileListFiltered)} File(s) with an estimated "
-                    f"total size of {filesizeFormatter(fileSize)} are ready to download.")
+                self.guiFileListStatus.setText(self.tr("{} File(s) with an "
+                    "estimated total size of {} are ready "
+                    "to download.").format(len(self.fileListFiltered),
+                                           filesizeFormatter(fileSize)))
             else:
-                self.guiFileListStatus.setText(f"{len(self.fileListFiltered)} "
-                                               f"File(s) are ready to download.")
+                self.guiFileListStatus.setText(self.tr("{} File(s) are ready"
+                    " to download.").format(len(self.fileListFiltered)))
         else:
-            self.guiFileListStatus.setText('No files found.')
+            self.guiFileListStatus.setText(self.tr('No files found.'))
     
     def onDownloadFilesClicked(self):
         # Let user choose output directory
@@ -477,8 +478,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             openDir = self.outputPath
         else:
             openDir = os.path.expanduser('~')
-        folder = QFileDialog.getExistingDirectory(self, 'Choose output folder',
-                                                  openDir, QFileDialog.ShowDirsOnly)
+        folder = QFileDialog.getExistingDirectory(self,
+                    self.tr('Choose output folder'), openDir, QFileDialog.ShowDirsOnly)
         if not folder:
             return
             
@@ -493,8 +494,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 break
         
         if waitForConfirm:
-            confirmed = self.showDialog('Overwrite files?',
-                'At least one file will be overwritten. Continue?')
+            confirmed = self.showDialog(self.tr('Overwrite files?'),
+                self.tr('At least one file will be overwritten. Continue?'))
             if not confirmed:
                 return
         
@@ -519,7 +520,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def onFinishDownload(self, success):
         if success:
             # Confirm successful download
-            self.guiFileListStatus.setText('Files successfully downloaded!')
+            self.guiFileListStatus.setText(self.tr('Files successfully downloaded!'))
             self.guiFileList.clear()
 
         self.spinnerFl.stop()

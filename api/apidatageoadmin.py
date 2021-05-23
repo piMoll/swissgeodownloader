@@ -2,7 +2,7 @@ import os
 import json
 import requests
 
-from qgis.PyQt.QtCore import QEventLoop, QUrl, QUrlQuery
+from qgis.PyQt.QtCore import QEventLoop, QUrl, QUrlQuery, QCoreApplication
 from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
 from qgis.core import (QgsTask, QgsFileDownloader, QgsBlockingNetworkRequest,
                        Qgis)
@@ -33,7 +33,8 @@ class ApiDataGeoAdmin:
         
         if not collection or not isinstance(collection, dict) \
                 or 'collections' not in collection:
-            task.exception = 'Error when loading available dataset - Did not understand API response'
+            task.exception = self.tr('Error when loading available dataset - '
+                                     'Unexpected API response')
             return False
         
         datasetList = {}
@@ -136,7 +137,8 @@ class ApiDataGeoAdmin:
 
         if not items or not isinstance(items, dict) \
                 or not 'features' in items:
-            task.exception = 'Error when requesting file list - Did not understand API response'
+            task.exception = self.tr('Error when requesting file list - '
+                                     'Unexpected API response')
             return False
             
         for item in items['features']:
@@ -194,7 +196,7 @@ class ApiDataGeoAdmin:
         if header:
             request.setHeader(*tuple(header))
 
-        task.log(f'Start request {callUrl.toString()}')
+        task.log(self.tr('Start request {}').format(callUrl.toString()))
         # Start request
         if method == 'get':
             self.http.get(request)
@@ -223,7 +225,7 @@ class ApiDataGeoAdmin:
             return requests.head(url)
         except requests.exceptions.HTTPError \
                or requests.exceptions.RequestException as e:
-            task.exception = f'Error when calling the API: {e}'
+            task.log = self.tr('Error when requesting header information: {}').format(e)
             return False
 
     def downloadFiles(self, task: QgsTask, fileList, outputDir):
@@ -248,14 +250,14 @@ class ApiDataGeoAdmin:
                 queryParams.addQueryItem(key, str(value))
             callUrl.setQuery(queryParams)
         
-        task.log(f'Start download of {callUrl.toString()}')
+        task.log(self.tr('Start download of {}').format(callUrl.toString()))
         fileFetcher = QgsFileDownloader(callUrl, filePath)
         
         def onCancel():
-            task.exception = f'Download of {filename} was canceled'
+            task.exception = self.tr('Download of {} was canceled').format(filename)
             return False
         def onError():
-            task.exception = f'Error when downloading {filename}'
+            task.exception = self.tr('Error when downloading {}').format(filename)
             return False
         
         # Run file download in separate event loop
@@ -265,3 +267,8 @@ class ApiDataGeoAdmin:
         fileFetcher.downloadCompleted.connect(eventLoop.quit)
         eventLoop.exec_(QEventLoop.ExcludeUserInputEvents)
         fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
+        
+    def tr(self, message, **kwargs):
+        """Get the translation for a string using Qt translation API.
+        We implement this ourselves since we do not inherit QObject."""
+        return QCoreApplication.translate(type(self).__name__, message)
