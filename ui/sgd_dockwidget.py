@@ -148,6 +148,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         """Listen for map canvas reference system changes and apply to new
         crs to extent widget."""
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
+        # Update transformations
+        self.transformProj2Api = QgsCoordinateTransform(
+            self.mapRefSys, self.apiRefSys, QgsProject.instance())
+        self.transformApi2Proj = QgsCoordinateTransform(
+            self.apiRefSys, self.mapRefSys, QgsProject.instance())
+        # Update displayed extent
         mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
         self.updateExtentValues(mapExtent, self.mapRefSys)
     
