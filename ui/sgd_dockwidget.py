@@ -34,8 +34,7 @@ from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import (filesizeFormatter, getDateFromIsoString, addToQgis,
                            addOverviewMap, MESSAGE_CATEGORY)
-from ..api.api_datageoadmin import API_EPSG
-from ..api.apidatageoadmin import ApiDataGeoAdmin
+from ..api.apidatageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
 
 
@@ -75,9 +74,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiExtentWidget.setCurrentExtent(self.iface.mapCanvas().extent(),
                                         self.mapRefSys)
         self.guiExtentWidget.setOutputExtentFromCurrent()
-        # Activate option to update map canvas extent
-        self.guiExtentWidget.setMapCanvas(self.iface.mapCanvas())
-        # TODO: Deactivate DrawOnCanvas Option
 
         # Deactivate unused ui-elements
         self.onUnselectDataset()
@@ -138,6 +134,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Listen for finished api call
         caller.taskCompleted.connect(
             lambda: self.onReceiveDatasets(caller.output))
+        caller.taskTerminated.connect(
+            lambda: self.onReceiveDatasets([]))
         QgsApplication.taskManager().addTask(caller)
 
     def closeEvent(self, event):
@@ -251,27 +249,32 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         for optionKey, option in self.currentDataset['options'].items():
             if optionKey == 'format':
                 self.guiFormat.addItems(option)
-                self.guiFormatL.setDisabled(False)
-                self.guiFormat.setDisabled(False)
+                # Only enable option if there is more than one choice
+                if not len(option) == 1:
+                    self.guiFormatL.setDisabled(False)
+                    self.guiFormat.setDisabled(False)
             if optionKey == 'resolution':
                 # Stringify resolution numbers
                 optionStr = [str(r) for r in option]
                 self.guiResolution.addItems(optionStr)
-                self.guiResolutionL.setDisabled(False)
-                self.guiResolution.setDisabled(False)
+                if not len(option) == 1:
+                    self.guiResolutionL.setDisabled(False)
+                    self.guiResolution.setDisabled(False)
             if optionKey == 'coordsys':
                 # Create a coordinate system object and get its friendly identifier
                 coordSysList = [QgsCoordinateReferenceSystem(f'EPSG:{epsg}') for epsg in option]
                 coordSysNames = [cs.userFriendlyIdentifier() for cs in coordSysList]
                 self.guiCoordsys.addItems(coordSysNames)
-                self.guiCoordsysL.setDisabled(False)
-                self.guiCoordsys.setDisabled(False)
+                if not len(option) == 1:
+                    self.guiCoordsysL.setDisabled(False)
+                    self.guiCoordsys.setDisabled(False)
             if optionKey == 'timestamp':
                 # Format ISO time string into nice dates
                 optionStr = [getDateFromIsoString(ts) for ts in option]
                 self.guiTimestamp.addItems(optionStr)
-                self.guiTimestampL.setDisabled(False)
-                self.guiTimestamp.setDisabled(False)
+                if not len(option) == 1:
+                    self.guiTimestampL.setDisabled(False)
+                    self.guiTimestamp.setDisabled(False)
 
         # Activate / deactivate 3. Extent
         if not self.currentDataset['selectByBBox']:
@@ -384,13 +387,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         options = {}
         timestamp = ''
         for optionKey, option in self.currentDataset['options'].items():
-            if optionKey == 'format':
+            # Only add to query parameters if there is more than one choice
+            if optionKey == 'format' and len(option) > 1:
                 options[optionKey] = option[self.guiFormat.currentIndex()]
-            if optionKey == 'resolution':
+            if optionKey == 'resolution' and len(option) > 1:
                 options[optionKey] = option[self.guiResolution.currentIndex()]
-            if optionKey == 'coordsys':
+            if optionKey == 'coordsys' and len(option) > 1:
                 options[optionKey] = option[self.guiCoordsys.currentIndex()]
-            if optionKey == 'timestamp':
+            if optionKey == 'timestamp' and len(option) > 1:
                 timestamp = option[self.guiTimestamp.currentIndex()]
         
         # Call api

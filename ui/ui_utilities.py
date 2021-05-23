@@ -13,6 +13,7 @@ def tr(message, **kwargs):
     """
     return QCoreApplication.translate('@default', message)
 
+
 def formatCoordinate(number):
     """Format big numbers with thousand separator, swiss-style"""
     if number is None:
@@ -34,6 +35,7 @@ def castToNum(formattedNum):
         num = None
     return num
 
+
 def filesizeFormatter(num, suffix='B'):
     """Formats data sizes to human readable units"""
     for unit in ['','K','M','G','T','P','E','Z']:
@@ -42,14 +44,22 @@ def filesizeFormatter(num, suffix='B'):
         num /= 1024.0
     return "%.1f %s%s" % (num, 'Yi', suffix)
 
-def getDateFromIsoString(isoString):
-    """Translate ISO date string to swiss date format"""
-    if not isoString:
+
+def getDateFromIsoString(isoString, formatted=True):
+    """Translate ISO date string to date or swiss date format"""
+    if type(isoString) != str or not isoString:
         return ''
     if isoString[-1] == 'Z':
         isoString = isoString[:-1]
-    dt = datetime.fromisoformat(isoString)
-    return dt.strftime('%d.%m.%Y')
+    try:
+        dt = datetime.fromisoformat(isoString)
+    except ValueError as e:
+        return None
+    if formatted:
+        return dt.strftime('%d.%m.%Y')
+    else:
+        return dt
+
 
 def addToQgis(fileList):
     # # Create new layer group in table of content
