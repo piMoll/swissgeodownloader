@@ -174,6 +174,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiExtentWidget.setDisabled(True)
         else:
             self.guiExtentWidget.setDisabled(False)
+            self.resetFileList()
+            self.onMapExtentChanged()
     
     def onFilterOptionChanged(self, idx):
         if idx != -1:
@@ -212,13 +214,16 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             # Listen for finished api call
             caller.taskCompleted.connect(
                 lambda: self.onLoadDatasetDetails(caller.output))
+            caller.taskTerminated.connect(
+                lambda: self.onLoadDatasetDetails(None))
             QgsApplication.taskManager().addTask(caller)
         else:
             self.applyDatasetState()
     
     def onLoadDatasetDetails(self, details):
-        for key, value in details.items():
-            self.currentDataset[key] = value
+        if details:
+            for key, value in details.items():
+                self.currentDataset[key] = value
         self.applyDatasetState()
     
     def applyDatasetState(self):
@@ -408,6 +413,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Listen for finished api call
         caller.taskCompleted.connect(
             lambda: self.onReceiveFileList(caller.output))
+        caller.taskTerminated.connect(
+            lambda: self.onReceiveFileList(None))
         # Start spinner to indicate data loading
         self.spinnerFl.start()
         # Add task to task manager
@@ -432,7 +439,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFileType.clear()
         # Get unique values from extension list and add to drop down
         fileTypeList = list(set([file['ext'] for file in self.fileList]))
-        fileTypeList.insert(0, 'all')
+        if len(fileTypeList) == 1:
+            fileTypeList = [self.tr('all')]
+        else:
+            fileTypeList.insert(0, self.tr('all'))
+
         self.guiFileType.addItems(fileTypeList)
         # Set list to 'all'
         if self.currentFilter not in fileTypeList:
@@ -516,6 +527,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Listen for finished api call
         caller.taskCompleted.connect(
             lambda: self.onFinishDownload(caller.output))
+        caller.taskTerminated.connect(
+            lambda: self.onFinishDownload(False))
         # Start spinner to indicate data loading
         self.spinnerFl.start()
         # Add task to task manager
