@@ -1,9 +1,11 @@
 import os
 import json
+import requests
 
 from qgis.PyQt.QtCore import QEventLoop, QUrl, QUrlQuery
 from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
-from qgis.core import QgsTask, QgsFileDownloader, QgsBlockingNetworkRequest
+from qgis.core import (QgsTask, QgsFileDownloader, QgsBlockingNetworkRequest,
+                       Qgis)
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
 API_EPSG = 'EPSG:4326'
@@ -12,7 +14,8 @@ OPTION_MAPPER = {
     'resolution': 'eo:gsd',
     'format': 'geoadmin:variant',
 }
-API_OPTION_MAPPER =  {y:x for x,y in OPTION_MAPPER.items()}
+API_OPTION_MAPPER = {y:x for x,y in OPTION_MAPPER.items()}
+VERSION = Qgis.QGIS_VERSION_INT
 
 
 class ApiDataGeoAdmin:
@@ -100,11 +103,18 @@ class ApiDataGeoAdmin:
                     # Don't request again if we have this estimate already
                     if asset['type'] in estimate.keys():
                         continue
-                    # Make a HEAD request to get the file size
-                    header = self.fetch(task, asset['href'], method='head')
                     # Check Content-Length header
-                    if header.hasRawHeader(b'Content-Length'):
-                        estimate[asset['type']] = int(header.rawHeader(b'Content-Length'))
+                    if VERSION >= 31800:
+                        # Make a HEAD request to get the file size
+                        header = self.fetch(task, asset['href'], method='head')
+                        if header and header.hasRawHeader(b'Content-Length'):
+                            estimate[asset['type']] = int(header.rawHeader(b'Content-Length'))
+                    else:
+                        # If QGIS version is below 3.18, use library 'requests'
+                        # to make a HEAD request
+                        header = self.fetchHeadLegacy(task, asset['href'])
+                        if header:
+                            estimate[asset['type']] = int(header.headers['Content-Length'])
         
         return {'selectByBBox': useBBox, 'isEmpty': fileCount == 0,
                 'size': estimate}
@@ -207,6 +217,14 @@ class ApiDataGeoAdmin:
             return r
         else:
             return None
+    
+    def fetchHeadLegacy(self, task: QgsTask, url):
+        try:
+            return requests.head(url)
+        except requests.exceptions.HTTPError \
+               or requests.exceptions.RequestException as e:
+            task.exception = f'Error when calling the API: {e}'
+            return False
 
     def downloadFiles(self, task: QgsTask, fileList, outputDir):
         task.setProgress(0)
