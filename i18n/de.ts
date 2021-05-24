@@ -155,6 +155,8 @@
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.
 
+In der aktuellen Version stehen einige der meistgefragten Geodaten-Themen von swisstopo zur Verfügung. Zusätzliche Daten der swisstopo und weitere Anbieter werden in zukünftigen Versionen ergänzt.
+
 Weitere Informationen:
 {}</translation>
     </message>

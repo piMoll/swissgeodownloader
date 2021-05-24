@@ -115,6 +115,8 @@
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader allows you to download geodata of Switzerland in an easy and convenient way.
 
+Currently, the plugin provides access to a selection of the most requested swisstopo topics. Additional swisstopo data and further providers will be added in future releases.
+
 Further information:
 {}</translation>
     </message>

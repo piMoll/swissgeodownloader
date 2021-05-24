@@ -39,6 +39,7 @@ from .fileListTable import FileListTable
 from ..api.apidatageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
 
+VERSION = Qgis.QGIS_VERSION_INT
 
 class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
@@ -255,6 +256,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiGroupExtent.setDisabled(True)
             self.guiExtentWidget.setCollapsed(True)
             self.guiGroupFiles.setDisabled(True)
+            self.resetFileList()
             self.guiDatasetStatus.show()
             self.guiDatasetStatus.setStyleSheet('QLabel { color : red; }')
             self.guiDatasetStatus.setText(self.tr('No files available in this dataset'))
@@ -282,7 +284,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             if optionKey == 'coordsys':
                 # Create a coordinate system object and get its friendly identifier
                 coordSysList = [QgsCoordinateReferenceSystem(f'EPSG:{epsg}') for epsg in option]
-                coordSysNames = [cs.userFriendlyIdentifier() for cs in coordSysList]
+                if VERSION < 31003:
+                    coordSysNames = [cs.description() for cs in coordSysList]
+                else:
+                    coordSysNames = [cs.userFriendlyIdentifier() for cs in coordSysList]
                 self.guiCoordsys.addItems(coordSysNames)
                 if not len(option) == 1:
                     self.guiCoordsysL.setDisabled(False)
