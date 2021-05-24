@@ -118,7 +118,7 @@
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="469"/>
         <source>{} File(s) with an estimated total size of {} are ready to download.</source>
-        <translation>{} Datei(en) mit eine Grösse von ca. {} können heruntergeladen werden.</translation>
+        <translation>{} Datei(en) mit einer Grösse von ca. {} können heruntergeladen werden.</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="474"/>

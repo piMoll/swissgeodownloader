@@ -90,7 +90,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.spinnerDs.setLineWidth(5)
         self.spinnerDs.setInnerRadius(12)
         self.spinnerDs.setRevolutionsPerSecond(1)
-        self.spinnerDs.setColor(QColor(200, 200, 200))
+        self.spinnerDs.setColor(QColor(100, 100, 100))
         self.verticalLayout_3.addWidget(self.spinnerDs)
         self.spinnerDs.start()
         
@@ -104,7 +104,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.spinnerFl.setLineWidth(5)
         self.spinnerFl.setInnerRadius(12)
         self.spinnerFl.setRevolutionsPerSecond(1)
-        self.spinnerFl.setColor(QColor(200, 200, 200))
+        self.spinnerFl.setColor(QColor(100, 100, 100))
         self.verticalLayout_4.addWidget(self.spinnerFl)
         
         # Connect signals

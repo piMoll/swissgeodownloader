@@ -199,9 +199,7 @@ class SwissGeoDownloader:
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
-
-        #print "** UNLOAD SwissGeoDownloader"
-
+        
         for action in self.actions:
             self.iface.removePluginWebMenu(
                 u'&Swiss Geo Downloader',
