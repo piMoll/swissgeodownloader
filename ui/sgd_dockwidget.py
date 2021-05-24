@@ -82,6 +82,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Deactivate unused ui-elements
         self.onUnselectDataset()
         self.guiDatasetStatus.hide()
+        self.guiQuestionBtn.hide()
+        self.questionTxt = []
 
         # File list table
         self.fileListTbl = FileListTable(self, self.guiFileListLayout)
@@ -131,6 +133,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiRequestListBtn.clicked.connect(self.onLoadFileListClicked)
         self.guiDownloadBtn.clicked.connect(self.onDownloadFilesClicked)
         self.guiFileType.currentIndexChanged.connect(self.onFilterOptionChanged)
+        self.guiQuestionBtn.clicked.connect(self.onQuestionClicked)
         
         QgsProject.instance().crsChanged.connect(self.onMapRefSysChanged)
         self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChanged)
@@ -197,7 +200,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     
     def onInfoClicked(self):
         self.showDialog(self.tr('Swiss Geo Downloader - Info'),
-                        self.tr('PLUGIN_INFO'), 'Ok')
+            self.tr('PLUGIN_INFO').format('https://pimoll.github.io/swissgeodownloader/'), 'Ok')
     
     def updateExtentValues(self, extent, refSys):
         self.guiExtentWidget.setCurrentExtent(extent, refSys)
@@ -233,6 +236,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             for key, value in details.items():
                 self.currentDataset[key] = value
         self.applyDatasetState()
+    
+    def onQuestionClicked(self):
+        self.showDialog(self.questionTxt[0], self.questionTxt[1], 'Ok')
     
     def applyDatasetState(self):
         """Set up ui according to the options of the selected dataset"""
@@ -291,12 +297,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
         # Activate / deactivate 3. Extent
         if not self.currentDataset['selectByBBox']:
-            self.guiFullExtentChbox.setChecked(True)
             self.guiExtentWidget.setCollapsed(True)
             self.updateSelectMode()
             self.guiGroupExtent.setDisabled(True)
         else:
-            # self.guiFullExtentChbox.setChecked(False)
             self.updateSelectMode()
             self.guiExtentWidget.setCollapsed(False)
             self.guiGroupExtent.setDisabled(False)
@@ -354,6 +358,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.fileListTbl.clear()
         self.guiDownloadBtn.setDisabled(True)
         self.guiFileListStatus.setText('')
+        self.guiFileListStatus.setStyleSheet('QLabel { color : black;}')
     
     def onOptionChanged(self, newVal):
         self.resetFileList()
@@ -484,10 +489,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if fileId in self.fileListFiltered.keys():
             self.fileListFiltered[fileId]['selected'] = isChecked
             self.updateSummary()
-        self.msgLog.logMessage(f"Clicked: {fileId}, checked ? {isChecked}",
-                               MESSAGE_CATEGORY, Qgis.Info)
     
     def updateSummary(self):
+        self.guiQuestionBtn.hide()
+        
         selectedFiles = [file for file in self.fileListFiltered.values()
                             if file['selected']]
         
@@ -500,15 +505,29 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             # fileSize = sum([file['size'] for file in self.fileListFiltered])
             
             if fileSize > 0:
-                self.guiFileListStatus.setText(self.tr("{} File(s) with an "
-                    "estimated total size of {} are ready "
-                    "to download.").format(len(selectedFiles),
-                                           filesizeFormatter(fileSize)))
+                status = self.tr("{} File(s) with an estimated total size of "
+                    "{} are ready to download.").format(len(selectedFiles),
+                                                        filesizeFormatter(fileSize))
             else:
-                self.guiFileListStatus.setText(self.tr("{} File(s) are ready"
-                    " to download.").format(len(selectedFiles)))
+                status = self.tr("{} File(s) are ready to download.").format(len(selectedFiles))
+            
+            if len(selectedFiles) >= 100:
+                self.guiQuestionBtn.show()
+                self.questionTxt = \
+                    [self.tr('Limited files per request'),
+                     self.tr('At the moment requests are limited to 100 files '
+                             'per data type. Limitation will be removed in a '
+                             'future release.')]
         else:
-            self.guiFileListStatus.setText(self.tr('No files found.'))
+            status = self.tr('No files found.')
+            self.guiQuestionBtn.show()
+            self.questionTxt = \
+                [self.tr('Why are there no files?'),
+                 self.tr("Not all datasets cover the whole area of Switzerland."
+                         " Try changing options or select 'Full dataset extent'"
+                         " to get more files.")]
+
+        self.guiFileListStatus.setText(status)
     
     def onDownloadFilesClicked(self):
         # Let user choose output directory
@@ -565,6 +584,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if success:
             # Confirm successful download
             self.guiFileListStatus.setText(self.tr('Files successfully downloaded!'))
+            self.guiFileListStatus.setStyleSheet('QLabel { color : green; font-weight: bold;}')
             self.fileListTbl.clear()
 
         self.spinnerFl.stop()
