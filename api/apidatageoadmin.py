@@ -86,7 +86,9 @@ class ApiDataGeoAdmin:
                     options['timestamp'].reverse()
                 
                     # Apply overwrites for timestamps
-                    if custom and custom['timestamp'] == 'first':
+                    if (custom and 'options' in custom
+                        and 'timestamp' in custom['options']
+                        and custom['options']['timestamp'] == 'first'):
                         options['timestamp'] = [options['timestamp'][0]]
 
             dataset['options'] = options
