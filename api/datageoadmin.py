@@ -16,7 +16,7 @@ OPTION_MAPPER = {
     'format': 'geoadmin:variant',
 }
 API_OPTION_MAPPER = {y:x for x,y in OPTION_MAPPER.items()}
-CUSTOM_OPTION_FILE = os.path.join(os.path.dirname(__file__), 'api_datageoadmin.json')
+CUSTOM_OPTION_FILE = os.path.join(os.path.dirname(__file__), 'datageoadmin.json')
 VERSION = Qgis.QGIS_VERSION_INT
 
 

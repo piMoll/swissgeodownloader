@@ -36,7 +36,7 @@ from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import (filesizeFormatter, getDateFromIsoString, addToQgis,
                            addOverviewMap, MESSAGE_CATEGORY)
 from .fileListTable import FileListTable
-from ..api.apidatageoadmin import ApiDataGeoAdmin, API_EPSG
+from ..api.datageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
 
 VERSION = Qgis.QGIS_VERSION_INT
