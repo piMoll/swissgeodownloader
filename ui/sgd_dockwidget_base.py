@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'sgd_dockwidget_base.ui'
+# Form implementation generated from reading ui file 'ui/sgd_dockwidget_base.ui'
 #
 # Created by: PyQt5 UI code generator 5.14.1
 #
@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_sgdDockWidgetBase(object):
     def setupUi(self, sgdDockWidgetBase):
         sgdDockWidgetBase.setObjectName("sgdDockWidgetBase")
-        sgdDockWidgetBase.resize(467, 860)
+        sgdDockWidgetBase.resize(467, 782)
         self.dockWidgetContents = QtWidgets.QWidget()
         self.dockWidgetContents.setObjectName("dockWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.dockWidgetContents)
@@ -117,16 +117,9 @@ class Ui_sgdDockWidgetBase(object):
         self.guiFileType.setObjectName("guiFileType")
         self.horizontalLayout_3.addWidget(self.guiFileType)
         self.verticalLayout_4.addLayout(self.horizontalLayout_3)
-        self.guiFileList = QtWidgets.QListWidget(self.guiGroupFiles)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.guiFileList.sizePolicy().hasHeightForWidth())
-        self.guiFileList.setSizePolicy(sizePolicy)
-        self.guiFileList.setMinimumSize(QtCore.QSize(0, 80))
-        self.guiFileList.setMaximumSize(QtCore.QSize(16777215, 1600))
-        self.guiFileList.setObjectName("guiFileList")
-        self.verticalLayout_4.addWidget(self.guiFileList)
+        self.guiFileListLayout = QtWidgets.QVBoxLayout()
+        self.guiFileListLayout.setObjectName("guiFileListLayout")
+        self.verticalLayout_4.addLayout(self.guiFileListLayout)
         self.guiFileListStatus = QtWidgets.QLabel(self.guiGroupFiles)
         self.guiFileListStatus.setText("")
         self.guiFileListStatus.setObjectName("guiFileListStatus")

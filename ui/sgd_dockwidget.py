@@ -29,11 +29,13 @@ from qgis.PyQt.QtWidgets import (QDockWidget, QListWidget, QFileDialog,
                                  QMessageBox)
 from qgis.gui import QgsExtentGroupBox
 from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
-                       QgsProject, QgsPoint, QgsRectangle, QgsApplication)
+                       QgsProject, QgsPoint, QgsRectangle, QgsApplication,
+                       QgsMessageLog, Qgis)
 from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import (filesizeFormatter, getDateFromIsoString, addToQgis,
                            addOverviewMap, MESSAGE_CATEGORY)
+from .fileListTable import FileListTable
 from ..api.apidatageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
 
@@ -53,10 +55,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.currentDataset = {}
         self.selectMode = None
         self.fileList = []
-        self.fileListFiltered = []
+        self.fileListFiltered = {}
+        self.filesListDownload = []
         self.currentFilter = self.tr('all')
         self.outputPath = None
         self.msgBar = self.iface.messageBar()
+        self.msgLog = QgsMessageLog()
         
         # Coordinate system
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
@@ -78,6 +82,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Deactivate unused ui-elements
         self.onUnselectDataset()
         self.guiDatasetStatus.hide()
+
+        # File list table
+        self.fileListTbl = FileListTable(self, self.guiFileListLayout)
+        self.fileListTbl.sig_selectionChanged.connect(self.onFileSelectionChange)
         
         # Create spinners to indicate data loading
         # Spinner for dataset request
@@ -343,7 +351,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiDownloadBtn.setDisabled(True)
     
     def resetFileList(self):
-        self.guiFileList.clear()
+        self.fileListTbl.clear()
         self.guiDownloadBtn.setDisabled(True)
         self.guiFileListStatus.setText('')
     
@@ -381,7 +389,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def onLoadFileListClicked(self):
         """Collect options and call api to retrieve list of items"""
         # Remove current file list
-        self.guiFileList.clear()
+        self.fileListTbl.clear()
         
         # Read out extent
         bbox = self.getBbox()
@@ -453,24 +461,39 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFileType.blockSignals(False)
     
     def populateFileList(self, fileList):
-        self.guiFileList.clear()
-        fileNames = [file['id'] for file in fileList]
-        if fileNames:
-            self.guiFileList.addItems(fileNames)
+        self.fileListTbl.fill(fileList)
         self.updateSummary()
 
     def filterFileList(self, filetype):
         if filetype == self.tr('all'):
-            self.fileListFiltered = [file for file in self.fileList]
+            self.fileListFiltered = { file['id']: dict(file, **{'selected': True})
+                                      for file in self.fileList }
         else:
-            self.fileListFiltered = [file for file in self.fileList if file['ext'] == filetype]
+            self.fileListFiltered = { file['id']: dict(file, **{'selected': True})
+                                      for file in self.fileList
+                                      if file['ext'] == filetype }
         self.currentFilter = filetype
-        self.populateFileList(self.fileListFiltered)
+        
+        # This list is necessary because dictionaries do not have a stable
+        #  order, but we want the original order from the API response
+        orderedFilesForTbl = [file for file in self.fileList
+                              if file['id'] in self.fileListFiltered.keys()]
+        self.populateFileList(orderedFilesForTbl)
+    
+    def onFileSelectionChange(self, fileId, isChecked):
+        if fileId in self.fileListFiltered.keys():
+            self.fileListFiltered[fileId]['selected'] = isChecked
+            self.updateSummary()
+        self.msgLog.logMessage(f"Clicked: {fileId}, checked ? {isChecked}",
+                               MESSAGE_CATEGORY, Qgis.Info)
     
     def updateSummary(self):
-        if len(self.fileListFiltered) > 0:
+        selectedFiles = [file for file in self.fileListFiltered.values()
+                            if file['selected']]
+        
+        if len(selectedFiles) > 0:
             fileSize = 0
-            for file in self.fileListFiltered:
+            for file in selectedFiles:
                 if file['type'] in self.currentDataset['size'].keys():
                     fileSize += self.currentDataset['size'][file['type']]
 
@@ -479,11 +502,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             if fileSize > 0:
                 self.guiFileListStatus.setText(self.tr("{} File(s) with an "
                     "estimated total size of {} are ready "
-                    "to download.").format(len(self.fileListFiltered),
+                    "to download.").format(len(selectedFiles),
                                            filesizeFormatter(fileSize)))
             else:
                 self.guiFileListStatus.setText(self.tr("{} File(s) are ready"
-                    " to download.").format(len(self.fileListFiltered)))
+                    " to download.").format(len(selectedFiles)))
         else:
             self.guiFileListStatus.setText(self.tr('No files found.'))
     
@@ -502,7 +525,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.outputPath = folder
         # Check if there are files that are going to be overwritten
         waitForConfirm = False
-        for file in self.fileListFiltered:
+        # Sort out all selected files from list
+        self.filesListDownload = [file for file in self.fileListFiltered.values()
+                                    if file['selected']]
+        
+        for file in self.filesListDownload:
             savePath = os.path.join(folder, file['id'])
             if os.path.exists(savePath):
                 waitForConfirm = True
@@ -515,13 +542,13 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 return
         
         # Save full path
-        for file in self.fileListFiltered:
+        for file in self.filesListDownload:
             file['path'] = os.path.join(folder, file['id'])
 
         # Call api
         # Create separate task for request to not block ui
         caller = ApiCallerTask(self.apiDGA, self.msgBar, 'downloadFiles', {
-            'fileList': self.fileListFiltered,
+            'fileList': self.filesListDownload,
             'folder': folder,
         })
         # Listen for finished api call
@@ -538,12 +565,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if success:
             # Confirm successful download
             self.guiFileListStatus.setText(self.tr('Files successfully downloaded!'))
-            self.guiFileList.clear()
+            self.fileListTbl.clear()
 
         self.spinnerFl.stop()
         
         # Add file as layers to qgis
-        addToQgis(self.fileListFiltered)
+        addToQgis(self.filesListDownload)
     
     @staticmethod
     def showDialog(title, msg, mode='OkCancel'):
