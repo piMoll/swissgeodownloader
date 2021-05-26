@@ -155,7 +155,9 @@
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.
 
-In der aktuellen Version stehen einige der meistgefragten Geodaten-Themen von swisstopo zur Verfügung. Zusätzliche Daten der swisstopo und weitere Anbieter werden in zukünftigen Versionen ergänzt.
+In der aktuellen Version stehen einige der meistgefragten Geodaten der swisstopo zur Verfügung. Zusätzliche Daten der swisstopo und weitere Anbieter werden in zukünftigen Versionen ergänzt.
+
+Bei allen Datensätzen handelt es sich um frei verfügbare Geodaten.
 
 Weitere Informationen:
 {}</translation>
@@ -183,7 +185,7 @@ Weitere Informationen:
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="527"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
-        <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie Optionen anzupassen oder wählen Sie &apos;Ganzer Datensatz&apos; im Abschnitt Ausdehnung um mehr Daten zu erhalten.</translation>
+        <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um mehr Daten zu erhalten.</translation>
     </message>
 </context>
 <context>
@@ -201,7 +203,7 @@ Weitere Informationen:
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="185"/>
         <source>2. Options</source>
-        <translation>2. Optionen</translation>
+        <translation>2. Eigenschaften</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="186"/>

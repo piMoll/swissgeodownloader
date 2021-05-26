@@ -117,6 +117,8 @@
 
 Currently, the plugin provides access to a selection of the most requested swisstopo topics. Additional swisstopo data and further providers will be added in future releases.
 
+All provided datasets are freely available.
+
 Further information:
 {}</translation>
     </message>

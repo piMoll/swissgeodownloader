@@ -10,6 +10,12 @@ ZIP_EXCLUDES = [
     'resources.qrc',
     '.pro',
     '.ts',
+    'abstracApiConnector.py',
+    'api_datageoadmin_legacy.py',
+    'dataset.py',
+    'network2.py',
+    'networkaccess.py',
+    'networkmanager.py'
 ]
 
 def create_zip(zip_path, folder_path, ignore_patterns):
