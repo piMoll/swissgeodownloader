@@ -4,22 +4,22 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../ui/ui_utilities.py" line="99"/>
+        <location filename="../ui/ui_utilities.py" line="120"/>
         <source>Swisstopo National Map (grey)</source>
         <translation>Swisstopo National Map (grey)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_utilities.py" line="114"/>
+        <location filename="../ui/ui_utilities.py" line="135"/>
         <source>Layer &apos;{}&apos; added to map</source>
         <translation>Layer &apos;{}&apos; added to map</translation>
     </message>
     <message>
-        <location filename="../ui/ui_utilities.py" line="116"/>
+        <location filename="../ui/ui_utilities.py" line="137"/>
         <source>Not able to add layer &apos;{}&apos; to map</source>
         <translation>Error when creating layer &apos;{}&apos;</translation>
     </message>
     <message>
-        <location filename="../ui/ui_utilities.py" line="118"/>
+        <location filename="../ui/ui_utilities.py" line="139"/>
         <source>Layer &apos;{}&apos; already added to map</source>
         <translation>Layer &apos;{}&apos; already added to map</translation>
     </message>
@@ -27,27 +27,27 @@
 <context>
     <name>ApiCallerTask</name>
     <message>
-        <location filename="../api/apiCallerTask.py" line="60"/>
+        <location filename="../api/apiCallerTask.py" line="81"/>
         <source>request completed</source>
         <translation>request completed</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="62"/>
+        <location filename="../api/apiCallerTask.py" line="83"/>
         <source>available datasets received</source>
         <translation>available datasets received</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="64"/>
+        <location filename="../api/apiCallerTask.py" line="85"/>
         <source>file list received</source>
         <translation>file list received</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="66"/>
+        <location filename="../api/apiCallerTask.py" line="87"/>
         <source>files downloaded</source>
         <translation>files downloaded</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="70"/>
+        <location filename="../api/apiCallerTask.py" line="91"/>
         <source>An unknown error occurred</source>
         <translation>An unknown error occurred</translation>
     </message>
@@ -55,37 +55,37 @@
 <context>
     <name>ApiDataGeoAdmin</name>
     <message>
-        <location filename="../api/apidatageoadmin.py" line="38"/>
+        <location filename="../api/datageoadmin.py" line="59"/>
         <source>Error when loading available dataset - Unexpected API response</source>
         <translation>Error when loading available dataset - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/apidatageoadmin.py" line="162"/>
+        <location filename="../api/datageoadmin.py" line="187"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Error when requesting file list - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/apidatageoadmin.py" line="221"/>
+        <location filename="../api/datageoadmin.py" line="246"/>
         <source>Start request {}</source>
         <translation>Start request {}</translation>
     </message>
     <message>
-        <location filename="../api/apidatageoadmin.py" line="275"/>
+        <location filename="../api/datageoadmin.py" line="300"/>
         <source>Start download of {}</source>
         <translation>Start download of {}</translation>
     </message>
     <message>
-        <location filename="../api/apidatageoadmin.py" line="279"/>
+        <location filename="../api/datageoadmin.py" line="304"/>
         <source>Download of {} was canceled</source>
         <translation>Download of {} was canceled</translation>
     </message>
     <message>
-        <location filename="../api/apidatageoadmin.py" line="282"/>
+        <location filename="../api/datageoadmin.py" line="307"/>
         <source>Error when downloading {}</source>
         <translation>Error when downloading {}</translation>
     </message>
     <message>
-        <location filename="../api/apidatageoadmin.py" line="250"/>
+        <location filename="../api/datageoadmin.py" line="275"/>
         <source>Error when requesting header information: {}</source>
         <translation>Error when requesting header information: {}</translation>
     </message>
@@ -93,12 +93,12 @@
 <context>
     <name>SwissGeoDownloader</name>
     <message>
-        <location filename="../swissgeodownloader.py" line="173"/>
+        <location filename="../swissgeodownloader.py" line="171"/>
         <source>Swiss Geo Downloader allows you to download geodata of Switzerland in an easy and convenient way.</source>
         <translation>Swiss Geo Downloader allows you to download geodata of Switzerland in an easy and convenient way.</translation>
     </message>
     <message>
-        <location filename="../swissgeodownloader.py" line="173"/>
+        <location filename="../swissgeodownloader.py" line="171"/>
         <source>Swiss Geo Downloader is a plugin to to download swiss geodata.</source>
         <translation>Swiss Geo Downloader is a plugin to to download swiss geodata.</translation>
     </message>
@@ -106,12 +106,12 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="202"/>
+        <location filename="../ui/sgd_dockwidget.py" line="201"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="202"/>
+        <location filename="../ui/sgd_dockwidget.py" line="201"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader allows you to download geodata of Switzerland in an easy and convenient way.
 
@@ -137,64 +137,69 @@ Swiss Federal Institute for Forest,
         <translation>No files available in this dataset</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="509"/>
+        <location filename="../ui/sgd_dockwidget.py" line="511"/>
         <source>{} File(s) with an estimated total size of {} are ready to download.</source>
         <translation>{} File(s) with an estimated total size of {} are ready to download.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="513"/>
+        <location filename="../ui/sgd_dockwidget.py" line="515"/>
         <source>{} File(s) are ready to download.</source>
         <translation>{} File(s) are ready to download.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="523"/>
+        <location filename="../ui/sgd_dockwidget.py" line="525"/>
         <source>No files found.</source>
         <translation>No files found.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="539"/>
+        <location filename="../ui/sgd_dockwidget.py" line="541"/>
         <source>Choose output folder</source>
         <translation>Choose output folder</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="559"/>
+        <location filename="../ui/sgd_dockwidget.py" line="561"/>
         <source>Overwrite files?</source>
         <translation>Overwrite files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="559"/>
+        <location filename="../ui/sgd_dockwidget.py" line="561"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>At least one file will be overwritten. Continue?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="587"/>
+        <location filename="../ui/sgd_dockwidget.py" line="589"/>
         <source>Files successfully downloaded!</source>
         <translation>Files successfully downloaded!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="474"/>
+        <location filename="../ui/sgd_dockwidget.py" line="476"/>
         <source>all</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="518"/>
+        <location filename="../ui/sgd_dockwidget.py" line="520"/>
         <source>Limited files per request</source>
         <translation>Limited files per request</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="519"/>
+        <location filename="../ui/sgd_dockwidget.py" line="521"/>
         <source>At the moment requests are limited to 100 files per data type. Limitation will be removed in a future release.</source>
         <translation>At the moment requests are limited to 100 files per data type. Limitation will be removed in a future plugin version.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="526"/>
+        <location filename="../ui/sgd_dockwidget.py" line="528"/>
         <source>Why are there no files?</source>
         <translation>Why are there no files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="527"/>
+        <location filename="../ui/sgd_dockwidget.py" line="529"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
         <translation>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="592"/>
+        <source>{} file(s) successfully downloaded</source>
+        <translation>{} file(s) successfully downloaded</translation>
     </message>
 </context>
 <context>
