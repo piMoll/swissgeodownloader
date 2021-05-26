@@ -120,7 +120,16 @@ Currently, the plugin provides access to a selection of the most requested swiss
 All provided datasets are freely available.
 
 Further information:
-{}</translation>
+{}
+
+Implementation:
+Patricia Moll, pimoll.dev@gmail.com
+
+The development of version 1.0 was funded by:
+Group Sustainable Forestry
+Swiss Federal Institute for Forest,
+  Snow and Landscape Research WSL
+8903 Birmensdorf</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="260"/>

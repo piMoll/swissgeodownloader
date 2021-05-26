@@ -40,6 +40,14 @@ The Swiss Geo Downloader isn't finished yet. Here is a list of possible features
 * Provide meta data for every dataset
 
 
+## Implementation
+This plugin was implemented by Patricia Moll.
+
+The development of version 1.0 was funded by:  
+Group Sustainable Forestry  
+Swiss Federal Institute for Forest, Snow and Landscape Research WSL  
+8903 Birmensdorf
+
 
 ------------------------------------------------------
 
@@ -82,3 +90,13 @@ Der Swiss Geo Downloader wird weiterentwickelt. Folgende Features sind momentan 
 * Datensätze von anderen Datenanbieter ergänzen
 * Liste der Datensätze durchsuchbar machen
 * Metadaten der Datensätze anzeigen
+
+
+
+## Realisierung
+Entwickelt von Patricia Moll.
+
+Die Entwicklung von Version 1.0 wurde finanziell unterstützt durch:  
+Gruppe Nachhaltige Forstwirtschaft  
+Eidg. Forschungsanstalt für Wald, Schnee und Landschaft WSL  
+8903 Birmensdorf
