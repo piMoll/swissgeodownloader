@@ -3,5 +3,11 @@
     "options": {
       "timestamp": "first"
     }
+  },
+  "ch.swisstopo.swiss-map-vector10": {
+    "ignore": true
+  },
+  "ch.swisstopo.swiss-map-vector25": {
+    "ignore": true
   }
 }

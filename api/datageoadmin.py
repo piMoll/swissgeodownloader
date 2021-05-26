@@ -61,7 +61,7 @@ class ApiDataGeoAdmin:
             return False
 
         # Read out custom overwrites for dataset options from a config file
-        customOptions = self.getCustomOptions()
+        overwriteRules = self.getCustomOptions()
         
         datasetList = {}
         for ds in collection['collections']:
@@ -70,9 +70,13 @@ class ApiDataGeoAdmin:
                 return False
 
             # Check if there are overwrites for this dataset
-            custom = None
-            if ds['id'] in customOptions:
-                custom = customOptions[ds['id']]
+            overwrite = None
+            if ds['id'] in overwriteRules:
+                overwrite = overwriteRules[ds['id']]
+                
+            # Skip this dataset
+            if overwrite and 'ignore' in overwrite:
+                continue
             
             dataset = {
                 'id': ds['id'],
@@ -107,9 +111,9 @@ class ApiDataGeoAdmin:
                     options['timestamp'].reverse()
                 
                     # Apply overwrites for timestamps
-                    if (custom and 'options' in custom
-                        and 'timestamp' in custom['options']
-                        and custom['options']['timestamp'] == 'first'):
+                    if (overwrite and 'options' in overwrite
+                        and 'timestamp' in overwrite['options']
+                        and overwrite['options']['timestamp'] == 'first'):
                         options['timestamp'] = [options['timestamp'][0]]
 
             dataset['options'] = options
