@@ -100,7 +100,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.spinnerDs.setInnerRadius(12)
         self.spinnerDs.setRevolutionsPerSecond(1)
         self.spinnerDs.setColor(QColor(100, 100, 100))
-        self.verticalLayout_3.addWidget(self.spinnerDs)
+        self.verticalLayout.addWidget(self.spinnerDs)
         self.spinnerDs.start()
         
         # Spinner for file list request
@@ -114,7 +114,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.spinnerFl.setInnerRadius(12)
         self.spinnerFl.setRevolutionsPerSecond(1)
         self.spinnerFl.setColor(QColor(100, 100, 100))
-        self.verticalLayout_4.addWidget(self.spinnerFl)
+        self.guiFileListLayout.addWidget(self.spinnerFl)
         
         # Connect signals
         self.guiShowMapBtn.clicked.connect(self.onShowMapClicked)

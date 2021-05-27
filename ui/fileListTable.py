@@ -19,8 +19,9 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtWidgets import QHeaderView, QTableView, QAbstractItemView
-from qgis.PyQt.QtCore import QObject, QSize, Qt, pyqtSignal
+from qgis.PyQt.QtWidgets import (QHeaderView, QTableView, QAbstractItemView,
+                                 QSizePolicy, QAbstractScrollArea)
+from qgis.PyQt.QtCore import QObject, Qt, pyqtSignal
 from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel
 
 class FileListTable(QObject):
@@ -31,7 +32,16 @@ class FileListTable(QObject):
         super().__init__()
         self.parent = parent
         self.tbl = QTableView(self.parent)
-        self.tbl.setMinimumSize(QSize(0, 50))
+        sizePolicy = QSizePolicy(QSizePolicy.Expanding,
+                                 QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(
+            self.tbl.sizePolicy().hasHeightForWidth())
+        self.tbl.setSizePolicy(sizePolicy)
+        self.tbl.setMaximumHeight(150)
+
+        self.tbl.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.tbl.setAutoScroll(True)
         self.tbl.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tbl.setSelectionBehavior(QAbstractItemView.SelectRows)
