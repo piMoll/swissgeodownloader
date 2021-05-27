@@ -160,16 +160,7 @@ In der aktuellen Version stehen einige der meistgefragten Geodaten der swisstopo
 Bei allen Datensätzen handelt es sich um frei verfügbare Geodaten.
 
 Weitere Informationen:
-{}
-
-Realisierung:
-Patricia Moll, pimoll.dev@gmail.com
-
-Die Entwicklung von Version 1.0 wurde finanziell unterstützt durch:
-Gruppe Nachhaltige Forstwirtschaft
-Eidg. Forschungsanstalt für Wald,
-  Schnee und Landschaft WSL
-8903 Birmensdorf</translation>
+{}</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="476"/>
