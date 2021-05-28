@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_sgdDockWidgetBase(object):
     def setupUi(self, sgdDockWidgetBase):
         sgdDockWidgetBase.setObjectName("sgdDockWidgetBase")
-        sgdDockWidgetBase.resize(500, 796)
+        sgdDockWidgetBase.resize(513, 796)
         sgdDockWidgetBase.setMinimumSize(QtCore.QSize(500, 178))
         sgdDockWidgetBase.setAllowedAreas(QtCore.Qt.LeftDockWidgetArea|QtCore.Qt.RightDockWidgetArea)
         self.dockWidgetContents = QtWidgets.QWidget()
@@ -41,7 +41,7 @@ class Ui_sgdDockWidgetBase(object):
         self.scrollArea.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 480, 692))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 493, 692))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_5 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_5.setObjectName("verticalLayout_5")
@@ -158,7 +158,7 @@ class Ui_sgdDockWidgetBase(object):
         self.horizontalLayout_5.addWidget(self.guiQuestionBtn)
         self.verticalLayout_3.addLayout(self.horizontalLayout_5)
         self.verticalLayout.addWidget(self.guiGroupFiles)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 0, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.verticalLayout.addItem(spacerItem3)
         self.verticalLayout_5.addLayout(self.verticalLayout)
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
