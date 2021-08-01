@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="en" sourcelanguage="en">
+<!DOCTYPE TS><TS version="2.0" language="en" sourcelanguage="en">
 <context>
     <name>@default</name>
     <message>
@@ -70,24 +69,29 @@
         <translation>Start request {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="300"/>
+        <location filename="../api/datageoadmin.py" line="304"/>
         <source>Start download of {}</source>
         <translation>Start download of {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="304"/>
+        <location filename="../api/datageoadmin.py" line="308"/>
         <source>Download of {} was canceled</source>
         <translation>Download of {} was canceled</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="307"/>
+        <location filename="../api/datageoadmin.py" line="311"/>
         <source>Error when downloading {}</source>
         <translation>Error when downloading {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="275"/>
+        <location filename="../api/datageoadmin.py" line="279"/>
         <source>Error when requesting header information: {}</source>
         <translation>Error when requesting header information: {}</translation>
+    </message>
+    <message>
+        <location filename="../api/datageoadmin.py" line="258"/>
+        <source>swisstopo service not reachable or no internet connection</source>
+        <translation>swisstopo service not reachable or no internet connection</translation>
     </message>
 </context>
 <context>
@@ -196,112 +200,112 @@ Further information:
 <context>
     <name>sgdDockWidgetBase</name>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="183"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="194"/>
         <source>Swiss Geo Downloader</source>
         <translation>Swiss Geo Downloader</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="184"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="197"/>
         <source>1. Dataset</source>
         <translation>1. Dataset</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="185"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="198"/>
         <source>2. Options</source>
         <translation>2. Options</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="186"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="203"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="188"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="201"/>
         <source>Resolution [m]</source>
         <translation>Resolution [m]</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="190"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="200"/>
         <source>Coord.sys</source>
         <translation>Coordinate system</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="192"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="202"/>
         <source>Timestamp</source>
         <translation>Time status</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="194"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="207"/>
         <source>3. Extent</source>
         <translation>3. Extent</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="196"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="209"/>
         <source>4. Files</source>
         <translation>4. Files</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="198"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="211"/>
         <source>Request file list</source>
         <translation>Request file list</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="199"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="212"/>
         <source>Filter by type</source>
         <translation>data type filter</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="202"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="196"/>
         <source>Download</source>
         <translation>Download</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="187"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="204"/>
         <source>Select format</source>
         <translation>Select format / data type</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="189"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="199"/>
         <source>Select resolution (only raster based datasets)</source>
         <translation>Select resolution (only raster based datasets)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="191"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="205"/>
         <source>Select coordinate reference system</source>
         <translation>Select coordinate reference system</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="193"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="206"/>
         <source>Select timestamp</source>
         <translation>Select time status</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="195"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="208"/>
         <source>Full dataset extent</source>
         <translation>Full dataset extent</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="197"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="210"/>
         <source>Requests are limited to max. 100 files</source>
         <translation>At the moment requests are limited to max. 100 files</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="200"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="213"/>
         <source>Filter file list by type</source>
         <translation>Filter file list by type</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="201"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="195"/>
         <source>Download list of files</source>
         <translation>Download list of files</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="203"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="214"/>
         <source>Show overview map</source>
         <translation>Show overview map</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="204"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="215"/>
         <source>Plugin info</source>
         <translation>Plugin info</translation>
     </message>

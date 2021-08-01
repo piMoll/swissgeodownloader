@@ -282,18 +282,17 @@ class ApiDataGeoAdmin:
 
     def downloadFiles(self, task: QgsTask, fileList, outputDir):
         task.setProgress(0)
-        step = 100 / len(fileList)
+        partProgress = 100 / len(fileList)
         
         for file in fileList:
+            savePath = os.path.join(outputDir, file['id'])
+            self.fetchFile(task, file['href'], file['id'], savePath, partProgress)
             if task.isCanceled():
                 return False
-        
-            savePath = os.path.join(outputDir, file['id'])
-            self.fetchFile(task, file['href'], file['id'], savePath)
-            task.setProgress(task.progress() + step)
+            task.setProgress(task.progress() + partProgress)
         return True
     
-    def fetchFile(self, task: QgsTask, url, filename, filePath, params=None):
+    def fetchFile(self, task: QgsTask, url, filename, filePath, part, params=None):
         # Prepare url
         callUrl = QUrl(url)
         if params:
@@ -305,18 +304,24 @@ class ApiDataGeoAdmin:
         task.log(self.tr('Start download of {}').format(callUrl.toString()))
         fileFetcher = QgsFileDownloader(callUrl, filePath)
         
-        def onCancel():
-            task.exception = self.tr('Download of {} was canceled').format(filename)
-            return False
         def onError():
             task.exception = self.tr('Error when downloading {}').format(filename)
             return False
+        def onProgress(bytesReceived, bytesTotal):
+            if task.isCanceled():
+                task.exception = self.tr('Download of {} was canceled').format(
+                    filename)
+                fileFetcher.cancelDownload()
+            else:
+                partProgress = (part / 100) * (bytesReceived / bytesTotal)
+                task.setProgress(task.progress() + partProgress)
         
         # Run file download in separate event loop
         eventLoop = QEventLoop()
         fileFetcher.downloadError.connect(onError)
-        fileFetcher.downloadCanceled.connect(onCancel)
+        fileFetcher.downloadCanceled.connect(eventLoop.quit)
         fileFetcher.downloadCompleted.connect(eventLoop.quit)
+        fileFetcher.downloadProgress.connect(onProgress)
         eventLoop.exec_(QEventLoop.ExcludeUserInputEvents)
         fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
         
