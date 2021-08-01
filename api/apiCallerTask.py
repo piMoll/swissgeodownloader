@@ -78,10 +78,8 @@ class ApiCallerTask(QgsTask):
                 self.log(self.exception, Qgis.Critical)
                 self.message(self.exception, Qgis.Warning)
             else:
-                self.exception = f'Exception: {self.exception}'
-                self.log(f'Exception: {self.exception}', Qgis.Critical)
+                self.log(self.exception, Qgis.Critical)
                 self.message(self.exception, Qgis.Warning)
-                # raise self.exception
 
     def log(self, msg, level=Qgis.Info):
         QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)

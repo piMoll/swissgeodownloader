@@ -47,7 +47,6 @@ class ApiDataGeoAdmin:
         self.baseUrl = BASEURL
         self.parent = parent
         self.http = QgsBlockingNetworkRequest()
-        self.task = None
     
     def getDatasetList(self, task: QgsTask):
         """Get a list of all available datasets and read out with options the
@@ -56,8 +55,9 @@ class ApiDataGeoAdmin:
         
         if not collection or not isinstance(collection, dict) \
                 or 'collections' not in collection:
-            task.exception = self.tr('Error when loading available dataset - '
-                                     'Unexpected API response')
+            if not task.exception:
+                task.exception = self.tr('Error when loading available dataset - '
+                                         'Unexpected API response')
             return False
 
         # Read out custom overwrites for dataset options from a config file
@@ -252,7 +252,12 @@ class ApiDataGeoAdmin:
         
         # Check if request was successful
         r = self.http.reply()
-        assert r.error() == QNetworkReply.NoError, r.error()
+        try:
+            assert r.error() == QNetworkReply.NoError, r.error()
+        except AssertionError:
+            task.exception = self.tr('swisstopo service not reachable or '
+                                     'no internet connection')
+            return False
         
         # Process response
         if method == 'get':
@@ -265,7 +270,7 @@ class ApiDataGeoAdmin:
         elif method == 'head':
             return r
         else:
-            return None
+            return False
     
     def fetchHeadLegacy(self, task: QgsTask, url):
         try:
