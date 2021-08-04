@@ -54,42 +54,42 @@
 <context>
     <name>ApiDataGeoAdmin</name>
     <message>
-        <location filename="../api/datageoadmin.py" line="59"/>
+        <location filename="../api/datageoadmin.py" line="60"/>
         <source>Error when loading available dataset - Unexpected API response</source>
         <translation>Error when loading available dataset - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="187"/>
+        <location filename="../api/datageoadmin.py" line="193"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Error when requesting file list - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="246"/>
+        <location filename="../api/datageoadmin.py" line="263"/>
         <source>Start request {}</source>
         <translation>Start request {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="304"/>
+        <location filename="../api/datageoadmin.py" line="321"/>
         <source>Start download of {}</source>
         <translation>Start download of {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="308"/>
+        <location filename="../api/datageoadmin.py" line="329"/>
         <source>Download of {} was canceled</source>
         <translation>Download of {} was canceled</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="311"/>
+        <location filename="../api/datageoadmin.py" line="325"/>
         <source>Error when downloading {}</source>
         <translation>Error when downloading {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="279"/>
+        <location filename="../api/datageoadmin.py" line="297"/>
         <source>Error when requesting header information: {}</source>
         <translation>Error when requesting header information: {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="258"/>
+        <location filename="../api/datageoadmin.py" line="275"/>
         <source>swisstopo service not reachable or no internet connection</source>
         <translation>swisstopo service not reachable or no internet connection</translation>
     </message>
@@ -132,67 +132,62 @@ Further information:
         <translation>No files available in this dataset</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="511"/>
+        <location filename="../ui/sgd_dockwidget.py" line="510"/>
         <source>{} File(s) with an estimated total size of {} are ready to download.</source>
         <translation>{} File(s) with an estimated total size of {} are ready to download.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="515"/>
+        <location filename="../ui/sgd_dockwidget.py" line="514"/>
         <source>{} File(s) are ready to download.</source>
         <translation>{} File(s) are ready to download.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="525"/>
+        <location filename="../ui/sgd_dockwidget.py" line="524"/>
         <source>No files found.</source>
         <translation>No files found.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="541"/>
+        <location filename="../ui/sgd_dockwidget.py" line="540"/>
         <source>Choose output folder</source>
         <translation>Choose output folder</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="561"/>
+        <location filename="../ui/sgd_dockwidget.py" line="560"/>
         <source>Overwrite files?</source>
         <translation>Overwrite files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="561"/>
+        <location filename="../ui/sgd_dockwidget.py" line="560"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>At least one file will be overwritten. Continue?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="589"/>
+        <location filename="../ui/sgd_dockwidget.py" line="588"/>
         <source>Files successfully downloaded!</source>
         <translation>Files successfully downloaded!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="476"/>
-        <source>all</source>
-        <translation>all</translation>
-    </message>
-    <message>
-        <location filename="../ui/sgd_dockwidget.py" line="520"/>
+        <location filename="../ui/sgd_dockwidget.py" line="519"/>
         <source>Limited files per request</source>
         <translation>Limited files per request</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="521"/>
+        <location filename="../ui/sgd_dockwidget.py" line="520"/>
         <source>At the moment requests are limited to 100 files per data type. Limitation will be removed in a future release.</source>
         <translation>At the moment requests are limited to 100 files per data type. Limitation will be removed in a future plugin version.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="528"/>
+        <location filename="../ui/sgd_dockwidget.py" line="527"/>
         <source>Why are there no files?</source>
         <translation>Why are there no files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="529"/>
+        <location filename="../ui/sgd_dockwidget.py" line="528"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
         <translation>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="592"/>
+        <location filename="../ui/sgd_dockwidget.py" line="591"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} file(s) successfully downloaded</translation>
     </message>

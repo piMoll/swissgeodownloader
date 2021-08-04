@@ -54,42 +54,42 @@
 <context>
     <name>ApiDataGeoAdmin</name>
     <message>
-        <location filename="../api/datageoadmin.py" line="59"/>
+        <location filename="../api/datageoadmin.py" line="60"/>
         <source>Error when loading available dataset - Unexpected API response</source>
         <translation>Fehler beim Laden der Datensätze - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="187"/>
+        <location filename="../api/datageoadmin.py" line="193"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Fehler beim Laden der Dateiliste - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="246"/>
+        <location filename="../api/datageoadmin.py" line="263"/>
         <source>Start request {}</source>
         <translation>Starte Anfrage {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="304"/>
+        <location filename="../api/datageoadmin.py" line="321"/>
         <source>Start download of {}</source>
         <translation>Starte Download von {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="308"/>
+        <location filename="../api/datageoadmin.py" line="329"/>
         <source>Download of {} was canceled</source>
         <translation>Download von {} abgebrochen</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="311"/>
+        <location filename="../api/datageoadmin.py" line="325"/>
         <source>Error when downloading {}</source>
         <translation>Fehler beim Herunterladen von {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="279"/>
+        <location filename="../api/datageoadmin.py" line="297"/>
         <source>Error when requesting header information: {}</source>
         <translation>Fehler beim Abruf von Header-Informationen: {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="258"/>
+        <location filename="../api/datageoadmin.py" line="275"/>
         <source>swisstopo service not reachable or no internet connection</source>
         <translation>Swisstopo Dienst nicht erreichbar oder keine Internetverbindung</translation>
     </message>
@@ -120,37 +120,37 @@
         <translation>Keine Daten im Datensatz vorhanden</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="511"/>
+        <location filename="../ui/sgd_dockwidget.py" line="510"/>
         <source>{} File(s) with an estimated total size of {} are ready to download.</source>
         <translation>{} Datei(en) mit einer Grösse von ca. {} können heruntergeladen werden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="515"/>
+        <location filename="../ui/sgd_dockwidget.py" line="514"/>
         <source>{} File(s) are ready to download.</source>
         <translation>{} Datei(en) können heruntergeladen werden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="525"/>
+        <location filename="../ui/sgd_dockwidget.py" line="524"/>
         <source>No files found.</source>
         <translation>Keine Daten gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="541"/>
+        <location filename="../ui/sgd_dockwidget.py" line="540"/>
         <source>Choose output folder</source>
         <translation>Wähle Speicherort</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="561"/>
+        <location filename="../ui/sgd_dockwidget.py" line="560"/>
         <source>Overwrite files?</source>
         <translation>Daten überschreiben?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="561"/>
+        <location filename="../ui/sgd_dockwidget.py" line="560"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Mindestens eine Datei wird überschrieben. Trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="589"/>
+        <location filename="../ui/sgd_dockwidget.py" line="588"/>
         <source>Files successfully downloaded!</source>
         <translation>Dateien erfolgreich heruntergeladen!</translation>
     </message>
@@ -167,32 +167,27 @@ Weitere Informationen:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="476"/>
-        <source>all</source>
-        <translation>alle</translation>
-    </message>
-    <message>
-        <location filename="../ui/sgd_dockwidget.py" line="520"/>
+        <location filename="../ui/sgd_dockwidget.py" line="519"/>
         <source>Limited files per request</source>
         <translation>Dateiliste begrenzt</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="521"/>
+        <location filename="../ui/sgd_dockwidget.py" line="520"/>
         <source>At the moment requests are limited to 100 files per data type. Limitation will be removed in a future release.</source>
         <translation>Momentan sind Anfragen auf maximal 100 Dateien pro Dateityp begrenzt. Diese Begrenzung wird in einer zukünftigen Plugin Version verschwinden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="528"/>
+        <location filename="../ui/sgd_dockwidget.py" line="527"/>
         <source>Why are there no files?</source>
         <translation>Wieso sind keine Daten vorhanden?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="529"/>
+        <location filename="../ui/sgd_dockwidget.py" line="528"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
         <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um mehr Daten zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="592"/>
+        <location filename="../ui/sgd_dockwidget.py" line="591"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} Datei(en) erfolgreich heruntergeladen</translation>
     </message>

@@ -56,7 +56,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.fileList = []
         self.fileListFiltered = {}
         self.filesListDownload = []
-        self.currentFilter = self.tr('all')
+        self.currentFilter = None
         self.outputPath = None
         self.msgBar = self.iface.messageBar()
         self.msgLog = QgsMessageLog()
@@ -311,7 +311,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Activate 4. Files
         self.guiGroupFiles.setDisabled(False)
         self.resetFileList()
-        self.currentFilter = self.tr('all')
         
         self.unblockUiSignals()
         
@@ -437,7 +436,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         QgsApplication.taskManager().addTask(caller)
     
     def onReceiveFileList(self, fileList):
-        if fileList is None:
+        if not fileList:
             fileList = []
         self.fileList = fileList
         # Update file type filter and file list
@@ -455,17 +454,17 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFileType.clear()
         # Get unique values from extension list and add to drop down
         fileTypeList = list(set([file['ext'] for file in self.fileList]))
-        if len(fileTypeList) == 1:
-            fileTypeList = [self.tr('all')]
-        else:
-            fileTypeList.insert(0, self.tr('all'))
 
-        self.guiFileType.addItems(fileTypeList)
-        # Set list to 'all'
-        if self.currentFilter not in fileTypeList:
-            self.currentFilter = self.tr('all')
-        
-        self.guiFileType.setCurrentIndex(fileTypeList.index(self.currentFilter))
+        if fileTypeList:
+            self.guiFileType.addItems(fileTypeList)
+            # If previously selected file type is not in list anymore, select
+            #  the first item in the list
+            if self.currentFilter not in fileTypeList:
+                self.currentFilter = fileTypeList[0]
+            
+            self.guiFileType.setCurrentIndex(fileTypeList.index(self.currentFilter))
+        else:
+            self.currentFilter = None
         self.guiFileType.blockSignals(False)
     
     def populateFileList(self, fileList):
@@ -473,7 +472,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.updateSummary()
 
     def filterFileList(self, filetype):
-        if filetype == self.tr('all'):
+        if not filetype:
             self.fileListFiltered = { file['id']: dict(file, **{'selected': True})
                                       for file in self.fileList }
         else:
@@ -513,14 +512,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                                                         filesizeFormatter(fileSize))
             else:
                 status = self.tr("{} File(s) are ready to download.").format(len(selectedFiles))
-            
-            if len(selectedFiles) >= 100:
-                self.guiQuestionBtn.show()
-                self.questionTxt = \
-                    [self.tr('Limited files per request'),
-                     self.tr('At the moment requests are limited to 100 files '
-                             'per data type. Limitation will be removed in a '
-                             'future release.')]
         else:
             status = self.tr('No files found.')
             self.guiQuestionBtn.show()
