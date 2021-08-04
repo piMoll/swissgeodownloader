@@ -177,18 +177,41 @@ class ApiDataGeoAdmin:
             params['datetime'] = timestamp
     
         url = dataset['links']['files']
-        items = self.fetch(task, url, params=params)
-    
-        # Filter list
+        
+        # Response and filtered list of files
+        responseList = []
         fileList = []
 
-        if not items or not isinstance(items, dict) \
-                or not 'features' in items:
-            task.exception = self.tr('Error when requesting file list - '
-                                     'Unexpected API response')
-            return False
+        # Fetch more responses as long as there is a 'next' link
+        #  in the response
+        while url:
+            response = self.fetch(task, url, params=params)
+        
+            if not response or not isinstance(response, dict) \
+                    or not 'features' in response:
+                task.exception = self.tr('Error when requesting file list - '
+                                         'Unexpected API response')
+                return False
             
-        for item in items['features']:
+            responseList.extend(response['features'])
+            
+            # Get the next bunch of files by using the next link
+            #  in the response
+            nextUrl = ''
+            if response['links']:
+                for link in response['links']:
+                    if link['rel'] == 'next':
+                        nextUrl = link['href']
+                        break
+            if url != nextUrl:
+                url = nextUrl
+                # Params are already part of the next url, no need to
+                #  specify them again
+                params = {}
+            else:
+                url = ''
+            
+        for item in responseList:
             # Filter assets so that we only get the one file that matches the
             #  defined options
             for assetId in item['assets']:
