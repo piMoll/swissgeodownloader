@@ -49,6 +49,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         super(SwissGeoDownloaderDockWidget, self).__init__(parent)
         self.setupUi(self)
         self.iface = interface
+        self.qgsProject = QgsProject.instance()
+        self.taskManager = QgsApplication.taskManager()
 
         # Initialize variables
         self.datasetList = {}
@@ -66,9 +68,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
         self.apiRefSys = QgsCoordinateReferenceSystem(API_EPSG)
         self.transformProj2Api = QgsCoordinateTransform(
-            self.mapRefSys, self.apiRefSys, QgsProject.instance())
+            self.mapRefSys, self.apiRefSys, self.qgsProject)
         self.transformApi2Proj = QgsCoordinateTransform(
-            self.apiRefSys, self.mapRefSys, QgsProject.instance())
+            self.apiRefSys, self.mapRefSys, self.qgsProject)
         
         # Init QgsExtentBoxGroup Widget
         self.guiExtentWidget: QgsExtentGroupBox
@@ -135,7 +137,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFileType.currentIndexChanged.connect(self.onFilterOptionChanged)
         self.guiQuestionBtn.clicked.connect(self.onQuestionClicked)
         
-        QgsProject.instance().crsChanged.connect(self.onMapRefSysChanged)
+        self.qgsProject.crsChanged.connect(self.onMapRefSysChanged)
         self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChanged)
         
         # Finally, initialize apis and request available datasets
@@ -147,7 +149,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             lambda: self.onReceiveDatasets(caller.output))
         caller.taskTerminated.connect(
             lambda: self.onReceiveDatasets([]))
-        QgsApplication.taskManager().addTask(caller)
+        self.taskManager.addTask(caller)
 
     def closeEvent(self, event):
         self.closingPlugin.emit()
@@ -159,9 +161,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
         # Update transformations
         self.transformProj2Api = QgsCoordinateTransform(
-            self.mapRefSys, self.apiRefSys, QgsProject.instance())
+            self.mapRefSys, self.apiRefSys, self.qgsProject)
         self.transformApi2Proj = QgsCoordinateTransform(
-            self.apiRefSys, self.mapRefSys, QgsProject.instance())
+            self.apiRefSys, self.mapRefSys, self.qgsProject)
         # Update displayed extent
         mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
         self.updateExtentValues(mapExtent, self.mapRefSys)
@@ -227,7 +229,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 lambda: self.onLoadDatasetDetails(caller.output))
             caller.taskTerminated.connect(
                 lambda: self.onLoadDatasetDetails(None))
-            QgsApplication.taskManager().addTask(caller)
+            self.taskManager.addTask(caller)
         else:
             self.applyDatasetState()
     
@@ -420,7 +422,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Start spinner to indicate data loading
         self.spinnerFl.start()
         # Add task to task manager
-        QgsApplication.taskManager().addTask(caller)
+        self.taskManager.addTask(caller)
     
     def onReceiveFileList(self, fileList):
         if not fileList:
@@ -558,7 +560,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Start spinner to indicate data loading
         self.spinnerFl.start()
         # Add task to task manager
-        QgsApplication.taskManager().addTask(caller)
+        self.taskManager.addTask(caller)
     
     def onFinishDownload(self, success):
         if success:
