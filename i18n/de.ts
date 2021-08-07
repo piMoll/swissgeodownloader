@@ -110,52 +110,42 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="207"/>
+        <location filename="../ui/sgd_dockwidget.py" line="208"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="266"/>
+        <location filename="../ui/sgd_dockwidget.py" line="267"/>
         <source>No files available in this dataset</source>
         <translation>Keine Daten im Datensatz vorhanden</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="510"/>
-        <source>{} File(s) with an estimated total size of {} are ready to download.</source>
-        <translation>{} Datei(en) mit einer Grösse von ca. {} können heruntergeladen werden.</translation>
-    </message>
-    <message>
-        <location filename="../ui/sgd_dockwidget.py" line="514"/>
-        <source>{} File(s) are ready to download.</source>
-        <translation>{} Datei(en) können heruntergeladen werden.</translation>
-    </message>
-    <message>
-        <location filename="../ui/sgd_dockwidget.py" line="516"/>
         <source>No files found.</source>
         <translation>Keine Daten gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="532"/>
+        <location filename="../ui/sgd_dockwidget.py" line="526"/>
         <source>Choose output folder</source>
         <translation>Wähle Speicherort</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="552"/>
+        <location filename="../ui/sgd_dockwidget.py" line="546"/>
         <source>Overwrite files?</source>
         <translation>Daten überschreiben?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="552"/>
+        <location filename="../ui/sgd_dockwidget.py" line="546"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Mindestens eine Datei wird überschrieben. Trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="580"/>
+        <location filename="../ui/sgd_dockwidget.py" line="574"/>
         <source>Files successfully downloaded!</source>
         <translation>Dateien erfolgreich heruntergeladen!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="207"/>
+        <location filename="../ui/sgd_dockwidget.py" line="208"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.
 
@@ -167,19 +157,29 @@ Weitere Informationen:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="519"/>
+        <location filename="../ui/sgd_dockwidget.py" line="513"/>
         <source>Why are there no files?</source>
         <translation>Wieso sind keine Daten vorhanden?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="520"/>
+        <location filename="../ui/sgd_dockwidget.py" line="514"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
         <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um mehr Daten zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="583"/>
+        <location filename="../ui/sgd_dockwidget.py" line="577"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} Datei(en) erfolgreich heruntergeladen</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="505"/>
+        <source>{} file(s), approximately {}</source>
+        <translation>{} Datei(en), ca. {}</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="508"/>
+        <source>{} file(s)</source>
+        <translation>{} Datei(en)</translation>
     </message>
 </context>
 <context>

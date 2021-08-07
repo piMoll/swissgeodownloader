@@ -494,11 +494,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             # fileSize = sum([file['size'] for file in self.fileListFiltered])
             
             if fileSize > 0:
-                status = self.tr("{} File(s) with an estimated total size of "
-                    "{} are ready to download.").format(len(selectedFiles),
-                                                        filesizeFormatter(fileSize))
+                status = self.tr("{} file(s), approximately {}")\
+                    .format(len(selectedFiles), filesizeFormatter(fileSize))
             else:
-                status = self.tr("{} File(s) are ready to download.").format(len(selectedFiles))
+                status = self.tr("{} file(s)").format(len(selectedFiles))
         else:
             status = self.tr('No files found.')
             self.guiQuestionBtn.show()

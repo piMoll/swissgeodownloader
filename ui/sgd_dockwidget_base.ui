@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>513</width>
-    <height>796</height>
+    <height>777</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -26,6 +26,16 @@
    <layout class="QGridLayout" name="gridLayout">
     <item row="3" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="guiFileListStatus">
+        <property name="text">
+         <string/>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
@@ -69,7 +79,7 @@
        <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
       <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContents</enum>
+       <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
       </property>
       <property name="widgetResizable">
        <bool>true</bool>
@@ -83,7 +93,7 @@
          <x>0</x>
          <y>0</y>
          <width>493</width>
-         <height>692</height>
+         <height>673</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -98,7 +108,7 @@
              <item>
               <widget class="QListWidget" name="guiDatasetList">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+                <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -106,17 +116,17 @@
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>0</height>
+                 <height>85</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
-                 <height>100</height>
+                 <height>200</height>
                 </size>
                </property>
                <property name="sizeAdjustPolicy">
-                <enum>QAbstractScrollArea::AdjustIgnored</enum>
+                <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
                </property>
                <property name="alternatingRowColors">
                 <bool>false</bool>
@@ -263,6 +273,29 @@
                 </widget>
                </item>
                <item>
+                <widget class="QPushButton" name="guiQuestionBtn">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>24</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string/>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/resources.qrc">
+                   <normaloff>:/plugins/swissgeodownloader/resources/question.png</normaloff>:/plugins/swissgeodownloader/resources/question.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <spacer name="horizontalSpacer_3">
                  <property name="orientation">
                   <enum>Qt::Horizontal</enum>
@@ -293,43 +326,6 @@
              </item>
              <item>
               <layout class="QVBoxLayout" name="guiFileListLayout"/>
-             </item>
-             <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_5">
-               <item>
-                <widget class="QLabel" name="guiFileListStatus">
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="guiQuestionBtn">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/resources.qrc">
-                   <normaloff>:/plugins/swissgeodownloader/resources/question.png</normaloff>:/plugins/swissgeodownloader/resources/question.png</iconset>
-                 </property>
-                </widget>
-               </item>
-              </layout>
              </item>
             </layout>
            </widget>

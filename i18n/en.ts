@@ -110,12 +110,12 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="207"/>
+        <location filename="../ui/sgd_dockwidget.py" line="208"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="207"/>
+        <location filename="../ui/sgd_dockwidget.py" line="208"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader allows you to download geodata of Switzerland in an easy and convenient way.
 
@@ -127,59 +127,59 @@ Further information:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="266"/>
+        <location filename="../ui/sgd_dockwidget.py" line="267"/>
         <source>No files available in this dataset</source>
         <translation>No files available in this dataset</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="510"/>
-        <source>{} File(s) with an estimated total size of {} are ready to download.</source>
-        <translation>{} File(s) with an estimated total size of {} are ready to download.</translation>
-    </message>
-    <message>
-        <location filename="../ui/sgd_dockwidget.py" line="514"/>
-        <source>{} File(s) are ready to download.</source>
-        <translation>{} File(s) are ready to download.</translation>
-    </message>
-    <message>
-        <location filename="../ui/sgd_dockwidget.py" line="516"/>
         <source>No files found.</source>
         <translation>No files found.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="532"/>
+        <location filename="../ui/sgd_dockwidget.py" line="526"/>
         <source>Choose output folder</source>
         <translation>Choose output folder</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="552"/>
+        <location filename="../ui/sgd_dockwidget.py" line="546"/>
         <source>Overwrite files?</source>
         <translation>Overwrite files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="552"/>
+        <location filename="../ui/sgd_dockwidget.py" line="546"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>At least one file will be overwritten. Continue?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="580"/>
+        <location filename="../ui/sgd_dockwidget.py" line="574"/>
         <source>Files successfully downloaded!</source>
         <translation>Files successfully downloaded!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="519"/>
+        <location filename="../ui/sgd_dockwidget.py" line="513"/>
         <source>Why are there no files?</source>
         <translation>Why are there no files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="520"/>
+        <location filename="../ui/sgd_dockwidget.py" line="514"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
         <translation>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="583"/>
+        <location filename="../ui/sgd_dockwidget.py" line="577"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} file(s) successfully downloaded</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="505"/>
+        <source>{} file(s), approximately {}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="508"/>
+        <source>{} file(s)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

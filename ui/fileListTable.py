@@ -32,16 +32,16 @@ class FileListTable(QObject):
         self.parent = parent
         self.tbl = QTableView(self.parent)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding,
-                                 QSizePolicy.Expanding)
+                                 QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.tbl.sizePolicy().hasHeightForWidth())
+        sizePolicy.setHeightForWidth(self.tbl.sizePolicy().hasHeightForWidth())
         self.tbl.setSizePolicy(sizePolicy)
-        self.tbl.setMaximumHeight(150)
-
+        self.tbl.setMinimumHeight(130)
+        self.tbl.setMaximumHeight(1200)
         self.tbl.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.tbl.setAutoScroll(True)
+        
         self.tbl.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tbl.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.tbl.setObjectName("tbl")
