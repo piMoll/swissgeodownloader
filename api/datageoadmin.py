@@ -184,6 +184,9 @@ class ApiDataGeoAdmin:
         # Fetch more responses as long as there is a 'next' link
         #  in the response
         while url:
+            if task.isCanceled():
+                break
+            
             response = self.fetch(task, url, params=params)
         
             if not response or not isinstance(response, dict) \
@@ -247,6 +250,8 @@ class ApiDataGeoAdmin:
                     # if header.hasRawHeader(b'Content-Length'):
                     #     file['size'] = int(header.rawHeader(b'Content-Length'))
             
+                    file['bbox'] = item['bbox']
+                    file['geom'] = item['geometry']
                     fileList.append(file)
 
         return fileList

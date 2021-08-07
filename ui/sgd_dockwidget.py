@@ -35,6 +35,7 @@ from .ui_utilities import (filesizeFormatter, getDateFromIsoString,
                            MESSAGE_CATEGORY)
 from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox)
 from .fileListTable import FileListTable
+from .bboxDrawer import BboxDrawer
 from ..api.datageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
 
@@ -80,6 +81,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiExtentWidget.setCurrentExtent(self.iface.mapCanvas().extent(),
                                         self.mapRefSys)
         self.guiExtentWidget.setOutputExtentFromCurrent()
+        
+        # Initialize class to draw bbox of files in map
+        self.bboxDrawer = BboxDrawer(self.iface.mapCanvas(), self.transformApi2Proj)
 
         # Deactivate unused ui-elements
         self.onUnselectDataset()
@@ -152,6 +156,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.taskManager.addTask(caller)
 
     def closeEvent(self, event):
+        self.bboxDrawer.removeAll()
         self.closingPlugin.emit()
         event.accept()
     
@@ -169,7 +174,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.updateExtentValues(mapExtent, self.mapRefSys)
     
     def onExtentChanged(self):
-        self.resetFileList()
+        pass
     
     def onMapExtentChanged(self):
         """Show extent of current map view in extent widget."""
@@ -364,6 +369,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFileListStatus.setText('')
         self.guiFileListStatus.setStyleSheet('QLabel { color : black;}')
         self.guiQuestionBtn.hide()
+        self.bboxDrawer.removeAll()
     
     def onOptionChanged(self, newVal):
         self.resetFileList()
@@ -475,6 +481,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         orderedFilesForTbl = [file for file in self.fileList
                               if file['id'] in self.fileListFiltered.keys()]
         self.populateFileList(orderedFilesForTbl)
+        self.bboxDrawer.addBboxes(self.fileListFiltered)
     
     def onFileSelectionChange(self, fileId, isChecked):
         if fileId in self.fileListFiltered.keys():
