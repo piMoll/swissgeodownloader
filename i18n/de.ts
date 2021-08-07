@@ -3,22 +3,22 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../ui/ui_utilities.py" line="120"/>
+        <location filename="../ui/qgis_utilities.py" line="89"/>
         <source>Swisstopo National Map (grey)</source>
         <translation>Swisstopo Landeskarte (grau)</translation>
     </message>
     <message>
-        <location filename="../ui/ui_utilities.py" line="135"/>
+        <location filename="../ui/qgis_utilities.py" line="104"/>
         <source>Layer &apos;{}&apos; added to map</source>
         <translation>Layer &apos;{}&apos; zur Karte hinzugefügt</translation>
     </message>
     <message>
-        <location filename="../ui/ui_utilities.py" line="137"/>
+        <location filename="../ui/qgis_utilities.py" line="107"/>
         <source>Not able to add layer &apos;{}&apos; to map</source>
         <translation>Fehler beim Erstellen des Layers &apos;{}&apos;</translation>
     </message>
     <message>
-        <location filename="../ui/ui_utilities.py" line="139"/>
+        <location filename="../ui/qgis_utilities.py" line="110"/>
         <source>Layer &apos;{}&apos; already added to map</source>
         <translation>Layer &apos;{}&apos; bereits in Karte vorhanden</translation>
     </message>
@@ -26,27 +26,27 @@
 <context>
     <name>ApiCallerTask</name>
     <message>
-        <location filename="../api/apiCallerTask.py" line="81"/>
+        <location filename="../api/apiCallerTask.py" line="80"/>
         <source>request completed</source>
         <translation>Abfrage abgeschlossen</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="83"/>
+        <location filename="../api/apiCallerTask.py" line="82"/>
         <source>available datasets received</source>
         <translation>Vorhandene Datensätze erhalten</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="85"/>
+        <location filename="../api/apiCallerTask.py" line="84"/>
         <source>file list received</source>
         <translation>Dateiliste erhalten</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="87"/>
+        <location filename="../api/apiCallerTask.py" line="86"/>
         <source>files downloaded</source>
         <translation>Dateien heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="91"/>
+        <location filename="../api/apiCallerTask.py" line="90"/>
         <source>An unknown error occurred</source>
         <translation>Ein unbekannter Fehler ist aufgetreten</translation>
     </message>
@@ -54,42 +54,42 @@
 <context>
     <name>ApiDataGeoAdmin</name>
     <message>
-        <location filename="../api/datageoadmin.py" line="60"/>
+        <location filename="../api/datageoadmin.py" line="58"/>
         <source>Error when loading available dataset - Unexpected API response</source>
         <translation>Fehler beim Laden der Datensätze - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="193"/>
+        <location filename="../api/datageoadmin.py" line="194"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Fehler beim Laden der Dateiliste - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="263"/>
+        <location filename="../api/datageoadmin.py" line="273"/>
         <source>Start request {}</source>
         <translation>Starte Anfrage {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="321"/>
+        <location filename="../api/datageoadmin.py" line="331"/>
         <source>Start download of {}</source>
         <translation>Starte Download von {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="329"/>
+        <location filename="../api/datageoadmin.py" line="339"/>
         <source>Download of {} was canceled</source>
         <translation>Download von {} abgebrochen</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="325"/>
+        <location filename="../api/datageoadmin.py" line="335"/>
         <source>Error when downloading {}</source>
         <translation>Fehler beim Herunterladen von {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="297"/>
+        <location filename="../api/datageoadmin.py" line="307"/>
         <source>Error when requesting header information: {}</source>
         <translation>Fehler beim Abruf von Header-Informationen: {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="275"/>
+        <location filename="../api/datageoadmin.py" line="285"/>
         <source>swisstopo service not reachable or no internet connection</source>
         <translation>Swisstopo Dienst nicht erreichbar oder keine Internetverbindung</translation>
     </message>
@@ -110,12 +110,12 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="201"/>
+        <location filename="../ui/sgd_dockwidget.py" line="207"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="260"/>
+        <location filename="../ui/sgd_dockwidget.py" line="266"/>
         <source>No files available in this dataset</source>
         <translation>Keine Daten im Datensatz vorhanden</translation>
     </message>
@@ -130,32 +130,32 @@
         <translation>{} Datei(en) können heruntergeladen werden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="524"/>
+        <location filename="../ui/sgd_dockwidget.py" line="516"/>
         <source>No files found.</source>
         <translation>Keine Daten gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="540"/>
+        <location filename="../ui/sgd_dockwidget.py" line="532"/>
         <source>Choose output folder</source>
         <translation>Wähle Speicherort</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="560"/>
+        <location filename="../ui/sgd_dockwidget.py" line="552"/>
         <source>Overwrite files?</source>
         <translation>Daten überschreiben?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="560"/>
+        <location filename="../ui/sgd_dockwidget.py" line="552"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Mindestens eine Datei wird überschrieben. Trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="588"/>
+        <location filename="../ui/sgd_dockwidget.py" line="580"/>
         <source>Files successfully downloaded!</source>
         <translation>Dateien erfolgreich heruntergeladen!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="201"/>
+        <location filename="../ui/sgd_dockwidget.py" line="207"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.
 
@@ -168,26 +168,16 @@ Weitere Informationen:
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="519"/>
-        <source>Limited files per request</source>
-        <translation>Dateiliste begrenzt</translation>
-    </message>
-    <message>
-        <location filename="../ui/sgd_dockwidget.py" line="520"/>
-        <source>At the moment requests are limited to 100 files per data type. Limitation will be removed in a future release.</source>
-        <translation>Momentan sind Anfragen auf maximal 100 Dateien pro Dateityp begrenzt. Diese Begrenzung wird in einer zukünftigen Plugin Version verschwinden.</translation>
-    </message>
-    <message>
-        <location filename="../ui/sgd_dockwidget.py" line="527"/>
         <source>Why are there no files?</source>
         <translation>Wieso sind keine Daten vorhanden?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="528"/>
+        <location filename="../ui/sgd_dockwidget.py" line="520"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
         <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um mehr Daten zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="591"/>
+        <location filename="../ui/sgd_dockwidget.py" line="583"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} Datei(en) erfolgreich heruntergeladen</translation>
     </message>

@@ -27,12 +27,13 @@ from qgis.PyQt.QtWidgets import (QDockWidget, QListWidget, QFileDialog,
                                  QMessageBox)
 from qgis.gui import QgsExtentGroupBox
 from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
-                       QgsProject, QgsPoint, QgsRectangle, QgsApplication,
+                       QgsProject, QgsRectangle, QgsApplication,
                        QgsMessageLog, Qgis)
 from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
-from .ui_utilities import (filesizeFormatter, getDateFromIsoString, addToQgis,
-                           addOverviewMap, MESSAGE_CATEGORY)
+from .ui_utilities import (filesizeFormatter, getDateFromIsoString,
+                           MESSAGE_CATEGORY)
+from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox)
 from .fileListTable import FileListTable
 from ..api.datageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
@@ -376,22 +377,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if self.guiFullExtentChbox.isChecked():
             return []
         
-        rectangle: QgsRectangle = self.guiExtentWidget.currentExtent()
-        llCoord = (rectangle.xMinimum(), rectangle.yMinimum())
-        urCoord = (rectangle.xMaximum(), rectangle.yMaximum())
-
-        # Cancel if there are no actual coords in input fields
-        if not all(llCoord) or not all(urCoord):
-            return []
-
-        llPoint = QgsPoint(*tuple(llCoord))
-        urPoint = QgsPoint(*tuple(urCoord))
-        llPoint.transform(self.transformProj2Api)
-        urPoint.transform(self.transformProj2Api)
-        return [llPoint.x(),
-                llPoint.y(),
-                urPoint.x(),
-                urPoint.y()]
+        rectangle = self.guiExtentWidget.currentExtent()
+        return transformBbox(rectangle, self.transformProj2Api)
 
     def onLoadFileListClicked(self):
         """Collect options and call api to retrieve list of items"""

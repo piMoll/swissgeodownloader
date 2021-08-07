@@ -19,10 +19,8 @@
  ***************************************************************************/
 """
 from datetime import datetime
-import os
 
 from qgis.PyQt.QtCore import QCoreApplication
-from qgis.core import QgsProject, QgsRasterLayer, QgsVectorLayer, Qgis
 
 MESSAGE_CATEGORY = 'Swiss Geo Downloader'
 
@@ -80,59 +78,3 @@ def getDateFromIsoString(isoString, formatted=True):
     else:
         return dt
 
-
-def addToQgis(fileList):
-    # # Create new layer group in table of content
-    # root = QgsProject.instance().layerTreeRoot()
-    # projGroup = root.insertGroup(0, projName)
-
-    already_added = [lyr.source() for lyr in
-                     QgsProject.instance().mapLayers().values()]
-
-    for file in fileList:
-        if os.path.exists(file['path']) and not '.zip' in file['ext']:
-            if file['path'] in already_added:
-                continue
-            try:
-                rasterLyr = QgsRasterLayer(file['path'], file['id'])
-                if rasterLyr.isValid():
-                    QgsProject.instance().addMapLayer(rasterLyr)
-                    continue
-                else:
-                    del rasterLyr
-            except Exception:
-                pass
-            try:
-                vectorLyr = QgsVectorLayer(file['path'], file['id'], "ogr")
-                if vectorLyr.isValid():
-                    QgsProject.instance().addMapLayer(vectorLyr)
-                    continue
-                else:
-                    del vectorLyr
-            except Exception:
-                pass
-
-
-def addOverviewMap(canvas, crs):
-    swisstopoUrl = 'http://wms.geo.admin.ch/'
-    swisstopoOverviewMap = 'ch.swisstopo.pixelkarte-grau'
-    layerName = tr('Swisstopo National Map (grey)')
-
-    wmsUrl = (f'contextualWMSLegend=0&crs={crs}&dpiMode=7'
-              f'&featureCount=10&format=image/png'
-              f'&layers={swisstopoOverviewMap}'
-              f'&styles=&url={swisstopoUrl}')
-    
-    already_added = [lyr.source() for lyr in
-                     QgsProject.instance().mapLayers().values()]
-    
-    if wmsUrl not in already_added:
-        wmsLayer = QgsRasterLayer(wmsUrl, layerName, 'wms')
-        if wmsLayer.isValid():
-            QgsProject.instance().addMapLayer(wmsLayer)
-            canvas.refresh()
-            return tr("Layer '{}' added to map").format(layerName), Qgis.Success
-        else:
-            return tr("Not able to add layer '{}' to map").format(layerName), Qgis.Warning
-    else:
-        return tr("Layer '{}' already added to map").format(layerName), Qgis.Info
