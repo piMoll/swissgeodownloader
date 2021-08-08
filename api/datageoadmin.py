@@ -226,11 +226,17 @@ class ApiDataGeoAdmin:
         
                 if sum(optionsMatch) == len(optionsMatch):
                     # Analyse file extension
-                    extension = os.path.splitext(assetId)[1]
+                    filename = os.path.splitext(assetId)[0]
+                    ext = os.path.splitext(assetId)[1]
+                    ext2 = ''
+                    # If file is a zip, look at the filename again and get
+                    #  file type inside zip
+                    if ext == '.zip' and len(os.path.splitext(filename)[1]) == 4:
+                        ext2 = os.path.splitext(filename)[1]
                     
                     # Create file object
                     file = File(assetId, asset['type'], asset['href'],
-                                extension)
+                                ext2 + ext)
                     file.setOptions(options)
                     file.bbox = item['bbox']
                     file.geom = item['geometry']
