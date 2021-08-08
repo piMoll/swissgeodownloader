@@ -26,6 +26,7 @@ from qgis.PyQt.QtCore import QEventLoop, QUrl, QUrlQuery, QCoreApplication
 from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
 from qgis.core import (QgsTask, QgsFileDownloader, QgsBlockingNetworkRequest,
                        Qgis)
+from .responseObjects import Dataset, File
 from ..ui.ui_utilities import getDateFromIsoString
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
@@ -77,19 +78,12 @@ class ApiDataGeoAdmin:
             if overwrite and 'ignore' in overwrite:
                 continue
             
-            dataset = {
-                'id': ds['id'],
-                'bbox': ds['extent']['spatial']['bbox'][0],
-                'links': {
-                    'files': [link['href'] for link in ds['links']
-                              if link['rel'] == 'items'][0],
-                    'meta': [link['href'] for link in ds['links']
-                             if link['rel'] == 'describedby'][0],
-                    'license': [link['href'] for link in ds['links']
-                                if link['rel'] == 'license'][0],
-                },
-                'options': {}
-            }
+            dataset = Dataset(ds['id'], [link['href'] for link in ds['links']
+                              if link['rel'] == 'items'][0])
+            dataset.bbox = ds['extent']['spatial']['bbox'][0]
+            dataset.licenseLink = [link['href'] for link in ds['links']
+                                   if link['rel'] == 'license'][0]
+            
             options = {}
             for sumName, sumItem in ds['summaries'].items():
                 options[API_OPTION_MAPPER[sumName]] = sumItem
@@ -115,19 +109,18 @@ class ApiDataGeoAdmin:
                         and overwrite['options']['timestamp'] == 'first'):
                         options['timestamp'] = [options['timestamp'][0]]
 
-            dataset['options'] = options
-            datasetList[dataset['id']] = dataset
+            dataset.setOptions(options)
+            datasetList[dataset.id] = dataset
         
         return datasetList
     
     def getDatasetDetails(self, task: QgsTask, dataset):
         """Analyse dataset to figure out available options in gui"""
-        url = dataset['links']['files']
+        url = dataset.filesLink
         # Get max. 40 features
         items = self.fetch(task, url, params={'limit' : 40})
 
         fileCount = 0
-        useBBox = True
         estimate = {}
         
         if items and isinstance(items, dict) and 'features' in items:
@@ -136,9 +129,9 @@ class ApiDataGeoAdmin:
             # Check if it makes sense to select by bbox
             # TODO: this should also check options and see, if there is only
             #  one file per option (e.g. farbe-pk100)
-            if fileCount <= 1 or ('timestamp' in dataset['options']
-                and fileCount == len(dataset['options']['timestamp'])):
-                useBBox = False
+            if fileCount <= 1 or (dataset.options.timestamp
+                and fileCount == len(dataset.options.timestamp)):
+                dataset.selectByBBox = False
             
             # Analyze size of an item to estimate download sizes later on
             if fileCount > 0:
@@ -162,11 +155,13 @@ class ApiDataGeoAdmin:
                         header = self.fetchHeadLegacy(task, asset['href'])
                         if header:
                             estimate[asset['type']] = int(header.headers['Content-Length'])
-        
-        return {'selectByBBox': useBBox, 'isEmpty': fileCount == 0,
-                'size': estimate}
 
-    def getFileList(self, task: QgsTask, dataset, bbox, timestamp, options):
+        dataset.analysed = True
+        dataset.isEmpty = fileCount == 0
+        dataset.avgSize = estimate
+        return dataset
+
+    def getFileList(self, task: QgsTask, url, bbox, timestamp, options):
         """Request a list of available files that are within a bounding box and
         have a specified timestamp"""
         params = {}
@@ -174,8 +169,6 @@ class ApiDataGeoAdmin:
             params['bbox'] = ','.join([str(ext) for ext in bbox])
         if timestamp:
             params['datetime'] = timestamp
-    
-        url = dataset['links']['files']
         
         # Response and filtered list of files
         responseList = []
@@ -217,11 +210,9 @@ class ApiDataGeoAdmin:
             # Filter assets so that we only get the one file that matches the
             #  defined options
             for assetId in item['assets']:
-        
                 if task.isCanceled():
                     return False
         
-                file = {}
                 asset = item['assets'][assetId]
         
                 # Filter out all files that match the specified options
@@ -234,13 +225,15 @@ class ApiDataGeoAdmin:
                                             optionApiName])
         
                 if sum(optionsMatch) == len(optionsMatch):
-                    file['id'] = assetId
-                    file['type'] = asset['type']
-                    file['href'] = asset['href']
-            
                     # Analyse file extension
                     extension = os.path.splitext(assetId)[1]
-                    file['ext'] = extension
+                    
+                    # Create file object
+                    file = File(assetId, asset['type'], asset['href'],
+                                extension)
+                    file.setOptions(options)
+                    file.bbox = item['bbox']
+                    file.geom = item['geometry']
                     
                     # # Make a HEAD request to get the precise file size
                     # This make A LOT of calls, use with care
@@ -249,9 +242,7 @@ class ApiDataGeoAdmin:
                     # file['size'] = 0
                     # if header.hasRawHeader(b'Content-Length'):
                     #     file['size'] = int(header.rawHeader(b'Content-Length'))
-            
-                    file['bbox'] = item['bbox']
-                    file['geom'] = item['geometry']
+                    
                     fileList.append(file)
 
         return fileList
@@ -312,8 +303,8 @@ class ApiDataGeoAdmin:
         partProgress = 100 / len(fileList)
         
         for file in fileList:
-            savePath = os.path.join(outputDir, file['id'])
-            self.fetchFile(task, file['href'], file['id'], savePath, partProgress)
+            savePath = os.path.join(outputDir, file.id)
+            self.fetchFile(task, file.href, file.id, savePath, partProgress)
             if task.isCanceled():
                 return False
             task.setProgress(task.progress() + partProgress)

@@ -60,11 +60,11 @@ def addToQgis(fileList):
                      QgsProject.instance().mapLayers().values()]
 
     for file in fileList:
-        if os.path.exists(file['path']) and not '.zip' in file['ext']:
-            if file['path'] in already_added:
+        if os.path.exists(file.path) and not '.zip' in file.ext:
+            if file.path in already_added:
                 continue
             try:
-                rasterLyr = QgsRasterLayer(file['path'], file['id'])
+                rasterLyr = QgsRasterLayer(file.path, file.id)
                 if rasterLyr.isValid():
                     QgsProject.instance().addMapLayer(rasterLyr)
                     continue
@@ -73,7 +73,7 @@ def addToQgis(fileList):
             except Exception:
                 pass
             try:
-                vectorLyr = QgsVectorLayer(file['path'], file['id'], "ogr")
+                vectorLyr = QgsVectorLayer(file.path, file.id, "ogr")
                 if vectorLyr.isValid():
                     QgsProject.instance().addMapLayer(vectorLyr)
                     continue

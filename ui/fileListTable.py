@@ -64,14 +64,14 @@ class FileListTable(QObject):
         # Insert data into cells
         for i, file in enumerate(fileList):
             item0 = QStandardItem()
-            item1 = QStandardItem(file['id'])
+            item1 = QStandardItem(file.id)
             item1.setCheckState(Qt.Checked)
             item1.setCheckable(False)
             item1.setEditable(False)
             self.model.appendRow([item0, item1])
 
             self.model.setData(self.model.index(i, 0), Qt.Checked)
-            self.model.setData(self.model.index(i, 1), file['id'])
+            self.model.setData(self.model.index(i, 1), file.id)
 
         self.tbl.setFocusPolicy(Qt.NoFocus)
         self.tbl.hideColumn(0)

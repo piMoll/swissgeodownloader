@@ -40,9 +40,9 @@ class BboxDrawer:
     def addBboxes(self, fileList):
         self.removeAll()
         for file in fileList.values():
-            if not sum(file['bbox']) > 0:
+            if not file.bbox and not sum(file.bbox) > 0:
                 continue
-            coordinates = transformBbox(QgsRectangle(*tuple(file['bbox'])),
+            coordinates = transformBbox(QgsRectangle(*tuple(file.bbox)),
                                         self.transformer)
             rectangle = QgsRectangle(*tuple(coordinates))
             polygon = QgsRubberBand(self.canvas, QgsWkbTypes.PolygonGeometry)
@@ -51,7 +51,7 @@ class BboxDrawer:
             polygon.setFillColor(self.COLOR_SELECT)
             polygon.setWidth(self.WIDTH_BORDER)
             polygon.show()
-            self.bboxItems[file['id']] = { 'polygon': polygon, 'selected': True}
+            self.bboxItems[file.id] = { 'polygon': polygon, 'selected': True}
     
     def removeAll(self):
         for item in self.bboxItems.values():

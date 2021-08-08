@@ -36,6 +36,7 @@ from .ui_utilities import (filesizeFormatter, getDateFromIsoString,
 from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox)
 from .fileListTable import FileListTable
 from .bboxDrawer import BboxDrawer
+from ..api.responseObjects import Dataset
 from ..api.datageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
 
@@ -55,7 +56,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
         # Initialize variables
         self.datasetList = {}
-        self.currentDataset = {}
+        self.currentDataset: Dataset = Dataset()
         self.selectMode = None
         self.fileList = []
         self.fileListFiltered = {}
@@ -226,7 +227,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         """Set dataset and load details on first selection"""
         self.currentDataset = self.datasetList[item.text()]
         
-        if not 'selectByBBox' in self.currentDataset.keys():
+        if not self.currentDataset.analysed:
             caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetDetails',
                                    {'dataset': self.currentDataset})
             # Listen for finished api call
@@ -238,10 +239,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         else:
             self.applyDatasetState()
     
-    def onLoadDatasetDetails(self, details):
-        if details:
-            for key, value in details.items():
-                self.currentDataset[key] = value
+    def onLoadDatasetDetails(self, dataset):
+        if dataset:
+            self.datasetList[dataset.id] = dataset
+            self.currentDataset = dataset
         self.applyDatasetState()
     
     def onQuestionClicked(self):
@@ -257,7 +258,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.blockUiSignals()
         
         # Show dataset status if no files are available
-        if self.currentDataset['isEmpty']:
+        if self.currentDataset.isEmpty:
             self.guiGroupOptions.setDisabled(True)
             self.guiGroupExtent.setDisabled(True)
             self.guiExtentWidget.setCollapsed(True)
@@ -273,41 +274,41 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         # Setup 2. Options
         self.guiGroupOptions.setDisabled(False)
-        for optionKey, option in self.currentDataset['options'].items():
-            if optionKey == 'format':
-                self.guiFormat.addItems(option)
-                # Only enable option if there is more than one choice
-                if not len(option) == 1:
-                    self.guiFormatL.setDisabled(False)
-                    self.guiFormat.setDisabled(False)
-            if optionKey == 'resolution':
-                # Stringify resolution numbers
-                optionStr = [str(r) for r in option]
-                self.guiResolution.addItems(optionStr)
-                if not len(option) == 1:
-                    self.guiResolutionL.setDisabled(False)
-                    self.guiResolution.setDisabled(False)
-            if optionKey == 'coordsys':
-                # Create a coordinate system object and get its friendly identifier
-                coordSysList = [QgsCoordinateReferenceSystem(f'EPSG:{epsg}') for epsg in option]
-                if VERSION < 31003:
-                    coordSysNames = [cs.description() for cs in coordSysList]
-                else:
-                    coordSysNames = [cs.userFriendlyIdentifier() for cs in coordSysList]
-                self.guiCoordsys.addItems(coordSysNames)
-                if not len(option) == 1:
-                    self.guiCoordsysL.setDisabled(False)
-                    self.guiCoordsys.setDisabled(False)
-            if optionKey == 'timestamp':
-                # Format ISO time string into nice dates
-                optionStr = [getDateFromIsoString(ts) for ts in option]
-                self.guiTimestamp.addItems(optionStr)
-                if not len(option) == 1:
-                    self.guiTimestampL.setDisabled(False)
-                    self.guiTimestamp.setDisabled(False)
+        dsOptions = self.currentDataset.options
+        if dsOptions.format:
+            self.guiFormat.addItems(dsOptions.format)
+            # Only enable option if there is more than one choice
+            if len(dsOptions.format) > 1:
+                self.guiFormatL.setDisabled(False)
+                self.guiFormat.setDisabled(False)
+        if dsOptions.resolution:
+            # Stringify resolution numbers
+            optionStr = [str(r) for r in dsOptions.resolution]
+            self.guiResolution.addItems(optionStr)
+            if len(dsOptions.resolution) > 1:
+                self.guiResolutionL.setDisabled(False)
+                self.guiResolution.setDisabled(False)
+        if dsOptions.coordsys:
+            # Create a coordinate system object and get its friendly identifier
+            coordSysList = [QgsCoordinateReferenceSystem(f'EPSG:{epsg}') for epsg in dsOptions.coordsys]
+            if VERSION < 31003:
+                coordSysNames = [cs.description() for cs in coordSysList]
+            else:
+                coordSysNames = [cs.userFriendlyIdentifier() for cs in coordSysList]
+            self.guiCoordsys.addItems(coordSysNames)
+            if len(dsOptions.coordsys) > 1:
+                self.guiCoordsysL.setDisabled(False)
+                self.guiCoordsys.setDisabled(False)
+        if dsOptions.timestamp:
+            # Format ISO time string into nice dates
+            optionStr = [getDateFromIsoString(ts) for ts in dsOptions.timestamp]
+            self.guiTimestamp.addItems(optionStr)
+            if len(dsOptions.timestamp) > 1:
+                self.guiTimestampL.setDisabled(False)
+                self.guiTimestamp.setDisabled(False)
 
         # Activate / deactivate 3. Extent
-        if not self.currentDataset['selectByBBox']:
+        if not self.currentDataset.selectByBBox:
             self.guiExtentWidget.setCollapsed(True)
             self.updateSelectMode()
             self.guiGroupExtent.setDisabled(True)
@@ -376,7 +377,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     
     def updateSelectMode(self):
         if self.guiFullExtentChbox.isChecked():
-            bbox = QgsRectangle(*tuple(self.currentDataset['bbox']))
+            bbox = QgsRectangle(*tuple(self.currentDataset.bbox))
             self.updateExtentValues(bbox, self.apiRefSys)
     
     def getBbox(self) -> list:
@@ -399,26 +400,26 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             bbox = []
             
         # Read out options
-        options = {}
+        reqOptions = {}
         timestamp = ''
-        for optionKey, option in self.currentDataset['options'].items():
-            # Only add to query parameters if there is more than one choice
-            if optionKey == 'format' and len(option) > 1:
-                options[optionKey] = option[self.guiFormat.currentIndex()]
-            if optionKey == 'resolution' and len(option) > 1:
-                options[optionKey] = option[self.guiResolution.currentIndex()]
-            if optionKey == 'coordsys' and len(option) > 1:
-                options[optionKey] = option[self.guiCoordsys.currentIndex()]
-            if optionKey == 'timestamp' and len(option) > 1:
-                timestamp = option[self.guiTimestamp.currentIndex()]
+        dsOptions = self.currentDataset.options
+        # Only add to query parameters if there is more than one choice
+        if len(dsOptions.format) > 1:
+            reqOptions['format'] = dsOptions.format[self.guiFormat.currentIndex()]
+        if len(dsOptions.resolution) > 1:
+            reqOptions['resolution'] = dsOptions.resolution[self.guiResolution.currentIndex()]
+        if len(dsOptions.coordsys) > 1:
+            reqOptions['coordsys'] = dsOptions.coordsys[self.guiCoordsys.currentIndex()]
+        if len(dsOptions.timestamp) > 1:
+            timestamp = dsOptions.timestamp[self.guiTimestamp.currentIndex()]
         
         # Call api
         # Create a separate task for request to not block ui
         caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getFileList', {
-            'dataset': self.currentDataset,
+            'url': self.currentDataset.filesLink,
             'bbox': bbox,
             'timestamp': timestamp,
-            'options': options
+            'options': reqOptions
         })
         # Listen for finished api call
         caller.taskCompleted.connect(
@@ -447,8 +448,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def updateFilterList(self):
         self.guiFileType.blockSignals(True)
         self.guiFileType.clear()
-        # Get unique values from extension list and add to drop down
-        fileTypeList = list(set([file['ext'] for file in self.fileList]))
+        # Get unique values from extension list by transforming list to a set
+        fileTypeList = list(set([file.ext for file in self.fileList]))
 
         if fileTypeList:
             self.guiFileType.addItems(fileTypeList)
@@ -467,46 +468,46 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.updateSummary()
 
     def filterFileList(self, filetype):
-        if not filetype:
-            self.fileListFiltered = { file['id']: dict(file, **{'selected': True})
-                                      for file in self.fileList }
-        else:
-            self.fileListFiltered = { file['id']: dict(file, **{'selected': True})
-                                      for file in self.fileList
-                                      if file['ext'] == filetype }
+        self.fileListFiltered = {}
+        orderedFilesForTbl = []
+        for file in self.fileList:
+            if not filetype or (filetype and file.ext == filetype):
+                file.selected = True
+                self.fileListFiltered[file.id] = file
+                # This list is necessary because dictionaries do not have a
+                #  stable order, but we want the original order from the
+                #  API response in the table
+                orderedFilesForTbl.append(file)
+            else:
+                file.selected = False
+                
         self.currentFilter = filetype
-        
-        # This list is necessary because dictionaries do not have a stable
-        #  order, but we want the original order from the API response
-        orderedFilesForTbl = [file for file in self.fileList
-                              if file['id'] in self.fileListFiltered.keys()]
         self.populateFileList(orderedFilesForTbl)
         self.bboxDrawer.addBboxes(self.fileListFiltered)
     
     def onFileSelectionChange(self, fileId, isChecked):
-        if fileId in self.fileListFiltered.keys():
-            self.fileListFiltered[fileId]['selected'] = isChecked
-            self.updateSummary()
+        self.fileListFiltered[fileId].selected = isChecked
+        self.updateSummary()
     
     def updateSummary(self):
         self.guiQuestionBtn.hide()
-        
-        selectedFiles = [file for file in self.fileListFiltered.values()
-                            if file['selected']]
-        
-        if len(selectedFiles) > 0:
-            fileSize = 0
-            for file in selectedFiles:
-                if file['type'] in self.currentDataset['size'].keys():
-                    fileSize += self.currentDataset['size'][file['type']]
 
-            # fileSize = sum([file['size'] for file in self.fileListFiltered])
-            
+        if self.fileListFiltered:
+            fileSize = 0
+            count = 0
+            for file in self.fileListFiltered.values():
+                if file.selected:
+                    count += 1
+                    if file.type in self.currentDataset.avgSize.keys():
+                        fileSize += self.currentDataset.avgSize[file.type]
+    
+                # fileSize = sum([file.avgSize for file in self.fileListFiltered])
+                
             if fileSize > 0:
                 status = self.tr("{} file(s), approximately {}")\
-                    .format(len(selectedFiles), filesizeFormatter(fileSize))
+                    .format(count, filesizeFormatter(fileSize))
             else:
-                status = self.tr("{} file(s)").format(len(selectedFiles))
+                status = self.tr("{} file(s)").format(count)
         else:
             status = self.tr('No files found.')
             self.guiQuestionBtn.show()
@@ -534,24 +535,20 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Check if there are files that are going to be overwritten
         waitForConfirm = False
         # Sort out all selected files from list
-        self.filesListDownload = [file for file in self.fileListFiltered.values()
-                                    if file['selected']]
-        
-        for file in self.filesListDownload:
-            savePath = os.path.join(folder, file['id'])
-            if os.path.exists(savePath):
-                waitForConfirm = True
-                break
+        self.filesListDownload = []
+        for file in self.fileListFiltered.values():
+            if file.selected:
+                file.path = os.path.join(folder, file.id)
+                self.filesListDownload.append(file)
+                if os.path.exists(file.path):
+                    waitForConfirm = True
         
         if waitForConfirm:
             confirmed = self.showDialog(self.tr('Overwrite files?'),
                 self.tr('At least one file will be overwritten. Continue?'))
             if not confirmed:
+                self.filesListDownload = []
                 return
-        
-        # Save full path
-        for file in self.filesListDownload:
-            file['path'] = os.path.join(folder, file['id'])
 
         # Call api
         # Create separate task for request to not block ui
@@ -575,6 +572,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiFileListStatus.setText(self.tr('Files successfully downloaded!'))
             self.guiFileListStatus.setStyleSheet('QLabel { color : green; font-weight: bold;}')
             self.fileListTbl.clear()
+            self.bboxDrawer.removeAll()
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.Success)

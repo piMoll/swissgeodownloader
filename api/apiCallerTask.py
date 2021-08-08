@@ -48,7 +48,7 @@ class ApiCallerTask(QgsTask):
         
         elif self.func == 'getFileList':
             self.output = self.apiRef.getFileList(self,
-                                        self.callParams['dataset'],
+                                        self.callParams['url'],
                                         self.callParams['bbox'],
                                         self.callParams['timestamp'],
                                         self.callParams['options'])
