@@ -35,7 +35,7 @@ from .ui_utilities import (filesizeFormatter, getDateFromIsoString,
                            MESSAGE_CATEGORY)
 from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox)
 from .fileListTable import FileListTable
-from .bboxDrawer import BboxDrawer
+from .bboxDrawer import BboxPainter
 from ..api.responseObjects import Dataset
 from ..api.datageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
@@ -57,6 +57,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.iface = interface
         self.qgsProject = QgsProject.instance()
         self.taskManager = QgsApplication.taskManager()
+        self.annManager = self.qgsProject.annotationManager()
 
         # Initialize variables
         self.datasetList = {}
@@ -88,7 +89,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiExtentWidget.setOutputExtentFromCurrent()
         
         # Initialize class to draw bbox of files in map
-        self.bboxDrawer = BboxDrawer(self.iface.mapCanvas(), self.transformApi2Proj)
+        self.bboxPainter = BboxPainter(self.iface.mapCanvas(),
+                                       self.transformApi2Proj, self.annManager)
 
         # Deactivate unused ui-elements
         self.onUnselectDataset()
@@ -161,12 +163,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.taskManager.addTask(caller)
 
     def closeEvent(self, event):
-        self.bboxDrawer.removeAll()
+        self.bboxPainter.removeAll()
         self.closingPlugin.emit()
         event.accept()
     
     def onMapRefSysChanged(self):
-        """Listen for map canvas reference system changes and apply to new
+        """Listen for map canvas reference system changes and apply the new
         crs to extent widget."""
         self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
         # Update transformations
@@ -177,6 +179,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Update displayed extent
         mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
         self.updateExtentValues(mapExtent, self.mapRefSys)
+        # Redraw bbox in map
+        self.bboxPainter.transformer = self.transformApi2Proj
+        self.bboxPainter.paintBoxes(self.fileListFiltered)
     
     def onExtentChanged(self):
         pass
@@ -374,7 +379,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFileListStatus.setText('')
         self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
         self.guiQuestionBtn.hide()
-        self.bboxDrawer.removeAll()
+        self.bboxPainter.removeAll()
     
     def onOptionChanged(self, newVal):
         self.resetFileList()
@@ -487,10 +492,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 
         self.currentFilter = filetype
         self.populateFileList(orderedFilesForTbl)
-        self.bboxDrawer.addBboxes(self.fileListFiltered)
+        self.bboxPainter.paintBoxes(self.fileListFiltered)
     
     def onFileSelectionChange(self, fileId, isChecked):
         self.fileListFiltered[fileId].selected = isChecked
+        self.bboxPainter.switchSelectState(fileId)
         self.updateSummary()
     
     def updateSummary(self):
@@ -577,7 +583,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiFileListStatus.setText(self.tr('Files successfully downloaded!'))
             self.guiFileListStatus.setStyleSheet(self.LABEL_SUCCESS_STYLE)
             self.fileListTbl.clear()
-            self.bboxDrawer.removeAll()
+            self.bboxPainter.removeAll()
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.Success)

@@ -251,6 +251,9 @@ class ApiDataGeoAdmin:
                     
                     fileList.append(file)
 
+        # Sort file list by bbox coordinates (first item on top left corner)
+        fileList.sort(key=lambda f: round(f.bbox[3], 2), reverse=True)
+        fileList.sort(key=lambda f: round(f.bbox[0], 2))
         return fileList
     
     def fetch(self, task: QgsTask, url, params=None, header=None, method='get'):

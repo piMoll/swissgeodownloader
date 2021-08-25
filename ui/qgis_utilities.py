@@ -23,7 +23,7 @@ import os
 
 from qgis.PyQt.QtCore import QCoreApplication
 from qgis.core import (QgsProject, QgsRasterLayer, QgsVectorLayer, Qgis,
-                       QgsRectangle, QgsPoint)
+                       QgsRectangle, QgsPoint, QgsCoordinateTransform)
 
 
 def tr(message, **kwargs):
@@ -33,7 +33,7 @@ def tr(message, **kwargs):
     return QCoreApplication.translate('@default', message)
 
 
-def transformBbox(rectangle: QgsRectangle, transformer):
+def transformBbox(rectangle: QgsRectangle, transformer: QgsCoordinateTransform):
     llCoord = (rectangle.xMinimum(), rectangle.yMinimum())
     urCoord = (rectangle.xMaximum(), rectangle.yMaximum())
     
