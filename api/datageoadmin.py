@@ -119,42 +119,46 @@ class ApiDataGeoAdmin:
         url = dataset.filesLink
         # Get max. 40 features
         items = self.fetch(task, url, params={'limit' : 40})
-
-        fileCount = 0
-        estimate = {}
+    
+        if not items or not isinstance(items, dict) \
+                or 'features' not in items:
+            if not task.exception:
+                task.exception = self.tr('Error when loading dataset details '
+                                         '- Unexpected API response')
+            return False
         
-        if items and isinstance(items, dict) and 'features' in items:
-            fileCount = len(items['features'])
+        estimate = {}
+        fileCount = len(items['features'])
+        
+        # Check if it makes sense to select by bbox
+        # TODO: this should also check options and see, if there is only
+        #  one file per option (e.g. farbe-pk100)
+        if fileCount <= 1 or (dataset.options.timestamp
+            and fileCount == len(dataset.options.timestamp)):
+            dataset.selectByBBox = False
+        
+        # Analyze size of an item to estimate download sizes later on
+        if fileCount > 0:
+            item = items['features'][-1]
             
-            # Check if it makes sense to select by bbox
-            # TODO: this should also check options and see, if there is only
-            #  one file per option (e.g. farbe-pk100)
-            if fileCount <= 1 or (dataset.options.timestamp
-                and fileCount == len(dataset.options.timestamp)):
-                dataset.selectByBBox = False
-            
-            # Analyze size of an item to estimate download sizes later on
-            if fileCount > 0:
-                item = items['features'][-1]
-                
-                # Get an estimate of file size
-                for assetId in item['assets']:
-                    asset = item['assets'][assetId]
-                    # Don't request again if we have this estimate already
-                    if asset['type'] in estimate.keys():
-                        continue
-                    # Check Content-Length header
-                    if VERSION >= 31800:
-                        # Make a HEAD request to get the file size
-                        header = self.fetch(task, asset['href'], method='head')
-                        if header and header.hasRawHeader(b'Content-Length'):
-                            estimate[asset['type']] = int(header.rawHeader(b'Content-Length'))
-                    else:
-                        # If QGIS version is below 3.18, use library 'requests'
-                        # to make a HEAD request
-                        header = self.fetchHeadLegacy(task, asset['href'])
-                        if header:
-                            estimate[asset['type']] = int(header.headers['Content-Length'])
+            # Get an estimate of file size
+            for assetId in item['assets']:
+                asset = item['assets'][assetId]
+                # Don't request again if we have this estimate already
+                if asset['type'] in estimate.keys():
+                    continue
+                # Check Content-Length header
+                if VERSION >= 31800:
+                    # Make a HEAD request to get the file size
+                    header = self.fetch(task, asset['href'], method='head')
+                    if header and header.hasRawHeader(b'Content-Length'):
+                        estimate[asset['type']] = int(header.rawHeader(b'Content-Length'))
+                else:
+                    # If QGIS version is below 3.18, use library 'requests'
+                    # to make a HEAD request
+                    header = self.fetchHeadLegacy(task, asset['href'])
+                    if header:
+                        estimate[asset['type']] = int(header.headers['Content-Length'])
 
         dataset.analysed = True
         dataset.isEmpty = fileCount == 0
@@ -178,14 +182,15 @@ class ApiDataGeoAdmin:
         #  in the response
         while url:
             if task.isCanceled():
-                break
+                return False
             
             response = self.fetch(task, url, params=params)
         
             if not response or not isinstance(response, dict) \
                     or not 'features' in response:
-                task.exception = self.tr('Error when requesting file list - '
-                                         'Unexpected API response')
+                if not task.exception:
+                    task.exception = self.tr('Error when requesting file list - '
+                                             'Unexpected API response')
                 return False
             
             responseList.extend(response['features'])
@@ -273,17 +278,28 @@ class ApiDataGeoAdmin:
         task.log(self.tr('Start request {}').format(callUrl.toString()))
         # Start request
         if method == 'get':
-            self.http.get(request)
+            self.http.get(request, forceRefresh=True)
         elif method == 'head':
-            self.http.head(request)
+            self.http.head(request, forceRefresh=True)
         
         # Check if request was successful
         r = self.http.reply()
         try:
             assert r.error() == QNetworkReply.NoError, r.error()
         except AssertionError:
+            # Service is not reachable
             task.exception = self.tr('swisstopo service not reachable or '
                                      'no internet connection')
+            # Service returned an error
+            if r.content():
+                try:
+                    errorResp = json.loads(str(r.content(), 'utf-8'))
+                except json.JSONDecodeError as e:
+                    task.exception = str(e)
+                    return False
+                if 'code' and 'description' in errorResp:
+                    task.exception = (f"{self.tr('swisstopo service returns error')}: "
+                                      f"{errorResp['code']} - {errorResp['description']}")
             return False
         
         # Process response

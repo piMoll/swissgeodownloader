@@ -46,9 +46,14 @@
         <translation>files downloaded</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="90"/>
+        <location filename="../api/apiCallerTask.py" line="92"/>
         <source>An unknown error occurred</source>
         <translation>An unknown error occurred</translation>
+    </message>
+    <message>
+        <location filename="../api/apiCallerTask.py" line="90"/>
+        <source>Aborted by user</source>
+        <translation>Aborted by user</translation>
     </message>
 </context>
 <context>
@@ -59,39 +64,44 @@
         <translation>Error when loading available dataset - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="187"/>
+        <location filename="../api/datageoadmin.py" line="192"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Error when requesting file list - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="273"/>
+        <location filename="../api/datageoadmin.py" line="278"/>
         <source>Start request {}</source>
         <translation>Start request {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="331"/>
+        <location filename="../api/datageoadmin.py" line="347"/>
         <source>Start download of {}</source>
         <translation>Start download of {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="339"/>
+        <location filename="../api/datageoadmin.py" line="355"/>
         <source>Download of {} was canceled</source>
         <translation>Download of {} was canceled</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="335"/>
+        <location filename="../api/datageoadmin.py" line="351"/>
         <source>Error when downloading {}</source>
         <translation>Error when downloading {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="307"/>
+        <location filename="../api/datageoadmin.py" line="323"/>
         <source>Error when requesting header information: {}</source>
         <translation>Error when requesting header information: {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="285"/>
+        <location filename="../api/datageoadmin.py" line="291"/>
         <source>swisstopo service not reachable or no internet connection</source>
         <translation>swisstopo service not reachable or no internet connection</translation>
+    </message>
+    <message>
+        <location filename="../api/datageoadmin.py" line="126"/>
+        <source>Error when loading dataset details - Unexpected API response</source>
+        <translation>Error when loading dataset details - Unexpected API response</translation>
     </message>
 </context>
 <context>

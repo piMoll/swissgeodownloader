@@ -72,7 +72,9 @@ class ApiCallerTask(QgsTask):
                 msg = self.tr('files downloaded')
             self.log(msg, Qgis.Success)
         else:
-            if self.exception is None:
+            if self.isCanceled():
+                self.log(self.tr('Aborted by user'), Qgis.Info)
+            elif self.exception is None:
                 self.exception = self.tr('An unknown error occurred')
                 self.log(self.exception, Qgis.Critical)
                 self.message(self.exception, Qgis.Warning)
