@@ -46,6 +46,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
     closingPlugin = pyqtSignal()
 
+    LABEL_DEFAULT_STYLE = 'QLabel { color : black; font-weight: normal;}'
+    LABEL_SUCCESS_STYLE = 'QLabel { color : green; font-weight: bold;}'
+    
+
     def __init__(self, interface, parent=None):
         """Constructor."""
         super(SwissGeoDownloaderDockWidget, self).__init__(parent)
@@ -368,7 +372,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.fileListTbl.clear()
         self.guiDownloadBtn.setDisabled(True)
         self.guiFileListStatus.setText('')
-        self.guiFileListStatus.setStyleSheet('QLabel { color : black;}')
+        self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
         self.guiQuestionBtn.hide()
         self.bboxDrawer.removeAll()
     
@@ -515,9 +519,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 [self.tr('Why are there no files?'),
                  self.tr("Not all datasets cover the whole area of Switzerland."
                          " Try changing options or select 'Full dataset extent'"
-                         " to get more files.")]
+                         " to get a list of all available datasets.")]
 
         self.guiFileListStatus.setText(status)
+        self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
     
     def onDownloadFilesClicked(self):
         # Let user choose output directory
@@ -570,7 +575,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if success:
             # Confirm successful download
             self.guiFileListStatus.setText(self.tr('Files successfully downloaded!'))
-            self.guiFileListStatus.setStyleSheet('QLabel { color : green; font-weight: bold;}')
+            self.guiFileListStatus.setStyleSheet(self.LABEL_SUCCESS_STYLE)
             self.fileListTbl.clear()
             self.bboxDrawer.removeAll()
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "

@@ -163,8 +163,8 @@ Further information:
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="516"/>
-        <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
-        <translation>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</translation>
+        <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</source>
+        <translation>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="576"/>

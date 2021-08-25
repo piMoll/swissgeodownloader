@@ -163,8 +163,8 @@ Weitere Informationen:
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="516"/>
-        <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get more files.</source>
-        <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um mehr Daten zu erhalten.</translation>
+        <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</source>
+        <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um eine Liste aller verfügbaren Dateien zu erhalten.</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="576"/>
