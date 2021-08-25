@@ -381,19 +381,16 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="guiInfoBtn">
+       <widget class="QPushButton" name="guiRefreshDatasetsBtn">
         <property name="toolTip">
-         <string>Plugin info</string>
+         <string>Refresh dataset list</string>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
          <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/die-info.png</normaloff>:/plugins/swissgeodownloader/resources/die-info.png</iconset>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
+          <normaloff>:/plugins/swissgeodownloader/resources/refresh.png</normaloff>:/plugins/swissgeodownloader/resources/refresh.png</iconset>
         </property>
        </widget>
       </item>
@@ -409,6 +406,23 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="guiInfoBtn">
+        <property name="toolTip">
+         <string>Plugin info</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/plugins/swissgeodownloader/resources/die-info.png</normaloff>:/plugins/swissgeodownloader/resources/die-info.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>

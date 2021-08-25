@@ -132,6 +132,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         # Connect signals
         self.guiShowMapBtn.clicked.connect(self.onShowMapClicked)
+        self.guiRefreshDatasetsBtn.clicked.connect(self.onRefreshDatasetsClicked)
         self.guiInfoBtn.clicked.connect(self.onInfoClicked)
         
         self.guiDatasetList.currentItemChanged.connect(self.onDatasetSelected)
@@ -152,8 +153,16 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChanged)
         
         # Finally, initialize apis and request available datasets
-        # Create separate task for request to not block ui
         self.apiDGA = ApiDataGeoAdmin(self)
+        self.loadDatasetList()
+
+    def closeEvent(self, event):
+        self.bboxPainter.removeAll()
+        self.closingPlugin.emit()
+        event.accept()
+    
+    def loadDatasetList(self):
+        # Create separate task for request to not block ui
         caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetList', {})
         # Listen for finished api call
         caller.taskCompleted.connect(
@@ -161,11 +170,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         caller.taskTerminated.connect(
             lambda: self.onReceiveDatasets([]))
         self.taskManager.addTask(caller)
-
-    def closeEvent(self, event):
-        self.bboxPainter.removeAll()
-        self.closingPlugin.emit()
-        event.accept()
     
     def onMapRefSysChanged(self):
         """Listen for map canvas reference system changes and apply the new
@@ -215,6 +219,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                                         self.mapRefSys.authid())
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {message}", level)
     
+    def onRefreshDatasetsClicked(self):
+        self.resetFileList()
+        self.onUnselectDataset()
+        self.loadDatasetList()
+    
     def onInfoClicked(self):
         self.showDialog(self.tr('Swiss Geo Downloader - Info'),
             self.tr('PLUGIN_INFO').format('https://pimoll.github.io/swissgeodownloader/'), 'Ok')
@@ -226,10 +235,13 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def onReceiveDatasets(self, datasetList):
         """Recieve list of available datasets"""
         self.datasetList = datasetList
+        self.guiDatasetList.blockSignals(True)
+        self.guiDatasetList.clearSelection()
         self.guiDatasetList.clear()
         if self.datasetList:
             for dsId in self.datasetList.keys():
                 self.guiDatasetList.addItem(dsId)
+        self.guiDatasetList.blockSignals(False)
         self.spinnerDs.stop()
     
     def onDatasetSelected(self, item: QListWidget):
