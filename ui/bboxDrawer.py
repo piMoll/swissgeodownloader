@@ -62,8 +62,8 @@ class BboxPainter:
             a.setFillSymbol(None)
             labelPos = QgsPointXY(rectangle.center())
             a.setMapPosition(labelPos)
-            a.setFrameSize(QSizeF(50, 30))
-            a.setFrameOffsetFromReferencePoint(QPointF(-25, -15))
+            a.setFrameSizeMm(QSizeF(24, 14))
+            a.setFrameOffsetFromReferencePointMm(QPointF(-12, -5))
             a.setMapPositionCrs(self.transformer.destinationCrs())
             # Add annotation to annotation manager so it can be removed
             self.annotationManager.addAnnotation(a)
