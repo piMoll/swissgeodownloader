@@ -276,6 +276,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     
     def onDatasetSelected(self, item: QListWidget):
         """Set dataset and load details on first selection"""
+        # Ignore double clicks or very fast clicks
+        self.guiDatasetList.blockSignals(True)
         self.currentDataset = self.datasetList[item.text()]
         
         if not self.currentDataset.analysed:
@@ -289,6 +291,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.taskManager.addTask(caller)
         else:
             self.applyDatasetState()
+        self.guiDatasetList.blockSignals(False)
     
     def onLoadDatasetDetails(self, dataset):
         if dataset:
