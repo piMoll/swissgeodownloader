@@ -75,7 +75,7 @@ class BboxPainter:
             a.setMapPosition(labelPos)
             numberLen = len(str(idx+1))-1
             # Dimensions for white background box depending on number length
-            sizes = [[6, 3], [9, 4], [12, 6], [16, 8]]
+            sizes = [[6, 3], [9, 4], [14, 7], [18, 9]]
             a.setFrameSizeMm(QSizeF(sizes[numberLen][0], 14))
             a.setFrameOffsetFromReferencePointMm(QPointF(-sizes[numberLen][1], -4))
             a.setMapPositionCrs(self.transformer.destinationCrs())
@@ -117,7 +117,7 @@ class BboxMapItem(QgsRubberBand):
     """Creates a rectangle from a QgsRubberBand in the map."""
     
     COLOR_SELECT = QColor(171, 0, 12, 30)
-    COLOR_UNSELECT = QColor(171, 171, 171, 80)
+    COLOR_UNSELECT = QColor(171, 171, 171, 0)
     COLOR_BORDER = QColor(171, 0, 12)
     WIDTH_BORDER = 3
     
