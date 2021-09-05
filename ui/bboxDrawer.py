@@ -42,6 +42,7 @@ class BboxPainter:
         self.annotationManager = annotationManager
         self.bboxItems = {}
         self.numberIsVisible = True
+        self.meanBboxWidth = 0
     
     def paintBoxes(self, fileList, mapScale):
         self.removeAll()
@@ -57,6 +58,8 @@ class BboxPainter:
             # Bbox shape
             bbox = BboxMapItem(self.canvas, rectangle, file.id)
             self.bboxItems[file.id] = bbox
+
+            self.meanBboxWidth += rectangle.width()
             
             # Row number as annotation
             html = ('<div style="font-size: 20px; color: rgb(0,102,255); '
@@ -72,17 +75,23 @@ class BboxPainter:
             a.setMapPosition(labelPos)
             numberLen = len(str(idx+1))-1
             # Dimensions for white background box depending on number length
-            sizes = [[6, 3], [9, 4], [12, 6]]
+            sizes = [[6, 3], [9, 4], [12, 6], [16, 8]]
             a.setFrameSizeMm(QSizeF(sizes[numberLen][0], 14))
             a.setFrameOffsetFromReferencePointMm(QPointF(-sizes[numberLen][1], -4))
             a.setMapPositionCrs(self.transformer.destinationCrs())
             # Add annotation to annotation manager so it can be removed
             self.annotationManager.addAnnotation(a)
+        
+        if self.meanBboxWidth and len(fileList.values()):
+            self.meanBboxWidth = self.meanBboxWidth / len(fileList.values())
         self.switchNumberVisibility(mapScale)
     
     def switchNumberVisibility(self, mapScale):
         # Check if annotation numbering should be visible
-        isVisible = round(mapScale) <= self.MAX_VISIBLE_SCALE
+        if self.meanBboxWidth:
+            isVisible = round(mapScale) / round(self.meanBboxWidth) <= 70
+        else:
+            isVisible = round(mapScale) <= self.MAX_VISIBLE_SCALE
         if self.numberIsVisible != isVisible:
             self.numberIsVisible = isVisible
             # Switch visibility of all annotations
@@ -97,6 +106,7 @@ class BboxPainter:
         for ann in self.annotationManager.annotations():
             self.annotationManager.removeAnnotation(ann)
         self.numberIsVisible = True
+        self.meanBboxWidth = 0
     
     def switchSelectState(self, fileId):
         bbox = self.bboxItems[fileId]
