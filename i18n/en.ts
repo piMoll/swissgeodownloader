@@ -3,22 +3,22 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../ui/qgis_utilities.py" line="89"/>
+        <location filename="../ui/qgis_utilities.py" line="100"/>
         <source>Swisstopo National Map (grey)</source>
         <translation>Swisstopo National Map (grey)</translation>
     </message>
     <message>
-        <location filename="../ui/qgis_utilities.py" line="104"/>
+        <location filename="../ui/qgis_utilities.py" line="113"/>
         <source>Layer &apos;{}&apos; added to map</source>
         <translation>Layer &apos;{}&apos; added to map</translation>
     </message>
     <message>
-        <location filename="../ui/qgis_utilities.py" line="107"/>
+        <location filename="../ui/qgis_utilities.py" line="116"/>
         <source>Not able to add layer &apos;{}&apos; to map</source>
         <translation>Error when creating layer &apos;{}&apos;</translation>
     </message>
     <message>
-        <location filename="../ui/qgis_utilities.py" line="110"/>
+        <location filename="../ui/qgis_utilities.py" line="119"/>
         <source>Layer &apos;{}&apos; already added to map</source>
         <translation>Layer &apos;{}&apos; already added to map</translation>
     </message>
@@ -120,12 +120,12 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="228"/>
+        <location filename="../ui/sgd_dockwidget.py" line="253"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="228"/>
+        <location filename="../ui/sgd_dockwidget.py" line="253"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader allows you to download geodata of Switzerland in an easy and convenient way.
 
@@ -137,59 +137,68 @@ Further information:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="290"/>
+        <location filename="../ui/sgd_dockwidget.py" line="320"/>
         <source>No files available in this dataset</source>
         <translation>No files available in this dataset</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="534"/>
+        <location filename="../ui/sgd_dockwidget.py" line="566"/>
         <source>No files found.</source>
         <translation>No files found.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="551"/>
+        <location filename="../ui/sgd_dockwidget.py" line="583"/>
         <source>Choose output folder</source>
         <translation>Choose output folder</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="570"/>
+        <location filename="../ui/sgd_dockwidget.py" line="602"/>
         <source>Overwrite files?</source>
         <translation>Overwrite files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="570"/>
+        <location filename="../ui/sgd_dockwidget.py" line="602"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>At least one file will be overwritten. Continue?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="595"/>
+        <location filename="../ui/sgd_dockwidget.py" line="627"/>
         <source>Files successfully downloaded!</source>
         <translation>Files successfully downloaded!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="537"/>
+        <location filename="../ui/sgd_dockwidget.py" line="569"/>
         <source>Why are there no files?</source>
         <translation>Why are there no files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="538"/>
+        <location filename="../ui/sgd_dockwidget.py" line="570"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</source>
         <translation>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="599"/>
+        <location filename="../ui/sgd_dockwidget.py" line="631"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} file(s) successfully downloaded</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="529"/>
+        <location filename="../ui/sgd_dockwidget.py" line="561"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} file(s), approximately {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="532"/>
+        <location filename="../ui/sgd_dockwidget.py" line="564"/>
         <source>{} file(s)</source>
         <translation>{} file(s)</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="204"/>
+        <source>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
+
+Switch map to Swiss LV95?</source>
+        <translation>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
+
+Switch map to Swiss LV95?</translation>
     </message>
 </context>
 <context>

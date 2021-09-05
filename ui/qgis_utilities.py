@@ -22,9 +22,16 @@
 import os
 
 from qgis.PyQt.QtCore import QCoreApplication
-from qgis.core import (QgsProject, QgsRasterLayer, QgsVectorLayer, Qgis,
-                       QgsRectangle, QgsPoint, QgsCoordinateTransform)
+from qgis.core import (QgsRasterLayer, QgsVectorLayer, Qgis,
+                       QgsRectangle, QgsPoint, QgsCoordinateTransform,
+                       QgsCoordinateReferenceSystem)
+from qgis.gui import QgsMapCanvas
 
+
+SWISSTOPO_WMS_URL = 'http://wms.geo.admin.ch/'
+OVERVIEW_MAP = 'ch.swisstopo.pixelkarte-grau'
+SWISS_CRS = 'EPSG:2056'
+RECOMMENDED_CRS = ['EPSG:2056', 'EPSG:21781']
 
 def tr(message, **kwargs):
     """Get the translation for a string using Qt translation API.
@@ -51,13 +58,12 @@ def transformBbox(rectangle: QgsRectangle, transformer: QgsCoordinateTransform):
             urPoint.y()]
 
 
-def addToQgis(fileList):
+def addToQgis(qgsProject, fileList):
     # # Create new layer group in table of content
     # root = QgsProject.instance().layerTreeRoot()
     # projGroup = root.insertGroup(0, projName)
 
-    already_added = [lyr.source() for lyr in
-                     QgsProject.instance().mapLayers().values()]
+    already_added = [lyr.source() for lyr in qgsProject.mapLayers().values()]
 
     for file in fileList:
         if os.path.exists(file.path) and not '.zip' in file.ext:
@@ -66,7 +72,7 @@ def addToQgis(fileList):
             try:
                 rasterLyr = QgsRasterLayer(file.path, file.id)
                 if rasterLyr.isValid():
-                    QgsProject.instance().addMapLayer(rasterLyr)
+                    qgsProject.addMapLayer(rasterLyr)
                     continue
                 else:
                     del rasterLyr
@@ -75,7 +81,7 @@ def addToQgis(fileList):
             try:
                 vectorLyr = QgsVectorLayer(file.path, file.id, "ogr")
                 if vectorLyr.isValid():
-                    QgsProject.instance().addMapLayer(vectorLyr)
+                    qgsProject.addMapLayer(vectorLyr)
                     continue
                 else:
                     del vectorLyr
@@ -83,23 +89,26 @@ def addToQgis(fileList):
                 pass
 
 
-def addOverviewMap(canvas, crs):
-    swisstopoUrl = 'http://wms.geo.admin.ch/'
-    swisstopoOverviewMap = 'ch.swisstopo.pixelkarte-grau'
-    layerName = tr('Swisstopo National Map (grey)')
+def switchToCrs(qgsProject, canvas: QgsMapCanvas, crs=SWISS_CRS):
+    newCrs = QgsCoordinateReferenceSystem(crs)
+    assert newCrs.isValid()
+    qgsProject.setCrs(newCrs)
+    canvas.refresh()
     
+  
+def addOverviewMap(qgsProject, canvas, crs=SWISS_CRS):
+    layerName = tr('Swisstopo National Map (grey)')
     wmsUrl = (f'contextualWMSLegend=0&crs={crs}&dpiMode=7'
               f'&featureCount=10&format=image/png'
-              f'&layers={swisstopoOverviewMap}'
-              f'&styles=&url={swisstopoUrl}')
+              f'&layers={OVERVIEW_MAP}'
+              f'&styles=&url={SWISSTOPO_WMS_URL}')
     
-    already_added = [lyr.source() for lyr in
-                     QgsProject.instance().mapLayers().values()]
+    already_added = [lyr.source() for lyr in qgsProject.mapLayers().values()]
     
     if wmsUrl not in already_added:
         wmsLayer = QgsRasterLayer(wmsUrl, layerName, 'wms')
         if wmsLayer.isValid():
-            QgsProject.instance().addMapLayer(wmsLayer)
+            qgsProject.addMapLayer(wmsLayer)
             canvas.refresh()
             return tr("Layer '{}' added to map").format(
                 layerName), Qgis.Success

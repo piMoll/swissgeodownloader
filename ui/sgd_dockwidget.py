@@ -25,7 +25,7 @@ from qgis.PyQt.QtCore import pyqtSignal
 from qgis.PyQt.QtGui import QColor
 from qgis.PyQt.QtWidgets import (QDockWidget, QListWidget, QFileDialog,
                                  QMessageBox)
-from qgis.gui import QgsExtentGroupBox
+from qgis.gui import QgsExtentGroupBox, QgisInterface
 from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
                        QgsProject, QgsRectangle, QgsApplication,
                        QgsMessageLog, Qgis)
@@ -33,7 +33,8 @@ from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import (filesizeFormatter, getDateFromIsoString,
                            MESSAGE_CATEGORY)
-from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox)
+from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox,
+                             switchToCrs, RECOMMENDED_CRS)
 from .fileListTable import FileListTable
 from .bboxDrawer import BboxPainter
 from ..api.responseObjects import Dataset
@@ -50,11 +51,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     LABEL_SUCCESS_STYLE = 'QLabel { color : green; font-weight: bold;}'
     
 
-    def __init__(self, interface, parent=None):
+    def __init__(self, interface: QgisInterface, parent=None):
         """Constructor."""
         super(SwissGeoDownloaderDockWidget, self).__init__(parent)
         self.setupUi(self)
         self.iface = interface
+        self.canvas = self.iface.mapCanvas()
         self.qgsProject = QgsProject.instance()
         self.taskManager = QgsApplication.taskManager()
         self.annManager = self.qgsProject.annotationManager()
@@ -72,7 +74,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.msgLog = QgsMessageLog()
         
         # Coordinate system
-        self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
+        self.mapRefSys = self.canvas.mapSettings().destinationCrs()
         self.apiRefSys = QgsCoordinateReferenceSystem(API_EPSG)
         self.transformProj2Api = QgsCoordinateTransform(
             self.mapRefSys, self.apiRefSys, self.qgsProject)
@@ -81,15 +83,15 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         # Init QgsExtentBoxGroup Widget
         self.guiExtentWidget: QgsExtentGroupBox
-        self.guiExtentWidget.setOriginalExtent(self.iface.mapCanvas().extent(),
+        self.guiExtentWidget.setOriginalExtent(self.canvas.extent(),
                                          self.mapRefSys)
         # Set current (=map view) extent
-        self.guiExtentWidget.setCurrentExtent(self.iface.mapCanvas().extent(),
+        self.guiExtentWidget.setCurrentExtent(self.canvas.extent(),
                                         self.mapRefSys)
         self.guiExtentWidget.setOutputExtentFromCurrent()
         
         # Initialize class to draw bbox of files in map
-        self.bboxPainter = BboxPainter(self.iface.mapCanvas(),
+        self.bboxPainter = BboxPainter(self.canvas,
                                        self.transformApi2Proj, self.annManager)
 
         # Deactivate unused ui-elements
@@ -150,7 +152,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiQuestionBtn.clicked.connect(self.onQuestionClicked)
         
         self.qgsProject.crsChanged.connect(self.onMapRefSysChanged)
-        self.iface.mapCanvas().extentsChanged.connect(self.onMapExtentChanged)
+        self.canvas.extentsChanged.connect(self.onMapExtentChanged)
+        
+        # Check current project crs and ask user to change it
+        self.checkSupportedCrs()
         
         # Finally, initialize apis and request available datasets
         self.apiDGA = ApiDataGeoAdmin(self)
@@ -174,18 +179,35 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def onMapRefSysChanged(self):
         """Listen for map canvas reference system changes and apply the new
         crs to extent widget."""
-        self.mapRefSys = self.iface.mapCanvas().mapSettings().destinationCrs()
+        self.mapRefSys = self.canvas.mapSettings().destinationCrs()
         # Update transformations
         self.transformProj2Api = QgsCoordinateTransform(
             self.mapRefSys, self.apiRefSys, self.qgsProject)
         self.transformApi2Proj = QgsCoordinateTransform(
             self.apiRefSys, self.mapRefSys, self.qgsProject)
         # Update displayed extent
-        mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
+        mapExtent: QgsRectangle = self.canvas.extent()
         self.updateExtentValues(mapExtent, self.mapRefSys)
         # Redraw bbox in map
         self.bboxPainter.transformer = self.transformApi2Proj
         self.bboxPainter.paintBoxes(self.fileListFiltered)
+    
+    def checkSupportedCrs(self):
+        if self.mapRefSys.authid() not in RECOMMENDED_CRS:
+            # If project is empty, we set the project crs automatically to LV95
+            if len(self.qgsProject.mapLayers()) == 0:
+                switchToCrs(self.qgsProject, self.canvas)
+                return True
+    
+            confirmed = self.showDialog('Swiss Geo Downloader',
+                self.tr('To download Swiss geo data it is recommended to use '
+                        'the Swiss coordinate reference system.\n\nSwitch map '
+                        'to Swiss LV95?'), 'YesNo')
+            if confirmed:
+                switchToCrs(self.qgsProject, self.canvas)
+            else:
+                return
+        return True
     
     def onExtentChanged(self):
         pass
@@ -197,7 +219,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             #  view extent
             if self.guiGroupExtent.isEnabled() and self.guiExtentWidget.isEnabled():
                 # Check if extent widget is currently active
-                mapExtent: QgsRectangle = self.iface.mapCanvas().extent()
+                mapExtent: QgsRectangle = self.canvas.extent()
                 self.updateExtentValues(mapExtent, self.mapRefSys)
     
     def onUseFullExtentClicked(self):
@@ -215,7 +237,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.filterFileList(selectedFileType)
     
     def onShowMapClicked(self):
-        message, level = addOverviewMap(self.iface.mapCanvas(),
+        self.checkSupportedCrs()
+        message, level = addOverviewMap(self.qgsProject, self.canvas,
                                         self.mapRefSys.authid())
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {message}", level)
     
@@ -603,7 +626,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.spinnerFl.stop()
         
         # Add file as layers to qgis
-        addToQgis(self.filesListDownload)
+        addToQgis(self.qgsProject, self.filesListDownload)
     
     @staticmethod
     def showDialog(title, msg, mode='OkCancel'):

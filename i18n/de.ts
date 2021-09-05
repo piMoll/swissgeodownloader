@@ -3,22 +3,22 @@
 <context>
     <name>@default</name>
     <message>
-        <location filename="../ui/qgis_utilities.py" line="89"/>
+        <location filename="../ui/qgis_utilities.py" line="100"/>
         <source>Swisstopo National Map (grey)</source>
         <translation>Swisstopo Landeskarte (grau)</translation>
     </message>
     <message>
-        <location filename="../ui/qgis_utilities.py" line="104"/>
+        <location filename="../ui/qgis_utilities.py" line="113"/>
         <source>Layer &apos;{}&apos; added to map</source>
         <translation>Layer &apos;{}&apos; zur Karte hinzugefügt</translation>
     </message>
     <message>
-        <location filename="../ui/qgis_utilities.py" line="107"/>
+        <location filename="../ui/qgis_utilities.py" line="116"/>
         <source>Not able to add layer &apos;{}&apos; to map</source>
         <translation>Fehler beim Erstellen des Layers &apos;{}&apos;</translation>
     </message>
     <message>
-        <location filename="../ui/qgis_utilities.py" line="110"/>
+        <location filename="../ui/qgis_utilities.py" line="119"/>
         <source>Layer &apos;{}&apos; already added to map</source>
         <translation>Layer &apos;{}&apos; bereits in Karte vorhanden</translation>
     </message>
@@ -120,42 +120,42 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="228"/>
+        <location filename="../ui/sgd_dockwidget.py" line="253"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="290"/>
+        <location filename="../ui/sgd_dockwidget.py" line="320"/>
         <source>No files available in this dataset</source>
         <translation>Keine Daten im Datensatz vorhanden</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="534"/>
+        <location filename="../ui/sgd_dockwidget.py" line="566"/>
         <source>No files found.</source>
         <translation>Keine Daten gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="551"/>
+        <location filename="../ui/sgd_dockwidget.py" line="583"/>
         <source>Choose output folder</source>
         <translation>Wähle Speicherort</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="570"/>
+        <location filename="../ui/sgd_dockwidget.py" line="602"/>
         <source>Overwrite files?</source>
         <translation>Daten überschreiben?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="570"/>
+        <location filename="../ui/sgd_dockwidget.py" line="602"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Mindestens eine Datei wird überschrieben. Trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="595"/>
+        <location filename="../ui/sgd_dockwidget.py" line="627"/>
         <source>Files successfully downloaded!</source>
         <translation>Dateien erfolgreich heruntergeladen!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="228"/>
+        <location filename="../ui/sgd_dockwidget.py" line="253"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.
 
@@ -167,29 +167,38 @@ Weitere Informationen:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="537"/>
+        <location filename="../ui/sgd_dockwidget.py" line="569"/>
         <source>Why are there no files?</source>
         <translation>Wieso sind keine Daten vorhanden?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="538"/>
+        <location filename="../ui/sgd_dockwidget.py" line="570"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</source>
         <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um eine Liste aller verfügbaren Dateien zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="599"/>
+        <location filename="../ui/sgd_dockwidget.py" line="631"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} Datei(en) erfolgreich heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="529"/>
+        <location filename="../ui/sgd_dockwidget.py" line="561"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} Datei(en), ca. {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="532"/>
+        <location filename="../ui/sgd_dockwidget.py" line="564"/>
         <source>{} file(s)</source>
         <translation>{} Datei(en)</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="204"/>
+        <source>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
+
+Switch map to Swiss LV95?</source>
+        <translation>Es wird empfohlen, das Schweizer Koordinatenbezugssystem zu verwenden um Geodaten herunterzuladen.
+
+Karte im Schweizer System LV95 anzeigen?</translation>
     </message>
 </context>
 <context>
