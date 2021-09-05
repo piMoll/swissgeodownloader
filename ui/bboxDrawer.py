@@ -32,15 +32,22 @@ class BboxPainter:
     """Paints the bounding boxes of the listed file into the map and labels
     them with their row number."""
     
+    MAX_VISIBLE_SCALE = 100000
+    MAX_BBOX_TO_DISPLAY = 8000
+    
     def __init__(self, canvas, transformer: QgsCoordinateTransform,
                  annotationManager: QgsAnnotationManager):
         self.canvas = canvas
         self.transformer = transformer
         self.annotationManager = annotationManager
         self.bboxItems = {}
+        self.numberIsVisible = True
     
-    def paintBoxes(self, fileList):
+    def paintBoxes(self, fileList, mapScale):
         self.removeAll()
+        # Limit max items to show in the map
+        if len(fileList.values()) > self.MAX_BBOX_TO_DISPLAY:
+            return
         for idx, file in enumerate(fileList.values()):
             if not file.bbox and not sum(file.bbox) > 0:
                 continue
@@ -52,7 +59,8 @@ class BboxPainter:
             self.bboxItems[file.id] = bbox
             
             # Row number as annotation
-            html = ('<div style="font-size: 22px; text-align: center;">'
+            html = ('<div style="font-size: 20px; color: rgb(0,102,255); '
+                    'text-align: center; background-color: rgba(255,255,255)">'
                     '<strong>' + str(idx+1) + '</strong></div>')
             a = QgsTextAnnotation()
             c = QTextDocument()
@@ -62,11 +70,24 @@ class BboxPainter:
             a.setFillSymbol(None)
             labelPos = QgsPointXY(rectangle.center())
             a.setMapPosition(labelPos)
-            a.setFrameSizeMm(QSizeF(24, 14))
-            a.setFrameOffsetFromReferencePointMm(QPointF(-12, -5))
+            numberLen = len(str(idx+1))-1
+            # Dimensions for white background box depending on number length
+            sizes = [[6, 3], [9, 4], [12, 6]]
+            a.setFrameSizeMm(QSizeF(sizes[numberLen][0], 14))
+            a.setFrameOffsetFromReferencePointMm(QPointF(-sizes[numberLen][1], -4))
             a.setMapPositionCrs(self.transformer.destinationCrs())
             # Add annotation to annotation manager so it can be removed
             self.annotationManager.addAnnotation(a)
+        self.switchNumberVisibility(mapScale)
+    
+    def switchNumberVisibility(self, mapScale):
+        # Check if annotation numbering should be visible
+        isVisible = round(mapScale) <= self.MAX_VISIBLE_SCALE
+        if self.numberIsVisible != isVisible:
+            self.numberIsVisible = isVisible
+            # Switch visibility of all annotations
+            for ann in self.annotationManager.annotations():
+                ann.setVisible(self.numberIsVisible)
     
     def removeAll(self):
         for item in self.bboxItems.values():
@@ -75,6 +96,7 @@ class BboxPainter:
         self.bboxItems = {}
         for ann in self.annotationManager.annotations():
             self.annotationManager.removeAnnotation(ann)
+        self.numberIsVisible = True
     
     def switchSelectState(self, fileId):
         bbox = self.bboxItems[fileId]
