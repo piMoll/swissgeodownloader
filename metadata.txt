@@ -13,7 +13,7 @@ name=Swiss Geo Downloader
 qgisMinimumVersion=3.6
 qgisMaximumVersion=
 description=Download swiss geodata comfortably inside QGIS
-version=1.0
+version=1.1
 author=Patricia Moll
 email=pimoll.dev@gmail.com
 
@@ -34,7 +34,15 @@ repository=https://github.com/piMoll/swissgeodownloader
 
 # Uncomment the following line and add your changelog:
 changelog=
-    1.0 Initial version
+    1.1 - 2021-09-05
+    - Show bounding box of the available files in map
+    - Added button to refresh dataset list
+    - Switch automatically to swiss crs if map is empty
+    - Suggest crs change if user is not in swiss crs
+    - Use API paging to get all files instead of first 100
+
+    1.0 - 2021-05-26
+    Initial version
 
 # Tags are comma separated with spaces allowed
 tags=web,geodata,switzerland,download
