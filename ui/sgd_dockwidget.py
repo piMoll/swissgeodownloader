@@ -219,10 +219,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if self.guiExtentWidget.extentState() == 1:
             # Only update widget if its current state is to display the map
             #  view extent
-            if self.guiGroupExtent.isEnabled() and self.guiExtentWidget.isEnabled():
-                # Check if extent widget is currently active
-                mapExtent: QgsRectangle = self.canvas.extent()
-                self.updateExtentValues(mapExtent, self.mapRefSys)
+            mapExtent: QgsRectangle = self.canvas.extent()
+            self.updateExtentValues(mapExtent, self.mapRefSys)
     
     def onUseFullExtentClicked(self):
         if self.guiFullExtentChbox.isChecked():
