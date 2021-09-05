@@ -153,6 +153,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         self.qgsProject.crsChanged.connect(self.onMapRefSysChanged)
         self.canvas.extentsChanged.connect(self.onMapExtentChanged)
+        self.iface.newProjectCreated.connect(self.resetFileList)
         
         # Check current project crs and ask user to change it
         self.checkSupportedCrs()
@@ -409,6 +410,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiDownloadBtn.setDisabled(True)
     
     def resetFileList(self):
+        self.fileList = []
+        self.fileListFiltered = {}
         self.fileListTbl.clear()
         self.guiDownloadBtn.setDisabled(True)
         self.guiFileListStatus.setText('')
