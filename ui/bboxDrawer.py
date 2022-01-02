@@ -44,7 +44,7 @@ class BboxPainter:
         self.numberIsVisible = True
         self.meanBboxWidth = 0
     
-    def paintBoxes(self, fileList, mapScale):
+    def paintBoxes(self, fileList):
         self.removeAll()
         # Limit max items to show in the map
         if len(fileList.values()) > self.MAX_BBOX_TO_DISPLAY:
@@ -84,15 +84,16 @@ class BboxPainter:
         
         if self.meanBboxWidth and len(fileList.values()):
             self.meanBboxWidth = self.meanBboxWidth / len(fileList.values())
-        self.switchNumberVisibility(mapScale)
+        self.switchNumberVisibility()
     
-    def switchNumberVisibility(self, mapScale):
+    def switchNumberVisibility(self):
         # Check if annotation numbering should be visible
+        mapScale = self.canvas.scale()
         if self.meanBboxWidth:
-            isVisible = round(mapScale) / round(self.meanBboxWidth) <= 70
+            isVisible = round(mapScale) / max(round(self.meanBboxWidth), 1) <= 70
         else:
             isVisible = round(mapScale) <= self.MAX_VISIBLE_SCALE
-        if self.numberIsVisible != isVisible:
+        if self.numberIsVisible is not isVisible:
             self.numberIsVisible = isVisible
             # Switch visibility of all annotations
             for ann in self.annotationManager.annotations():

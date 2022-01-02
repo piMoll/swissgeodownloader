@@ -188,7 +188,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.updateExtentValues(mapExtent, self.mapRefSys)
         # Redraw bbox in map
         self.bboxPainter.transformer = self.transformApi2Proj
-        self.bboxPainter.paintBoxes(self.fileListFiltered, self.canvas.scale())
+        self.bboxPainter.paintBoxes(self.fileListFiltered)
     
     def checkSupportedCrs(self):
         if self.mapRefSys.authid() not in RECOMMENDED_CRS:
@@ -271,7 +271,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def setBboxVisibility(self):
         if not self.bboxPainter:
             return
-        self.bboxPainter.switchNumberVisibility(self.canvas.scale())
+        self.bboxPainter.switchNumberVisibility()
     
     def onReceiveDatasets(self, datasetList):
         """Recieve list of available datasets"""
@@ -554,7 +554,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 
         self.currentFilter = filetype
         self.populateFileList(orderedFilesForTbl)
-        self.bboxPainter.paintBoxes(self.fileListFiltered, self.canvas.scale())
+        self.bboxPainter.paintBoxes(self.fileListFiltered)
     
     def onFileSelectionChange(self, fileId, isChecked):
         self.fileListFiltered[fileId].selected = isChecked
