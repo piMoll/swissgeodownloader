@@ -1,7 +1,7 @@
 {
   "ch.swisstopo.swissalti3d": {
     "options": {
-      "timestamp": "first"
+      "timestamp": "reverse"
     }
   }
 }
