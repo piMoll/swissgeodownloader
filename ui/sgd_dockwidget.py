@@ -210,7 +210,24 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         return True
     
     def onExtentChanged(self):
-        pass
+        """ Update output extent when the following cases occur:
+        2 - User changes coordinates in extent fields
+        3 - User selects a layer from option 'calculate from layer'
+        """
+        if self.guiExtentWidget.extentState() in [2, 3]:
+            newExtent = self.guiExtentWidget.outputExtent()
+            extentCrs = self.guiExtentWidget.outputCrs()
+            
+            # If extent originates from a layer and layer extent does not match
+            #  map coordinate system, transform the extent
+            if self.guiExtentWidget.extentState() == 3 \
+                    and extentCrs != self.mapRefSys and extentCrs.isValid():
+                transformer = QgsCoordinateTransform(extentCrs,
+                                self.mapRefSys, self.qgsProject)
+                trafoRectangle = transformBbox(newExtent, transformer)
+                newExtent = QgsRectangle(*tuple(trafoRectangle))
+            
+            self.guiExtentWidget.setCurrentExtent(newExtent, self.mapRefSys)
     
     def onMapExtentChanged(self):
         """Show extent of current map view in extent widget."""
@@ -435,7 +452,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def getBbox(self) -> list:
         """Read out coordinates of bounding box, transform coordinates if
         necessary"""
-        if self.guiFullExtentChbox.isChecked():
+        if self.guiFullExtentChbox.isChecked() or \
+                not self.guiExtentWidget.isEnabled():
             return []
         
         rectangle = self.guiExtentWidget.currentExtent()
