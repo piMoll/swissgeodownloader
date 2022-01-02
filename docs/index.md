@@ -33,11 +33,11 @@ If the files are not zipped, they are added automatically to QGIS.
 
 ## Further development
 The Swiss Geo Downloader isn't finished yet. Here is a list of possible features that could be implemented next:
-* Display the bounding box of all files in the map
-* Add more swisstopo datasets to the dataset list
 * Add other data providers and their datasets to the list
 * Make dataset list searchable
 * Provide meta data for every dataset
+
+Visit the [changelog](https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md) for a list of past features and fixes.
 
 ------------------------------------------------------
 
@@ -75,9 +75,8 @@ Geodaten, die nicht gezippt sind, werden nach dem Download automatisch als Layer
 
 ## Weiterentwicklung
 Der Swiss Geo Downloader wird weiterentwickelt. Folgende Features sind momentan in Planung:
-* Ausdehnung der einzelnen Dateien in Karte darstellen
-* Mehr swisstopo Datensätze ergänzen
 * Datensätze von anderen Datenanbieter ergänzen
 * Liste der Datensätze durchsuchbar machen
 * Metadaten der Datensätze anzeigen
 
+Der [Changelog](https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md) listet bereits umgesetzte Ergänzungen und Korrekturen auf.
