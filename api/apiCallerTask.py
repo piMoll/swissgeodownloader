@@ -24,7 +24,6 @@ from ..ui.ui_utilities import MESSAGE_CATEGORY
 
 class ApiCallerTask(QgsTask):
     def __init__(self, apiRef, msgBar, func, callParams):
-        # TODO
         description = func
         super().__init__(description, QgsTask.CanCancel)
         self.apiRef = apiRef
@@ -35,9 +34,9 @@ class ApiCallerTask(QgsTask):
         self.exception = None
     
     def run(self):
-        """Here the time consuming requests are started. This method MUST
+        """Here the time-consuming requests are started. This method MUST
          return True or False. Raising exceptions will crash QGIS, so we
-         handle them internally and raise them in self.finished"""
+         handle them internally and raise them in self.finished()"""
         
         if self.func == 'getDatasetList':
             self.output = self.apiRef.getDatasetList(self)

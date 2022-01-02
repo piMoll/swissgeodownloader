@@ -1,7 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [1.2] - 2022-01-02
+### Added
+- French translations, thanks to [romainbh](https://github.com/romainbh)
+### Fixed
+- Wrongfully added a bounding box as request parameter even though the extent option was deactivated. The resulting file list therefore was often empty.
+- The button for extent option 'current layer' was removed because it does not behave consistently.
+- The bounding box from option 'calculate from layer' was not read out correctly.
 
 ## [1.1] - 2021-09-05
 ### Added
