@@ -83,8 +83,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         # Init QgsExtentBoxGroup Widget
         self.guiExtentWidget: QgsExtentGroupBox
-        self.guiExtentWidget.setOriginalExtent(self.canvas.extent(),
-                                         self.mapRefSys)
         # Set current (=map view) extent
         self.guiExtentWidget.setCurrentExtent(self.canvas.extent(),
                                         self.mapRefSys)
