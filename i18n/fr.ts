@@ -26,34 +26,34 @@
 <context>
     <name>ApiCallerTask</name>
     <message>
-        <location filename="../api/apiCallerTask.py" line="80"/>
+        <location filename="../api/apiCallerTask.py" line="65"/>
         <source>request completed</source>
         <translation>requête terminée</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="82"/>
+        <location filename="../api/apiCallerTask.py" line="67"/>
         <source>available datasets received</source>
         <translation>jeux de données disponibles reçus</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="84"/>
+        <location filename="../api/apiCallerTask.py" line="69"/>
         <source>file list received</source>
         <translation>liste des fichiers reçue</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="86"/>
+        <location filename="../api/apiCallerTask.py" line="71"/>
         <source>files downloaded</source>
         <translation>fichiers téléchargés</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="92"/>
+        <location filename="../api/apiCallerTask.py" line="77"/>
         <source>An unknown error occurred</source>
         <translation>Une erreur inconnue est survenue</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="90"/>
+        <location filename="../api/apiCallerTask.py" line="75"/>
         <source>Aborted by user</source>
-        <translation>Annulé par l'utilisateur</translation>
+        <translation>Annulé par l&apos;utilisateur</translation>
     </message>
 </context>
 <context>
@@ -61,12 +61,12 @@
     <message>
         <location filename="../api/datageoadmin.py" line="59"/>
         <source>Error when loading available dataset - Unexpected API response</source>
-        <translation>Erreur lors du chargement des jeux de données - Réponse de l'API inattendue</translation>
+        <translation>Erreur lors du chargement des jeux de données - Réponse de l&apos;API inattendue</translation>
     </message>
     <message>
         <location filename="../api/datageoadmin.py" line="192"/>
         <source>Error when requesting file list - Unexpected API response</source>
-        <translation>Erreur lors de la demande de la liste de fichiers - Réponse de l'API inattendue</translation>
+        <translation>Erreur lors de la demande de la liste de fichiers - Réponse de l&apos;API inattendue</translation>
     </message>
     <message>
         <location filename="../api/datageoadmin.py" line="278"/>
@@ -91,17 +91,17 @@
     <message>
         <location filename="../api/datageoadmin.py" line="323"/>
         <source>Error when requesting header information: {}</source>
-        <translation>Erreur lors de la demande d'informations d'en-tête : {}</translation>
+        <translation>Erreur lors de la demande d&apos;informations d&apos;en-tête : {}</translation>
     </message>
     <message>
         <location filename="../api/datageoadmin.py" line="291"/>
         <source>swisstopo service not reachable or no internet connection</source>
-        <translation>le service Swisstopo n'est pas atteignable ou la connexion Internet est introuvable</translation>
+        <translation>le service Swisstopo n&apos;est pas atteignable ou la connexion Internet est introuvable</translation>
     </message>
     <message>
         <location filename="../api/datageoadmin.py" line="126"/>
         <source>Error when loading dataset details - Unexpected API response</source>
-        <translation>Erreur lors du chargement des détails du jeu de données - Réponse de l'API inattendue</translation>
+        <translation>Erreur lors du chargement des détails du jeu de données - Réponse de l&apos;API inattendue</translation>
     </message>
 </context>
 <context>
@@ -120,85 +120,85 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="253"/>
+        <location filename="../ui/sgd_dockwidget.py" line="264"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="253"/>
+        <location filename="../ui/sgd_dockwidget.py" line="264"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader vous permet de télécharger les géodonnées suisses de manière simple et pratique.
 
-Actuellement, le plugin donne accès à une sélection des produits Swisstopo les plus demandés. Des données supplémentaires de Swisstopo et d'autres fournisseurs seront ajoutées dans de futures versions.
+Actuellement, le plugin donne accès à une sélection des produits Swisstopo les plus demandés. Des données supplémentaires de Swisstopo et d&apos;autres fournisseurs seront ajoutées dans de futures versions.
 
 Tous les jeux de données proposés sont disponibles gratuitement.
 
-Plus d'informations :
+Plus d&apos;informations :
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="320"/>
+        <location filename="../ui/sgd_dockwidget.py" line="338"/>
         <source>No files available in this dataset</source>
         <translation>Pas de fichiers disponibles dans ce jeu de données</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="566"/>
+        <location filename="../ui/sgd_dockwidget.py" line="582"/>
         <source>No files found.</source>
         <translation>Pas de fichiers trouvés.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="583"/>
+        <location filename="../ui/sgd_dockwidget.py" line="593"/>
         <source>Choose output folder</source>
         <translation>Sélectionnez un dossier de sortie</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="602"/>
+        <location filename="../ui/sgd_dockwidget.py" line="612"/>
         <source>Overwrite files?</source>
-        <translation>Écraser les fichiers ?</translation>
+        <translation>Écraser les fichiers?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="602"/>
+        <location filename="../ui/sgd_dockwidget.py" line="612"/>
         <source>At least one file will be overwritten. Continue?</source>
-        <translation>Au moins un fichier sera écrasé. Continuer ?</translation>
+        <translation>Au moins un fichier sera écrasé. Continuer?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="627"/>
+        <location filename="../ui/sgd_dockwidget.py" line="637"/>
         <source>Files successfully downloaded!</source>
-        <translation>Fichiers téléchargés avec succès !</translation>
+        <translation>Fichiers téléchargés avec succès!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="569"/>
+        <location filename="../ui/sgd_dockwidget.py" line="314"/>
         <source>Why are there no files?</source>
-        <translation>Pourquoi n'y a-t-il pas de fichiers ?</translation>
+        <translation>Pourquoi n&apos;y a-t-il pas de fichiers?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="570"/>
+        <location filename="../ui/sgd_dockwidget.py" line="315"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</source>
-        <translation>Tous les jeux de données ne couvrent pas l'entier de la surface de la Suisse. Essayez de changer les options ou de sélectionner &apos;Emprise complète du jeu de données&apos; pour obtenir une liste de tous les jeux de données disponibles.</translation>
+        <translation>Tous les jeux de données ne couvrent pas l&apos;entier de la surface de la Suisse. Essayez de changer les options ou de sélectionner &apos;Emprise complète du jeu de données&apos; pour obtenir une liste de tous les jeux de données disponibles.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="631"/>
+        <location filename="../ui/sgd_dockwidget.py" line="641"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} fichier(s) téléchargés avec succès</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="561"/>
+        <location filename="../ui/sgd_dockwidget.py" line="577"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} fichier(s), approximativement {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="564"/>
+        <location filename="../ui/sgd_dockwidget.py" line="580"/>
         <source>{} file(s)</source>
         <translation>{} ficiher(s)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="204"/>
+        <location filename="../ui/sgd_dockwidget.py" line="200"/>
         <source>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
 
 Switch map to Swiss LV95?</source>
-        <translation>Pour télécharger des géodonnées suisses, il est recommandé d'utiliser le système de coordonnées de référence suisse.
+        <translation>Pour télécharger des géodonnées suisses, il est recommandé d&apos;utiliser le système de coordonnées de référence suisse.
 
-Changer la projection en LV95 ?</translation>
+Changer la projection en LV95?</translation>
     </message>
 </context>
 <context>
@@ -291,7 +291,7 @@ Changer la projection en LV95 ?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="220"/>
         <source>Requests are limited to max. 100 files</source>
-        <translation>Pour l'instant, les requêtes sont limitées à max. 100 fichiers</translation>
+        <translation>Pour l&apos;instant, les requêtes sont limitées à max. 100 fichiers</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="223"/>

@@ -26,32 +26,32 @@
 <context>
     <name>ApiCallerTask</name>
     <message>
-        <location filename="../api/apiCallerTask.py" line="80"/>
+        <location filename="../api/apiCallerTask.py" line="65"/>
         <source>request completed</source>
         <translation>Abfrage abgeschlossen</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="82"/>
+        <location filename="../api/apiCallerTask.py" line="67"/>
         <source>available datasets received</source>
         <translation>Vorhandene Datensätze erhalten</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="84"/>
+        <location filename="../api/apiCallerTask.py" line="69"/>
         <source>file list received</source>
         <translation>Dateiliste erhalten</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="86"/>
+        <location filename="../api/apiCallerTask.py" line="71"/>
         <source>files downloaded</source>
         <translation>Dateien heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="92"/>
+        <location filename="../api/apiCallerTask.py" line="77"/>
         <source>An unknown error occurred</source>
         <translation>Ein unbekannter Fehler ist aufgetreten</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="90"/>
+        <location filename="../api/apiCallerTask.py" line="75"/>
         <source>Aborted by user</source>
         <translation>Abbruch durch Benutzer</translation>
     </message>
@@ -120,42 +120,42 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="253"/>
+        <location filename="../ui/sgd_dockwidget.py" line="264"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="320"/>
+        <location filename="../ui/sgd_dockwidget.py" line="338"/>
         <source>No files available in this dataset</source>
         <translation>Keine Daten im Datensatz vorhanden</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="566"/>
+        <location filename="../ui/sgd_dockwidget.py" line="582"/>
         <source>No files found.</source>
         <translation>Keine Daten gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="583"/>
+        <location filename="../ui/sgd_dockwidget.py" line="593"/>
         <source>Choose output folder</source>
         <translation>Wähle Speicherort</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="602"/>
+        <location filename="../ui/sgd_dockwidget.py" line="612"/>
         <source>Overwrite files?</source>
         <translation>Daten überschreiben?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="602"/>
+        <location filename="../ui/sgd_dockwidget.py" line="612"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Mindestens eine Datei wird überschrieben. Trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="627"/>
+        <location filename="../ui/sgd_dockwidget.py" line="637"/>
         <source>Files successfully downloaded!</source>
         <translation>Dateien erfolgreich heruntergeladen!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="253"/>
+        <location filename="../ui/sgd_dockwidget.py" line="264"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.
 
@@ -167,32 +167,32 @@ Weitere Informationen:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="569"/>
+        <location filename="../ui/sgd_dockwidget.py" line="314"/>
         <source>Why are there no files?</source>
         <translation>Wieso sind keine Daten vorhanden?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="570"/>
+        <location filename="../ui/sgd_dockwidget.py" line="315"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</source>
         <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um eine Liste aller verfügbaren Dateien zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="631"/>
+        <location filename="../ui/sgd_dockwidget.py" line="641"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} Datei(en) erfolgreich heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="561"/>
+        <location filename="../ui/sgd_dockwidget.py" line="577"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} Datei(en), ca. {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="564"/>
+        <location filename="../ui/sgd_dockwidget.py" line="580"/>
         <source>{} file(s)</source>
         <translation>{} Datei(en)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="204"/>
+        <location filename="../ui/sgd_dockwidget.py" line="200"/>
         <source>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
 
 Switch map to Swiss LV95?</source>
