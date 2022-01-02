@@ -95,8 +95,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Deactivate unused ui-elements
         self.onUnselectDataset()
         self.guiDatasetStatus.hide()
-        self.guiQuestionBtn.hide()
-        self.questionTxt = []
 
         # File list table
         self.fileListTbl = FileListTable(self, self.guiFileListLayout)
@@ -313,7 +311,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.applyDatasetState()
     
     def onQuestionClicked(self):
-        self.showDialog(self.questionTxt[0], self.questionTxt[1], 'Ok')
+        title = self.tr('Why are there no files?')
+        msg = self.tr("Not all datasets cover the whole area of Switzerland."
+                     " Try changing options or select 'Full dataset extent'"
+                     " to get a list of all available datasets.")
+        self.showDialog(title, msg, 'Ok')
     
     def applyDatasetState(self):
         """Set up ui according to the options of the selected dataset"""
@@ -438,7 +440,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiDownloadBtn.setDisabled(True)
         self.guiFileListStatus.setText('')
         self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
-        self.guiQuestionBtn.hide()
         self.bboxPainter.removeAll()
     
     def onOptionChanged(self, newVal):
@@ -561,8 +562,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.updateSummary()
     
     def updateSummary(self):
-        self.guiQuestionBtn.hide()
-
         if self.fileListFiltered:
             fileSize = 0
             count = 0
@@ -581,12 +580,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 status = self.tr("{} file(s)").format(count)
         else:
             status = self.tr('No files found.')
-            self.guiQuestionBtn.show()
-            self.questionTxt = \
-                [self.tr('Why are there no files?'),
-                 self.tr("Not all datasets cover the whole area of Switzerland."
-                         " Try changing options or select 'Full dataset extent'"
-                         " to get a list of all available datasets.")]
 
         self.guiFileListStatus.setText(status)
         self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
