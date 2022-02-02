@@ -46,7 +46,6 @@ class ApiDataGeoAdmin:
     def __init__(self, parent):
         self.baseUrl = BASEURL
         self.parent = parent
-        self.http = QgsBlockingNetworkRequest()
     
     def getDatasetList(self, task: QgsTask):
         """Get a list of all available datasets and read out with options the
@@ -251,13 +250,14 @@ class ApiDataGeoAdmin:
 
         task.log(self.tr('Start request {}').format(callUrl.toString()))
         # Start request
+        http = QgsBlockingNetworkRequest()
         if method == 'get':
-            self.http.get(request, forceRefresh=True)
+            http.get(request, forceRefresh=True)
         elif method == 'head':
-            self.http.head(request, forceRefresh=True)
+            http.head(request, forceRefresh=True)
         
         # Check if request was successful
-        r = self.http.reply()
+        r = http.reply()
         try:
             assert r.error() == QNetworkReply.NoError, r.error()
         except AssertionError:
