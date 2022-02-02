@@ -38,6 +38,10 @@ class Option:
                 self.format = option
             elif key == 'timestamp':
                 self.timestamp = option
+    
+    def hasMultipleOptions(self):
+        return len(self.coordsys) > 1 or len(self.resolution) > 1 \
+               or len(self.format) > 1 or len(self.timestamp) > 1
         
 
 class Dataset:
@@ -54,6 +58,9 @@ class Dataset:
     
     def setOptions(self, options: dict):
         self.options.fill(options)
+    
+    def isSingleFile(self):
+        return not self.selectByBBox and not self.options.hasMultipleOptions()
 
 
 class File:

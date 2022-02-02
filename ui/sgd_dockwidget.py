@@ -298,17 +298,21 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             caller.taskCompleted.connect(
                 lambda: self.onLoadDatasetDetails(caller.output))
             caller.taskTerminated.connect(
-                lambda: self.onLoadDatasetDetails(None))
+                lambda: self.onLoadDatasetDetails())
             self.taskManager.addTask(caller)
         else:
-            self.applyDatasetState()
+            self.onLoadDatasetDetails()
         self.guiDatasetList.blockSignals(False)
     
-    def onLoadDatasetDetails(self, dataset):
+    def onLoadDatasetDetails(self, dataset=None):
         if dataset:
             self.datasetList[dataset.id] = dataset
             self.currentDataset = dataset
         self.applyDatasetState()
+        
+        # If dataset has only a single file to download, get it right away
+        if self.currentDataset.isSingleFile():
+            self.onLoadFileListClicked()
     
     def onQuestionClicked(self):
         title = self.tr('Why are there no files?')
