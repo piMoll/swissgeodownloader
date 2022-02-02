@@ -53,7 +53,7 @@ class ApiDataGeoAdmin:
         dataset supports"""
         # Request dataset list
         collection = self.fetchAll(task, self.baseUrl, 'collections')
-        if not collection:
+        if collection is False:
             if not task.exception:
                 task.exception = self.tr('Error when loading available dataset'
                                          ' - Unexpected API response')
@@ -176,7 +176,7 @@ class ApiDataGeoAdmin:
 
         # Request files
         responseList = self.fetchAll(task, url, 'features', params=params)
-        if not responseList:
+        if responseList is False:
             if not task.exception:
                 task.exception = self.tr('Error when requesting file list - '
                                          'Unexpected API response')
