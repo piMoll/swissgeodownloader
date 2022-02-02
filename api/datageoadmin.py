@@ -51,20 +51,19 @@ class ApiDataGeoAdmin:
     def getDatasetList(self, task: QgsTask):
         """Get a list of all available datasets and read out with options the
         dataset supports"""
-        collection = self.fetch(task, self.baseUrl)
-        
-        if not collection or not isinstance(collection, dict) \
-                or 'collections' not in collection:
+        # Request dataset list
+        collection = self.fetchAll(task, self.baseUrl, 'collections')
+        if not collection:
             if not task.exception:
-                task.exception = self.tr('Error when loading available dataset - '
-                                         'Unexpected API response')
+                task.exception = self.tr('Error when loading available dataset'
+                                         ' - Unexpected API response')
             return False
 
         # Read out custom overwrites for dataset options from a config file
         overwriteRules = self.getCustomOptions()
         
         datasetList = {}
-        for ds in collection['collections']:
+        for ds in collection:
             
             if task.isCanceled():
                 return False
@@ -174,43 +173,17 @@ class ApiDataGeoAdmin:
             params['bbox'] = ','.join([str(ext) for ext in bbox])
         if timestamp:
             params['datetime'] = timestamp
-        
-        # Response and filtered list of files
-        responseList = []
-        fileList = []
 
-        # Fetch more responses as long as there is a 'next' link
-        #  in the response
-        while url:
-            if task.isCanceled():
-                return False
-            
-            response = self.fetch(task, url, params=params)
-        
-            if not response or not isinstance(response, dict) \
-                    or not 'features' in response:
-                if not task.exception:
-                    task.exception = self.tr('Error when requesting file list - '
-                                             'Unexpected API response')
-                return False
-            
-            responseList.extend(response['features'])
-            
-            # Get the next bunch of files by using the next link
-            #  in the response
-            nextUrl = ''
-            if response['links']:
-                for link in response['links']:
-                    if link['rel'] == 'next':
-                        nextUrl = link['href']
-                        break
-            if url != nextUrl:
-                url = nextUrl
-                # Params are already part of the next url, no need to
-                #  specify them again
-                params = {}
-            else:
-                url = ''
+        # Request files
+        responseList = self.fetchAll(task, url, 'features', params=params)
+        if not responseList:
+            if not task.exception:
+                task.exception = self.tr('Error when requesting file list - '
+                                         'Unexpected API response')
+            return False
+
+        # Filtered list of files
+        fileList = []
             
         for item in responseList:
             # Filter assets so that we only get the one file that matches the
@@ -315,6 +288,41 @@ class ApiDataGeoAdmin:
             return r
         else:
             return False
+
+    def fetchAll(self, task: QgsTask, url, responsePropName, params=None,
+                 header=None, method='get'):
+        responseList = []
+    
+        # Fetch more responses as long as there is a 'next' link
+        #  in the response
+        while url:
+            if task.isCanceled():
+                return False
+        
+            response = self.fetch(task, url, params, header, method)
+        
+            if not response or not isinstance(response, dict) \
+                    or not responsePropName in response:
+                return False
+        
+            responseList.extend(response[responsePropName])
+        
+            # Get the next bunch of files by using the next link
+            #  in the response
+            nextUrl = ''
+            if response['links']:
+                for link in response['links']:
+                    if link['rel'] == 'next':
+                        nextUrl = link['href']
+                        break
+            if url != nextUrl:
+                url = nextUrl
+                # Params are already part of the next url, no need to
+                #  specify them again
+                params = {}
+            else:
+                url = ''
+        return responseList
     
     def fetchHeadLegacy(self, task: QgsTask, url):
         try:
