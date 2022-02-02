@@ -279,7 +279,11 @@ class ApiDataGeoAdmin:
         # Process response
         if method == 'get':
             try:
-                return json.loads(str(r.content(), 'utf-8'))
+                content = str(r.content(), 'utf-8')
+                if content:
+                    return json.loads(content)
+                else:
+                    return False
             
             except json.JSONDecodeError as e:
                 task.exception = str(e)
