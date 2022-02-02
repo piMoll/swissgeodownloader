@@ -182,6 +182,8 @@ class SwissGeoDownloader:
 
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
+        
+        self.dockwidget.cleanCanvas()
 
         # disconnects
         self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)

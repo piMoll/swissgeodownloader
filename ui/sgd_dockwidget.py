@@ -651,6 +651,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Add file as layers to qgis
         addToQgis(self.qgsProject, self.filesListDownload)
     
+    def cleanCanvas(self):
+        if self.bboxPainter:
+            self.bboxPainter.removeAll()
+    
     @staticmethod
     def showDialog(title, msg, mode='OkCancel'):
         msgBox = QMessageBox()
