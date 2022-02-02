@@ -13,7 +13,7 @@ name=Swiss Geo Downloader
 qgisMinimumVersion=3.10
 qgisMaximumVersion=
 description=Download swiss geodata comfortably inside QGIS
-version=1.2
+version=1.3
 author=Patricia Moll
 email=pimoll.dev@gmail.com
 
@@ -33,8 +33,17 @@ repository=https://github.com/piMoll/swissgeodownloader
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=Aktuelle Version: 1.2.0 (Januar 2022)
-    Changelog unter: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md
+changelog=Current version: 1.3.0 (Feb 2022)
+
+    Added
+    - If a dataset contains one single file, the plugin will list this file automatically
+
+    Fixed
+    - Plugin not working because it cannot process the received list of datasets
+    - Use API paging to get all datasets instead of first 100
+    - Improve plugin behaviour when quickly clicking through dataset list
+
+    See full changelog: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md
 
 # Tags are comma separated with spaces allowed
 tags=web,geodata,switzerland,download

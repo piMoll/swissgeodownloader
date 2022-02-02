@@ -1,6 +1,15 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.3] - 2022-02-02
+### Added
+- If a dataset contains one single file, the plugin will list this file automatically
+
+### Fixed
+- Plugin not working because it cannot process the received list of datasets
+- Use API paging to get all datasets instead of first 100
+- Improve plugin behaviour when quickly clicking through dataset list
+
 ## [1.2] - 2022-01-02
 ### Added
 - French translations, thanks to [romainbh](https://github.com/romainbh)

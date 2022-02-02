@@ -1,6 +1,8 @@
 # build
 
 ### 1. Update changelog
+1. changelog.md
+2. metadata.txt
 
 ### 2. Change version information --> Version format: x.y.z
 metadata.txt: Change version
