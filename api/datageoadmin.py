@@ -86,7 +86,8 @@ class ApiDataGeoAdmin:
             
             options = {}
             for sumName, sumItem in ds['summaries'].items():
-                options[API_OPTION_MAPPER[sumName]] = sumItem
+                if sumName in API_OPTION_MAPPER:
+                    options[API_OPTION_MAPPER[sumName]] = sumItem
             
             # Get available timestamps
             if 'temporal' in ds['extent']:
