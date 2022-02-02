@@ -110,8 +110,9 @@ class BboxPainter:
         self.meanBboxWidth = 0
     
     def switchSelectState(self, fileId):
-        bbox = self.bboxItems[fileId]
-        bbox.switchSelected()
+        if fileId in self.bboxItems:
+            bbox = self.bboxItems[fileId]
+            bbox.switchSelected()
 
 
 class BboxMapItem(QgsRubberBand):
