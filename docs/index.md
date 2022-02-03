@@ -1,4 +1,4 @@
-_For german version see bellow._
+_For German version see bellow._
 
 ## About
 The Swiss Geo Downloader allows you to download Swiss geodata in an easy and convenient way. 
@@ -22,17 +22,17 @@ Download it directly from the QGIS plugin manager by searching for _Swiss Geo Do
 The plugin lets you select from around a dozen swisstopo datasets. 
 After you select one, you can choose from different options like data type or resolution (depending on the selected dataset). 
 
-Also, you can choose for which extent you would like to recieve data. 
+Also, you can choose for which extent you would like to receive data. 
 The extent can be set to the current map extent or from another layer.
 
-By clicking on the button _Get file list_ you recieve all relevant files. 
+By clicking on the button _Get file list_ a list of all relevant files will be generated. 
 Files can be selected and deselected before starting the download. 
 
 If the files are not zipped, they are added automatically to QGIS.
 
 
 ## Further development
-The Swiss Geo Downloader isn't finished yet. Here is a list of possible features that could be implemented next:
+The Swiss Geo Downloader isn't finished, yet. Here is a list of possible features that could be implemented next:
 * Add other data providers and their datasets to the list
 * Make dataset list searchable
 * Provide meta data for every dataset
@@ -55,7 +55,7 @@ Weitere Datensätze der swisstopo und andere Datenanbieter werden in zukünftige
 Bei allen Datensätzen handelt es sich um frei verfügbare Geodaten, 
 die über eine [swisstopo-API](https://www.geo.admin.ch/de/geo-dienstleistungen/geodienste/downloadienste/stac-api.html#datasets) abgefragt werden.
 
-Falls Sie mehr Informationen zu frei verfügbaren swisstopo Geodaten suchen, finden Sie diese auf: [swisstopo - Allgemeine Informationen zum Bezug der Geodaten](https://www.swisstopo.admin.ch/de/geodata/info.html).
+Falls Sie mehr Informationen zu frei verfügbaren swisstopo-Geodaten suchen, finden Sie diese auf: [swisstopo - Allgemeine Informationen zum Bezug der Geodaten](https://www.swisstopo.admin.ch/de/geodata/info.html).
 
 
 ## Download
@@ -63,13 +63,13 @@ Das Plugin ist im offiziellen QGIS Plugin Verzeichnis registriert.
 Es ist im Plugin Manager als _Swiss Geo Downloader_ aufgelistet und kann dort direkt heruntergeladen werden.
 
 ## Verwendung
-Das Plugin stellt etwa ein Dutzend swisstopo Datensätze zur Auswahl.
+Das Plugin stellt etwa ein Dutzend swisstopo-Datensätze zur Auswahl.
 Abhängig vom ausgewählten Datensatz können verschiedene Eigenschaften wie der Dateityp oder die Auflösung angepasst werden.
 
 Zudem kann die Ausdehnung der gewünschten Daten eingeschränkt werden, beispielsweise auf den aktuellen Kartenausschnitt oder einen anderen Layer.
 
-Per Lick auf _Liste anfordern_ wird eine Liste aller zutreffenden Dateien angezeigt. 
-Dateien können selektiert oder deselektiert bevor der Download gestartet wird. 
+Per Klick auf _Liste anfordern_ wird eine Liste aller zutreffenden Dateien angezeigt. 
+Dateien können selektiert oder deselektiert werden, bevor der Download gestartet wird. 
 Geodaten, die nicht gezippt sind, werden nach dem Download automatisch als Layer in QGIS hinzugefügt.
 
 
