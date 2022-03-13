@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>513</width>
-    <height>777</height>
+    <height>808</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -105,7 +105,7 @@
          <x>0</x>
          <y>0</y>
          <width>493</width>
-         <height>673</height>
+         <height>704</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -156,74 +156,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QgsCollapsibleGroupBox" name="guiGroupOptions">
-            <property name="title">
-             <string>2. Options</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_2">
-             <item row="1" column="1">
-              <widget class="QComboBox" name="guiResolution">
-               <property name="toolTip">
-                <string>Select resolution (only raster based datasets)</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="guiCoordsysL">
-               <property name="text">
-                <string>Coord.sys</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="guiResolutionL">
-               <property name="text">
-                <string>Resolution [m]</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="guiTimestampL">
-               <property name="text">
-                <string>Timestamp</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="guiFormatL">
-               <property name="text">
-                <string>Format</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QComboBox" name="guiFormat">
-               <property name="toolTip">
-                <string>Select format</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QComboBox" name="guiCoordsys">
-               <property name="toolTip">
-                <string>Select coordinate reference system</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QComboBox" name="guiTimestamp">
-               <property name="toolTip">
-                <string>Select timestamp</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item>
            <widget class="QgsCollapsibleGroupBox" name="guiGroupExtent">
             <property name="title">
-             <string>3. Extent</string>
+             <string>2. Extent</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
@@ -269,7 +204,7 @@
           <item>
            <widget class="QgsCollapsibleGroupBox" name="guiGroupFiles">
             <property name="title">
-             <string>4. Files</string>
+             <string>3. Files</string>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_3">
              <item>
@@ -320,17 +255,77 @@
                  </property>
                 </spacer>
                </item>
-               <item>
-                <widget class="QLabel" name="guiLabel23">
-                 <property name="text">
-                  <string>Filter by type</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QGridLayout" name="gridLayout_3">
+               <item row="0" column="1">
                 <widget class="QComboBox" name="guiFileType">
                  <property name="toolTip">
                   <string>Filter file list by type</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QComboBox" name="guiResolution">
+                 <property name="toolTip">
+                  <string>Select resolution (only raster based datasets)</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="guiFormatL">
+                 <property name="text">
+                  <string>Format</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="guiResolutionL">
+                 <property name="text">
+                  <string>Resolution [m]</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="guiFormat">
+                 <property name="toolTip">
+                  <string>Select format</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="guiTimestampL">
+                 <property name="text">
+                  <string>Timestamp</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QComboBox" name="guiTimestamp">
+                 <property name="toolTip">
+                  <string>Select timestamp</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="guiCoordsysL">
+                 <property name="text">
+                  <string>Coord.sys</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QComboBox" name="guiCoordsys">
+                 <property name="toolTip">
+                  <string>Select coordinate reference system</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="guiFileTypeL">
+                 <property name="text">
+                  <string>File type</string>
                  </property>
                 </widget>
                </item>

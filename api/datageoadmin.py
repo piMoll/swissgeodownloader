@@ -26,15 +26,17 @@ from qgis.PyQt.QtCore import QEventLoop, QUrl, QUrlQuery, QCoreApplication
 from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
 from qgis.core import (QgsTask, QgsFileDownloader, QgsBlockingNetworkRequest,
                        Qgis)
-from .responseObjects import Dataset, File
+from .responseObjects import (Dataset, File, ALL_VALUE, CURRENT_VALUE)
 from ..ui.ui_utilities import getDateFromIsoString
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
 API_EPSG = 'EPSG:4326'
 OPTION_MAPPER = {
-    'coordsys': 'proj:epsg',
-    'resolution': 'eo:gsd',
+    'filetype': 'type',
     'format': 'geoadmin:variant',
+    'resolution': 'eo:gsd',
+    'timestamp': 'datetime',
+    'coordsys': 'proj:epsg',
 }
 API_OPTION_MAPPER = {y:x for x,y in OPTION_MAPPER.items()}
 CUSTOM_OPTION_FILE = os.path.join(os.path.dirname(__file__), 'datageoadmin.json')
@@ -57,9 +59,6 @@ class ApiDataGeoAdmin:
                 task.exception = self.tr('Error when loading available dataset'
                                          ' - Unexpected API response')
             return False
-
-        # Read out custom overwrites for dataset options from a config file
-        overwriteRules = self.getCustomOptions()
         
         datasetList = {}
         for ds in collection:
@@ -67,48 +66,13 @@ class ApiDataGeoAdmin:
             if task.isCanceled():
                 return False
 
-            # Check if there are overwrites for this dataset
-            overwrite = None
-            if ds['id'] in overwriteRules:
-                overwrite = overwriteRules[ds['id']]
-                
-            # Skip this dataset
-            if overwrite and 'ignore' in overwrite:
-                continue
-            
             dataset = Dataset(ds['id'], [link['href'] for link in ds['links']
                               if link['rel'] == 'items'][0])
+            
             dataset.bbox = ds['extent']['spatial']['bbox'][0]
             dataset.licenseLink = [link['href'] for link in ds['links']
                                    if link['rel'] == 'license'][0]
-            
-            options = {}
-            for sumName, sumItem in ds['summaries'].items():
-                if sumName in API_OPTION_MAPPER:
-                    options[API_OPTION_MAPPER[sumName]] = sumItem
-            
-            # Get available timestamps
-            if 'temporal' in ds['extent']:
-                timestamps = ds['extent']['temporal']['interval'][0]
-                # Remove empty values
-                timestampList = [ts for ts in timestamps if ts]
-                # Remove duplicates
-                timestampList = list(set(timestampList))
-                if timestampList:
-                    # Create date object from string, insert timestamp into dict
-                    dictOfDates = {getDateFromIsoString(ts, False): ts for ts in timestampList}
-                    # Sort by date and return original timestamp
-                    options['timestamp'] = [dictOfDates[tsKey] for tsKey in sorted(dictOfDates.keys())]
-                    # Reverse sorting to get most current date first
-                    options['timestamp'].reverse()
-                
-                    # Apply overwrites for timestamps
-                    if (overwrite and 'options' in overwrite
-                        and 'timestamp' in overwrite['options']):
-                        if overwrite['options']['timestamp'] == 'reverse':
-                            options['timestamp'].reverse()
 
-            dataset.setOptions(options)
             datasetList[dataset.id] = dataset
         
         return datasetList
@@ -130,11 +94,9 @@ class ApiDataGeoAdmin:
         fileCount = len(items['features'])
         
         # Check if it makes sense to select by bbox
-        # TODO: this should also check options and see, if there is only
-        #  one file per option (e.g. farbe-pk100)
-        if fileCount <= 1 or (dataset.options.timestamp
-            and fileCount == len(dataset.options.timestamp)):
+        if fileCount <= 1:
             dataset.selectByBBox = False
+            dataset.isSingleFile = True
         
         # Analyze size of an item to estimate download sizes later on
         if fileCount > 0:
@@ -164,14 +126,12 @@ class ApiDataGeoAdmin:
         dataset.avgSize = estimate
         return dataset
 
-    def getFileList(self, task: QgsTask, url, bbox, timestamp, options):
-        """Request a list of available files that are within a bounding box and
-        have a specified timestamp"""
+    def getFileList(self, task: QgsTask, url, bbox):
+        """Request a list of available files that are within a bounding box.
+        Analyse the receieved list and extract file properties."""
         params = {}
         if bbox:
             params['bbox'] = ','.join([str(ext) for ext in bbox])
-        if timestamp:
-            params['datetime'] = timestamp
 
         # Request files
         responseList = self.fetchAll(task, url, 'features', params=params)
@@ -180,59 +140,84 @@ class ApiDataGeoAdmin:
                 task.exception = self.tr('Error when requesting file list - '
                                          'Unexpected API response')
             return False
-
-        # Filtered list of files
+        
+        filterItems = {
+            'filetype': [],
+            'format': [],
+            'resolution': [],
+            'timestamp': [],
+            'coordsys': [],
+        }
         fileList = []
             
         for item in responseList:
-            # Filter assets so that we only get the one file that matches the
-            #  defined options
+            # Readout timestamp from the item itself
+            try:
+                timestamp = item['properties'][OPTION_MAPPER['timestamp']]
+            except NameError:
+                # Extract the mandatory timestamp 'created' instead
+                timestamp = item['properties']['created']
+
+            timestamp = getDateFromIsoString(timestamp)
+            
+            # Save all files and their properties
             for assetId in item['assets']:
                 if task.isCanceled():
                     return False
         
                 asset = item['assets'][assetId]
-        
-                # Filter out all files that match the specified options
-                optionsMatch = []
-                for optionName, optionValue in options.items():
-                    optionApiName = OPTION_MAPPER[optionName]
-            
-                    optionsMatch.append(optionApiName in asset.keys() and
-                                        optionValue == asset[
-                                            optionApiName])
-        
-                if sum(optionsMatch) == len(optionsMatch):
-                    # Analyse file extension
-                    filename = os.path.splitext(assetId)[0]
-                    ext = os.path.splitext(assetId)[1]
-                    ext2 = ''
-                    # If file is a zip, look at the filename again and get
-                    #  file type inside zip
-                    if ext == '.zip' and len(os.path.splitext(filename)[1]) == 4:
-                        ext2 = os.path.splitext(filename)[1]
+                
+                # Create file object
+                file = File(assetId, asset['type'], asset['href'])
+                file.bbox = item['bbox']
+                file.geom = item['geometry']
+                
+                # Extract file properties, save them to the file object
+                #  and add them to the filter list
+                
+                if OPTION_MAPPER['filetype'] in asset:
+                    filetype = str(asset[OPTION_MAPPER['filetype']]).split(';')[0]
+                    if '/' in filetype:
+                        filetype = filetype.split('/')[1]
+                    file.filetype = filetype
+                    filterItems['filetype'].append(file.filetype)
                     
-                    # Create file object
-                    file = File(assetId, asset['type'], asset['href'],
-                                ext2 + ext)
-                    file.setOptions(options)
-                    file.bbox = item['bbox']
-                    file.geom = item['geometry']
+                if OPTION_MAPPER['format'] in asset:
+                    file.format = str(asset[OPTION_MAPPER['format']])
+                    filterItems['format'].append(file.format)
                     
-                    # # Make a HEAD request to get the precise file size
-                    # This make A LOT of calls, use with care
-                    # header = self.fetch(task, asset['href'], method='head')
-                    # # Check Content-Length header
-                    # file['size'] = 0
-                    # if header.hasRawHeader(b'Content-Length'):
-                    #     file['size'] = int(header.rawHeader(b'Content-Length'))
+                if OPTION_MAPPER['resolution'] in asset:
+                    file.resolution = str(asset[OPTION_MAPPER['resolution']])
+                    filterItems['resolution'].append(file.resolution)
                     
-                    fileList.append(file)
+                if timestamp:
+                    file.timestamp = timestamp
+                    filterItems['timestamp'].append(file.timestamp)
+                    
+                if OPTION_MAPPER['coordsys'] in asset:
+                    file.coordsys = str(asset[OPTION_MAPPER['coordsys']])
+                    filterItems['coordsys'].append(file.coordsys)
+                
+                fileList.append(file)
 
         # Sort file list by bbox coordinates (first item on top left corner)
         fileList.sort(key=lambda f: round(f.bbox[3], 2), reverse=True)
         fileList.sort(key=lambda f: round(f.bbox[0], 2))
-        return fileList
+
+        # Remove duplicate entries in the filter list and sort
+        for key, l in filterItems.items():
+            sortedList = list(set(l))
+            sortedList.sort()
+            sortedList.reverse()
+            filterItems[key] = sortedList
+        
+        for filterType in filterItems.keys():
+            if len(filterItems[filterType]) >= 2:
+                filterItems[filterType].append(ALL_VALUE)
+            # TODO go trough all files and group by bbox, then select most
+            #  current timestamp and add a new value "current"
+        
+        return {'files': fileList, 'filters': filterItems}
     
     def fetch(self, task: QgsTask, url, params=None, header=None, method='get'):
         request = QNetworkRequest()

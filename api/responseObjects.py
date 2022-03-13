@@ -19,60 +19,60 @@
  ***************************************************************************/
 """
 
-class Option:
-    def __init__(self):
-        self.coordsys = []
-        self.resolution = []
-        self.format = []
-        self.timestamp = []
-    
-    def fill(self, options):
-        for key, option in options.items():
-            if not option:
-                continue
-            if key == 'coordsys':
-                self.coordsys = option
-            elif key == 'resolution':
-                self.resolution = option
-            elif key == 'format':
-                self.format = option
-            elif key == 'timestamp':
-                self.timestamp = option
-    
-    def hasMultipleOptions(self):
-        return len(self.coordsys) > 1 or len(self.resolution) > 1 \
-               or len(self.format) > 1 or len(self.timestamp) > 1
-        
+ALL_VALUE = 'all'
+CURRENT_VALUE = 'current'
 
 class Dataset:
     def __init__(self, name='', filesLink=''):
         self.id = name
         self.filesLink = filesLink
-        self.options = Option()
+        self.isSingleFile = False
         self.bbox = None
         self.licenseLink = None
         self.selectByBBox = True
         self.isEmpty = None
         self.avgSize = {}
         self.analysed = False
-    
-    def setOptions(self, options: dict):
-        self.options.fill(options)
-    
-    def isSingleFile(self):
-        return not self.selectByBBox and not self.options.hasMultipleOptions()
 
 
 class File:
-    def __init__(self, name, filetype, href, ext):
+    
+    def __init__(self, name, filetype, href):
         self.id = name
         self.type = filetype
         self.href = href
-        self.ext = ext
         self.bbox = None
         self.geom = None
-        self.options = Option()
         self.path = None
+        
+        self.filetype = None
+        self.format = None
+        self.resolution = None
+        self.timestamp = None
+        self.coordsys = None
     
-    def setOptions(self, options: dict):
-        self.options.fill(options)
+    def filetypeFitsFilter(self, filterValue):
+        return (not filterValue
+                or (filterValue and self.filetype == filterValue)
+                or (filterValue == ALL_VALUE))
+    
+    def formatFitsFilter(self, filterValue):
+        return (not filterValue
+                or (filterValue and self.format == filterValue)
+                or (filterValue == ALL_VALUE))
+    
+    def resolutionFitsFilter(self, filterValue):
+        return (not filterValue
+                or (filterValue and self.resolution == filterValue)
+                or (filterValue == ALL_VALUE))
+
+    def timestampFitsFilter(self, filterValue):
+        return (not filterValue
+                or (filterValue and self.timestamp == filterValue)
+                or (filterValue == ALL_VALUE))
+        # TODO: add 'current'
+
+    def coordsysFitsFilter(self, filterValue):
+        return (not filterValue
+                or (filterValue and self.coordsys == filterValue)
+                or (filterValue == ALL_VALUE))
