@@ -36,7 +36,7 @@ from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox,
                              switchToCrs, RECOMMENDED_CRS)
 from .fileListTable import FileListTable
 from .bboxDrawer import BboxPainter
-from ..api.responseObjects import Dataset
+from ..api.responseObjects import Dataset, ALL_VALUE, CURRENT_VALUE
 from ..api.datageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
 
@@ -575,9 +575,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.unblockFilterSignals()
     
     def formatFilterVal(self, val, filterName):
-        # TODO: change to current
-        if val == 'all':
+        if val == ALL_VALUE:
             return self.tr('all')
+        elif val == CURRENT_VALUE:
+            return self.tr('current')
+            
         elif filterName == 'coordsys':
             # Create a coordinate system object and get its friendly identifier
             cs = QgsCoordinateReferenceSystem(f'EPSG:{val}')

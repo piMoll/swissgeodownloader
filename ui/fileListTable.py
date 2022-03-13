@@ -20,7 +20,7 @@
 """
 from qgis.PyQt.QtWidgets import (QHeaderView, QTableView, QAbstractItemView,
                                  QSizePolicy, QAbstractScrollArea)
-from qgis.PyQt.QtCore import QObject, Qt, pyqtSignal
+from qgis.PyQt.QtCore import QObject, Qt, pyqtSignal, QCoreApplication
 from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel
 
 class FileListTable(QObject):
@@ -57,9 +57,12 @@ class FileListTable(QObject):
         
         self.tbl.hideColumn(0)
         self.tbl.clicked.connect(self.onClick)
+        
+        self.showEmptyMessage = False
 
     def fill(self, fileList):
         self.model.clear()
+        self.showEmptyMessage = False
         
         # Insert data into cells
         for i, file in enumerate(fileList):
@@ -72,11 +75,21 @@ class FileListTable(QObject):
 
             self.model.setData(self.model.index(i, 0), Qt.Checked)
             self.model.setData(self.model.index(i, 1), file.id)
+        
+        if len(fileList) == 0:
+            item0 = QStandardItem()
+            item1 = QStandardItem(self.tr('Currently selected filters do not match any files'))
+            item1.setEditable(False)
+            self.model.appendRow([item0, item1])
+            self.showEmptyMessage = True
 
         self.tbl.setFocusPolicy(Qt.NoFocus)
         self.tbl.hideColumn(0)
 
     def onClick(self, itemIdx):
+        if self.showEmptyMessage:
+            return
+        
         fileId = itemIdx.data()
         FileIdItem = self.model.item(itemIdx.row(), itemIdx.column())
         
@@ -94,4 +107,10 @@ class FileListTable(QObject):
 
     def clear(self):
         self.model.clear()
+        self.showEmptyMessage = False
 
+    def tr(self, message, **kwargs):
+        """Get the translation for a string using Qt translation API.
+        We implement this ourselves since we do not inherit QObject.
+        """
+        return QCoreApplication.translate(type(self).__name__, message)

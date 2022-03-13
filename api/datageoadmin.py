@@ -216,8 +216,22 @@ class ApiDataGeoAdmin:
         for filterType in filterItems.keys():
             if len(filterItems[filterType]) >= 2:
                 filterItems[filterType].append(ALL_VALUE)
-            # TODO go trough all files and group by bbox, then select most
-            #  current timestamp and add a new value "current"
+         
+        # Extract most current file (timestamp) for every bbox on the map
+        if len(filterItems['timestamp']) >= 3:
+            mostCurrentFileInBbox = {}
+            for file in fileList:
+                # This will round the coordinates to ~ 5-10 m
+                bboxString = '-'.join([str(round(coord, 4)) for coord in file.bbox])
+                if bboxString not in mostCurrentFileInBbox.keys():
+                    mostCurrentFileInBbox[bboxString] = file
+                elif file.timestamp > mostCurrentFileInBbox[bboxString].timestamp:
+                    mostCurrentFileInBbox[bboxString] = file
+            
+            if len(mostCurrentFileInBbox.keys()) > 1:
+                for file in mostCurrentFileInBbox.values():
+                    file.isMostCurrent = True
+                filterItems['timestamp'].insert(0, CURRENT_VALUE)
         
         return {'files': fileList, 'filters': filterItems}
     

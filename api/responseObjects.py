@@ -50,29 +50,36 @@ class File:
         self.resolution = None
         self.timestamp = None
         self.coordsys = None
+
+        self.isMostCurrent = False
     
     def filetypeFitsFilter(self, filterValue):
         return (not filterValue
                 or (filterValue and self.filetype == filterValue)
+                or (self.filetype is None)
                 or (filterValue == ALL_VALUE))
     
     def formatFitsFilter(self, filterValue):
         return (not filterValue
                 or (filterValue and self.format == filterValue)
+                or (self.format is None)
                 or (filterValue == ALL_VALUE))
     
     def resolutionFitsFilter(self, filterValue):
         return (not filterValue
                 or (filterValue and self.resolution == filterValue)
+                or (self.resolution is None)
                 or (filterValue == ALL_VALUE))
 
     def timestampFitsFilter(self, filterValue):
         return (not filterValue
                 or (filterValue and self.timestamp == filterValue)
-                or (filterValue == ALL_VALUE))
-        # TODO: add 'current'
+                or (self.timestamp is None)
+                or (filterValue == ALL_VALUE)
+                or (filterValue == CURRENT_VALUE and self.isMostCurrent))
 
     def coordsysFitsFilter(self, filterValue):
         return (not filterValue
                 or (filterValue and self.coordsys == filterValue)
+                or (self.coordsys is None)
                 or (filterValue == ALL_VALUE))

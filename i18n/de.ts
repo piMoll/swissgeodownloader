@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="de_CH" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.1" language="de_CH" sourcelanguage="en">
 <context>
     <name>@default</name>
     <message>
@@ -64,44 +65,52 @@
         <translation>Fehler beim Laden der Datensätze - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="140"/>
+        <location filename="../api/datageoadmin.py" line="147"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Fehler beim Laden der Dateiliste - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="236"/>
+        <location filename="../api/datageoadmin.py" line="259"/>
         <source>Start request {}</source>
         <translation>Starte Anfrage {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="345"/>
+        <location filename="../api/datageoadmin.py" line="368"/>
         <source>Start download of {}</source>
         <translation>Starte Download von {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="353"/>
+        <location filename="../api/datageoadmin.py" line="376"/>
         <source>Download of {} was canceled</source>
         <translation>Download von {} abgebrochen</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="349"/>
+        <location filename="../api/datageoadmin.py" line="372"/>
         <source>Error when downloading {}</source>
         <translation>Fehler beim Herunterladen von {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="321"/>
+        <location filename="../api/datageoadmin.py" line="344"/>
         <source>Error when requesting header information: {}</source>
         <translation>Fehler beim Abruf von Header-Informationen: {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="250"/>
+        <location filename="../api/datageoadmin.py" line="273"/>
         <source>swisstopo service not reachable or no internet connection</source>
         <translation>Swisstopo Dienst nicht erreichbar oder keine Internetverbindung</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="89"/>
+        <location filename="../api/datageoadmin.py" line="96"/>
         <source>Error when loading dataset details - Unexpected API response</source>
         <translation>Fehler beim Laden der Datensatz-Details - Unerwartete API-Antwort</translation>
+    </message>
+</context>
+<context>
+    <name>FileListTable</name>
+    <message>
+        <location filename="../ui/fileListTable.py" line="78"/>
+        <source>Currently selected filters do not match any files</source>
+        <translation>Aktuell ausgewählte Filter stimmen mit keiner Datei überein</translation>
     </message>
 </context>
 <context>
@@ -130,27 +139,27 @@
         <translation>Keine Daten im Datensatz vorhanden</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="659"/>
+        <location filename="../ui/sgd_dockwidget.py" line="661"/>
         <source>No files found.</source>
         <translation>Keine Daten gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="670"/>
+        <location filename="../ui/sgd_dockwidget.py" line="672"/>
         <source>Choose output folder</source>
         <translation>Wähle Speicherort</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="689"/>
+        <location filename="../ui/sgd_dockwidget.py" line="691"/>
         <source>Overwrite files?</source>
         <translation>Daten überschreiben?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="689"/>
+        <location filename="../ui/sgd_dockwidget.py" line="691"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Mindestens eine Datei wird überschrieben. Trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="714"/>
+        <location filename="../ui/sgd_dockwidget.py" line="716"/>
         <source>Files successfully downloaded!</source>
         <translation>Dateien erfolgreich heruntergeladen!</translation>
     </message>
@@ -177,17 +186,17 @@ Weitere Informationen:
         <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um eine Liste aller verfügbaren Dateien zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="718"/>
+        <location filename="../ui/sgd_dockwidget.py" line="720"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} Datei(en) erfolgreich heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="654"/>
+        <location filename="../ui/sgd_dockwidget.py" line="656"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} Datei(en), ca. {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="657"/>
+        <location filename="../ui/sgd_dockwidget.py" line="659"/>
         <source>{} file(s)</source>
         <translation>{} Datei(en)</translation>
     </message>
@@ -201,9 +210,14 @@ Switch map to Swiss LV95?</source>
 Karte im Schweizer System LV95 anzeigen?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="580"/>
+        <location filename="../ui/sgd_dockwidget.py" line="579"/>
         <source>all</source>
         <translation>alle</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="581"/>
+        <source>current</source>
+        <translation>aktuell</translation>
     </message>
 </context>
 <context>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="fr" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.1" language="fr" sourcelanguage="en">
 <context>
     <name>@default</name>
     <message>
@@ -64,44 +65,52 @@
         <translation>Erreur lors du chargement des jeux de données - Réponse de l&apos;API inattendue</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="140"/>
+        <location filename="../api/datageoadmin.py" line="147"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Erreur lors de la demande de la liste de fichiers - Réponse de l&apos;API inattendue</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="236"/>
+        <location filename="../api/datageoadmin.py" line="259"/>
         <source>Start request {}</source>
         <translation>Lancer la requête {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="345"/>
+        <location filename="../api/datageoadmin.py" line="368"/>
         <source>Start download of {}</source>
         <translation>Lancer le téléchargement de {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="353"/>
+        <location filename="../api/datageoadmin.py" line="376"/>
         <source>Download of {} was canceled</source>
         <translation>Le téléchargement de {} a été annulé</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="349"/>
+        <location filename="../api/datageoadmin.py" line="372"/>
         <source>Error when downloading {}</source>
         <translation>Erreur lors du téléchargement de {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="321"/>
+        <location filename="../api/datageoadmin.py" line="344"/>
         <source>Error when requesting header information: {}</source>
         <translation>Erreur lors de la demande d&apos;informations d&apos;en-tête : {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="250"/>
+        <location filename="../api/datageoadmin.py" line="273"/>
         <source>swisstopo service not reachable or no internet connection</source>
         <translation>le service Swisstopo n&apos;est pas atteignable ou la connexion Internet est introuvable</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="89"/>
+        <location filename="../api/datageoadmin.py" line="96"/>
         <source>Error when loading dataset details - Unexpected API response</source>
         <translation>Erreur lors du chargement des détails du jeu de données - Réponse de l&apos;API inattendue</translation>
+    </message>
+</context>
+<context>
+    <name>FileListTable</name>
+    <message>
+        <location filename="../ui/fileListTable.py" line="78"/>
+        <source>Currently selected filters do not match any files</source>
+        <translation>Les filtres actuellement sélectionnés ne correspondent à aucun fichier</translation>
     </message>
 </context>
 <context>
@@ -142,27 +151,27 @@ Plus d&apos;informations :
         <translation>Pas de fichiers disponibles dans ce jeu de données</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="659"/>
+        <location filename="../ui/sgd_dockwidget.py" line="661"/>
         <source>No files found.</source>
         <translation>Pas de fichiers trouvés.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="670"/>
+        <location filename="../ui/sgd_dockwidget.py" line="672"/>
         <source>Choose output folder</source>
         <translation>Sélectionnez un dossier de sortie</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="689"/>
+        <location filename="../ui/sgd_dockwidget.py" line="691"/>
         <source>Overwrite files?</source>
         <translation>Écraser les fichiers?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="689"/>
+        <location filename="../ui/sgd_dockwidget.py" line="691"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Au moins un fichier sera écrasé. Continuer?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="714"/>
+        <location filename="../ui/sgd_dockwidget.py" line="716"/>
         <source>Files successfully downloaded!</source>
         <translation>Fichiers téléchargés avec succès!</translation>
     </message>
@@ -177,17 +186,17 @@ Plus d&apos;informations :
         <translation>Tous les jeux de données ne couvrent pas l&apos;entier de la surface de la Suisse. Essayez de changer les options ou de sélectionner &apos;Emprise complète du jeu de données&apos; pour obtenir une liste de tous les jeux de données disponibles.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="718"/>
+        <location filename="../ui/sgd_dockwidget.py" line="720"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} fichier(s) téléchargés avec succès</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="654"/>
+        <location filename="../ui/sgd_dockwidget.py" line="656"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} fichier(s), approximativement {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="657"/>
+        <location filename="../ui/sgd_dockwidget.py" line="659"/>
         <source>{} file(s)</source>
         <translation>{} ficiher(s)</translation>
     </message>
@@ -201,9 +210,14 @@ Switch map to Swiss LV95?</source>
 Changer la projection en LV95?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="580"/>
+        <location filename="../ui/sgd_dockwidget.py" line="579"/>
         <source>all</source>
         <translation>tous</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="581"/>
+        <source>current</source>
+        <translation>actuel</translation>
     </message>
 </context>
 <context>
