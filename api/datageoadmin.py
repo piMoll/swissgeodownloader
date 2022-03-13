@@ -179,6 +179,8 @@ class ApiDataGeoAdmin:
                     filetype = str(asset[OPTION_MAPPER['filetype']]).split(';')[0]
                     if '/' in filetype:
                         filetype = filetype.split('/')[1]
+                    if filetype.startswith('x.'):
+                        filetype = filetype[2:]
                     file.filetype = filetype
                     filterItems['filetype'].append(file.filetype)
                     
