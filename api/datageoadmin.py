@@ -162,9 +162,6 @@ class ApiDataGeoAdmin:
             
             # Save all files and their properties
             for assetId in item['assets']:
-                if task.isCanceled():
-                    return False
-        
                 asset = item['assets'][assetId]
                 
                 # Create file object

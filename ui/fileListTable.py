@@ -37,7 +37,7 @@ class FileListTable(QObject):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tbl.sizePolicy().hasHeightForWidth())
         self.tbl.setSizePolicy(sizePolicy)
-        self.tbl.setMinimumHeight(130)
+        self.tbl.setMinimumHeight(160)
         self.tbl.setMaximumHeight(1200)
         self.tbl.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.tbl.setAutoScroll(True)
@@ -75,13 +75,6 @@ class FileListTable(QObject):
 
             self.model.setData(self.model.index(i, 0), Qt.Checked)
             self.model.setData(self.model.index(i, 1), file.id)
-        
-        if len(fileList) == 0:
-            item0 = QStandardItem()
-            item1 = QStandardItem(self.tr('Currently selected filters do not match any files'))
-            item1.setEditable(False)
-            self.model.appendRow([item0, item1])
-            self.showEmptyMessage = True
 
         self.tbl.setFocusPolicy(Qt.NoFocus)
         self.tbl.hideColumn(0)
@@ -104,6 +97,16 @@ class FileListTable(QObject):
             self.model.setData(checkStateIdx, Qt.Checked)
             FileIdItem.setCheckState(Qt.Checked)
             self.sig_selectionChanged.emit(fileId, True)
+    
+    def onEmptyList(self):
+        self.model.clear()
+        item0 = QStandardItem()
+        item1 = QStandardItem(self.tr('Currently selected filters do not match any files'))
+        item1.setEditable(False)
+        self.model.appendRow([item0, item1])
+        self.showEmptyMessage = True
+        self.tbl.setFocusPolicy(Qt.NoFocus)
+        self.tbl.hideColumn(0)
 
     def clear(self):
         self.model.clear()

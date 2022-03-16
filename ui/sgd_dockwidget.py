@@ -156,6 +156,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             'coordsys': self.guiCoordsysL,
         }
         
+        # API caller task
+        self.fileListRequest = None
+        self.guiRequestCancelBtn.setHidden(True)
+        
         self.guiDatasetList.currentItemChanged.connect(self.onDatasetSelected)
         
         self.guiFileType.currentIndexChanged.connect(self.onFilterChanged)
@@ -170,6 +174,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiRequestListBtn.clicked.connect(self.onLoadFileListClicked)
         self.guiDownloadBtn.clicked.connect(self.onDownloadFilesClicked)
         self.guiQuestionBtn.clicked.connect(self.onQuestionClicked)
+        self.guiRequestCancelBtn.clicked.connect(self.onCancelRequestClicked)
         
         self.qgsProject.crsChanged.connect(self.onMapRefSysChanged)
         self.canvas.extentsChanged.connect(self.onMapExtentChanged)
@@ -514,21 +519,28 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         # Call api
         # Create a separate task for request to not block ui
-        caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getFileList', {
-            'url': self.currentDataset.filesLink,
-            'bbox': bbox
-        })
+        self.fileListRequest = ApiCallerTask(self.apiDGA, self.msgBar,
+            'getFileList', {'url': self.currentDataset.filesLink, 'bbox': bbox})
         # Listen for finished api call
-        caller.taskCompleted.connect(
-            lambda: self.onReceiveFileList(caller.output))
-        caller.taskTerminated.connect(
-            lambda: self.onReceiveFileList({'fileList': None, 'filters': None}))
+        self.fileListRequest.taskCompleted.connect(
+            lambda: self.onReceiveFileList(self.fileListRequest.output))
+        self.fileListRequest.taskTerminated.connect(
+            lambda: self.onReceiveFileList({}))
         # Start spinner to indicate data loading
         self.spinnerFl.start()
+        self.guiRequestCancelBtn.setHidden(False)
         # Add task to task manager
-        self.taskManager.addTask(caller)
-    
+        self.taskManager.addTask(self.fileListRequest)
+
+    def onCancelRequestClicked(self):
+        if self.fileListRequest:
+            self.fileListRequest.cancel()
+            self.guiRequestCancelBtn.setHidden(True)
+
     def onReceiveFileList(self, fileList):
+        self.guiRequestCancelBtn.setHidden(True)
+        if not fileList:
+            fileList = {'files': [], 'filters': None}
         if not fileList['files']:
             fileList['files'] = []
         self.fileList = fileList['files']
@@ -591,7 +603,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             return val
     
     def populateFileList(self, fileList):
-        self.fileListTbl.fill(fileList)
+        # There are files but all of them are currently filtered out
+        if (self.fileList and not fileList):
+            self.fileListTbl.onEmptyList()
+        else:
+            self.fileListTbl.fill(fileList)
         self.updateSummary()
     
     def applyFilters(self):

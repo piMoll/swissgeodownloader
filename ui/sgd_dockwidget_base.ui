@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>513</width>
-    <height>808</height>
+    <height>807</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>500</width>
-    <height>178</height>
+    <height>180</height>
    </size>
   </property>
   <property name="allowedAreas">
@@ -24,6 +24,71 @@
   </property>
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QPushButton" name="guiShowMapBtn">
+        <property name="toolTip">
+         <string>Show overview map</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/plugins/swissgeodownloader/resources/switzerland.png</normaloff>:/plugins/swissgeodownloader/resources/switzerland.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="guiRefreshDatasetsBtn">
+        <property name="toolTip">
+         <string>Refresh dataset list</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/plugins/swissgeodownloader/resources/refresh.png</normaloff>:/plugins/swissgeodownloader/resources/refresh.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="guiInfoBtn">
+        <property name="toolTip">
+         <string>Plugin info</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/plugins/swissgeodownloader/resources/die-info.png</normaloff>:/plugins/swissgeodownloader/resources/die-info.png</iconset>
+        </property>
+        <property name="flat">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item row="3" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
@@ -105,7 +170,7 @@
          <x>0</x>
          <y>0</y>
          <width>493</width>
-         <height>704</height>
+         <height>703</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -255,6 +320,13 @@
                  </property>
                 </spacer>
                </item>
+               <item>
+                <widget class="QPushButton" name="guiRequestCancelBtn">
+                 <property name="text">
+                  <string>Cancel request</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
              <item>
@@ -355,71 +427,6 @@
        </layout>
       </widget>
      </widget>
-    </item>
-    <item row="1" column="0">
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QPushButton" name="guiShowMapBtn">
-        <property name="toolTip">
-         <string>Show overview map</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/switzerland.png</normaloff>:/plugins/swissgeodownloader/resources/switzerland.png</iconset>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="guiRefreshDatasetsBtn">
-        <property name="toolTip">
-         <string>Refresh dataset list</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/refresh.png</normaloff>:/plugins/swissgeodownloader/resources/refresh.png</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="guiInfoBtn">
-        <property name="toolTip">
-         <string>Plugin info</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/die-info.png</normaloff>:/plugins/swissgeodownloader/resources/die-info.png</iconset>
-        </property>
-        <property name="flat">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </item>
    </layout>
   </widget>
