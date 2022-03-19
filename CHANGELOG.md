@@ -1,6 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.4] - 2022-03-30
+### Added
+- Saarch bar for datasets: Looks through datasets names and descriptions
+- Options have been replaced with file filters. Only relevant filters are shown depending on the current dataset and extent
+- Timestamp filter includes option 'current' and 'all'
+- Cancel button for file list requests
+
+### Fixed
+- Swissalti3d and other datasets with multiple timestamps only showed oldest and newest timestamp
+
 ## [1.3] - 2022-02-02
 ### Added
 - If a dataset contains one single file, the plugin will list this file automatically

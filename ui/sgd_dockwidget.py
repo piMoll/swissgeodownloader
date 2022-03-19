@@ -23,8 +23,7 @@
 import os
 from qgis.PyQt.QtCore import pyqtSignal
 from qgis.PyQt.QtGui import QColor
-from qgis.PyQt.QtWidgets import (QDockWidget, QListWidget, QFileDialog,
-                                 QMessageBox)
+from qgis.PyQt.QtWidgets import (QDockWidget, QFileDialog, QMessageBox)
 from qgis.gui import QgsExtentGroupBox, QgisInterface
 from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
                        QgsProject, QgsRectangle, QgsApplication,
@@ -34,6 +33,7 @@ from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import filesizeFormatter, MESSAGE_CATEGORY
 from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox,
                              switchToCrs, RECOMMENDED_CRS)
+from .datsetListTable import DatasetListTable
 from .fileListTable import FileListTable
 from .bboxDrawer import BboxPainter
 from ..api.responseObjects import Dataset, ALL_VALUE, CURRENT_VALUE
@@ -99,11 +99,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.bboxPainter = BboxPainter(self.canvas,
                                        self.transformApi2Proj, self.annManager)
 
-        # Deactivate unused ui-elements
-        self.onUnselectDataset()
-        self.guiDatasetStatus.hide()
-
-        # File list table
+        # Dataset and file list table
+        self.datasetListTbl = DatasetListTable(self, self.guiDatasets)
+        self.datasetListTbl.sig_selectionChanged.connect(self.onDatasetSelectionChange)
+        
         self.fileListTbl = FileListTable(self, self.guiFileListLayout)
         self.fileListTbl.sig_selectionChanged.connect(self.onFileSelectionChange)
         
@@ -159,8 +158,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # API caller task
         self.fileListRequest = None
         self.guiRequestCancelBtn.setHidden(True)
-        
-        self.guiDatasetList.currentItemChanged.connect(self.onDatasetSelected)
+
+        # Deactivate unused ui-elements
+        self.guiGroupExtent.setDisabled(True)
+        self.guiExtentWidget.setCollapsed(True)
+        self.guiGroupFiles.setDisabled(True)
+        self.guiDownloadBtn.setDisabled(True)
         
         self.guiFileType.currentIndexChanged.connect(self.onFilterChanged)
         self.guiFormat.currentTextChanged.connect(self.onFilterChanged)
@@ -305,20 +308,19 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def onReceiveDatasets(self, datasetList):
         """Recieve list of available datasets"""
         self.datasetList = datasetList
-        self.guiDatasetList.blockSignals(True)
-        self.guiDatasetList.clearSelection()
-        self.guiDatasetList.clear()
-        if self.datasetList:
-            for dsId in self.datasetList.keys():
-                self.guiDatasetList.addItem(dsId)
-        self.guiDatasetList.blockSignals(False)
+        self.datasetListTbl.fill(self.datasetList.values())
         self.spinnerDs.stop()
     
-    def onDatasetSelected(self, item: QListWidget):
+    def onDatasetSelectionChange(self, datasetId):
         """Set dataset and load details on first selection"""
         # Ignore double clicks or very fast clicks
-        self.guiDatasetList.blockSignals(True)
-        self.currentDataset = self.datasetList[item.text()]
+        if self.currentDataset and datasetId == self.currentDataset.id:
+            return
+        if not datasetId:
+            self.onUnselectDataset()
+            return
+        
+        self.currentDataset = self.datasetList[datasetId]
         
         if not self.currentDataset.analysed:
             caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetDetails',
@@ -341,7 +343,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # If dataset has only a single file to download, get it right away
         if self.currentDataset.isSingleFile:
             self.onLoadFileListClicked()
-        self.guiDatasetList.blockSignals(False)
     
     def onQuestionClicked(self):
         title = self.tr('Why are there no files?')
@@ -352,22 +353,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     
     def applyDatasetState(self):
         """Set up ui according to the options of the selected dataset"""
-        # Show dataset in search field
-        # self.guiSearchField.setText(self.currentDataset['id'])
-        
         # Show dataset status if no files are available
-        if self.currentDataset.isEmpty:
+        if not self.currentDataset or self.currentDataset.isEmpty:
             self.guiGroupExtent.setDisabled(True)
             self.guiExtentWidget.setCollapsed(True)
             self.guiGroupFiles.setDisabled(True)
             self.resetFileList()
-            self.guiDatasetStatus.show()
-            self.guiDatasetStatus.setStyleSheet('QLabel { color : red; }')
-            self.guiDatasetStatus.setText(self.tr('No files available in this dataset'))
+            self.fileListTbl.onEmptyList(self.tr('No files available in this dataset'))
             return
-        else:
-            self.guiDatasetStatus.setText('')
-            self.guiDatasetStatus.hide()
         
         self.deactivateFilterElem()
 
@@ -466,7 +459,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
     def onUnselectDataset(self):
         self.currentDataset = {}
-
+        
+        self.onReceiveFileList([])
         self.guiGroupExtent.setDisabled(True)
         self.guiExtentWidget.setCollapsed(True)
         self.guiGroupFiles.setDisabled(True)
@@ -605,7 +599,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def populateFileList(self, fileList):
         # There are files but all of them are currently filtered out
         if (self.fileList and not fileList):
-            self.fileListTbl.onEmptyList()
+            self.fileListTbl.onEmptyList(self.tr('Currently selected filters do not match any files'))
         else:
             self.fileListTbl.fill(fileList)
         self.updateSummary()

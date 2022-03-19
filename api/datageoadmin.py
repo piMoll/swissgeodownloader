@@ -68,7 +68,8 @@ class ApiDataGeoAdmin:
 
             dataset = Dataset(ds['id'], [link['href'] for link in ds['links']
                               if link['rel'] == 'items'][0])
-            
+            dataset.description = ds['description']
+            dataset.title = ds['title']
             dataset.bbox = ds['extent']['spatial']['bbox'][0]
             dataset.licenseLink = [link['href'] for link in ds['links']
                                    if link['rel'] == 'license'][0]
@@ -94,7 +95,7 @@ class ApiDataGeoAdmin:
         fileCount = len(items['features'])
         
         # Check if it makes sense to select by bbox
-        if fileCount <= 1:
+        if fileCount <= 10:
             dataset.selectByBBox = False
             dataset.isSingleFile = True
         

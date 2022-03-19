@@ -26,6 +26,8 @@ class Dataset:
     def __init__(self, name='', filesLink=''):
         self.id = name
         self.filesLink = filesLink
+        self.description = None
+        self.title = None
         self.isSingleFile = False
         self.bbox = None
         self.licenseLink = None

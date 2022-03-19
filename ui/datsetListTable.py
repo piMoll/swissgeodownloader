@@ -18,96 +18,96 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtWidgets import (QHeaderView, QTableView, QAbstractItemView,
-                                 QSizePolicy, QAbstractScrollArea)
-from qgis.PyQt.QtCore import QObject, Qt, pyqtSignal
+from qgis.PyQt.QtWidgets import (QTableView, QAbstractItemView, QLineEdit,
+                                 QSizePolicy, QAbstractScrollArea, QHeaderView)
+from qgis.PyQt.QtCore import (QObject, Qt, pyqtSignal, QSortFilterProxyModel,
+                              QCoreApplication)
 from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel
 
-class FileListTable(QObject):
-    
-    sig_selectionChanged = pyqtSignal(str, bool)
+
+class DatasetListTable(QObject):
+    sig_selectionChanged = pyqtSignal(str)
     
     def __init__(self, parent, layout):
         super().__init__()
         self.parent = parent
+        self.currentSelection = None
+        
         self.tbl = QTableView(self.parent)
         sizePolicy = QSizePolicy(QSizePolicy.Expanding,
                                  QSizePolicy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.tbl.sizePolicy().hasHeightForWidth())
         self.tbl.setSizePolicy(sizePolicy)
         self.tbl.setMinimumHeight(160)
-        self.tbl.setMaximumHeight(1200)
+        self.tbl.setMaximumHeight(200)
         self.tbl.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.tbl.setAutoScroll(True)
         
         self.tbl.setSelectionMode(QAbstractItemView.SingleSelection)
         self.tbl.setSelectionBehavior(QAbstractItemView.SelectRows)
-        self.tbl.setObjectName("FileListTable")
+        self.tbl.setObjectName("DatasetListTable")
         self.tbl.horizontalHeader().setVisible(False)
         self.tbl.horizontalHeader().setStretchLastSection(True)
-        self.tbl.verticalHeader().setVisible(True)
+        self.tbl.verticalHeader().setVisible(False)
         self.tbl.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
-        self.tbl.verticalHeader().setDefaultSectionSize(24)
-        layout.addWidget(self.tbl)
+        self.tbl.verticalHeader().setDefaultSectionSize(20)
 
         self.model = QStandardItemModel(0, 0, self.tbl)
-        self.tbl.setModel(self.model)
-        
-        self.tbl.hideColumn(0)
-        self.tbl.clicked.connect(self.onClick)
-        
-        self.showEmptyMessage = False
+        self.proxy_model = QSortFilterProxyModel()
+        self.proxy_model.setFilterKeyColumn(-1)  # Search all columns.
+        self.proxy_model.setSourceModel(self.model)
+        self.proxy_model.sort(0, Qt.AscendingOrder)
+        self.tbl.setModel(self.proxy_model)
+        self.tbl.hideColumn(1)
 
-    def fill(self, fileList):
+        self.searchbar = QLineEdit()
+        self.searchbar.setClearButtonEnabled(True)
+        self.searchbar.setPlaceholderText(self.tr('Search'))
+        self.searchbar.textChanged.connect(self.onSearch)
+        
+        layout.addWidget(self.searchbar)
+        layout.addWidget(self.tbl)
+        
+        self.tbl.clicked.connect(self.onClick)
+
+    def fill(self, data):
         self.model.clear()
-        self.showEmptyMessage = False
         
         # Insert data into cells
-        for i, file in enumerate(fileList):
-            item0 = QStandardItem()
-            item1 = QStandardItem(file.id)
-            item1.setCheckState(Qt.Checked)
-            item1.setCheckable(False)
+        for i, ds in enumerate(data):
+            item0 = QStandardItem(ds.id)
+            item0.setEditable(False)
+            item1 = QStandardItem(ds.description)
             item1.setEditable(False)
             self.model.appendRow([item0, item1])
+            self.model.setData(self.model.index(i, 0), ds.id)
+            self.model.setData(self.model.index(i, 1), ds.description)
 
-            self.model.setData(self.model.index(i, 0), Qt.Checked)
-            self.model.setData(self.model.index(i, 1), file.id)
-
-        self.tbl.setFocusPolicy(Qt.NoFocus)
-        self.tbl.hideColumn(0)
-
-    def onClick(self, itemIdx):
-        if self.showEmptyMessage:
-            return
-        
-        fileId = itemIdx.data()
-        FileIdItem = self.model.item(itemIdx.row(), itemIdx.column())
-        
-        checkStateIdx = self.model.index(itemIdx.row(), 0)
-        checkStateData = self.model.data(checkStateIdx)
-
-        if checkStateData == Qt.Checked:
-            self.model.setData(checkStateIdx, Qt.Unchecked)
-            FileIdItem.setCheckState(Qt.Unchecked)
-            self.sig_selectionChanged.emit(fileId, False)
-        else:
-            self.model.setData(checkStateIdx, Qt.Checked)
-            FileIdItem.setCheckState(Qt.Checked)
-            self.sig_selectionChanged.emit(fileId, True)
+        self.tbl.hideColumn(1)
     
-    def onEmptyList(self, message):
-        self.model.clear()
-        item0 = QStandardItem()
-        item1 = QStandardItem(message)
-        item1.setEditable(False)
-        self.model.appendRow([item0, item1])
-        self.showEmptyMessage = True
+    def onSearch(self, search):
+        self.searchbar.blockSignals(True)
+        if self.currentSelection:
+            self.unselect()
+        self.proxy_model.setFilterFixedString(search)
         self.tbl.setFocusPolicy(Qt.NoFocus)
-        self.tbl.hideColumn(0)
+        self.searchbar.blockSignals(False)
+    
+    def onClick(self, itemIdx):
+        dsId = itemIdx.data(0)
+        if dsId == self.currentSelection:
+            self.unselect()
+        else:
+            self.currentSelection = dsId
+            self.sig_selectionChanged.emit(dsId)
+    
+    def unselect(self):
+        self.tbl.clearSelection()
+        self.currentSelection = None
+        self.sig_selectionChanged.emit(None)
 
-    def clear(self):
-        self.model.clear()
-        self.showEmptyMessage = False
+    def tr(self, message, **kwargs):
+        return QCoreApplication.translate(type(self).__name__, message)
+

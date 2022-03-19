@@ -65,52 +65,52 @@
         <translation>Erreur lors du chargement des jeux de données - Réponse de l&apos;API inattendue</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="147"/>
+        <location filename="../api/datageoadmin.py" line="152"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Erreur lors de la demande de la liste de fichiers - Réponse de l&apos;API inattendue</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="259"/>
+        <location filename="../api/datageoadmin.py" line="261"/>
         <source>Start request {}</source>
         <translation>Lancer la requête {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="368"/>
+        <location filename="../api/datageoadmin.py" line="370"/>
         <source>Start download of {}</source>
         <translation>Lancer le téléchargement de {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="376"/>
+        <location filename="../api/datageoadmin.py" line="378"/>
         <source>Download of {} was canceled</source>
         <translation>Le téléchargement de {} a été annulé</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="372"/>
+        <location filename="../api/datageoadmin.py" line="374"/>
         <source>Error when downloading {}</source>
         <translation>Erreur lors du téléchargement de {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="344"/>
+        <location filename="../api/datageoadmin.py" line="346"/>
         <source>Error when requesting header information: {}</source>
         <translation>Erreur lors de la demande d&apos;informations d&apos;en-tête : {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="273"/>
+        <location filename="../api/datageoadmin.py" line="275"/>
         <source>swisstopo service not reachable or no internet connection</source>
         <translation>le service Swisstopo n&apos;est pas atteignable ou la connexion Internet est introuvable</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="96"/>
+        <location filename="../api/datageoadmin.py" line="101"/>
         <source>Error when loading dataset details - Unexpected API response</source>
         <translation>Erreur lors du chargement des détails du jeu de données - Réponse de l&apos;API inattendue</translation>
     </message>
 </context>
 <context>
-    <name>FileListTable</name>
+    <name>DatasetListTable</name>
     <message>
-        <location filename="../ui/fileListTable.py" line="78"/>
-        <source>Currently selected filters do not match any files</source>
-        <translation>Les filtres actuellement sélectionnés ne correspondent à aucun fichier</translation>
+        <location filename="../ui/datsetListTable.py" line="66"/>
+        <source>Search</source>
+        <translation>Recherche</translation>
     </message>
 </context>
 <context>
@@ -129,12 +129,12 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="288"/>
+        <location filename="../ui/sgd_dockwidget.py" line="294"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="288"/>
+        <location filename="../ui/sgd_dockwidget.py" line="294"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader vous permet de télécharger les géodonnées suisses de manière simple et pratique.
 
@@ -146,62 +146,62 @@ Plus d&apos;informations :
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="361"/>
+        <location filename="../ui/sgd_dockwidget.py" line="366"/>
         <source>No files available in this dataset</source>
         <translation>Pas de fichiers disponibles dans ce jeu de données</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="661"/>
+        <location filename="../ui/sgd_dockwidget.py" line="675"/>
         <source>No files found.</source>
         <translation>Pas de fichiers trouvés.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="672"/>
+        <location filename="../ui/sgd_dockwidget.py" line="686"/>
         <source>Choose output folder</source>
         <translation>Sélectionnez un dossier de sortie</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="691"/>
+        <location filename="../ui/sgd_dockwidget.py" line="705"/>
         <source>Overwrite files?</source>
         <translation>Écraser les fichiers?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="691"/>
+        <location filename="../ui/sgd_dockwidget.py" line="705"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Au moins un fichier sera écrasé. Continuer?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="716"/>
+        <location filename="../ui/sgd_dockwidget.py" line="730"/>
         <source>Files successfully downloaded!</source>
         <translation>Fichiers téléchargés avec succès!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="342"/>
+        <location filename="../ui/sgd_dockwidget.py" line="352"/>
         <source>Why are there no files?</source>
         <translation>Pourquoi n&apos;y a-t-il pas de fichiers?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="343"/>
+        <location filename="../ui/sgd_dockwidget.py" line="353"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</source>
         <translation>Tous les jeux de données ne couvrent pas l&apos;entier de la surface de la Suisse. Essayez de changer les options ou de sélectionner &apos;Emprise complète du jeu de données&apos; pour obtenir une liste de tous les jeux de données disponibles.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="720"/>
+        <location filename="../ui/sgd_dockwidget.py" line="734"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} fichier(s) téléchargés avec succès</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="656"/>
+        <location filename="../ui/sgd_dockwidget.py" line="670"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} fichier(s), approximativement {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="659"/>
+        <location filename="../ui/sgd_dockwidget.py" line="673"/>
         <source>{} file(s)</source>
         <translation>{} ficiher(s)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="224"/>
+        <location filename="../ui/sgd_dockwidget.py" line="230"/>
         <source>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
 
 Switch map to Swiss LV95?</source>
@@ -210,127 +210,137 @@ Switch map to Swiss LV95?</source>
 Changer la projection en LV95?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="579"/>
+        <location filename="../ui/sgd_dockwidget.py" line="589"/>
         <source>all</source>
         <translation>tous</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="581"/>
+        <location filename="../ui/sgd_dockwidget.py" line="591"/>
         <source>current</source>
         <translation>actuel</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="606"/>
+        <source>Currently selected filters do not match any files</source>
+        <translation>Les filtres actuellement sélectionnés ne correspondent à aucun fichier</translation>
     </message>
 </context>
 <context>
     <name>sgdDockWidgetBase</name>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="202"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="192"/>
         <source>Swiss Geo Downloader</source>
         <translation>Swiss Geo Downloader</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="205"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="198"/>
         <source>1. Dataset</source>
         <translation>1. Jeux de données</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="213"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="207"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="214"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="208"/>
         <source>Resolution [m]</source>
         <translation>Résolution [m]</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="218"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="212"/>
         <source>Coord.sys</source>
         <translation>Système de coordonnées</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="216"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="210"/>
         <source>Timestamp</source>
         <translation>Date</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="210"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="203"/>
         <source>Request file list</source>
         <translation>Demander la liste des fichiers</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="204"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="197"/>
         <source>Download</source>
         <translation>Télécharger</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="215"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="209"/>
         <source>Select format</source>
         <translation>Sélectionner le format / type de données</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="212"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="206"/>
         <source>Select resolution (only raster based datasets)</source>
         <translation>Sélectionner la résolution (seulement pour les données raster)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="219"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="213"/>
         <source>Select coordinate reference system</source>
         <translation>Sélectionner le système de coordonnées de référence</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="217"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="211"/>
         <source>Select timestamp</source>
         <translation>Sélectionner la date</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="207"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="200"/>
         <source>Full dataset extent</source>
         <translation>Emprise complète du jeu de données</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="209"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="202"/>
         <source>Requests are limited to max. 100 files</source>
         <translation>Pour l&apos;instant, les requêtes sont limitées à max. 100 fichiers</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="211"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="205"/>
         <source>Filter file list by type</source>
         <translation>Filtrer la liste des fichiers par type</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="203"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="196"/>
         <source>Download list of files</source>
         <translation>Télécharger la liste des fichiers</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="221"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="193"/>
         <source>Show overview map</source>
         <translation>Montrer la carte générale</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="223"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="195"/>
         <source>Plugin info</source>
         <translation>Infos du plugin</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="222"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="194"/>
         <source>Refresh dataset list</source>
         <translation>Rafraîchir la liste des fichiers</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="206"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="199"/>
         <source>2. Extent</source>
         <translation>2. Étendue</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="208"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="201"/>
         <source>3. Files</source>
         <translation>3. Fichiers</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.py" line="220"/>
+        <location filename="../ui/sgd_dockwidget_base.py" line="214"/>
         <source>File type</source>
         <translation>Type de données</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget_base.py" line="204"/>
+        <source>Cancel request</source>
+        <translation>Annuler</translation>
     </message>
 </context>
 </TS>
