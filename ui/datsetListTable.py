@@ -40,7 +40,7 @@ class DatasetListTable(QObject):
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.tbl.sizePolicy().hasHeightForWidth())
         self.tbl.setSizePolicy(sizePolicy)
-        self.tbl.setMinimumHeight(160)
+        self.tbl.setMinimumHeight(90)
         self.tbl.setMaximumHeight(200)
         self.tbl.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.tbl.setAutoScroll(True)
