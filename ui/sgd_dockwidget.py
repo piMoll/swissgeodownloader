@@ -50,11 +50,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     LABEL_SUCCESS_STYLE = 'QLabel { color : green; font-weight: bold;}'
     
 
-    def __init__(self, interface: QgisInterface, parent=None):
+    def __init__(self, interface: QgisInterface, locale, parent=None):
         """Constructor."""
         super(SwissGeoDownloaderDockWidget, self).__init__(parent)
         self.setupUi(self)
         self.iface = interface
+        self.locale = locale
         self.canvas = self.iface.mapCanvas()
         self.qgsProject = QgsProject.instance()
         self.taskManager = QgsApplication.taskManager()
@@ -188,7 +189,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.checkSupportedCrs()
         
         # Finally, initialize apis and request available datasets
-        self.apiDGA = ApiDataGeoAdmin(self)
+        self.apiDGA = ApiDataGeoAdmin(self, self.locale)
         self.loadDatasetList()
 
     def closeEvent(self, event):

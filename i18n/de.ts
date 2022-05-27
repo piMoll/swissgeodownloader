@@ -60,68 +60,106 @@
 <context>
     <name>ApiDataGeoAdmin</name>
     <message>
-        <location filename="../api/datageoadmin.py" line="59"/>
+        <location filename="../api/datageoadmin.py" line="63"/>
         <source>Error when loading available dataset - Unexpected API response</source>
         <translation>Fehler beim Laden der Datensätze - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="152"/>
+        <location filename="../api/datageoadmin.py" line="208"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Fehler beim Laden der Dateiliste - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="261"/>
+        <location filename="../api/datageoadmin.py" line="317"/>
         <source>Start request {}</source>
         <translation>Starte Anfrage {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="370"/>
+        <location filename="../api/datageoadmin.py" line="426"/>
         <source>Start download of {}</source>
         <translation>Starte Download von {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="378"/>
+        <location filename="../api/datageoadmin.py" line="434"/>
         <source>Download of {} was canceled</source>
         <translation>Download von {} abgebrochen</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="374"/>
+        <location filename="../api/datageoadmin.py" line="430"/>
         <source>Error when downloading {}</source>
         <translation>Fehler beim Herunterladen von {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="346"/>
+        <location filename="../api/datageoadmin.py" line="402"/>
         <source>Error when requesting header information: {}</source>
         <translation>Fehler beim Abruf von Header-Informationen: {}</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="275"/>
+        <location filename="../api/datageoadmin.py" line="331"/>
         <source>swisstopo service not reachable or no internet connection</source>
         <translation>Swisstopo Dienst nicht erreichbar oder keine Internetverbindung</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="101"/>
+        <location filename="../api/datageoadmin.py" line="157"/>
         <source>Error when loading dataset details - Unexpected API response</source>
         <translation>Fehler beim Laden der Datensatz-Details - Unerwartete API-Antwort</translation>
     </message>
 </context>
 <context>
+    <name>ApiGeoCat</name>
+    <message>
+        <location filename="../api/geocat.py" line="153"/>
+        <source>Start request {}</source>
+        <translation type="unfinished">Starte Anfrage {}</translation>
+    </message>
+    <message>
+        <location filename="../api/geocat.py" line="167"/>
+        <source>swisstopo service not reachable or no internet connection</source>
+        <translation type="unfinished">Swisstopo Dienst nicht erreichbar oder keine Internetverbindung</translation>
+    </message>
+    <message>
+        <location filename="../api/geocat.py" line="75"/>
+        <source>Error when trying to retrieve metadata - No dataset ID found</source>
+        <translation>Fehler beim Abfragen von Metadaten - Keine Datensatz-ID gefunden</translation>
+    </message>
+    <message>
+        <location filename="../api/geocat.py" line="85"/>
+        <source>Error when trying to retrieve metadata - Response cannot be parsed</source>
+        <translation>Fehler beim Abfragen von Metadaten - Antwort kann nicht verarbeitet werden</translation>
+    </message>
+</context>
+<context>
     <name>DatasetListTable</name>
     <message>
-        <location filename="../ui/datsetListTable.py" line="66"/>
+        <location filename="../ui/datsetListTable.py" line="65"/>
         <source>Search</source>
         <translation>Suche</translation>
+    </message>
+    <message>
+        <location filename="../ui/datsetListTable.py" line="89"/>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <location filename="../ui/datsetListTable.py" line="89"/>
+        <source>Title</source>
+        <translation>Titel</translation>
+    </message>
+    <message>
+        <location filename="../ui/datsetListTable.py" line="89"/>
+        <source>Search text</source>
+        <translation>Suchtext</translation>
     </message>
 </context>
 <context>
     <name>SwissGeoDownloader</name>
     <message>
-        <location filename="../swissgeodownloader.py" line="171"/>
+        <location filename="../swissgeodownloader.py" line="173"/>
         <source>Swiss Geo Downloader allows you to download geodata of Switzerland in an easy and convenient way.</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.</translation>
     </message>
     <message>
-        <location filename="../swissgeodownloader.py" line="171"/>
+        <location filename="../swissgeodownloader.py" line="173"/>
         <source>Swiss Geo Downloader is a plugin to to download swiss geodata.</source>
         <translation>Swiss Geo Downloader ist ein Plugin zum Herunterladen von Schweizer Geodaten.</translation>
     </message>
@@ -129,42 +167,42 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="294"/>
+        <location filename="../ui/sgd_dockwidget.py" line="297"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="366"/>
+        <location filename="../ui/sgd_dockwidget.py" line="363"/>
         <source>No files available in this dataset</source>
         <translation>Keine Daten im Datensatz vorhanden</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="675"/>
+        <location filename="../ui/sgd_dockwidget.py" line="672"/>
         <source>No files found.</source>
         <translation>Keine Daten gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="686"/>
+        <location filename="../ui/sgd_dockwidget.py" line="683"/>
         <source>Choose output folder</source>
         <translation>Wähle Speicherort</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="705"/>
+        <location filename="../ui/sgd_dockwidget.py" line="702"/>
         <source>Overwrite files?</source>
         <translation>Daten überschreiben?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="705"/>
+        <location filename="../ui/sgd_dockwidget.py" line="702"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Mindestens eine Datei wird überschrieben. Trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="730"/>
+        <location filename="../ui/sgd_dockwidget.py" line="727"/>
         <source>Files successfully downloaded!</source>
         <translation>Dateien erfolgreich heruntergeladen!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="294"/>
+        <location filename="../ui/sgd_dockwidget.py" line="297"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.
 
@@ -176,32 +214,32 @@ Weitere Informationen:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="352"/>
+        <location filename="../ui/sgd_dockwidget.py" line="349"/>
         <source>Why are there no files?</source>
         <translation>Wieso sind keine Daten vorhanden?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="353"/>
+        <location filename="../ui/sgd_dockwidget.py" line="350"/>
         <source>Not all datasets cover the whole area of Switzerland. Try changing options or select &apos;Full dataset extent&apos; to get a list of all available datasets.</source>
         <translation>Nicht alle Datensätze decken die gesamte Schweiz ab. Versuchen Sie die Eigenschaften anzupassen oder wählen Sie die Option &apos;Ganzer Datensatz&apos; um eine Liste aller verfügbaren Dateien zu erhalten.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="734"/>
+        <location filename="../ui/sgd_dockwidget.py" line="731"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} Datei(en) erfolgreich heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="670"/>
+        <location filename="../ui/sgd_dockwidget.py" line="667"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} Datei(en), ca. {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="673"/>
+        <location filename="../ui/sgd_dockwidget.py" line="670"/>
         <source>{} file(s)</source>
         <translation>{} Datei(en)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="230"/>
+        <location filename="../ui/sgd_dockwidget.py" line="233"/>
         <source>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
 
 Switch map to Swiss LV95?</source>
@@ -210,17 +248,17 @@ Switch map to Swiss LV95?</source>
 Karte im Schweizer System LV95 anzeigen?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="589"/>
+        <location filename="../ui/sgd_dockwidget.py" line="586"/>
         <source>all</source>
         <translation>alle</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="591"/>
+        <location filename="../ui/sgd_dockwidget.py" line="588"/>
         <source>current</source>
         <translation>aktuell</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="606"/>
+        <location filename="../ui/sgd_dockwidget.py" line="603"/>
         <source>Currently selected filters do not match any files</source>
         <translation>Aktuell ausgewählte Filter stimmen mit keiner Datei überein</translation>
     </message>

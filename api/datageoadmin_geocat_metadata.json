@@ -1,0 +1,272 @@
+{
+  "ch.astra.sachplan-infrastruktur-strasse_anhoerung": {
+    "de": {
+      "description": "Laufende oder vergangene Anhörungen der Kantone und Gemeinden sowie Information und Mitwirkung der Bevölkerung nach Art. 19 RPV des Sachplans Verkehr - Teil Infrastruktur Strasse (SIN).",
+      "title": "Sachplan Verkehr - Teil Infrastruktur Strasse (SIN) - Anhörung"
+    },
+    "en": {
+      "description": "Current or past consultations of the cantons and municipalities as well as information and participation of the population in accordance with Article 19 RPV of the sectoral plan on transport, road infrastructure section (SIN).",
+      "title": "Sectoral plan on transport, road infrastructure section (SIN) - consultations"
+    },
+    "fr": {
+      "description": "Consultations des cantons et des communes sur le plan sectoriel des transports, partie Infrastructure routière (SIN), avec information et participation de la population, conformément à l’art. 19 OAT, en cours ou terminées.",
+      "title": "Plan sectoriel des transports, partie Infrastructure routière (SIN) - consultations"
+    },
+    "it": {
+      "description": "Audizioni dei Cantoni e dei Comuni in corso o concluse nonché informazione e partecipazione della popolazione conformemente all’articolo 19 OPT in relazione al piano settoriale dei trasporti, parte Infrastruttura stradale (SIN).",
+      "title": "Piano settoriale dei trasporti, parte Infrastruttura stradale (SIN) - consultazioni"
+    }
+  },
+  "ch.bav.sachplan-infrastruktur-schiene_anhorung": {
+    "de": {
+      "description": "Laufende oder vergangene Anhörungen der Kantone und Gemeinden sowie Information und Mitwirkung der Bevölkerung nach Art. 19 RPV des Sachplans Verkehr, Teil Infrastruktur Schiene (SIS).",
+      "title": "Sachplan Verkehr, Teil Infrastruktur Schiene (SIS): Anhörung"
+    },
+    "en": {
+      "description": "Current or past consultations of the cantons and communes as well as information and participation of the population in accordance with Art. 19 RPV of the Sectoral Plan on Transport, Rail Infrastructure Section (SIS).",
+      "title": "Sectoral plan on Transport, rail Infrastructure Section (SIS): consultation"
+    },
+    "fr": {
+      "description": "Consultations des cantons et des communes sur le plan sectoriel transport, partie Infrastructure rail (SIS), avec information et participation de la population, conformément à l’art. 19 OAT, en cours ou terminées.",
+      "title": "Plan sectoriel des transports, partie infrastructure rail (SIS): consultation"
+    },
+    "it": {
+      "description": "Audizioni dei Cantoni e dei Comuni in corso o concluse nonché informazione e partecipazione della popolazione conformemente all’articolo 19 OPT in relazione al piano settoriale trasporto, parte Infrastruttura ferroviaria (SIS).",
+      "title": "Piano settoriale dei trasporti, parte infrastruttura ferroviaria (SIS): consultazione"
+    }
+  },
+  "ch.bav.sachplan-infrastruktur-schiene_ausgangslage": {
+    "de": {
+      "description": "Einerseits handelt es sich um Anlagen die noch nicht in Betrieb sind, bei denen die Tätigkeiten und der Sachplanprozess gemäss Art. 5 RPV abgeschlossen sind. Es liegt somit ein Auflageprojekt vor, das Plangenehmigungsverfahren ist eingeleitet bzw. die Plangenehmigungsverfügung liegt vor und das Vorhaben wird realisiert. Andererseits kann der Sachplan zum Verständnis der Festlegungen auch Aufschluss über räumliche und sachliche Zusammenhänge, insbesondere über bestehende Bauten und Anlagen geben.",
+      "title": "Sachplan Verkehr, Teil Infrastruktur Schiene (SIS): Ausgangslage"
+    },
+    "en": {
+      "description": "On the one hand, this concerns facilities that are not yet in operation and for which the activities and the sectoral plan process have been completed in accordance with Article 5 of the Swiss Spatial Planning Ordinance (SPO). A planning project has therefore been drawn up, the planning approval process has been initiated or the planning approval order is available and the project is being implemented. On the other hand, as well as providing an understanding of the regulations, the sectoral plan may also offer information on spatial and material contexts, particularly with regard to existing buildings and facilities.",
+      "title": "Sector plan on transport, rail infrastructure section (SIS): starting point"
+    },
+    "fr": {
+      "description": "Il s’agit d’une part d’installations qui ne sont pas encore en exploitation, alors que les activités et le processus du plan sectoriel sont achevés conformément à l’art. 5 OAT. Le projet est mis à l'enquête, la procédure d'approbation des plans est engagée ou la décision d'approbation des plans a été prise et le projet est en cours de réalisation. D’autre part, le plan sectoriel peut fournir des renseignements sur les réalités géographiques et matérielles, notamment sur les ouvrages construits et les installations préexistantes, afin de faciliter la compréhension des indications.",
+      "title": "Plan sectoriel des transports, partie infrastructure rail (SIS): données de base"
+    },
+    "it": {
+      "description": "Si tratta da un lato di impianti non ancora in esercizio per i quali le attività d’incidenza territoriale e il processo relativo al piano settoriale sono conclusi conformemente all’articolo 5 OPT. Esiste un progetto di pubblicazione, la procedura di approvazione dei piani è stata avviata o è stata emessa la relativa decisione; il progetto viene realizzato. D'altro canto, il piano settoriale può fornire indicazioni sulla situazione territoriale e materiale, in particolare sugli edifici e gli impianti già esistenti, ai fini di una migliore comprensione delle indicazioni.",
+      "title": "Piano settoriale dei trasporti, parte infrastruttura ferroviaria (SIS): statu quo"
+    }
+  },
+  "ch.swisstopo.swiss-map-vector10": {
+    "de": {
+      "description": "Swiss Map Vector 10 ist die Landeskarte der Schweiz 1:10‘000 in vektorieller Form. Sie beinhaltet das vollständige und differenzierte Bahn-, Strassen- und Wegnetz, eine detaillierte Siedlungs-, Gewässer-, Vegetations- und Geländedarstellung sowie eine umfangreiche Beschriftung. Rasterdaten für Relief und Fels ergänzen die vektoriellen Daten. Der Kartenperimeter umfasst das Landesgebiet der Schweiz und des Fürstentums Liechtenstein. Die Nachführung erfolgt jährlich basierend auf der aktuellsten Version des Topografischen Landschaftsmodells TLM von swisstopo. Die Inhalte sind thematisch gegliedert und können klassen- wie auch objektbezogen editiert werden. Die Darstellung ist derjenigen der gedruckten Landeskarte sehr ähnlich.",
+      "title": "Swiss Map Vector 10, vektorielle Landeskarte der Schweiz 1:10 000"
+    },
+    "en": {
+      "description": "Swiss Map Vector 10 is the Swiss national 1:10,000 scale map in vector format. It includes all complete and differentiated rail, road and path networks, a detailed representation of residential areas, bodies of water, vegetation and terrains complete with annotations. Raster data for relief and rock features complete the vector data. The perimeter of the map covers the national territory of both Switzerland and the Principality of Liechtenstein. Updates are made every year based on the latest version of swisstopo's topographic landscape model (TLM). Contents are structured according to subject matter and can be edited by class or by object. Depiction is very similar to that of the printed national map.",
+      "title": "Swiss Map Vector 10, Swiss national vector map 1:10 000"
+    },
+    "fr": {
+      "description": "Swiss Map Vector 10 est la carte nationale suisse 1:10 000 sous forme vectorielle. Elle comprend tous les réseaux ferroviaires, routiers et de chemins complets et différenciés, une représentation détaillée des localités, des eaux, de la végétation et des terrains ainsi qu'une annotation complète. Des données Raster pour le relief et les falaises complètent les données vectorielles. Le périmètre de la carte comprend le territoire Suisse et la principauté du Liechtenstein. La mise à jour est faite annuellement sur la base actualisée du modèle topographique du paysage MTP de swisstopo. Les contenus sont classés par thème et peuvent être édités selon les classes ou les objets. La représentation est très semblable à celle de la carte nationale imprimée.",
+      "title": "Swiss Map Vector 10, carte nationale vectorielle de la Suisse 1:10 000"
+    },
+    "it": {
+      "description": "Swiss Map Vector 10 è la carta nazionale della Svizzera 1:10'000 in forma vettoriale. Contiene l'intera rete ferroviaria, stradale e viaria differenziata, una rappresentazione dettagliata di insediamenti, acque, vegetazione e terreni e una dicitura dettagliata. I dati reticolari per rilievi e rocce completano i dati vettoriali. Il perimetro della carta comprende il territorio nazionale della Svizzera e del Principato del Liechtenstein. L'aggiornamento ha luogo sulla base della versione più aggiornata del modello topografico del paesaggio TLM di swisstopo. I contenuti sono organizzati per temi e possono essere modificati in base alla classe e all'oggetto. La rappresentazione è molto simile a quella della carta nazionale stampata.",
+      "title": "Swiss Map Vector 10, carta geografica vettoriale della Svizzera 1:10 000"
+    }
+  },
+  "ch.swisstopo.swiss-map-vector25": {
+    "de": {
+      "description": "Swiss Map Vector 25 ist die Landeskarte der Schweiz 1:25‘000 in vektorieller Form. Sie beinhaltet das vollständige und differenzierte Bahn-, Strassen- und Wegnetz, eine detaillierte Siedlungs-, Gewässer-, Vegetations- und Geländedarstellung sowie eine umfangreiche Beschriftung. Rasterdaten für Relief und Fels ergänzen die vektoriellen Daten. Die vektoriellen Daten entstammen dem digitalen kartografischen Modell, welches auch für die Ableitung der gedruckten Karten und der Swiss Map Raster (Pixelkarte) genutzt wird. Die Inhalte sind thematisch gegliedert und können klassen- wie auch objektbezogen editiert werden. Die Darstellung ist derjenigen der gedruckten Landeskarte sehr ähnlich.",
+      "title": "Swiss Map Vector 25, vektorielle Landeskarte der Schweiz 1:25 000"
+    },
+    "en": {
+      "description": "Swiss Map Vector 25 is the Swiss national 1:25,000 scale map in vector format. It includes all complete and differentiated rail, road and path networks, a detailed representation of residential areas, bodies of water, vegetation and terrains complete with annotations. Raster data for relief and rock features complete the vector data. Vector data comes from the digital cartographic model, which is also used for the derivation of printed maps, and the Swiss Map Raster. Contents are structured according to subject matter and can be edited by class or by object. Depiction is very similar to that of the printed national map.",
+      "title": "Swiss Map Vector 25, Swiss national vector map 1:25 000"
+    },
+    "fr": {
+      "description": "Swiss Map Vector 25 est la carte nationale suisse 1:25 000 sous forme vectorielle. Elle comprend tous les réseaux ferroviaires, routiers et de chemins complets et différenciés, une représentation détaillée des localités, des eaux, de la végétation et des terrains ainsi qu'une annotation complète. Des données Raster pour le relief et les falaises complètent les données vectorielles. Les données vectorielles proviennent du modèle cartographique numérique qui est aussi utilisé pour l'élaboration des cartes imprimées et le « Swiss Map Raster ». Les contenus sont classés par thème et peuvent être édités selon les classes ou les objets. La représentation est très semblable à celle de la carte nationale imprimée.",
+      "title": "Swiss Map Vector 25, carte nationale vectorielle de la Suisse 1:25 000"
+    },
+    "it": {
+      "description": "Swiss Map Vector 25 è la carta nazionale della Svizzera 1:25'000 in forma vettoriale. Contiene l'intera rete ferroviaria, stradale e viaria differenziata, una rappresentazione dettagliata di insediamenti, acque, vegetazione e terreni e una dicitura dettagliata. I dati reticolari per rilievi e rocce completano i dati vettoriali. I dati vettoriali derivano dal modello cartografico digitale, utilizzato anche per il reparto delle carte stampate e per Swiss Map Raster. I contenuti sono organizzati per temi e possono essere modificati in base alla classe e all'oggetto. La rappresentazione è molto simile a quella della carta nazionale stampata.",
+      "title": "Swiss Map Vector 25, carta geografica vettoriale della Svizzera 1:25 000"
+    }
+  },
+  "ch.swisstopo.swissalti3d": {
+    "de": {
+      "description": "swissALTI3D ist ein sehr präzises digitales Höhenmodell, welches die Oberfläche der Schweiz und des Fürstentums Liechtenstein ohne Bewuchs und Bebauung beschreibt. Es wird in einem Nachführungszyklus von 6 Jahren aktualisiert.",
+      "title": "swissALTI3D"
+    },
+    "en": {
+      "description": "swissALTI3D is an extremely precise digital elevation model which describes the surface of Switzerland and the Principality of Liechtenstein without vegetation and development. It is updated in an cycle of 6 years.",
+      "title": "swissALTI3D"
+    },
+    "fr": {
+      "description": "swissALTI3D est un modèle altimétrique numérique très précis, qui décrit la surface de la Suisse et de la Principauté de Liechtenstein sans végétation ni constructions. Il est mis à jour selon un cycle de six ans.",
+      "title": "swissALTI3D"
+    },
+    "it": {
+      "description": "swissALTI3D è un modello altitudinale digitale molto preciso, che descrive la superficie della Svizzera e del principato del Liechtenstein senza vegetazione e costruzioni. Esso viene aggiornato in un ciclo di 6 anni.",
+      "title": "swissALTI3D"
+    }
+  },
+  "ch.swisstopo.swissbathy3d": {
+    "de": {
+      "description": "swissBATHY3D ist ein sehr genaues digitales Geländemodell von Schweizer Seen. Es besteht aus bathymetrischen Daten und beschreibt die Topografie einiger schweizer Seeböden.",
+      "title": "swissBATHY3D, Bathymetrische Daten von Schweizer Seen"
+    },
+    "en": {
+      "description": "swissBATHY3D contains bathymetric data in the form of a very accurate digital elevation model that describes the topography of the some Swiss lakebeds.",
+      "title": "swissBATHY3D, Bathymetric data of Swiss lakes"
+    },
+    "fr": {
+      "description": "swissBATHY3D contient des données bathymétriques sous la forme d’un modèle altimétrique numérique très précis qui décrit la topographie du fond de certains lacs suisses.",
+      "title": "swissBATHY3D, données bathymétriques des lacs suisses"
+    },
+    "it": {
+      "description": "swissBATHY3D contiene dati batimetrici sotto forma di modello altimetrico numerico molto precisi che descrivono la topografia del fondale di alcuni laghi svizzeri.",
+      "title": "swissBATHY3D, dati batimetrici dei laghi svizzeri"
+    }
+  },
+  "ch.swisstopo.swissboundaries3d": {
+    "de": {
+      "description": "swissBOUNDARIES3D enthält die administrativen Einheiten und Grenzen der Schweiz und des Fürstentums Liechtenstein in vektorieller Form. Das Produkt basiert auf einem optimierten Datenmodell für die Schweiz und ist mit den Daten des Bundesamtes für Statistik abgegelichen. swissBOUNDARIES3D folgt ab 2010 auf den Datensatz GG25.",
+      "title": "swissBOUNDARIES3D"
+    },
+    "en": {
+      "description": "swissBOUNDARIES3D contains all administrative units and national boundaries of Switzerland and the Principality of Liechtenstein in vector form. The product is based on an optimized data model for Switzerland and conforms to the data of the Swiss Federal Statistical Office. swissBOUNDARIES3D replaces the GG25 dataset from 2010 onwards.",
+      "title": "swissBOUNDARIES3D"
+    },
+    "fr": {
+      "description": "swissBOUNDARIES3D comprend les unités administratives et les frontières de la Suisse et de la Principauté de Liechtenstein en format vectoriel. Il se base sur un modèle de données optimisé pour la Suisse et conforme aux données de l'office fédéral de la statistique. swissBOUNDARIES3D succède dès 2010 au jeu de données GG25.",
+      "title": "swissBOUNDARIES3D"
+    },
+    "it": {
+      "description": "swissBOUNDARIES3D comprende le unità amministrative e le frontiere della Svizzera e del Principato del Liechtenstein in formato vettoriale. Il prodotto si basa su un modello dei dati ottimizzato per la Svizzera ed è armonizzato con i dati dell'Ufficio federale di statistica. Dal 2010 swissBOUNDARIES3D prende il posto del set di dati GG25.",
+      "title": "swissBOUNDARIES3D"
+    }
+  },
+  "ch.swisstopo.swissbuildings3d_2": {
+    "de": {
+      "description": "swissBUILDINGS3D 2.0 ist ein Vektordatensatz, der Gebäude als 3D-Modelle mit Dachformen und Dachüberständen darstellt. Die hohe Genauigkeit in allen drei Dimensionen, die grossflächige Abdeckung sowie die realitätsnahe Wiedergabe der Gebäudevolumenkörper machen dieses Produkt zu einem wertvollen Basisdatensatz für verschiedenste Anwendungen.",
+      "title": "swissBUILDINGS3D 2.0"
+    },
+    "en": {
+      "description": "swissBUILDINGS3D 2.0 is a vector based dataset which describes buildings as 3D-models with roof geometries and roof overhangs. The high level of detail in all three dimensions, high coverage and the realistic rendering of the building volume bodies make this product a valuable basic dataset for a large range of applications.",
+      "title": "swissBUILDINGS3D 2.0"
+    },
+    "fr": {
+      "description": "swissBUILDINGS3D 2.0 est un jeu de données vectorielles qui représente les bâtiments modélisés en 3D avec les formes des toits et avant-toits. La précision élevée dans chacune des trois dimensions, sa couverture très étendue ainsi que la reproduction particulièrement réaliste des volumes des bâtiments font de ce produit un jeu de données de base très précieux pour un large éventail d’applications.",
+      "title": "swissBUILDINGS3D 2.0"
+    },
+    "it": {
+      "description": "swissBUILDINGS3D 2.0 è un set di dati vettoriali che rappresenta gli edifici sotto forma di modelli in 3D, con le forme dei tetti e dei relativi bordi. L’alto grado di precisione in tutte e tre le dimensioni, la copertura estremamente estesa e la riproduzione realistica dei volumi degli edifici fanno di questo prodotto un set di dati di base prezioso per un ampio ventaglio di applicazioni.",
+      "title": "swissBUILDINGS3D 2.0"
+    }
+  },
+  "ch.swisstopo.swissbuildings3d_3_0": {
+    "de": {
+      "description": "swissBUILDINGS3D 3.0 Beta ist ein Datensatz, der Gebäude als 3D-Modelle mit Dachformen und Dachüberständen darstellt. Es stehen zwei Varianten zur Verfügung: ein geschlossenes Solidmodell und ein Modell mit separaten Elementen (Dach, Fassaden und Grundriss). Für die Erstellung von 3D-Modellen in der Schweiz und Liechtenstein bietet swissBUILDINGS3D 3.0 eine nützliche Datengrundlage. Bei diesem Produkt handelt es sich um eine Weiterentwicklung von swissBUILDINGS3D 2.0.",
+      "title": "swissBUILDINGS3D 3.0 Beta"
+    },
+    "en": {
+      "description": "swissBUILDINGS3D 3.0 beta is a dataset which describes buildings as 3D-models with roof geometries and roof overhangs. Two variants are available: a model with closed solids and a model with separate elements (roofs, facades and footprints). swissBUILDINGS3D 3.0 provides a useful database for the creation of 3D models in Switzerland and Liechtenstein. It is an improved version of swissBUILDINGS3D 2.0.",
+      "title": "swissBUILDINGS3D 3.0 Beta"
+    },
+    "fr": {
+      "description": "swissBUILDINGS3D 3.0 Beta est un jeu de données qui représente les bâtiments modélisés en 3D avec les formes des toits et avant-toits. Deux variantes sont disponibles: un modèle sous forme de solides fermés et un modèle avec des éléments séparés (toits, façades et empreinte au sol). swissBUILDINGS3D 3.0 offre une base de données utile pour la création de modèles 3D en Suisse et au Liechtenstein. Il s'agit d'une version améliorée de swissBUILDINGS3D 2.0.",
+      "title": "swissBUILDINGS3D 3.0 Beta"
+    },
+    "it": {
+      "description": "swissBUILDINGS3D 2.0 è un set di dati che rappresenta gli edifici sotto forma di modelli in 3D, con le forme dei tetti e le relative falde. Sono disponibili due varianti: un modello con solidi chiusi e un modello con elementi separati (tetti, facciate e impronta al suolo).swissBUILDINGS3D 3.0 offre una banca dati utile per la creazione di modelli 3D in Svizzera e Liechtenstein. È una versione migliorata di swissBUILDINGS3D 2.0.",
+      "title": "swissBUILDINGS3D 3.0 Beta"
+    }
+  },
+  "ch.swisstopo.swissimage-dop10": {
+    "de": {
+      "description": "Das Orthophotomosaik SWISSIMAGE 10 cm ist eine Zusammensetzung der neuen digitalen Farbluftbilder über die ganze Schweiz mit einer Bodenauflösung von 10 cm im Flachland und der wichtigsten Alpentäler sowie 25 cm in den Alpen. Es wird in einem Nachführungszyklus von 3 Jahren seit 2018 aktualisiert.",
+      "title": "SWISSIMAGE 10 cm, digitale Orthophotomosaik der Schweiz"
+    },
+    "en": {
+      "description": "The orthophoto mosaic SWISSIMAGE 10 cm is a composition of new digital color aerial photographs over the whole of Switzerland with a ground resolution of 10 cm in the plain areas and main alpine valleys and 25 cm over the Alps. It is updated in a cycle of 3 years since 2018.",
+      "title": "SWISSIMAGE 10 cm, digital orthophotomosaic of Switzerland"
+    },
+    "fr": {
+      "description": "La mosaïque d\"orthophotos SWISSIMAGE 10 cm est un assemblage des nouvelles images aériennes numériques en couleurs sur l'ensemble de la Suisse avec une résolution au sol de 10 cm dans les régions de plaine et les principales vallées alpines et de 25 cm dans les Alpes. Elle est mise à jour selon un cycle de 3 ans depuis 2018.",
+      "title": "SWISSIMAGE 10 cm, mosaique d'orthophotos numériques de la Suisse"
+    },
+    "it": {
+      "description": "Il mosaico di ortofoto SWISSIMAGE 10 cm è una composizione di nuove immagini aeree digitali a colori per la totalità del territorio svizzero, con una risoluzione al suolo di 10 cm nelle regioni di pianura e per nelle vallate alpine e di 25 cm nelle Alpi. Esso viene aggiornato con un ciclo di 3 anni da 2018.",
+      "title": "SWISSIMAGE 10 cm, mosaico di ortofoto digitali della Svizzera"
+    }
+  },
+  "ch.swisstopo.swisssurface3d": {
+    "de": {
+      "description": "swissSURFACE3D beschreibt die Oberfläche der Schweiz mit allen natürlichen und künstlichen Elementen in Form einer klassifizierten Punktwolke. Die mit einem airborne LiDAR erhobenen Daten zeichnen sich durch eine hohe Punktdichte und Genauigkeit aus. swissSURFACE3D wird in Kacheln von jeweils 1 km2 produziert. Die Kachelnummerierung entspricht den Kilometerkoordinaten des südwestlichen Eckpunkts einer Kachel.",
+      "title": "swissSURFACE3D, die klassifizierte Punktwolke der Schweiz"
+    },
+    "en": {
+      "description": "swissSURFACE3D models all natural and man-made objects of the surface of Switzerland in the form of a classified point cloud. These high-accuracy and high spatial density data are collected by airborne LiDAR. swissSURFACE3D is produced in 1 km2 tiles. The tiles are numbered based on the coordinates in kilometers of their southwest angle.",
+      "title": "swissSURFACE3D"
+    },
+    "fr": {
+      "description": "swissSURFACE3D décrit tous les éléments naturels et construits de la surface de la Suisse sous forme d’un nuage de points classifiés. Acquises par LiDAR aéroporté, ces données bénéficient d’une densité spatiale et d’une précision élevée. swissSURFACE3D est produit en tuiles de 1 km2. La numérotation des tuiles correspond aux coordonnées kilométriques de leur angle sud-ouest.",
+      "title": "swissSURFACE3D, le nuage de points classifiés de la Suisse"
+    },
+    "it": {
+      "description": "swissSURFACE3D descrive tutti gli elementi naturali e costruiti presenti sulla superficie della Svizzera, sotto forma di una nuvola di punti registrati. Acquisiti da LiDAR questi dati beneficiano di una densità e di una precisione elevati. swissSURFACE3D viene prodotto in tasselli di 1 km2. La loro numerazione corrisponde alle coordinate chilometriche del loro angolo sud-ovest.",
+      "title": "swissSURFACE3D, la nuvola di punti registrati della Svizzera"
+    }
+  },
+  "ch.swisstopo.swisssurface3d-raster": {
+    "de": {
+      "description": "swissSURFACE3D Raster ist ein digitales Oberflächenmodell (DOM) welches die Form der Erdoberfläche abbildet, wobei alle beständigen und sichtbaren Landschaftselemente wie Boden, Bewuchs, Wälder, Hochbauten und weitere Kunstbauten einbezogen werden. swissSURFACE3D Raster wird in Kacheln von jeweils 1 km2 produziert. Die Kachelnummerierung entspricht den Kilometerkoordinaten des südwestlichen Eckpunkts einer Kachel.",
+      "title": "swissSURFACE3D Raster, das digitale Oberflächenmodell der Schweiz"
+    },
+    "en": {
+      "description": "swissSURFACE3D Raster is a digital surface model (DSM) which represents the earth's surface including all stable and visible landscape elements such as soil, natural cover, woods and all sorts of constructive works. swissSURFACE3D Raster is produced in 1 km2 tiles. The tiles are numbered based on the coordinates in kilometers of their southwestern corner.",
+      "title": "swissSURFACE3D Raster, the digital surface model of Switzerland"
+    },
+    "fr": {
+      "description": "swissSURFACE3D Raster est un modèle numérique de surface (MNS) qui reproduit la forme de la surface terrestre en incluant tous les éléments permanents et visibles du paysage tels que le sol, la végétation, les forêts, les bâtiments et les autres ouvrages d’art. swissSURFACE3D Raster est produit en tuiles de 1 km2. La numérotation des tuiles correspond aux coordonnées kilométriques de leur angle sud-ouest.",
+      "title": "swissSURFACE3D Raster, le modèle numérique de surface de la Suiss"
+    },
+    "it": {
+      "description": "swissSURFACE 3D Raster è un modello digitale della superficie (MDS) che riproduce la forma della superficie terrestre tenendo conto di tutti gli elementi permanenti e visibili del paesaggio, quali il terreno, la vegetazione, le foreste, gli edifici ed altre opere artificiali.\nswissSURFACE3D Raster viene prodotto in tasselli di 1 km2. La loro numerazione corrisponde alle coordinate chilometriche del loro angolo sud-ovest.",
+      "title": "swissSURFACE3D Raster, il modello digitale della superficie della Svizzera"
+    }
+  },
+  "ch.swisstopo.swisstlm3d": {
+    "de": {
+      "description": "swissTLM3D ist das grossmassstäbliche Topografische Landschaftsmodell der Schweiz. Es umfasst die natürlichen und künstlichen Objekte wie auch die Namendaten in vektorieller Form. Mit einer hohen Genauigkeit und dem Einbezug der dritten Dimension ist swissTLM3D der genaueste und umfassendste 3D-Vektordatensatz der Schweiz.",
+      "title": "swissTLM3D"
+    },
+    "en": {
+      "description": "swissTLM3D is the large-scale topographical landscape model of Switzerland. It includes both natural and artificial landscape features, as well as name data in vector form. With a high accuracy and the incorporation of a third dimension, swissTLM3D is the most extensive and accurate 3D vector data set of Switzerland.",
+      "title": "swissTLM3D"
+    },
+    "fr": {
+      "description": "swissTLM3D est le modèle topographique du paysage à grande échelle de la Suisse. Il comprend des objets naturels et artificiels ainsi que des données de noms sous forme vectorielle. Avec une haute précision et l'intégration de la troisième dimension, swissTLM3D constitue le jeu de données vectorielles en 3D le plus précis et le plus complet de la Suisse.",
+      "title": "swissTLM3D"
+    },
+    "it": {
+      "description": "swissTLM3D è il Modello topografico dettagliato del paesaggio svizzero. Comprende gli oggetti naturali e artificiali con i dati toponimici in formato vettoriale. Questo prodotto, che offre un'alta precisione e include anche la terza dimensione, rappresenta la raccolta più precisa e completa di dati vettoriali in 3D sul territorio svizzero.",
+      "title": "swissTLM3D"
+    }
+  },
+  "ch.swisstopo.swisstlmregio": {
+    "de": {
+      "description": "swissTLMRegio ist ein zweidimensionales Landschaftsmodell, welches die natürlichen und künstlichen Objekte der Landschaft im Vektorformat wiedergibt. Mit seinem hohen Generalisierungsgrad stellt es einen Referenzdatensatz für Übersichtsarbeiten auf regionaler und nationaler Ebene dar. swissTLMRegio beschreibt von rund 950 000 Objekten die Lage, die Form, die Nachbarschaftsbeziehungen (Topologie), die Objektart, welche sie repräsentieren, sowie andere Sachattribute. swissTLMRegio besteht aus 6 thematischen Gruppen (Topics), wovon jede verschiedene Objektklassen umfasst: Transportation (Verkehr), Hydrography (Gewässer), Landcover (Bodenbedeckung), Buildings (Gebäude), Miscellaneous (Verschiedenes), Names (Namen).",
+      "title": "swissTLMRegio"
+    },
+    "en": {
+      "description": "swissTLMRegio is a 2D landscape model, which represents the natural and man-made features of the landscape in vector format. With its high generalisation grade it is a reference dataset for applications requiring a regional or national overview.\nswissTLMRegio describes about 950 000 objects with their location, shape and neighbourhood connections (topology) as well as the object type and further attributes. swissTLMRegiois composed of 6 thematic topics. Each topic contains one or more feature classes: Transportation, Hydrography, Landcover, Buildings, Miscellaneous, Names..",
+      "title": "swissTLMRegio"
+    },
+    "fr": {
+      "description": "swissTLMRegio est un modèle bidimensionnel du territoire qui restitue les objets naturels et construits du paysage au format vectoriel. Grâce à son haut degré de généralisation, il constitue un produit de géodonnées de référence pour des travaux d'ensemble au niveau régional et national. \nswissTLMRegio décrit environ 950 000 objets par leur position, leur forme, leurs relations avec leur voisinage (topologie), le type d’objet qu'ils représentent ainsi que d'autres attributs descriptifs. swissTLMRegio est composé de six groupes thématiques (Topics) qui comprennent chacun différentes classes d'objets (Feature Classes): Transportation (transport), Hydrography (hydrographie), Landcover (couverture du sol), Buildings (bâtiments), Miscellaneous (divers), Names (noms).",
+      "title": "swissTLMRegio"
+    },
+    "it": {
+      "description": "",
+      "title": "swissTLMRegio"
+    }
+  }
+}

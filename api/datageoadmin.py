@@ -27,6 +27,7 @@ from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
 from qgis.core import (QgsTask, QgsFileDownloader, QgsBlockingNetworkRequest,
                        Qgis)
 from .responseObjects import (Dataset, File, ALL_VALUE, CURRENT_VALUE)
+from .geocat import ApiGeoCat
 from ..ui.ui_utilities import getDateFromIsoString
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
@@ -40,18 +41,21 @@ OPTION_MAPPER = {
 }
 API_OPTION_MAPPER = {y:x for x,y in OPTION_MAPPER.items()}
 CUSTOM_OPTION_FILE = os.path.join(os.path.dirname(__file__), 'datageoadmin.json')
+API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
 VERSION = Qgis.QGIS_VERSION_INT
 
 
 class ApiDataGeoAdmin:
     
-    def __init__(self, parent):
+    def __init__(self, parent, locale='en'):
         self.baseUrl = BASEURL
         self.parent = parent
+        self.locale = locale
+        self.geocatApi = ApiGeoCat(parent, 'geoadmin')
     
-    def getDatasetList(self, task: QgsTask):
-        """Get a list of all available datasets and read out with options the
-        dataset supports"""
+    def getDatasetList(self, task: QgsTask, refreshMetadata=True):
+        """Get a list of all available datasets and read out title,
+        description and other properties."""
         # Request dataset list
         collection = self.fetchAll(task, self.baseUrl, 'collections')
         if collection is False:
@@ -61,6 +65,12 @@ class ApiDataGeoAdmin:
             return False
         
         datasetList = {}
+        # Geoadmin metadata: Fetches translated titles and descriptions
+        #  of datasets
+        md_geoadmin = self.getMetadata(task)
+        # Geocat metadata: Alternative if geoadmin does not have the dataset
+        md_geocat = {}
+        
         for ds in collection:
             
             if task.isCanceled():
@@ -68,16 +78,73 @@ class ApiDataGeoAdmin:
 
             dataset = Dataset(ds['id'], [link['href'] for link in ds['links']
                               if link['rel'] == 'items'][0])
-            dataset.description = ds['description']
             dataset.title = ds['title']
+            dataset.description = ds['description']
             dataset.bbox = ds['extent']['spatial']['bbox'][0]
             dataset.licenseLink = [link['href'] for link in ds['links']
                                    if link['rel'] == 'license'][0]
+            dataset.metadataLink = [link['href'] for link in ds['links']
+                                   if link['rel'] == 'describedby'][0]
+            
+            # Add metadata in correct language from geoadmin API
+            if dataset.id in md_geoadmin:
+                if md_geoadmin[dataset.id]['title']:
+                    dataset.title = md_geoadmin[dataset.id]['title']
+                if md_geoadmin[dataset.id]['description']:
+                    dataset.description = md_geoadmin[dataset.id]['description']
+            else:
+                # Get metadata from geocat.ch
+                metadata = self.geocatApi.getMeta(task, dataset.id,
+                                                    dataset.metadataLink,
+                                                    self.locale)
+                if metadata['title']:
+                    dataset.title = metadata['title']
+                if metadata['description']:
+                    dataset.description = metadata['description']
+
+                if refreshMetadata:
+                    # Request metadata in all languages. This is only used
+                    #  when we want to refresh the geocat metadata file.
+                    md_geocat[dataset.id] = self.geocatApi.refreshPresavedMetadata(
+                        task, dataset.id, dataset.metadataLink)
 
             datasetList[dataset.id] = dataset
+
+        if refreshMetadata:
+            self.geocatApi.updatePresavedMetadata(md_geocat)
         
         return datasetList
-    
+
+    def getMetadata(self, task: QgsTask):
+        """ Calls geoadmin API and retrieves translated titles and
+        descriptions."""
+        metadata = {}
+        
+        params = {
+            'lang': self.locale
+        }
+        faqData = self.fetch(task, API_METADATA_URL, params)
+        if not faqData or not isinstance(faqData, dict) \
+                or 'layers' not in faqData:
+            return metadata
+        
+        for layer in faqData['layers']:
+            title = ''
+            description = ''
+            if not 'layerBodId' in layer:
+                continue
+            layerId = layer['layerBodId']
+            if 'fullName' in layer:
+                title = layer['fullName']
+            if 'attributes' in layer and 'inspireAbstract' in layer['attributes']:
+                 description = layer['attributes']['inspireAbstract']
+            
+            metadata[layerId] = {
+                'title': title,
+                'description': description
+            }
+        return metadata
+
     def getDatasetDetails(self, task: QgsTask, dataset):
         """Analyse dataset to figure out available options in gui"""
         url = dataset.filesLink

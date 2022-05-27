@@ -23,19 +23,24 @@ ALL_VALUE = 'all'
 CURRENT_VALUE = 'current'
 
 class Dataset:
-    def __init__(self, name='', filesLink=''):
-        self.id = name
+    def __init__(self, ident='', filesLink=''):
+        self.id = ident
         self.filesLink = filesLink
-        self.description = None
         self.title = None
+        self.description = None
         self.isSingleFile = False
         self.bbox = None
         self.licenseLink = None
+        self.metadataLink = None
         self.selectByBBox = True
         self.isEmpty = None
         self.avgSize = {}
         self.analysed = False
 
+    @property
+    def searchtext(self):
+        return ' '.join([self.id, self.title, self.description])\
+                    .replace('.', ' ').lower()
 
 class File:
     

@@ -20,6 +20,7 @@
  ***************************************************************************/
 """
 import sys
+import os.path
 from qgis.PyQt.QtCore import (QSettings, QTranslator, qVersion,
                               QCoreApplication, Qt)
 from qgis.PyQt.QtGui import QIcon
@@ -29,8 +30,6 @@ from .resources.resources import *
 
 # Import the code for the DockWidget
 from .ui.sgd_dockwidget import SwissGeoDownloaderDockWidget
-import os.path
-
 
 class SwissGeoDownloader:
     """QGIS Plugin Implementation."""
@@ -50,18 +49,21 @@ class SwissGeoDownloader:
         self.plugin_dir = os.path.dirname(__file__)
 
         # initialize locale
-        locale = QSettings().value('locale/userLocale')[0:2]
+        self.locale = QSettings().value('locale/userLocale')[0:2]
         locale_path = os.path.join(
             self.plugin_dir,
             'i18n',
-            '{}.qm'.format(locale))
+            '{}.qm'.format(self.locale))
 
-        if os.path.exists(locale_path):
-            self.translator = QTranslator()
-            self.translator.load(locale_path)
+        if not os.path.exists(locale_path):
+            self.locale = 'en'
+            locale_path = os.path.join(self.plugin_dir, 'i18n', self.locale + '.qm')
+        
+        self.translator = QTranslator()
+        self.translator.load(locale_path)
 
-            if qVersion() > '4.3.3':
-                QCoreApplication.installTranslator(self.translator)
+        if qVersion() > '4.3.3':
+            QCoreApplication.installTranslator(self.translator)
 
         # Declare instance attributes
         self.actions = []
@@ -234,7 +236,7 @@ class SwissGeoDownloader:
             #    removed on close (see self.onClosePlugin method)
             if self.dockwidget is None:
                 # Create the dockwidget (after translation) and keep reference
-                self.dockwidget = SwissGeoDownloaderDockWidget(self.iface)
+                self.dockwidget = SwissGeoDownloaderDockWidget(self.iface, self.locale)
 
             # connect to provide cleanup on closing of dockwidget
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
