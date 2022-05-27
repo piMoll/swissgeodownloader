@@ -112,7 +112,7 @@ class BboxPainter:
     def switchSelectState(self, fileId):
         if fileId in self.bboxItems:
             bbox = self.bboxItems[fileId]
-            bbox.switchSelected()
+            bbox.switchSelectState()
 
 
 class BboxMapItem(QgsRubberBand):
@@ -121,6 +121,7 @@ class BboxMapItem(QgsRubberBand):
     COLOR_SELECT = QColor(171, 0, 12, 30)
     COLOR_UNSELECT = QColor(171, 171, 171, 0)
     COLOR_BORDER = QColor(171, 0, 12)
+    COLOR_BORDER_UNSELECTED = QColor(100, 100, 100)
     WIDTH_BORDER = 3
     
     def __init__(self, canvas, rectangle, bboxId):
@@ -144,10 +145,14 @@ class BboxMapItem(QgsRubberBand):
         return self.xMin <= point.x() <= self.xMax and \
                 self.yMin <= point.y() <= self.yMax
 
-    def switchSelected(self):
+    def switchSelectState(self):
         if self.selected:
+            # Unselect
+            self.setColor(self.COLOR_BORDER_UNSELECTED)
             self.setFillColor(self.COLOR_UNSELECT)
         else:
+            # Select
+            self.setColor(self.COLOR_BORDER)
             self.setFillColor(self.COLOR_SELECT)
         self.selected = not self.selected
         self.canvas.refresh()
