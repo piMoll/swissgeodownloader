@@ -5,7 +5,7 @@
  This plugin lets you comfortably download swiss geo data.
                              -------------------
         begin                : 2021-03-14
-        copyright            : (C) 2021 by Patricia Moll
+        copyright            : (C) 2022 by Patricia Moll
         email                : pimoll.dev@gmail.com
  ***************************************************************************/
 
