@@ -53,6 +53,42 @@
       "title": "Piano settoriale dei trasporti, parte infrastruttura ferroviaria (SIS): statu quo"
     }
   },
+  "ch.bav.sachplan-infrastruktur-schifffahrt_anhoerung": {
+    "de": {
+      "description": "Der Sachplan Verkehr, Teil Infrastruktur Schifffahrt (SIF) koordiniert die sachplanrelevanten Infrastrukturen für die Schifffahrt, die sich im Kompetenzbereich des Bundes befinden.",
+      "title": "Sachplan Verkehr, Teil Infrastruktur Schifffahrt (SIF): Anhörung"
+    },
+    "en": {
+      "description": "The rail infrastructure section of the sector plan on transport (SIS) coordinates the navigation infrastructure which is relevant to the sectoral plan and which falls within the sphere of competence of the Swiss Confederation.",
+      "title": "Sector plan on transport, navigation infrastructure section (SIF): consultation"
+    },
+    "fr": {
+      "description": "La partie Infrastructure rail du SIS sert à coordonner les infrastructures destinées à la naviagtion d'importance nationale qui sont de la compétence de la Confédération.",
+      "title": "Plan sectoriel des transports, partie infrastructure navigation (SIF): consultation"
+    },
+    "it": {
+      "description": "La parte Infrastruttura ferroviaria del SIS prende in esame le infrastrutture adibite alla navigazione d'importanza nazionale che rientrano nell'ambito di competenza della Confederazione.",
+      "title": "Piano settoriale dei trasporti, parte infrastruttura navigazione (SIF): consultazione"
+    }
+  },
+  "ch.bav.sachplan-infrastruktur-schifffahrt_ausgangslage": {
+    "de": {
+      "description": "Einerseits handelt es sich um Anlagen die noch nicht in Betrieb sind, bei denen die Tätigkeiten und der Sachplanprozess gemäss Art. 5 RPV abgeschlossen sind. Es liegt somit ein Auflageprojekt vor, das Plangenehmigungsverfahren ist eingeleitet bzw. die Plangenehmigungsverfügung liegt vor und das Vorhaben wird realisiert. Andererseits kann der Sachplan zum Verständnis der Festlegungen auch Aufschluss über räumliche und sachliche Zusammenhänge, insbesondere über bestehende Bauten und Anlagen geben.",
+      "title": "Sachplan Verkehr, Teil Infrastruktur Schifffahrt (SIF): Ausgangslage"
+    },
+    "en": {
+      "description": "On the one hand, this concerns facilities that are not yet in operation and for which the activities and the sectoral plan process have been completed in accordance with Article 5 of the Swiss Spatial Planning Ordinance (SPO). A planning project has therefore been drawn up, the planning approval process has been initiated or the planning approval order is available and the project is being implemented. On the other hand, as well as providing an understanding of the regulations, the sectoral plan may also offer information on spatial and material contexts, particularly with regard to existing buildings and facilities.",
+      "title": "Sector plan on transport, navigation infrastructure section (SIF): starting point"
+    },
+    "fr": {
+      "description": "Il s’agit d’une part d’installations qui ne sont pas encore en exploitation, alors que les activités et le processus du plan sectoriel sont achevés conformément à l’art. 5 OAT. Le projet est mis à l'enquête, la procédure d'approbation des plans est engagée ou la décision d'approbation des plans a été prise et le projet est en cours de réalisation. D’autre part, le plan sectoriel peut fournir des renseignements sur les réalités géographiques et matérielles, notamment sur les ouvrages construits et les installations préexistantes, afin de faciliter la compréhension des indications.",
+      "title": "Plan sectoriel des transports, partie infrastructure navigation (SIF): données de base"
+    },
+    "it": {
+      "description": "Si tratta da un lato di impianti non ancora in esercizio per i quali le attività d’incidenza territoriale e il processo relativo al piano settoriale sono conclusi conformemente all’articolo 5 OPT. Esiste un progetto di pubblicazione, la procedura di approvazione dei piani è stata avviata o è stata emessa la relativa decisione; il progetto viene realizzato. D'altro canto, il piano settoriale può fornire indicazioni sulla situazione territoriale e materiale, in particolare sugli edifici e gli impianti già esistenti, ai fini di una migliore comprensione delle indicazioni.",
+      "title": "Piano settoriale dei trasporti, parte infrastruttura navigazione (SIF): statu quo"
+    }
+  },
   "ch.swisstopo.swiss-map-vector10": {
     "de": {
       "description": "Swiss Map Vector 10 ist die Landeskarte der Schweiz 1:10‘000 in vektorieller Form. Sie beinhaltet das vollständige und differenzierte Bahn-, Strassen- und Wegnetz, eine detaillierte Siedlungs-, Gewässer-, Vegetations- und Geländedarstellung sowie eine umfangreiche Beschriftung. Rasterdaten für Relief und Fels ergänzen die vektoriellen Daten. Der Kartenperimeter umfasst das Landesgebiet der Schweiz und des Fürstentums Liechtenstein. Die Nachführung erfolgt jährlich basierend auf der aktuellsten Version des Topografischen Landschaftsmodells TLM von swisstopo. Die Inhalte sind thematisch gegliedert und können klassen- wie auch objektbezogen editiert werden. Die Darstellung ist derjenigen der gedruckten Landeskarte sehr ähnlich.",

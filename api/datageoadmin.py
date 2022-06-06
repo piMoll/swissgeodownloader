@@ -53,7 +53,7 @@ class ApiDataGeoAdmin:
         self.locale = locale
         self.geocatApi = ApiGeoCat(parent, 'geoadmin')
     
-    def getDatasetList(self, task: QgsTask, refreshMetadata=True):
+    def getDatasetList(self, task: QgsTask, refreshMetadata=False):
         """Get a list of all available datasets and read out title,
         description and other properties."""
         # Request dataset list
@@ -93,7 +93,8 @@ class ApiDataGeoAdmin:
                 if md_geoadmin[dataset.id]['description']:
                     dataset.description = md_geoadmin[dataset.id]['description']
             else:
-                # Get metadata from geocat.ch
+                # Get metadata from geocat.ch: This will save the metadata to
+                #  a file so it does not have to be requested every time
                 metadata = self.geocatApi.getMeta(task, dataset.id,
                                                     dataset.metadataLink,
                                                     self.locale)

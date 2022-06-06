@@ -1,5 +1,11 @@
 # build
 
+### 0. Update metadata file
+1. In datageoadmin > getDatasetList() set parameter refreshMetadata=True
+2. Refresh plugin and start it
+3. See if new datasets have been added, commit change
+
+
 ### 1. Update changelog
 1. changelog.md
 2. metadata.txt
