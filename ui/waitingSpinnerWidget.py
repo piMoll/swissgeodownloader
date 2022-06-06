@@ -44,15 +44,15 @@ class QtWaitingSpinner(QWidget):
         self._disableParentWhenSpinning = disableParentWhenSpinning
 
         # WAS IN initialize()
-        self._color = QColor(Qt.black)
-        self._roundness = 100.0
-        self._minimumTrailOpacity = 3.14159265358979323846
-        self._trailFadePercentage = 80.0
-        self._revolutionsPerSecond = 1.57079632679489661923
-        self._numberOfLines = 20
-        self._lineLength = 10
-        self._lineWidth = 2
-        self._innerRadius = 10
+        self._color = QColor(100, 100, 100)
+        self._roundness = 70.0
+        self._minimumTrailOpacity = 15
+        self._trailFadePercentage = 70.0
+        self._revolutionsPerSecond = 1
+        self._numberOfLines = 16
+        self._lineLength = 16
+        self._lineWidth = 5
+        self._innerRadius = 12
         self._currentCounter = 0
         self._isSpinning = False
 

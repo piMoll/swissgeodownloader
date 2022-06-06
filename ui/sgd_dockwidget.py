@@ -22,7 +22,6 @@
 
 import os
 from qgis.PyQt.QtCore import pyqtSignal
-from qgis.PyQt.QtGui import QColor
 from qgis.PyQt.QtWidgets import (QDockWidget, QFileDialog, QMessageBox)
 from qgis.gui import QgsExtentGroupBox, QgisInterface
 from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
@@ -108,29 +107,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Create spinners to indicate data loading
         # Spinner for dataset request
         self.spinnerDs = QtWaitingSpinner(self)
-        self.spinnerDs.setRoundness(70.0)
-        self.spinnerDs.setMinimumTrailOpacity(15.0)
-        self.spinnerDs.setTrailFadePercentage(70.0)
-        self.spinnerDs.setNumberOfLines(16)
-        self.spinnerDs.setLineLength(16)
-        self.spinnerDs.setLineWidth(5)
-        self.spinnerDs.setInnerRadius(12)
-        self.spinnerDs.setRevolutionsPerSecond(1)
-        self.spinnerDs.setColor(QColor(100, 100, 100))
         self.verticalLayout.addWidget(self.spinnerDs)
         self.spinnerDs.start()
         
         # Spinner for file list request
         self.spinnerFl = QtWaitingSpinner(self)
-        self.spinnerFl.setRoundness(70.0)
-        self.spinnerFl.setMinimumTrailOpacity(15.0)
-        self.spinnerFl.setTrailFadePercentage(70.0)
-        self.spinnerFl.setNumberOfLines(16)
-        self.spinnerFl.setLineLength(16)
-        self.spinnerFl.setLineWidth(5)
-        self.spinnerFl.setInnerRadius(12)
-        self.spinnerFl.setRevolutionsPerSecond(1)
-        self.spinnerFl.setColor(QColor(100, 100, 100))
         self.guiFileListLayout.addWidget(self.spinnerFl)
         
         # Connect signals
