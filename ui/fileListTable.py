@@ -21,7 +21,7 @@
 from qgis.PyQt.QtWidgets import (QHeaderView, QTableView, QAbstractItemView,
                                  QSizePolicy, QAbstractScrollArea)
 from qgis.PyQt.QtCore import QObject, Qt, pyqtSignal
-from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel
+from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel, QFont
 
 class FileListTable(QObject):
     
@@ -103,6 +103,10 @@ class FileListTable(QObject):
         item0 = QStandardItem()
         item1 = QStandardItem(message)
         item1.setEditable(False)
+        italicFont = QFont()
+        italicFont.setItalic(True)
+        item1.setFont(italicFont)
+        
         self.model.appendRow([item0, item1])
         self.showEmptyMessage = True
         self.tbl.setFocusPolicy(Qt.NoFocus)

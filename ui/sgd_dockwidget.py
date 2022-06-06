@@ -485,7 +485,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             if filterVal:
                 self.currentFilters[fileName] = filterVal
         
-        self.applyFilters()
+        self.applyFilters(userChange=True)
     
     def updateSelectMode(self):
         if self.guiFullExtentChbox.isChecked():
@@ -605,7 +605,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.fileListTbl.fill(fileList)
         self.updateSummary()
     
-    def applyFilters(self):
+    def applyFilters(self, userChange=False):
         self.fileListFiltered = {}
         orderedFilesForTbl = []
         for file in self.fileList:
@@ -624,28 +624,34 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
                 orderedFilesForTbl.append(file)
             else:
                 file.selected = False
+        
+        # If none of the files match the current filter criteria, reset one
+        #  filter at the time
+        if (not userChange and len(self.fileList) > 0
+                and len(orderedFilesForTbl) == 0):
+            self.resetFilter()
+            self.applyFilters(userChange)
+            return
 
-        self.populateFileList(orderedFilesForTbl)
-        self.bboxPainter.paintBoxes(self.fileListFiltered)
-
-    def filterFileList(self, filetype):
-        self.fileListFiltered = {}
-        orderedFilesForTbl = []
-        for file in self.fileList:
-            if not filetype or (filetype and file.ext == filetype):
-                file.selected = True
-                self.fileListFiltered[file.id] = file
-                # This list is necessary because dictionaries do not have a
-                #  stable order, but we want the original order from the
-                #  API response in the table
-                orderedFilesForTbl.append(file)
-            else:
-                file.selected = False
-                
-        self.currentFilter = filetype
         self.populateFileList(orderedFilesForTbl)
         self.bboxPainter.paintBoxes(self.fileListFiltered)
     
+    def resetFilter(self):
+        """When the file list is empty, this function resets one filter
+        at the time to 'all' until file list is not empty anymore."""
+        for filterName, uiElem in self.filterFields.items():
+            if (uiElem.isEnabled() and uiElem.isVisible()
+                    and uiElem.currentData() != ALL_VALUE):
+                
+                idx = uiElem.findData(ALL_VALUE)
+                if idx:
+                    uiElem.setDisabled(True)
+                    uiElem.setCurrentIndex(idx)
+                    self.currentFilters[filterName] = ALL_VALUE
+                    uiElem.setEnabled(True)
+                    # Only reset one filter at a time
+                    break
+
     def onFileSelectionChange(self, fileId, isChecked):
         self.fileListFiltered[fileId].selected = isChecked
         self.bboxPainter.switchSelectState(fileId)
