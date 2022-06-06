@@ -16,6 +16,11 @@
     <height>180</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>13</pointsize>
+   </font>
+  </property>
   <property name="allowedAreas">
    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
   </property>
@@ -134,6 +139,10 @@
         <property name="text">
          <string>Download</string>
         </property>
+        <property name="icon">
+         <iconset resource="../resources/resources.qrc">
+          <normaloff>:/plugins/swissgeodownloader/resources/icon.png</normaloff>:/plugins/swissgeodownloader/resources/icon.png</iconset>
+        </property>
        </widget>
       </item>
      </layout>
@@ -170,7 +179,7 @@
          <x>0</x>
          <y>0</y>
          <width>493</width>
-         <height>703</height>
+         <height>697</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -262,12 +271,19 @@
                  <property name="text">
                   <string>Request file list</string>
                  </property>
+                 <property name="icon">
+                  <iconset resource="../resources/resources.qrc">
+                   <normaloff>:/plugins/swissgeodownloader/resources/sort-down.png</normaloff>:/plugins/swissgeodownloader/resources/sort-down.png</iconset>
+                 </property>
                 </widget>
                </item>
                <item>
                 <widget class="QPushButton" name="guiRequestCancelBtn">
                  <property name="text">
                   <string>Cancel request</string>
+                 </property>
+                 <property name="icon">
+                  <iconset theme="cancel"/>
                  </property>
                 </widget>
                </item>
@@ -402,6 +418,25 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>guiShowMapBtn</tabstop>
+  <tabstop>guiRefreshDatasetsBtn</tabstop>
+  <tabstop>guiInfoBtn</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>guiGroupDataset</tabstop>
+  <tabstop>guiGroupExtent</tabstop>
+  <tabstop>guiFullExtentChbox</tabstop>
+  <tabstop>guiExtentWidget</tabstop>
+  <tabstop>guiGroupFiles</tabstop>
+  <tabstop>guiRequestListBtn</tabstop>
+  <tabstop>guiRequestCancelBtn</tabstop>
+  <tabstop>guiFileType</tabstop>
+  <tabstop>guiFormat</tabstop>
+  <tabstop>guiResolution</tabstop>
+  <tabstop>guiTimestamp</tabstop>
+  <tabstop>guiCoordsys</tabstop>
+  <tabstop>guiDownloadBtn</tabstop>
+ </tabstops>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>

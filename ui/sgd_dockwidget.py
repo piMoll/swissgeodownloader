@@ -282,7 +282,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def onReceiveDatasets(self, datasetList):
         """Recieve list of available datasets"""
         self.datasetList = datasetList
-        self.datasetListTbl.fill(self.datasetList.values())
+        self.datasetListTbl.fill(self.datasetList.values() if self.datasetList else [])
         self.spinnerDs.stop()
     
     def onDatasetSelectionChange(self, datasetId):
@@ -436,6 +436,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
     def onLoadFileListClicked(self):
         """Call api to retrieve list of items for currently selectect bbox."""
+        self.guiRequestListBtn.setHidden(True)
         # Remove current file list
         self.resetFileList()
         
@@ -453,13 +454,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             lambda: self.onReceiveFileList({}))
         # Start spinner to indicate data loading
         self.spinnerFl.start()
-        self.guiRequestCancelBtn.setHidden(False)
         # Add task to task manager
         self.taskManager.addTask(self.fileListRequest)
+        self.guiRequestCancelBtn.setHidden(False)
 
     def onCancelRequestClicked(self):
         if self.fileListRequest:
             self.fileListRequest.cancel()
+            self.guiRequestListBtn.setHidden(False)
             self.guiRequestCancelBtn.setHidden(True)
 
     def onReceiveFileList(self, fileList):
@@ -468,6 +470,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             fileList = {'files': [], 'filters': None}
         if not fileList['files']:
             fileList['files'] = []
+            # Add info message to file list
             if self.getBbox():
                 self.fileListTbl.onEmptyList(self.tr('No files available in '
                                                      'current extent'))
@@ -483,6 +486,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiDownloadBtn.setDisabled(False)
 
         self.spinnerFl.stop()
+        self.guiRequestListBtn.setHidden(False)
     
     def updateFilterFields(self, filterableProps):
         self.emptyFilterFields()
