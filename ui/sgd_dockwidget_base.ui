@@ -265,25 +265,9 @@
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="guiQuestionBtn">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
+                <widget class="QPushButton" name="guiRequestCancelBtn">
                  <property name="text">
-                  <string/>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../resources/resources.qrc">
-                   <normaloff>:/plugins/swissgeodownloader/resources/question.png</normaloff>:/plugins/swissgeodownloader/resources/question.png</iconset>
+                  <string>Cancel request</string>
                  </property>
                 </widget>
                </item>
@@ -299,13 +283,6 @@
                   </size>
                  </property>
                 </spacer>
-               </item>
-               <item>
-                <widget class="QPushButton" name="guiRequestCancelBtn">
-                 <property name="text">
-                  <string>Cancel request</string>
-                 </property>
-                </widget>
                </item>
               </layout>
              </item>

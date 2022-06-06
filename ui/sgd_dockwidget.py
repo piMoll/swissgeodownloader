@@ -156,7 +156,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         self.guiRequestListBtn.clicked.connect(self.onLoadFileListClicked)
         self.guiDownloadBtn.clicked.connect(self.onDownloadFilesClicked)
-        self.guiQuestionBtn.clicked.connect(self.onQuestionClicked)
         self.guiRequestCancelBtn.clicked.connect(self.onCancelRequestClicked)
         
         self.qgsProject.crsChanged.connect(self.onMapRefSysChanged)
@@ -319,13 +318,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         if self.currentDataset.isSingleFile:
             self.onLoadFileListClicked()
     
-    def onQuestionClicked(self):
-        title = self.tr('Why are there no files?')
-        msg = self.tr("Not all datasets cover the whole area of Switzerland."
-                     " Try changing options or select 'Full dataset extent'"
-                     " to get a list of all available datasets.")
-        self.showDialog(title, msg, 'Ok')
-    
     def applyDatasetState(self):
         """Set up ui according to the options of the selected dataset"""
         # Show dataset status if no files are available
@@ -437,7 +429,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             return []
         
         rectangle = self.guiExtentWidget.currentExtent()
-        return transformBbox(rectangle, self.transformProj2Api)
+        bbox = transformBbox(rectangle, self.transformProj2Api)
+        if float('inf') in bbox:
+            bbox = []
+        return bbox
 
     def onLoadFileListClicked(self):
         """Call api to retrieve list of items for currently selectect bbox."""
@@ -446,8 +441,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         
         # Read out extent
         bbox = self.getBbox()
-        if float('inf') in bbox:
-            bbox = []
         
         # Call api
         # Create a separate task for request to not block ui
@@ -475,6 +468,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             fileList = {'files': [], 'filters': None}
         if not fileList['files']:
             fileList['files'] = []
+            if self.getBbox():
+                self.fileListTbl.onEmptyList(self.tr('No files available in '
+                                                     'current extent'))
+            else:
+                self.fileListTbl.onEmptyList(self.tr('No files available'))
         self.fileList = fileList['files']
         # Update file type filter and file list
         self.updateFilterFields(fileList['filters'])
