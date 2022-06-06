@@ -18,14 +18,9 @@
  *                                                                         *
  ***************************************************************************/
 """
-import os
-import json
-import requests
+from qgis.core import Qgis, QgsTask
 
-from qgis.PyQt.QtCore import QEventLoop, QUrl, QUrlQuery, QCoreApplication
-from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
-from qgis.core import (QgsTask, QgsFileDownloader, QgsBlockingNetworkRequest,
-                       Qgis)
+from .apiInterface import ApiInterface
 from .responseObjects import (Dataset, File, ALL_VALUE, CURRENT_VALUE)
 from .geocat import ApiGeoCat
 from ..ui.ui_utilities import getDateFromIsoString
@@ -40,24 +35,21 @@ OPTION_MAPPER = {
     'coordsys': 'proj:epsg',
 }
 API_OPTION_MAPPER = {y:x for x,y in OPTION_MAPPER.items()}
-CUSTOM_OPTION_FILE = os.path.join(os.path.dirname(__file__), 'datageoadmin.json')
 API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
-VERSION = Qgis.QGIS_VERSION_INT
 
 
-class ApiDataGeoAdmin:
+class ApiDataGeoAdmin(ApiInterface):
     
     def __init__(self, parent, locale='en'):
-        self.baseUrl = BASEURL
-        self.parent = parent
-        self.locale = locale
-        self.geocatApi = ApiGeoCat(parent, 'geoadmin')
-    
+        super().__init__(parent, locale)
+        self.name = 'Swisstopo API'
+        self.geocatApi = ApiGeoCat(parent, locale, 'geoadmin')
+
     def getDatasetList(self, task: QgsTask, refreshMetadata=False):
         """Get a list of all available datasets and read out title,
         description and other properties."""
         # Request dataset list
-        collection = self.fetchAll(task, self.baseUrl, 'collections')
+        collection = self.fetchAll(task, BASEURL, 'collections')
         if collection is False:
             if not task.exception:
                 task.exception = self.tr('Error when loading available dataset'
@@ -178,7 +170,7 @@ class ApiDataGeoAdmin:
                 if asset['type'] in estimate.keys():
                     continue
                 # Check Content-Length header
-                if VERSION >= 31800:
+                if Qgis.QGIS_VERSION_INT >= 31800:
                     # Make a HEAD request to get the file size
                     header = self.fetch(task, asset['href'], method='head')
                     if header and header.hasRawHeader(b'Content-Length'):
@@ -300,65 +292,6 @@ class ApiDataGeoAdmin:
                 filterItems['timestamp'].insert(0, CURRENT_VALUE)
         
         return {'files': fileList, 'filters': filterItems}
-    
-    def fetch(self, task: QgsTask, url, params=None, header=None, method='get'):
-        request = QNetworkRequest()
-        # Prepare url
-        callUrl = QUrl(url)
-        if params:
-            queryParams = QUrlQuery()
-            for key, value in params.items():
-                queryParams.addQueryItem(key, str(value))
-            callUrl.setQuery(queryParams)
-        request.setUrl(callUrl)
-        
-        if header:
-            request.setHeader(*tuple(header))
-
-        task.log(self.tr('Start request {}').format(callUrl.toString()))
-        # Start request
-        http = QgsBlockingNetworkRequest()
-        if method == 'get':
-            http.get(request, forceRefresh=True)
-        elif method == 'head':
-            http.head(request, forceRefresh=True)
-        
-        # Check if request was successful
-        r = http.reply()
-        try:
-            assert r.error() == QNetworkReply.NoError, r.error()
-        except AssertionError:
-            # Service is not reachable
-            task.exception = self.tr('swisstopo service not reachable or '
-                                     'no internet connection')
-            # Service returned an error
-            if r.content():
-                try:
-                    errorResp = json.loads(str(r.content(), 'utf-8'))
-                except json.JSONDecodeError as e:
-                    task.exception = str(e)
-                    return False
-                if 'code' and 'description' in errorResp:
-                    task.exception = (f"{self.tr('swisstopo service returns error')}: "
-                                      f"{errorResp['code']} - {errorResp['description']}")
-            return False
-        
-        # Process response
-        if method == 'get':
-            try:
-                content = str(r.content(), 'utf-8')
-                if content:
-                    return json.loads(content)
-                else:
-                    return False
-            
-            except json.JSONDecodeError as e:
-                task.exception = str(e)
-                return False
-        elif method == 'head':
-            return r
-        else:
-            return False
 
     def fetchAll(self, task: QgsTask, url, responsePropName, params=None,
                  header=None, method='get'):
@@ -394,66 +327,3 @@ class ApiDataGeoAdmin:
             else:
                 url = ''
         return responseList
-    
-    def fetchHeadLegacy(self, task: QgsTask, url):
-        try:
-            return requests.head(url)
-        except requests.exceptions.HTTPError \
-               or requests.exceptions.RequestException as e:
-            task.log = self.tr('Error when requesting header information: {}').format(e)
-            return False
-
-    def downloadFiles(self, task: QgsTask, fileList, outputDir):
-        task.setProgress(0)
-        partProgress = 100 / len(fileList)
-        
-        for file in fileList:
-            savePath = os.path.join(outputDir, file.id)
-            self.fetchFile(task, file.href, file.id, savePath, partProgress)
-            if task.isCanceled():
-                return False
-            task.setProgress(task.progress() + partProgress)
-        return True
-    
-    def fetchFile(self, task: QgsTask, url, filename, filePath, part, params=None):
-        # Prepare url
-        callUrl = QUrl(url)
-        if params:
-            queryParams = QUrlQuery()
-            for key, value in params.items():
-                queryParams.addQueryItem(key, str(value))
-            callUrl.setQuery(queryParams)
-        
-        task.log(self.tr('Start download of {}').format(callUrl.toString()))
-        fileFetcher = QgsFileDownloader(callUrl, filePath)
-        
-        def onError():
-            task.exception = self.tr('Error when downloading {}').format(filename)
-            return False
-        def onProgress(bytesReceived, bytesTotal):
-            if task.isCanceled():
-                task.exception = self.tr('Download of {} was canceled').format(
-                    filename)
-                fileFetcher.cancelDownload()
-            else:
-                partProgress = (part / 100) * (bytesReceived / bytesTotal)
-                task.setProgress(task.progress() + partProgress)
-        
-        # Run file download in separate event loop
-        eventLoop = QEventLoop()
-        fileFetcher.downloadError.connect(onError)
-        fileFetcher.downloadCanceled.connect(eventLoop.quit)
-        fileFetcher.downloadCompleted.connect(eventLoop.quit)
-        fileFetcher.downloadProgress.connect(onProgress)
-        eventLoop.exec_(QEventLoop.ExcludeUserInputEvents)
-        fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
-        
-    def tr(self, message, **kwargs):
-        """Get the translation for a string using Qt translation API.
-        We implement this ourselves since we do not inherit QObject."""
-        return QCoreApplication.translate(type(self).__name__, message)
-    
-    def getCustomOptions(self):
-        with open(CUSTOM_OPTION_FILE) as json_file:
-            return json.load(json_file)
-            

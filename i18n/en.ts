@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="2.0" language="en" sourcelanguage="en">
+<!DOCTYPE TS>
+<TS version="2.1" language="en" sourcelanguage="en">
 <context>
     <name>@default</name>
     <message>
@@ -59,47 +60,17 @@
 <context>
     <name>ApiDataGeoAdmin</name>
     <message>
-        <location filename="../api/datageoadmin.py" line="63"/>
+        <location filename="../api/datageoadmin.py" line="55"/>
         <source>Error when loading available dataset - Unexpected API response</source>
         <translation>Error when loading available dataset - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="209"/>
+        <location filename="../api/datageoadmin.py" line="201"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Error when requesting file list - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="318"/>
-        <source>Start request {}</source>
-        <translation>Start request {}</translation>
-    </message>
-    <message>
-        <location filename="../api/datageoadmin.py" line="427"/>
-        <source>Start download of {}</source>
-        <translation>Start download of {}</translation>
-    </message>
-    <message>
-        <location filename="../api/datageoadmin.py" line="435"/>
-        <source>Download of {} was canceled</source>
-        <translation>Download of {} was canceled</translation>
-    </message>
-    <message>
-        <location filename="../api/datageoadmin.py" line="431"/>
-        <source>Error when downloading {}</source>
-        <translation>Error when downloading {}</translation>
-    </message>
-    <message>
-        <location filename="../api/datageoadmin.py" line="403"/>
-        <source>Error when requesting header information: {}</source>
-        <translation>Error when requesting header information: {}</translation>
-    </message>
-    <message>
-        <location filename="../api/datageoadmin.py" line="332"/>
-        <source>swisstopo service not reachable or no internet connection</source>
-        <translation>swisstopo service not reachable or no internet connection</translation>
-    </message>
-    <message>
-        <location filename="../api/datageoadmin.py" line="158"/>
+        <location filename="../api/datageoadmin.py" line="150"/>
         <source>Error when loading dataset details - Unexpected API response</source>
         <translation>Error when loading dataset details - Unexpected API response</translation>
     </message>
@@ -107,24 +78,52 @@
 <context>
     <name>ApiGeoCat</name>
     <message>
-        <location filename="../api/geocat.py" line="153"/>
-        <source>Start request {}</source>
-        <translation type="unfinished">Start request {}</translation>
-    </message>
-    <message>
-        <location filename="../api/geocat.py" line="167"/>
-        <source>swisstopo service not reachable or no internet connection</source>
-        <translation type="unfinished">swisstopo service not reachable or no internet connection</translation>
-    </message>
-    <message>
-        <location filename="../api/geocat.py" line="75"/>
+        <location filename="../api/geocat.py" line="73"/>
         <source>Error when trying to retrieve metadata - No dataset ID found</source>
         <translation>Error when trying to retrieve metadata - No dataset ID found</translation>
     </message>
     <message>
-        <location filename="../api/geocat.py" line="85"/>
+        <location filename="../api/geocat.py" line="83"/>
         <source>Error when trying to retrieve metadata - Response cannot be parsed</source>
         <translation>Error when trying to retrieve metadata - Response cannot be parsed</translation>
+    </message>
+</context>
+<context>
+    <name>ApiInterface</name>
+    <message>
+        <location filename="../api/apiInterface.py" line="51"/>
+        <source>Start request {}</source>
+        <translation>Start request {}</translation>
+    </message>
+    <message>
+        <location filename="../api/apiInterface.py" line="65"/>
+        <source>{} not reachable or no internet connection</source>
+        <translation>{} not reachable or no internet connection</translation>
+    </message>
+    <message>
+        <location filename="../api/apiInterface.py" line="105"/>
+        <source>Error when requesting header information: {}</source>
+        <translation>Error when requesting header information: {}</translation>
+    </message>
+    <message>
+        <location filename="../api/apiInterface.py" line="117"/>
+        <source>Start download of {}</source>
+        <translation>Start download of {}</translation>
+    </message>
+    <message>
+        <location filename="../api/apiInterface.py" line="121"/>
+        <source>Error when downloading {}</source>
+        <translation>Error when downloading {}</translation>
+    </message>
+    <message>
+        <location filename="../api/apiInterface.py" line="125"/>
+        <source>Download of {} was canceled</source>
+        <translation>Download of {} was canceled</translation>
+    </message>
+    <message>
+        <location filename="../api/apiInterface.py" line="75"/>
+        <source>{} returns error</source>
+        <translation>{} returns error</translation>
     </message>
 </context>
 <context>

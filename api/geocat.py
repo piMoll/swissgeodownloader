@@ -18,39 +18,36 @@
  *                                                                         *
  ***************************************************************************/
 """
-import json
 import xml.etree.ElementTree as ET
 
-from qgis.PyQt.QtCore import QUrl, QUrlQuery, QCoreApplication
-from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
-from qgis.core import QgsTask, QgsBlockingNetworkRequest
+from qgis.core import QgsTask
 
+from .apiInterface import ApiInterface
 from ..utils.metadataHandler import saveToFile, loadFromFile
 from .. import _AVAILABLE_LOCALES
 
+BASEURL = 'https://www.geocat.ch/geonetwork/srv/eng/csw'
+XML_NAMESPACES = {'gmd': '{http://www.isotc211.org/2005/gmd}'}
+REQUEST_PARAMS = {
+    'service': 'CSW',
+    'version': '2.0.2',
+    'request': 'GetRecordById',
+    'elementSetName': 'summary',
+    'outputFormat': 'application/xml',
+    'outputSchema': 'http://www.isotc211.org/2005/gmd',
+}
+DATAPATH = {
+    'geoadmin': 'datageoadmin_geocat_metadata.json'
+}
 
-class ApiGeoCat:
+class ApiGeoCat(ApiInterface):
     
-    BASEURL = 'https://www.geocat.ch/geonetwork/srv/eng/csw'
-    XML_NAMESPACES = {'gmd': '{http://www.isotc211.org/2005/gmd}'}
-    REQUEST_PARAMS = {
-        'service': 'CSW',
-        'version': '2.0.2',
-        'request': 'GetRecordById',
-        'elementSetName': 'summary',
-        'outputFormat': 'application/xml',
-        'outputSchema': 'http://www.isotc211.org/2005/gmd',
-    }
-    DATAPATH = {
-        'geoadmin': 'datageoadmin_geocat_metadata.json'
-    }
-    
-    def __init__(self, parent, targetApi):
+    def __init__(self, parent, locale, targetApi):
         """Request metadata from geocat.ch, the official geodata metadata
         service for switzerland."""
-        self.baseUrl = self.BASEURL
-        self.parent = parent
-        self.dataPath = self.DATAPATH[targetApi]
+        super().__init__(parent, locale)
+        self.name = 'Geocat'
+        self.dataPath = DATAPATH[targetApi]
         self.presavedMetadata = {}
         self.loadPresavedMetadata()
         
@@ -76,9 +73,9 @@ class ApiGeoCat:
             return metadata
 
         # Call geocat API
-        rqParams = self.REQUEST_PARAMS
+        rqParams = REQUEST_PARAMS
         rqParams['id'] = geocatDsId
-        xml = self.fetch(task, self.BASEURL, params=rqParams)
+        xml = self.fetch(task, BASEURL, params=rqParams, decoder='string')
         try:
             root = ET.fromstring(xml)
         except ET.ParseError:
@@ -87,14 +84,14 @@ class ApiGeoCat:
         
         # Search for title and description in xml
         searchTerms = {
-            'title': f"{self.XML_NAMESPACES['gmd']}title",
-            'description': f"{self.XML_NAMESPACES['gmd']}abstract",
+            'title': f"{XML_NAMESPACES['gmd']}title",
+            'description': f"{XML_NAMESPACES['gmd']}abstract",
         }
         
         for mapsTo, serarchTerm in searchTerms.items():
             xmlElements = [elem for elem in root.iter(tag=serarchTerm)]
             for xmlElem in xmlElements:
-                localizedStrings = [elem for elem in xmlElem.iter(tag=f"{self.XML_NAMESPACES['gmd']}LocalisedCharacterString")]
+                localizedStrings = [elem for elem in xmlElem.iter(tag=f"{XML_NAMESPACES['gmd']}LocalisedCharacterString")]
                 for localizedString in localizedStrings:
                     if localizedString.get('locale') == '#' + locale.upper():
                         metadata[mapsTo] = localizedString.text
@@ -135,64 +132,6 @@ class ApiGeoCat:
         else:
             # Fully replace the data in the file
             saveToFile(metadata, self.dataPath)
-
-    def fetch(self, task: QgsTask, url, params=None, header=None, method='get'):
-        request = QNetworkRequest()
-        # Prepare url
-        callUrl = QUrl(url)
-        if params:
-            queryParams = QUrlQuery()
-            for key, value in params.items():
-                queryParams.addQueryItem(key, str(value))
-            callUrl.setQuery(queryParams)
-        request.setUrl(callUrl)
-        
-        if header:
-            request.setHeader(*tuple(header))
-        
-        task.log(self.tr('Start request {}').format(callUrl.toString()))
-        # Start request
-        http = QgsBlockingNetworkRequest()
-        if method == 'get':
-            http.get(request, forceRefresh=True)
-        elif method == 'head':
-            http.head(request, forceRefresh=True)
-        
-        # Check if request was successful
-        r = http.reply()
-        try:
-            assert r.error() == QNetworkReply.NoError, r.error()
-        except AssertionError:
-            # Service is not reachable
-            task.exception = self.tr('swisstopo service not reachable or '
-                                     'no internet connection')
-            # Service returned an error
-            if r.content():
-                try:
-                    errorResp = json.loads(str(r.content(), 'utf-8'))
-                except json.JSONDecodeError as e:
-                    task.exception = str(e)
-                    return False
-                if 'code' and 'description' in errorResp:
-                    task.exception = (
-                        f"{self.tr('swisstopo service returns error')}: "
-                        f"{errorResp['code']} - {errorResp['description']}")
-            return False
-        
-        # Process response
-        if method == 'get':
-            
-            return str(r.content(), 'utf-8')
-
-        elif method == 'head':
-            return r
-        else:
-            return False
-    
-    def tr(self, message, **kwargs):
-        """Get the translation for a string using Qt translation API.
-        We implement this ourselves since we do not inherit QObject."""
-        return QCoreApplication.translate(type(self).__name__, message)
     
     @staticmethod
     def extractEntryId(url):
