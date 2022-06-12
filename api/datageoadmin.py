@@ -21,9 +21,9 @@
 from qgis.core import Qgis, QgsTask
 
 from .apiInterface import ApiInterface
-from .responseObjects import (Dataset, File, ALL_VALUE, CURRENT_VALUE)
+from .responseObjects import (Dataset, File, CURRENT_VALUE)
 from .geocat import ApiGeoCat
-from ..ui.ui_utilities import getDateFromIsoString
+from ..utils.filterUtils import currentFileByBbox, cleanupFilterItems
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
 API_EPSG = 'EPSG:4326'
@@ -218,8 +218,6 @@ class ApiDataGeoAdmin(ApiInterface):
             except NameError:
                 # Extract the mandatory timestamp 'created' instead
                 timestamp = item['properties']['created']
-
-            timestamp = getDateFromIsoString(timestamp)
             
             # Save all files and their properties
             for assetId in item['assets']:
@@ -227,7 +225,11 @@ class ApiDataGeoAdmin(ApiInterface):
                 
                 # Create file object
                 file = File(assetId, asset['type'], asset['href'])
-                file.bbox = item['bbox']
+                try:
+                    file.setBbox(item['bbox'])
+                except AssertionError:
+                    task.log(f"File {file.id}: Bounding box not valid", Qgis.Warning)
+                    
                 file.geom = item['geometry']
                 
                 # Extract file properties, save them to the file object
@@ -251,8 +253,11 @@ class ApiDataGeoAdmin(ApiInterface):
                     filterItems['resolution'].append(file.resolution)
                     
                 if timestamp:
-                    file.timestamp = timestamp
-                    filterItems['timestamp'].append(file.timestamp)
+                    try:
+                        file.setTimestamp(timestamp)
+                    except ValueError:
+                        task.log(f"File {file.id}: Timestamp not valid)", Qgis.Warning)
+                    filterItems['timestamp'].append(file.timestampStr)
                     
                 if OPTION_MAPPER['coordsys'] in asset:
                     file.coordsys = str(asset[OPTION_MAPPER['coordsys']])
@@ -264,31 +269,17 @@ class ApiDataGeoAdmin(ApiInterface):
         fileList.sort(key=lambda f: round(f.bbox[3], 2), reverse=True)
         fileList.sort(key=lambda f: round(f.bbox[0], 2))
 
-        # Remove duplicate entries in the filter list and sort
-        for key, l in filterItems.items():
-            sortedList = list(set(l))
-            sortedList.sort()
-            sortedList.reverse()
-            filterItems[key] = sortedList
+        # Cleanup filter items by removing duplicates and adding an 'ALL' entry
+        filterItems = cleanupFilterItems(filterItems)
         
-        for filterType in filterItems.keys():
-            if len(filterItems[filterType]) >= 2:
-                filterItems[filterType].append(ALL_VALUE)
-         
         # Extract most current file (timestamp) for every bbox on the map
-        if len(filterItems['timestamp']) >= 3:
-            mostCurrentFileInBbox = {}
-            for file in fileList:
-                # This will round the coordinates to ~ 5-10 m
-                bboxString = '-'.join([str(round(coord, 4)) for coord in file.bbox])
-                if bboxString not in mostCurrentFileInBbox.keys():
-                    mostCurrentFileInBbox[bboxString] = file
-                elif file.timestamp > mostCurrentFileInBbox[bboxString].timestamp:
-                    mostCurrentFileInBbox[bboxString] = file
-            
+        if len(filterItems['timestamp']) >= 2:
+            mostCurrentFileInBbox = currentFileByBbox(fileList)
+                
             if len(mostCurrentFileInBbox.keys()) > 1:
-                for file in mostCurrentFileInBbox.values():
-                    file.isMostCurrent = True
+                for savedBboxDicts in mostCurrentFileInBbox.values():
+                    for file in savedBboxDicts.values():
+                        file.isMostCurrent = True
                 filterItems['timestamp'].insert(0, CURRENT_VALUE)
         
         return {'files': fileList, 'filters': filterItems}

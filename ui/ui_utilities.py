@@ -65,14 +65,9 @@ def filesizeFormatter(num, suffix='B'):
 
 def getDateFromIsoString(isoString, formatted=True):
     """Translate ISO date string to date or swiss date format"""
-    if type(isoString) != str or not isoString:
-        return ''
     if isoString[-1] == 'Z':
         isoString = isoString[:-1]
-    try:
-        dt = datetime.fromisoformat(isoString)
-    except ValueError as e:
-        return None
+    dt = datetime.fromisoformat(isoString)
     if formatted:
         return dt.strftime('%d.%m.%Y')
     else:
