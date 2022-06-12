@@ -266,7 +266,7 @@
                <item>
                 <widget class="QPushButton" name="guiRequestListBtn">
                  <property name="toolTip">
-                  <string>Requests are limited to max. 100 files</string>
+                  <string/>
                  </property>
                  <property name="text">
                   <string>Request file list</string>
@@ -283,7 +283,8 @@
                   <string>Cancel request</string>
                  </property>
                  <property name="icon">
-                  <iconset theme="cancel"/>
+                  <iconset theme="cancel">
+                   <normaloff>.</normaloff>.</iconset>
                  </property>
                 </widget>
                </item>

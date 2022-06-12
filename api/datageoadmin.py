@@ -154,10 +154,10 @@ class ApiDataGeoAdmin(ApiInterface):
         estimate = {}
         fileCount = len(items['features'])
         
-        # Check if it makes sense to select by bbox
+        # Check if it makes sense to select by bbox or if the full file list
+        #  should just be downlaoded directly
         if fileCount <= 10:
             dataset.selectByBBox = False
-            dataset.isSingleFile = True
         
         # Analyze size of an item to estimate download sizes later on
         if fileCount > 0:

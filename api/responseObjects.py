@@ -28,7 +28,6 @@ class Dataset:
         self.filesLink = filesLink
         self.title = None
         self.description = None
-        self.isSingleFile = False
         self.bbox = None
         self.licenseLink = None
         self.metadataLink = None
@@ -43,7 +42,6 @@ class Dataset:
                     .replace('.', ' ').lower()
 
 class File:
-    
     def __init__(self, name, filetype, href):
         self.id = name
         self.type = filetype

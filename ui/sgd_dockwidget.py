@@ -309,17 +309,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.onLoadDatasetDetails()
     
     def onLoadDatasetDetails(self, dataset=None):
+        """Set up ui according to the nature of the selected dataset"""
         if dataset:
             self.datasetList[dataset.id] = dataset
             self.currentDataset = dataset
-        self.applyDatasetState()
-        
-        # If dataset has only a single file to download, get it right away
-        if self.currentDataset.isSingleFile:
-            self.onLoadFileListClicked()
-    
-    def applyDatasetState(self):
-        """Set up ui according to the options of the selected dataset"""
+
         # Show dataset status if no files are available
         if not self.currentDataset or self.currentDataset.isEmpty:
             self.guiGroupExtent.setDisabled(True)
@@ -328,11 +322,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.resetFileList()
             self.fileListTbl.onEmptyList(self.tr('No files available in this '
                                                  'dataset'))
+            self.guiRequestListBtn.setDisabled(True)
             return
         
         self.deactivateFilterFields()
 
-        # Activate / deactivate 2. Extent
+        # Activate / deactivate Extent
         if not self.currentDataset.selectByBBox:
             self.guiExtentWidget.setCollapsed(True)
             self.updateSelectMode()
@@ -342,9 +337,16 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiExtentWidget.setCollapsed(False)
             self.guiGroupExtent.setDisabled(False)
         
-        # Activate 4. Files
+        # Activate files list
         self.guiGroupFiles.setDisabled(False)
+        self.guiRequestListBtn.setDisabled(False)
+        self.guiRequestListBtn.setHidden(False)
         self.resetFileList()
+
+        # If dataset has few files, get the file list directly
+        if not self.currentDataset.selectByBBox:
+            self.onLoadFileListClicked()
+            self.guiRequestListBtn.setDisabled(True)
     
     def blockFilterSignals(self):
         for uiElem in self.filterFields.values():
@@ -461,8 +463,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     def onCancelRequestClicked(self):
         if self.fileListRequest:
             self.fileListRequest.cancel()
-            self.guiRequestListBtn.setHidden(False)
             self.guiRequestCancelBtn.setHidden(True)
+            self.guiRequestListBtn.setHidden(False)
 
     def onReceiveFileList(self, fileList):
         self.guiRequestCancelBtn.setHidden(True)
