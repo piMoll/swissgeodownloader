@@ -472,20 +472,21 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             fileList = {'files': [], 'filters': None}
         if not fileList['files']:
             fileList['files'] = []
+        self.fileList = fileList['files']
+        # Update file type filter and file list
+        self.updateFilterFields(fileList['filters'])
+        self.applyFilters()
+
+        if self.fileList:
+            # Enable download button
+            self.guiDownloadBtn.setDisabled(False)
+        else:
             # Add info message to file list
             if self.getBbox():
                 self.fileListTbl.onEmptyList(self.tr('No files available in '
                                                      'current extent'))
             else:
                 self.fileListTbl.onEmptyList(self.tr('No files available'))
-        self.fileList = fileList['files']
-        # Update file type filter and file list
-        self.updateFilterFields(fileList['filters'])
-        self.applyFilters()
-
-        # Enable download button
-        if self.fileList:
-            self.guiDownloadBtn.setDisabled(False)
 
         self.spinnerFl.stop()
         self.guiRequestListBtn.setHidden(False)
