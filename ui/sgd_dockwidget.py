@@ -676,8 +676,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             # Confirm successful download
             self.guiFileListStatus.setText(self.tr('Files successfully downloaded!'))
             self.guiFileListStatus.setStyleSheet(self.LABEL_SUCCESS_STYLE)
-            self.fileListTbl.clear()
-            self.bboxPainter.removeAll()
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.Success)
