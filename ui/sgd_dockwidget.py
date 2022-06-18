@@ -108,7 +108,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Spinner for dataset request
         self.spinnerDs = QtWaitingSpinner(self)
         self.verticalLayout.addWidget(self.spinnerDs)
-        self.spinnerDs.start()
         
         # Spinner for file list request
         self.spinnerFl = QtWaitingSpinner(self)
@@ -177,6 +176,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     
     def loadDatasetList(self):
         # Create separate task for request to not block ui
+        self.spinnerDs.start()
         caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetList', {})
         # Listen for finished api call
         caller.taskCompleted.connect(
