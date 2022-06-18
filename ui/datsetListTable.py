@@ -64,11 +64,11 @@ class DatasetListTable(QObject):
         self.searchbar = QLineEdit()
         self.searchbar.setClearButtonEnabled(True)
         self.searchbar.setPlaceholderText(self.tr('Search'))
-        self.searchbar.textChanged.connect(self.onSearch)
         
         layout.addWidget(self.searchbar)
         layout.addWidget(self.tbl)
-        
+
+        self.searchbar.textChanged.connect(self.onSearch)
         self.tbl.clicked.connect(self.onClick)
 
     def fill(self, data):
@@ -77,8 +77,10 @@ class DatasetListTable(QObject):
         # Insert data into cells
         for i, ds in enumerate(data):
             item0 = QStandardItem(ds.id)
+            item0.setToolTip(ds.id)
             item0.setEditable(False)
             item1 = QStandardItem(ds.title)
+            item1.setToolTip(ds.title)
             item1.setEditable(False)
             item2 = QStandardItem(ds.searchtext)
             item2.setEditable(False)
@@ -86,7 +88,7 @@ class DatasetListTable(QObject):
             self.model.setData(self.model.index(i, 0), ds.id)
             self.model.setData(self.model.index(i, 1), ds.title)
             self.model.setData(self.model.index(i, 2), ds.searchtext)
-
+            
         self.model.setHorizontalHeaderLabels([self.tr('ID'), self.tr('Title'),
                                               self.tr('Search text')])
         self.tbl.setColumnWidth(0, 250)
