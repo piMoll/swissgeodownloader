@@ -1,15 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [1.4] - 2022-03-30
+## [2.0] - 2022-06-18
 ### Added
-- Saarch bar for datasets: Looks through datasets names and descriptions
-- Options have been replaced with file filters. Only relevant filters are shown depending on the current dataset and extent
+- Search bar for datasets: Search the dataset list by title and description
+- Dataset list shows translated titles (languages: de, en, fr)
+- File filters replace dataset options: all available files are requested directly, then filters help to select the relevant files for download
 - Timestamp filter includes option 'current' and 'all'
 - Cancel button for file list requests
+- Request dataset metadata from geocat if it is missing (metadata  is used when searching datasets)
+- When deselecting a file, show a greyed out bounding box border in the map
 
 ### Fixed
-- Swissalti3d and other datasets with multiple timestamps only showed oldest and newest timestamp
+- SwissALTI3D and other datasets with multiple timestamps only showed oldest and newest timestamp
 
 ## [1.3] - 2022-02-02
 ### Added

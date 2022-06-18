@@ -1,11 +1,3 @@
-# This file contains metadata for your plugin. Since 
-# version 2.0 of QGIS this is the proper way to supply 
-# information about a plugin. The old method of 
-# embedding metadata in __init__.py will 
-# is no longer supported since version 2.0.
-
-# This file should be included when you package your plugin.
-
 # Mandatory items:
 
 [general]
@@ -13,19 +5,19 @@ name=Swiss Geo Downloader
 qgisMinimumVersion=3.10
 qgisMaximumVersion=
 description=Download swiss geodata comfortably inside QGIS
-version=1.3
+version=2.0.0
 author=Patricia Moll
 email=pimoll.dev@gmail.com
 
 about=(EN) This plugin allows you to download swiss geodata in an easy and convenient way.
     Currently, the plugin provides access to some of the most requested swisstopo geodata like
     the precise height model swissALTI3D or the national maps.
-    Additional swisstopo data and further providers will be added in future releases.
+    Further providers will be added in future releases.
 
     (DE) Lade Schweizer Geodaten direkt in QGIS herunter.
     In dieser ersten Version stehen einige der meistgefragten swisstopo Geodaten wie
     das präzise Höhenmodell swissALTI3D oder die Schweizer Landeskarten zur Verfügung.
-    Zusätzliche Daten der swisstopo und weitere Anbieter werden in zukünftigen Versionen ergänzt.
+    Weitere Anbieter werden in zukünftigen Versionen ergänzt.
 tracker=https://github.com/piMoll/swissgeodownloader/issues
 repository=https://github.com/piMoll/swissgeodownloader
 # End of mandatory metadata
@@ -33,17 +25,18 @@ repository=https://github.com/piMoll/swissgeodownloader
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=Current version: 1.3.0 (Feb 2022)
+changelog=Current version: 2.0.0 (June 2022)
 
-    Added
-    - If a dataset contains one single file, the plugin will list this file automatically
+    Added:
+    - Search bar for datasets: Search datasets by title and description
+    - Dataset list shows translated titles (languages: de, en, fr)
+    - File filters replace dataset options: all available files are requested directly, then filters help to select the relevant files for download
+    - Timestamp filter includes option 'current' and 'all'
 
     Fixed
-    - Plugin not working because it cannot process the received list of datasets
-    - Use API paging to get all datasets instead of first 100
-    - Improve plugin behaviour when quickly clicking through dataset list
+    - SwissALTI3D and other datasets with multiple timestamps only showed oldest and newest timestamp
 
-    See full changelog: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md
+    See full changelog at: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md
 
 # Tags are comma separated with spaces allowed
 tags=web,geodata,switzerland,download
