@@ -9,15 +9,10 @@ version=2.0.0
 author=Patricia Moll
 email=pimoll.dev@gmail.com
 
-about=(EN) This plugin allows you to download swiss geodata in an easy and convenient way.
-    Currently, the plugin provides access to some of the most requested swisstopo geodata like
-    the precise height model swissALTI3D or the national maps.
-    Further providers will be added in future releases.
+about=(EN) This plugin allows you to download Swiss geodata in an easy and convenient way. Search for datasets, filter files by extent, timestamp or file type and add the geodata directly to QGIS.
 
-    (DE) Lade Schweizer Geodaten direkt in QGIS herunter.
-    In dieser ersten Version stehen einige der meistgefragten swisstopo Geodaten wie
-    das präzise Höhenmodell swissALTI3D oder die Schweizer Landeskarten zur Verfügung.
-    Weitere Anbieter werden in zukünftigen Versionen ergänzt.
+    (DE) Lade Schweizer Geodaten der Swisstopo und weiterer Bundesämter direkt in QGIS herunter. Suche nach Datensätzen, filtere Dateien nach Karten-Ausschnitt, Zeitstand oder Dateityp und füge die Geodaten direkt zur Karte hinzu.
+
 tracker=https://github.com/piMoll/swissgeodownloader/issues
 repository=https://github.com/piMoll/swissgeodownloader
 # End of mandatory metadata
@@ -28,12 +23,12 @@ repository=https://github.com/piMoll/swissgeodownloader
 changelog=Current version: 2.0.0 (June 2022)
 
     Added:
-    - Search bar for datasets: Search datasets by title and description
+    - Added a search bar for datasets: Search datasets by ID, title and description
     - Dataset list shows translated titles (languages: de, en, fr)
     - File filters replace dataset options: all available files are requested directly, then filters help to select the relevant files for download
     - Timestamp filter includes option 'current' and 'all'
 
-    Fixed
+    Fixed:
     - SwissALTI3D and other datasets with multiple timestamps only showed oldest and newest timestamp
 
     See full changelog at: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md

@@ -99,7 +99,7 @@ class ApiGeoCat(ApiInterface):
                 if metadata[mapsTo]:
                     break
         
-        # Save new metadata to file so we dont' have to call the API again
+        # Save new metadata to file so we don't have to call the API again
         self.updatePresavedMetadata(metadata, datasetId, locale)
 
         return metadata

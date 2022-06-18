@@ -133,17 +133,17 @@
         <translation>Search</translation>
     </message>
     <message>
-        <location filename="../ui/datsetListTable.py" line="90"/>
+        <location filename="../ui/datsetListTable.py" line="92"/>
         <source>ID</source>
         <translation>ID</translation>
     </message>
     <message>
-        <location filename="../ui/datsetListTable.py" line="90"/>
+        <location filename="../ui/datsetListTable.py" line="92"/>
         <source>Title</source>
         <translation>Title</translation>
     </message>
     <message>
-        <location filename="../ui/datsetListTable.py" line="90"/>
+        <location filename="../ui/datsetListTable.py" line="92"/>
         <source>Search text</source>
         <translation>Search text</translation>
     </message>
@@ -164,64 +164,61 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="270"/>
+        <location filename="../ui/sgd_dockwidget.py" line="271"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="270"/>
+        <location filename="../ui/sgd_dockwidget.py" line="271"/>
         <source>PLUGIN_INFO</source>
-        <translation>Swiss Geo Downloader allows you to download geodata of Switzerland in an easy and convenient way.
-
-Currently, the plugin provides access to a selection of the most requested swisstopo topics. Additional swisstopo data and further providers will be added in future releases.
-
-All provided datasets are freely available.
+        <translation>Swiss Geo Downloader allows you to download Swiss geodata in an easy and convenient way.
+All provided datasets are open data.
 
 Further information:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="323"/>
+        <location filename="../ui/sgd_dockwidget.py" line="324"/>
         <source>No files available in this dataset</source>
         <translation>No files available in this dataset</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="622"/>
+        <location filename="../ui/sgd_dockwidget.py" line="623"/>
         <source>No files found.</source>
         <translation>No files found.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="633"/>
+        <location filename="../ui/sgd_dockwidget.py" line="634"/>
         <source>Choose output folder</source>
         <translation>Choose output folder</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="652"/>
+        <location filename="../ui/sgd_dockwidget.py" line="653"/>
         <source>Overwrite files?</source>
         <translation>Overwrite files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="652"/>
+        <location filename="../ui/sgd_dockwidget.py" line="653"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>At least one file will be overwritten. Continue?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="677"/>
+        <location filename="../ui/sgd_dockwidget.py" line="678"/>
         <source>Files successfully downloaded!</source>
         <translation>Files successfully downloaded!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="681"/>
+        <location filename="../ui/sgd_dockwidget.py" line="680"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} file(s) successfully downloaded</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="617"/>
+        <location filename="../ui/sgd_dockwidget.py" line="618"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} file(s), approximately {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="620"/>
+        <location filename="../ui/sgd_dockwidget.py" line="621"/>
         <source>{} file(s)</source>
         <translation>{} file(s)</translation>
     </message>
@@ -235,27 +232,27 @@ Switch map to Swiss LV95?</source>
 Switch map to Swiss LV95?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="529"/>
+        <location filename="../ui/sgd_dockwidget.py" line="530"/>
         <source>all</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="531"/>
+        <location filename="../ui/sgd_dockwidget.py" line="532"/>
         <source>current</source>
         <translation>current</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="546"/>
+        <location filename="../ui/sgd_dockwidget.py" line="547"/>
         <source>Currently selected filters do not match any files</source>
         <translation>Currently selected filters do not match any files</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="486"/>
+        <location filename="../ui/sgd_dockwidget.py" line="487"/>
         <source>No files available in current extent</source>
         <translation>No files available in current extent</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="489"/>
+        <location filename="../ui/sgd_dockwidget.py" line="490"/>
         <source>No files available</source>
         <translation>No files available</translation>
     </message>
