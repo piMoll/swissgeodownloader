@@ -39,6 +39,14 @@ class DatasetListTable(QObject):
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.tbl.sizePolicy().hasHeightForWidth())
+
+        self.model = QStandardItemModel(0, 0, self.tbl)
+        self.proxy_model = QSortFilterProxyModel()
+        self.proxy_model.setSourceModel(self.model)
+        self.proxy_model.setFilterKeyColumn(2)
+        self.proxy_model.sort(0, Qt.AscendingOrder)
+        self.tbl.setModel(self.proxy_model)
+
         self.tbl.setSizePolicy(sizePolicy)
         self.tbl.setMinimumHeight(90)
         self.tbl.setMaximumHeight(200)
@@ -52,13 +60,6 @@ class DatasetListTable(QObject):
         self.tbl.verticalHeader().setVisible(False)
         self.tbl.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
         self.tbl.verticalHeader().setDefaultSectionSize(20)
-
-        self.model = QStandardItemModel(0, 0, self.tbl)
-        self.proxy_model = QSortFilterProxyModel()
-        self.proxy_model.setFilterKeyColumn(2)
-        self.proxy_model.setSourceModel(self.model)
-        self.proxy_model.sort(0, Qt.AscendingOrder)
-        self.tbl.setModel(self.proxy_model)
 
         self.searchbar = QLineEdit()
         self.searchbar.setClearButtonEnabled(True)
@@ -93,13 +94,12 @@ class DatasetListTable(QObject):
         self.tbl.hideColumn(2)
     
     def onSearch(self, search):
-        self.searchbar.blockSignals(True)
-        if self.currentSelection:
-            self.unselect()
         self.proxy_model.setFilterFixedString(search.lower())
-        self.tbl.setFocusPolicy(Qt.NoFocus)
-        self.searchbar.blockSignals(False)
-    
+        # Remove selection if the selected item is not visible anymore
+        selectedIdx = self.tbl.selectionModel().selection().indexes()
+        if selectedIdx and selectedIdx[0].data() != self.currentSelection:
+            self.unselect()
+
     def onClick(self, itemIdx):
         dsId = itemIdx.siblingAtColumn(0).data()
         if dsId == self.currentSelection:
