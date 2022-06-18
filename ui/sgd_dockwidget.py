@@ -263,7 +263,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     
     def onRefreshDatasetsClicked(self):
         self.resetFileList()
-        self.onUnselectDataset()
+        self.datasetListTbl.resetSearch()
+        self.datasetListTbl.unselect()
         self.loadDatasetList()
     
     def onInfoClicked(self):

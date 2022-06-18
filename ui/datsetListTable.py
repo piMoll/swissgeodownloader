@@ -49,7 +49,7 @@ class DatasetListTable(QObject):
 
         self.tbl.setSizePolicy(sizePolicy)
         self.tbl.setMinimumHeight(90)
-        self.tbl.setMaximumHeight(200)
+        self.tbl.setMaximumHeight(250)
         self.tbl.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
         self.tbl.setAutoScroll(True)
         
@@ -114,6 +114,9 @@ class DatasetListTable(QObject):
         self.tbl.clearSelection()
         self.currentSelection = None
         self.sig_selectionChanged.emit(None)
+    
+    def resetSearch(self):
+        self.searchbar.clear()
 
     def tr(self, message, **kwargs):
         return QCoreApplication.translate(type(self).__name__, message)
