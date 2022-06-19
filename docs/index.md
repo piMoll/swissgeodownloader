@@ -26,6 +26,10 @@ After you select the dataset in the list, the file is displayed in the bottom pa
 If a dataset contains multiple files, you first need to specify the extent for which files should be requested.
 The extent can be set to the current map extent (default) or read out from another layer.
 
+By clicking on the button _Get file list_ a list of all relevant files will be generated. 
+If a dataset contains multiple files, you first need to specify the extent for which files should be requested.
+The extent can be set to the current map extent (default) or read out from another layer.
+
 By clicking on the button _Get file list_ you receive all files in the selected extent. 
 Filters for file type, timestamp and other properties let you further narrow down your selection. 
 Files can be selected and deselected before starting the download. 
@@ -34,7 +38,7 @@ If the files are not zipped, they are added automatically to QGIS.
 
 
 ## Further development
-The Swiss Geo Downloader isn't finished yet. Here is a list of possible features that could be implemented next:
+The Swiss Geo Downloader isn't finished, yet. Here is a list of possible features that could be implemented next:
 * Add other data providers and their datasets to the list
 * Make it possible to add cloud-optimized tiffs to QGIS
 * Italian translation
@@ -64,7 +68,7 @@ Es ist im Plugin Manager als _Swiss Geo Downloader_ aufgelistet und kann dort di
 Aktivieren Sie die automatische Überprüfung auf Aktualisierungen um sofort über neue Versionen informiert zu werden.
 
 ## Verwendung
-Das Plugin stellt eine grosse Auswahl an Datensätze zur Verfügung. 
+Das Plugin stellt eine grosse Auswahl an Datensätzen zur Verfügung. 
 Über das Suchfeld können ID, Titel und ein Beschreibungstext (in Tabelle nicht sichtbar) durchsucht werden.
 
 Die meisten Datensätze bestehen aus einer einzelnen Datei.
@@ -73,9 +77,9 @@ Beim Klick auf den Datensatz wird die Datei im unteren Teil des Plugins aufgelis
 Falls der Datensatz aus vielen Einzeldateien besteht, muss zuerst die gewünschte Ausdehnung der Daten festgelegt werden bevor Dateien aufgelistet werden.
 Die Ausdehnung kann über den aktuell ausgewählten Kartenausschnitt definiert werden (Standardfall) oder von einem anderen QGIS-Layer ausgelesen werden.
 
-Per Klick auf _Dateiliste anfordern_ wird eine Liste aller Dateien im Ausschnitt angefordert. 
+Per Klick auf _Dateiliste anfordern_ wird eine Liste aller zutreffenden Dateien angezeigt. 
 Über verschiedene Filter kann der gewünschte Dateityp, der Zeitstand und weitere Eigenschaften ausgewählt werden.
-Dateien können selektiert oder deselektiert werden bevor die Auswahl heruntergeladen wird. 
+Dateien können selektiert oder deselektiert werden, bevor die Auswahl heruntergeladen wird. 
 
 Geodaten, die nicht gezippt sind, werden nach dem Download automatisch als Layer in QGIS hinzugefügt.
 
