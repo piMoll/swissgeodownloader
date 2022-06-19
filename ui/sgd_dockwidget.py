@@ -165,6 +165,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         # Check current project crs and ask user to change it
         self.checkSupportedCrs()
         
+        self.deactivateFilterFields()
+        
         # Finally, initialize apis and request available datasets
         self.apiDGA = ApiDataGeoAdmin(self, self.locale)
         self.loadDatasetList()
