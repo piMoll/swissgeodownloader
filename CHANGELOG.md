@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - File filters replace dataset options: all available files are requested directly, then filters help to select the relevant files for download
 - Timestamp filter includes option 'current' and 'all'
 - Cancel button for file list requests
-- Request dataset metadata from geocat if it is missing (metadata  is used when searching datasets)
+- Request dataset metadata from geocat.ch if it is missing (metadata is used when searching datasets)
 - When deselecting a file, show a greyed out bounding box border in the map
 
 ### Fixed
@@ -48,7 +48,7 @@ All notable changes to this project will be documented in this file.
 ## [1.0] - 2021-05-26
 This is the initial version of the Swiss Data Downloader plugin.
 ### Added
-- Load swisstopo STAC collection content, display the available datasets in a list
+- Load Swisstopo STAC collection content, display the available datasets in a list
 - Show dataset options
 - Show extent widget to get current map extent or layer extent
 - Show available files in a filterable list

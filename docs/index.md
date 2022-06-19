@@ -1,4 +1,4 @@
-_For german version see bellow._
+_For German version see below._
 
 ## About
 Swiss Geo Downloader allows you to download Swiss geodata in an easy and convenient way. 
@@ -14,10 +14,10 @@ If you want to know more about freely available Swiss geodata, visit [swisstopo 
 ## Download
 The Plugin is published in the official QGIS Plugin Repository. 
 Download it directly from the QGIS plugin manager by searching for _Swiss Geo Downloader_. 
-Make sure to activate the option to check for updates so you recieve new versions right away.
+Make sure to activate the option to check for updates so you receive new versions right away.
 
 ## Usage
-The plugin lets you search trough a wide range of datasets. 
+The plugin lets you search through a wide range of datasets. 
 Search terms are compared to the layer ID, title and additional description texts (not visible in the list).
 
 Most datasets consist of only one file. 
@@ -73,7 +73,7 @@ Beim Klick auf den Datensatz wird die Datei im unteren Teil des Plugins aufgelis
 Falls der Datensatz aus vielen Einzeldateien besteht, muss zuerst die gewünschte Ausdehnung der Daten festgelegt werden bevor Dateien aufgelistet werden.
 Die Ausdehnung kann über den aktuell ausgewählten Kartenausschnitt definiert werden (Standardfall) oder von einem anderen QGIS-Layer ausgelesen werden.
 
-Per Kick auf _Dateiliste anfordern_ wird eine Liste aller Dateien im Ausschnitt angefordert. 
+Per Klick auf _Dateiliste anfordern_ wird eine Liste aller Dateien im Ausschnitt angefordert. 
 Über verschiedene Filter kann der gewünschte Dateityp, der Zeitstand und weitere Eigenschaften ausgewählt werden.
 Dateien können selektiert oder deselektiert werden bevor die Auswahl heruntergeladen wird. 
 
