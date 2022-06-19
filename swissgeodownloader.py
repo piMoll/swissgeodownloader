@@ -215,8 +215,7 @@ class SwissGeoDownloader:
     def run(self):
         """Run method that loads and starts the plugin"""
         
-        # Uncomment when debugging
-        
+        # Uncomment for debugging
         # try:
         #     # Add pydevd to path
         #     sys.path.insert(0, '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
