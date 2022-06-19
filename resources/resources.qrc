@@ -10,5 +10,6 @@
     <file>question.png</file>
     <file>refresh.png</file>
     <file>sort-down.png</file>
+    <file>cancel.png</file>
   </qresource>
 </RCC>

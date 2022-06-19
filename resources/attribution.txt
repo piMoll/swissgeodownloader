@@ -1,3 +1,4 @@
 Icons placeholder.png, switzerland.png, die-info.png, settings.png, gear.png, question.png sort-down.png made by Flaticon / Author Freepik, https://www.freepik.com
 Icon map.png made by Flaticon / Author Pixel perfect, https://www.flaticon.com/authors/pixel-perfect
 Icon refresh.png made by Dave Gandy (http://fontawesome.io) from flaticon, https://www.flaticon.com/authors/pixel-perfect
+Icon cancel.png made by Alfredo Hernandez - Flaticon, https://www.flaticon.com/free-icons/cancel
