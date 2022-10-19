@@ -63,6 +63,12 @@ class Ui_sgdDockWidgetBase(object):
         self.horizontalLayout.addWidget(self.guiFileListStatus)
         spacerItem1 = QtWidgets.QSpacerItem(1, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
+        self.guiStreamBtn = QtWidgets.QPushButton(self.dockWidgetContents)
+        icon3a = QtGui.QIcon()
+        icon3a.addPixmap(QtGui.QPixmap(":/plugins/swissgeodownloader/resources/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.guiStreamBtn.setIcon(icon3a)
+        self.guiStreamBtn.setObjectName("guiStreamBtn")
+        self.horizontalLayout.addWidget(self.guiStreamBtn)
         self.guiDownloadBtn = QtWidgets.QPushButton(self.dockWidgetContents)
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/plugins/swissgeodownloader/resources/icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -205,6 +211,7 @@ class Ui_sgdDockWidgetBase(object):
         sgdDockWidgetBase.setTabOrder(self.guiResolution, self.guiTimestamp)
         sgdDockWidgetBase.setTabOrder(self.guiTimestamp, self.guiCoordsys)
         sgdDockWidgetBase.setTabOrder(self.guiCoordsys, self.guiDownloadBtn)
+        sgdDockWidgetBase.setTabOrder(self.guiCoordsys, self.guiStreamBtn)
 
     def retranslateUi(self, sgdDockWidgetBase):
         _translate = QtCore.QCoreApplication.translate
@@ -212,6 +219,8 @@ class Ui_sgdDockWidgetBase(object):
         self.guiShowMapBtn.setToolTip(_translate("sgdDockWidgetBase", "Show overview map"))
         self.guiRefreshDatasetsBtn.setToolTip(_translate("sgdDockWidgetBase", "Refresh dataset list"))
         self.guiInfoBtn.setToolTip(_translate("sgdDockWidgetBase", "Plugin info"))
+        self.guiStreamBtn.setToolTip(_translate("sgdDockWidgetBase", "Stream list of files"))
+        self.guiStreamBtn.setText(_translate("sgdDockWidgetBase", "Stream"))
         self.guiDownloadBtn.setToolTip(_translate("sgdDockWidgetBase", "Download list of files"))
         self.guiDownloadBtn.setText(_translate("sgdDockWidgetBase", "Download"))
         self.guiGroupDataset.setTitle(_translate("sgdDockWidgetBase", "1. Dataset"))

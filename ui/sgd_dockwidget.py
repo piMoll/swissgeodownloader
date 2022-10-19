@@ -65,6 +65,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.currentDataset: Dataset = Dataset()
         self.fileList = []
         self.fileListFiltered = {}
+        self.filesListStream = []
         self.filesListDownload = []
         self.currentFilters = {
             'filetype': None,
@@ -154,6 +155,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiFullExtentChbox.clicked.connect(self.onUseFullExtentClicked)
         
         self.guiRequestListBtn.clicked.connect(self.onLoadFileListClicked)
+        self.guiStreamBtn.clicked.connect(self.onStreamFilesClicked)
         self.guiDownloadBtn.clicked.connect(self.onDownloadFilesClicked)
         self.guiRequestCancelBtn.clicked.connect(self.onCancelRequestClicked)
         
@@ -626,6 +628,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
 
         self.guiFileListStatus.setText(status)
         self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
+    
+    def onStreamFilesClicked(self):
+        self.filesListStream = []
+        for file in self.fileListFiltered.values():
+            if file.selected and file.type == 'image/tiff; application=geotiff; profile=cloud-optimized':
+                file.path = '/vsicurl/' + file.href
+                self.filesListStream.append(file)
+        addToQgis(self.qgsProject, self.filesListStream)
     
     def onDownloadFilesClicked(self):
         # Let user choose output directory
