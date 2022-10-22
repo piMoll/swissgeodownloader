@@ -143,6 +143,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiGroupExtent.setDisabled(True)
         self.guiExtentWidget.setCollapsed(True)
         self.guiGroupFiles.setDisabled(True)
+        self.guiStreamBtn.setDisabled(True)
         self.guiDownloadBtn.setDisabled(True)
         
         self.guiFileType.currentIndexChanged.connect(self.onFilterChanged)
@@ -404,12 +405,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.guiGroupExtent.setDisabled(True)
         self.guiExtentWidget.setCollapsed(True)
         self.guiGroupFiles.setDisabled(True)
+        self.guiStreamBtn.setDisabled(True)
         self.guiDownloadBtn.setDisabled(True)
     
     def resetFileList(self):
         self.fileList = []
         self.fileListFiltered = {}
         self.fileListTbl.clear()
+        self.guiStreamBtn.setDisabled(True)
         self.guiDownloadBtn.setDisabled(True)
         self.guiFileListStatus.setText('')
         self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
@@ -483,6 +486,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         self.applyFilters()
 
         if self.fileList:
+            # Enable stream button for COGs
+            if any(filter(lambda x: x.type == 'image/tiff; application=geotiff; profile=cloud-optimized', self.fileList)):
+                self.guiStreamBtn.setDisabled(False)
             # Enable download button
             self.guiDownloadBtn.setDisabled(False)
         else:
