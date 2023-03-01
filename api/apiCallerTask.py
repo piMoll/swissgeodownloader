@@ -23,6 +23,9 @@ from ..ui.ui_utilities import MESSAGE_CATEGORY
 
 
 class ApiCallerTask(QgsTask):
+    
+    DEBUG = False
+    
     def __init__(self, apiRef, msgBar, func, callParams):
         description = func
         super().__init__(description, QgsTask.CanCancel)
@@ -41,6 +44,7 @@ class ApiCallerTask(QgsTask):
         # Uncomment for debugging
         # try:
         #     # Add pydevd to path
+        #     self.DEBUG = True
         #     import sys
         #     sys.path.insert(0, '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
         #     import pydevd_pycharm
@@ -92,7 +96,12 @@ class ApiCallerTask(QgsTask):
                 self.log(self.exception, Qgis.Critical)
                 self.message(self.exception, Qgis.Warning)
 
-    def log(self, msg, level=Qgis.Info):
+    def log(self, msg, level=Qgis.Info, debugMsg=False):
+        if debugMsg:
+            if not self.DEBUG:
+                return
+            else:
+                level = Qgis.NoLevel
         QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
     
     def message(self, msg, level=Qgis.Info):

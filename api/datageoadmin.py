@@ -71,13 +71,24 @@ class ApiDataGeoAdmin(ApiInterface):
             dataset = Dataset(ds['id'], [link['href'] for link in ds['links']
                               if link['rel'] == 'items'][0])
             dataset.title = ds['title']
-            dataset.description = ds['description']
-            dataset.bbox = ds['extent']['spatial']['bbox'][0]
-            dataset.licenseLink = [link['href'] for link in ds['links']
-                                   if link['rel'] == 'license'][0]
-            dataset.metadataLink = [link['href'] for link in ds['links']
-                                   if link['rel'] == 'describedby'][0]
-            
+            try:
+                dataset.description = ds['description']
+            except (KeyError, IndexError):
+                task.log(f"No description available for '{dataset.title}'", debugMsg=True)
+            try:
+                dataset.bbox = ds['extent']['spatial']['bbox'][0]
+            except (KeyError, IndexError):
+                task.log(f"No bbox available for '{dataset.title}'", debugMsg=True)
+            try:
+                dataset.licenseLink = [link['href'] for link in ds['links']
+                                       if link['rel'] == 'license'][0]
+            except (KeyError, IndexError):
+                task.log(f"No licence link available for '{dataset.title}'", debugMsg=True)
+            try:
+                dataset.metadataLink = [link['href'] for link in ds['links']
+                                       if link['rel'] == 'describedby'][0]
+            except (KeyError, IndexError):
+                task.log(f"No metadata link available for '{dataset.title}'", debugMsg=True)
             # Add metadata in correct language from geoadmin API
             if dataset.id in md_geoadmin:
                 if md_geoadmin[dataset.id]['title']:

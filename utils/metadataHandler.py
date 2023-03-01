@@ -36,7 +36,7 @@ def saveToFile(metadata, filename):
         jsonData = json.dumps(metadata, indent=2, sort_keys=True,
                                    ensure_ascii=False)
     except Exception:
-        log('Converting metadata to json data not successfull')
+        log('Converting metadata to json data not successful')
         return
     
     metafile = os.path.join(SAVE_DIRECTORY, filename)
@@ -44,7 +44,7 @@ def saveToFile(metadata, filename):
         with open(metafile, 'w', encoding='utf8') as f:
             f.write(jsonData)
     except PermissionError:
-        log('Saving metadata to json file not successfull')
+        log('Saving metadata to json file not successful')
 
 
 def loadFromFile(filename):

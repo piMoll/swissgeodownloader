@@ -24,6 +24,7 @@ ALL_VALUE = 'all'
 CURRENT_VALUE = 'current'
 P_SIMILAR = 0.20    # max 20% difference
 
+
 class Dataset:
     def __init__(self, ident='', filesLink=''):
         self.id = ident
@@ -40,7 +41,7 @@ class Dataset:
 
     @property
     def searchtext(self):
-        return ' '.join([self.id, self.title, self.description])\
+        return ' '.join([self.id or '', self.title or '', self.description or ''])\
                     .replace('.', ' ').lower()
 
 
