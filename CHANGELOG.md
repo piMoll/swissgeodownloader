@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [2.0.1] - 2023-03-01
+### Fixed
+- Make retrival of datasets more robust so missing STAC attributes don't lead to an exception.
+
 ## [2.0] - 2022-06-18
 ### Added
 - Search bar for datasets: Search the dataset list by title and description
