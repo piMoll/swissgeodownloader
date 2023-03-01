@@ -91,7 +91,7 @@ class DatasetListTable(QObject):
             
         self.model.setHorizontalHeaderLabels([self.tr('ID'), self.tr('Title'),
                                               self.tr('Search text')])
-        self.tbl.setColumnWidth(0, 250)
+        self.tbl.setColumnWidth(0, 130)
         # Search text is not visible
         self.tbl.hideColumn(2)
     
