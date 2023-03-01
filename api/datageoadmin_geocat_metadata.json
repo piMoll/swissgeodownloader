@@ -17,6 +17,78 @@
       "title": "Piano settoriale dei trasporti, parte Infrastruttura stradale (SIN) - consultazioni"
     }
   },
+  "ch.bafu.gewaesserschutz-klaeranlagen": {
+    "de": {
+      "description": "Seit den 1980er-Jahren führt das BAFU (vormals BUWAL) eine Datenbank mit Informationen zu zentralen ARA. Die zugrundeliegenden Stammkarten wurden durch die Betreiber der Abwasseranlagen beim Erstellen einer Anlage erfasst und danach bei technischen Erneuerungen der Anlage unregelmässig und nicht systematisch aktualisiert. Angaben zu Kennzahlen der Abwasserentsorgung stammen aus der Erhebung des VSA von 2011 und basieren auf der VSA-Empfehlung von 2006. Die Prozentanteile Abwasser im Vorfluter bei Niedrigwasser wurden im Rahmen des Projektes Strategie Micropoll des BAFU abgeschätzt Zukünftig bildet die aktualisierte VSA-Empfehlung die Grundlage für die Kennzahlen-Definitionen. Die Erhebung wird periodisch durchgeführt. Zusätzlich erhebt das BAFU ca. alle 5 Jahre bei den Kantonen den Stand der kommunalen Abwasserentsorgung der Schweiz, letztmals per 1.1.2011.",
+      "title": "Kläranlagendatenbank (ARA-DB)"
+    },
+    "en": {
+      "description": "Since the 1980s, the FOEN (formerly the Swiss Agency for the Environment, Forests and Landscape) has kept a database with information about the central ARA. The underlying original maps were drawn up by the operators of wastewater treatment plants each time a plant was opened but later, when technical improvements were made, they were not updated frequently or systematically. Information about key figures on wastewater disposal comes from a 2011 survey by the Swiss Water Association and is based on the SWA’s 2006 recommendations. The percentages of wastewater in receiving watercourses at low water were estimated as part of the FOEN’s “Strategy Micropoll” project. In future, the updated SWA recommendation will form the basis for definitions of the key figures. The survey will be carried out periodically. In addition, the FOEN surveys the condition of Switzerland’s communal wastewater disposal in cantons approximately every five years. This was last done on 01/01/2011.",
+      "title": "Database of wastewater treatment plants (ARA-DB)"
+    },
+    "fr": {
+      "description": "Depuis les années 1980, l’OFEV (anciennement OFEFP) gère une base de données contenant des informations relatives aux stations centrales d’épuration des eaux (STEP). Les fiches techniques de bases ont été remplies par les exploitants de STEP au moment de la construction des installations puis mises à jour de façon irrégulière et non systématique lors de rénovations techniques.Les indicateurs relatifs à l’évacuation des eaux usées proviennent du relevé effectué par le VSA en 2011 et reposent sur la recommandation de 2006. La part d’eaux usées dans le milieu récepteur par débit d’étiage a été estimée dans le cadre du projet de l’OFEV Stratégie Micropoll. À l’avenir, la définition des indicateurs se fondera sur la version mise à jour. La saisie est effectuée périodiquement. Par ailleurs, l’OFEV relève tous les cinq ans environ l’état de l’évacuation des eaux communales auprès des cantons. Le dernier recensement date du 1er janvier 2011.",
+      "title": "Banque de données des stations d'épuration (ARA-DB)"
+    },
+    "it": {
+      "description": "Dagli anni 80 l'UFAM (in precedenza UFAFP) gestisce una banca di dati contenente informazioni relative agli impianti centrali di depurazione delle acque (ARA). Le carte di base sottostanti sono state registrate dagli esercenti degli impianti di depurazione e aggiornate in seguito regolarmente e sistematicamente in caso di lavori tecnici di rinnovo di un impianto. Le informazioni relative agli indicatori dello smaltimento delle acque provengono dal rilevamento effettuato dal VSA del 2011 e si basano sulle raccomandazioni VSA del 2006. Le percentuali relative alle acque utilizzate nel corso d'acqua ricettore nel periodo di acqua bassa sono state stimate nell'ambito del progetto \"Strategie Micropoll\" dell'UFAM. In futuro le raccomandazioni aggiornate del VSA costituiranno la base per le definizioni degli indicatori. Il rilevamento viene effettuato con cadenza periodica. Ogni cinque anni circa (l'ultima volta il 1° gennaio 2011) l'UFAM rileva inoltre presso tutti i Cantoni lo stato dello smaltimento comunale delle acque in Svizzera.",
+      "title": "Banca di dati sugli impianti di depurazione delle acque (ARA-DB)"
+    }
+  },
+  "ch.bafu.gewaesserschutz-nawa": {
+    "de": {
+      "description": "Im Rahmen der Nationalen Beobachtung Oberflächengewässerqualität (NAWA) wird an rund 100 Messstellen die Gewässerqualität durch Bund und Kantone gemeinsam erfasst.",
+      "title": "Nationale Beobachtung Oberflächengewässerqualität (NAWA)"
+    },
+    "en": {
+      "description": "Within the National Surface Water Quality Monitoring Programme (NAWA), water quality is recorded jointly by the federal and cantonal authorities at around 100 monitoring stations.",
+      "title": "National Surface Water Quality Monitoring Programme (NAWA)"
+    },
+    "fr": {
+      "description": "La qualité des eaux est contrôlée dans une centaine de stations de mesure dans le cadre de l’observation nationale de la qualité des eaux de surface (NAWA), programme conjoint de la Confédération et des cantons.",
+      "title": "Observation nationale de la qualité des eaux de surface (NAWA)"
+    },
+    "it": {
+      "description": "Nel quadro dell’Osservazione nazionale della qualità delle acque superficiali (NAWA) la Confederazione e i Cantoni rilevano in modo congiunto la qualità delle acque presso un centinaio di punti di misurazione.",
+      "title": "Osservazione nazionale della qualità delle acque superficiali (NAWA)"
+    }
+  },
+  "ch.bafu.oekomorphologie-f": {
+    "de": {
+      "description": "Um die Gewässer umfassend schützen zu können, muss ihr Zustand bekannt sein. Das Modul-Stufen-Konzept bildet den Rahmen für eine standardisierte Gewässeruntersuchung und -bewertung. Das Konzept ist modular aufgebaut und umfasst Untersuchungen der Hydrologie, Struktur der Gewässer (Ökomorphologie), Wasserchemie und Ökotoxikologie sowie der Lebensgemeinschaften von Tieren, Pflanzen und Mikroorganismen (Biologie).Im Modul Ökomorphologie werden die strukturellen Eigenschaften der Bäche und Flüsse ganzer Regionen (z.B. Kantone, Regionen, Gemeinden) flächendeckend (Stufe F) untersucht.",
+      "title": "Ökomorphologie Stufe F"
+    },
+    "en": {
+      "description": "To enable surface waters to be fully protected, their status must be known. The Modular Stepwise Procedure provides the framework for standardized investigation and assessment of surface waters. The procedure is modular in structure and comprises surveys of hydrology, watercourse structure (ecomorphology), water chemistry and ecotoxicology, and the communities of animals, plants and microorganisms (biology).The Ecomorphology module surveys the structural characteristics of the streams and rivers in regions as a whole, e.g. cantons, regions, municipalities) (Level F).",
+      "title": "Ecomorphology Level F"
+    },
+    "fr": {
+      "description": "Il est nécessaire de connaître l’état des cours d’eau pour en assurer une protection globale. Les données requises peuvent être obtenues grâce au système modulaire gradué, qui définit le cadre d’une analyse et d’une appréciation standardisées des cours d’eau. Ce système comprend les modules suivants: hydrologie, structure des cours d’eau (écomorphologie), chimie des eaux, écotoxicologie et biocénose animales, végétales et microorganismes (biologie).Le module Ecomorphologie permet d’analyser les propriétés structurelles des cours d’eau de régions entières, p.ex. des cantons, des régions et des communes (niveau R).",
+      "title": "Ecomorphologie niveau R"
+    },
+    "it": {
+      "description": "Per garantire una protezione globale di un corso d’acqua occorre conoscerne lo stato. Il sistema modulare graduale definisce il quadro per un’analisi e una valutazione standardizzate dei corsi d’acqua. Questo sistema include i seguenti moduli: idrologia, struttura dei corsi d’acqua (ecomorfologia), chimica delle acque, ecotossicologia e biocenosi animali, vegetali e di microrganismi (biologia). Il modulo Ecomorfologia permette di analizzare le proprietà strutturali dei corsi d’acqua di intere regioni, ad esempio Cantoni, regioni e Comuni (livello R).",
+      "title": "Ecomorfologia livello R"
+    }
+  },
+  "ch.bakom.richtfunkverbindungen": {
+    "de": {
+      "description": "Richtfunk dient der fernmeldetechnischen Übertragung von Informationen (Telefon, Daten, Bilder) zwischen zwei Punkten. Mit Antennen mit sehr hoher Richtwirkung (Parabolspiegel) werden die Funkwellen in hohen Frequenzbereichen (zwischen 6 und 90 GHz) stark gebündelt zum Empfänger übertragen. Richtfunkanlagen sind an günstigen Standorten montiert um weite Strecken mit quasioptischer Sicht (keine Hindernisse wie Häuser, Bäume, usw.) überwinden zu können.Die Darstellung dient der Information und stellt keine rechtlich verbindliche Auskunft betreffend die konzessionierten Parameter dar. Die dargestellte Genauigkeit der Standorte ist auf ca 30 m beschränkt.",
+      "title": "Richtfunkverbindungen"
+    },
+    "en": {
+      "description": "Directional radio is used in telecommunications to transmit information (telephony, data, images) between two points. High frequency radio waves (between 6 and 90 GHz) can be tightly collimated into a beam which is transmitted to the receiver using highly directional antenna (parabolic reflector). Directional radio systems are mounted at convenient locations to transmit over quasi-line of sight (no obstacles such as trees, houses, etc.).The illustration provides information though does not represent legally binding information regarding the licensed parameters. The displayed accuracy of the sites is limited to approx. 30 m.",
+      "title": "Microwave links"
+    },
+    "fr": {
+      "description": "Les liaisons par faisceaux hertziens servent à transmettre des informations au moyen de techniques de télécommunication (téléphone, données, images) entre deux points. Avec des antennes dont la directivité est très élevée (miroirs paraboliques), les ondes radio issues de hautes gammes de fréquences (entre 4 et 90 GHz) sont transmises au récepteur de manière très condensée. Les installations à faisceaux hertziens sont montées à des emplacements permettant de franchir de longues distances avec une visibilité quasi optique (sans obstacles tels que des maisons ou des arbres).La présentation sert à informer et ne fournit aucun renseignement juridiquement contraignant sur les paramètres relevant de la concession. La précision des emplacements est limitée à environ 30 mètres.",
+      "title": "Liaisons par faisceaux hertziens"
+    },
+    "it": {
+      "description": "I collegamenti in ponte radio servono a trasmettere informazioni mediante telecomunicazione (telefono, dati, immagini) tra due punti. Con antenne dotate di una direttività molto elevata (parabola), le onde radio comprese nelle bande di frequenza elevate (tra i 4 e i 90 GHz) vengono trasmesse al ricevitore in modo estremamente focalizzato. Gli impianti in ponte radio sono montati in luoghi ideali per poter superare grandi distanze con visibilità quasi ottica (nessun ostacolo come case, alberi, ecc.).La rappresentazione ha valore illustrativo e non fornisce informazioni giuridicamente vincolanti relative ai parametri per il rilascio di concessioni. Le ubicazioni sono illustrate con una precisione limitata a circa 30m.",
+      "title": "Collegamento in ponte radio"
+    }
+  },
   "ch.bav.sachplan-infrastruktur-schiene_anhorung": {
     "de": {
       "description": "Laufende oder vergangene Anhörungen der Kantone und Gemeinden sowie Information und Mitwirkung der Bevölkerung nach Art. 19 RPV des Sachplans Verkehr, Teil Infrastruktur Schiene (SIS).",
@@ -87,6 +159,132 @@
     "it": {
       "description": "Si tratta da un lato di impianti non ancora in esercizio per i quali le attività d’incidenza territoriale e il processo relativo al piano settoriale sono conclusi conformemente all’articolo 5 OPT. Esiste un progetto di pubblicazione, la procedura di approvazione dei piani è stata avviata o è stata emessa la relativa decisione; il progetto viene realizzato. D'altro canto, il piano settoriale può fornire indicazioni sulla situazione territoriale e materiale, in particolare sugli edifici e gli impianti già esistenti, ai fini di una migliore comprensione delle indicazioni.",
       "title": "Piano settoriale dei trasporti, parte infrastruttura navigazione (SIF): statu quo"
+    }
+  },
+  "ch.bazl.laermbelastungskataster-zivilflugplaetze": {
+    "de": {
+      "description": "Für Flugplätze, von denen eine gewisse Lärmbelastung ausgeht, muss gestützt auf das schweizerische Umweltrecht (LSV, SR 814.41) die Lärmbelastung ausgewiesen und dargestellt werden. Dies geschieht in der Form von Lärmbelastungskurven im Lärmbelastungskataster. Die Lärmbelastungsskataster stellen lediglich ein Inventar der Lärmsituation dar und haben keine direkten juristischen Auswirkungen für die betroffenen Grundeigentümer. Den Betreibern der Flugplätze dient dieses Instrument, um Massnahmenpläne gegen übermässige Lärmbelastungen auszuarbeiten, den Behörden um die Raumplanung darauf abzustimmen. Auf den Landeskarten wird die Lärmbelastung mit Kurven gleicher Schallpegel dargestellt. Diese zeigen die Belastung für den Tagesdurchschnitt an, beim Betrieb mit Kleinflugzeugen den Tagesdurchschnitt eines mittleren Spitzentages. Die Lärmbelastungskurven stammen aus Berechnungen, die auf den tatsächlichen bzw. prognostizierten Flugbewegungen und den bekannten Lärmemissionen der verschiedenen Flugzeugtypen beruhen.",
+      "title": "Lärmbelastungskataster für zivile Flugplätze"
+    },
+    "en": {
+      "description": "For aerodromes at which certain noise levels occur, the Swiss environmental legislation (SR 814.41) stipulates that exposure curves have to be produced and reported. This procedure involves the depiction of noise exposure curves in the noise pollution cadastre, which merely takes the form of an inventory of the noise situation and does not have a direct legal impact on the involved real estate owners. Aerodrome operators use this instrument in order to develop action plans to prevent excessive noise exposure, whereas the relevant authorities use it in order to adapt their spatial planning. Noise levels are depicted on topographic maps in the form of curves. These curves indicate the average daily exposure, and in case of small aircraft operations the average daily exposure during an average peak day. Noise exposure curves are produced from calculations based on actual or predicted aircraft movements and the known noise emissions of the various types of aircraft.",
+      "title": "Noise pollution register for civil aerodromes"
+    },
+    "fr": {
+      "description": "La législation environnementale suisse (OPB, RS 814.41) impose de déterminer et de décrire l'exposition au bruit générée par les installations aéroportuaires bruyantes. L'exposition au bruit est représentée sous forme de courbes de bruit reportées dans un cadastre de bruit. Ayant uniquement valeur d'inventaire, les cadastres de bruit ne déploient aucun effet juridique direct sur les propriétaires concernés. Par contre, les exploitants d'aérodrome utilisent cet instrument pour élaborer des plans anti-bruit en cas de nuisances excessives tandis que les autorités en tiennent compte dans l'aménagement du territoire. Sur les cartes nationales, l'exposition au bruit est représentée sous forme de courbes isophoniques. Celles-ci expriment la moyenne journalière de l'exposition au bruit et, dans le cas des petits avions, le niveau sonore moyen d'un jour avec trafic de pointe moyen. Les courbes se basent sur des calculs qui prennent en compte les mouvements - effectifs et prévisionnels - d'aéronefs et les émissions de bruit connues des différents types d'avions.",
+      "title": "Cadastres de bruit pour les aérodromes civils"
+    },
+    "it": {
+      "description": "Conformemente al diritto ambientale svizzero (OIF; RS 814.41), gli aerodromi che producono inquinamento fonico devono rappresentare e dichiarare tale inquinamento nella forma di curve del rumore nel catasto dei rumori. I catasti forniscono unicamente un'istantanea della situazione e non hanno ripercussioni giuridiche dirette per i proprietari fondiari interessati. Questo strumento serve agli esercenti degli aerodromi per elaborare piani di misure contro carichi fonici eccessivi e alle autorità per il coordinamento con la pianificazione del territorio. Sulle carte nazionali, l'inquinamento fonico è rappresentato mediante curve di pari livello sonoro. Le curve indicano la media giornaliera dell'esposizione al rumore e, per quanto riguarda l'esercizio di piccoli velivoli, la media di un giorno di traffico di punta medio. Esse sono calcolate sulla base dei movimenti di volo effettivi o previsti e delle emissioni foniche rilevate per i diversi tipi di aerei.",
+      "title": "Catasto dei rumori sugli aerodromi civili"
+    }
+  },
+  "ch.bazl.sachplan-infrastruktur-luftfahrt_anhorung": {
+    "de": {
+      "description": "Laufende oder vergangene Anhörungen der Kantone und Gemeinden sowie Information und Mitwirkung der Bevölkerung nach Art. 19 RPV des Sachplans Verkehr, Teil Infrastruktur Luftfahrt (SIL)",
+      "title": "Sachplan Verkehr, Teil Infrastruktur Luftfahrt (SIL) - Anhörungen"
+    },
+    "en": {
+      "description": "Current or past consultations of the cantons and communes as well as information and participation of the population in accordance with Art. 19 RPV of the Sectoral Plan on transport, aviation infrastructure section (SIL)",
+      "title": "Sectoral plan on transport, aviation infrastructure section (SIL) - consultations"
+    },
+    "fr": {
+      "description": "Consultations des cantons et des communes sur le plan sectoriel des transports, partie Infrastructure aéronautique (PSIA), avec information et participation de la population, conformément à l’art. 19 OAT, en cours ou terminées.",
+      "title": "Plan sectoriel des transports, partie Infrastructure aéronautique (PSIA) - consultations"
+    },
+    "it": {
+      "description": "Audizioni dei Cantoni e dei Comuni in corso o concluse nonché informazione e partecipazione della popolazione conformemente all’articolo 19 OPT in relazione al piano settoriale dei trasporti, parte Infrastruttura aeronautica (PSIA)",
+      "title": "Piano settoriale dei trasporti, parte Infrastruttura aeronautica (PSIA) - consultazioni"
+    }
+  },
+  "ch.swisstopo.landeskarte-farbe_winter_10": {
+    "de": {
+      "description": "Die Landeskarte 1:10'000 Winter ist eine Ableitung der topografischen Landeskarte 1:10'000 der Schweiz mit detaillierter Verkehrs-, Siedlungs-, Gelände-, Gewässer- und Vegetationsdarstellung. Die Schweiz wird mittels einer winterlichen Darstellung flächendeckend abgebildet. Die Landeskarte 1:10'000 Winter ist ausschliesslich in digitaler Form (Swiss Map Raster, API, WMTS) verfügbar.",
+      "title": "Landeskarte 1:10'000 Winterdarstellung"
+    },
+    "en": {
+      "description": "The winter national map 1:10'000 is a derivation of the topographical national map 1:10'000 of Switzerland with detailed depictions of traffic, settlement areas, terrain, bodies of water and vegetation. Switzerland is comprehensively mapped in a winter representation. The winter national map 1:10'000 is only available in a digital format (Swiss Map Raster, API, WMTS).",
+      "title": "National Map 1:10'000, winter representation"
+    },
+    "fr": {
+      "description": "La carte nationale 1:10'000 en représentation hivernale est un dérivé de la carte nationale topographique 1:10'000 avec la même représentation détaillée du réseau routier, des localités, du terrain, de l'hydrographie et de la végétation. La Suisse est intégralement représentée en version hivernale. La carte nationale 1:10'000 hiver n'est disponible qu'en version numérique (Swiss Map Raster, API, WMTS).",
+      "title": "Carte nationale 1:10'000 en représentation hivernale"
+    },
+    "it": {
+      "description": "La carta nazionale 1:10'000 inverno è una derivazione della carta nazionale topografica 1:10'000 della Svizzera con una rappresentazione dettagliata della rete viaria, degli insediamenti, del terreno, dei corsi d'acqua e della vegetazione. La Svizzera viene riprodotta in modo capillare attraverso una rappresentazione invernale. La carta nazionale 1:10'000 inverno è disponibile esclusivamente in formato digitale (Swiss Map Raster, API, WMTS).",
+      "title": "Carta nazionale 1:10'000 - rappresentazione invernale"
+    }
+  },
+  "ch.swisstopo.landeskarte-farbe_winter_100": {
+    "de": {
+      "description": "Die Landeskarte 1:100'000 Winter ist eine Ableitung der topografischen Landeskarte 1:100'000 der Schweiz mit detaillierter Verkehrs-, Siedlungs-, Gelände-, Gewässer- und Vegetationsdarstellung. Die Schweiz wird mittels einer winterlichen Darstellung flächendeckend abgebildet. Die Landeskarte 1:100'000 Winter ist ausschliesslich in digitaler Form (Swiss Map Raster, API, WMTS) verfügbar.",
+      "title": "Landeskarte 1:100'000 Winterdarstellung"
+    },
+    "en": {
+      "description": "The winter national map 1:100'000 is a derivation of the topographical national map 1:100'000 of Switzerland with detailed depictions of traffic, settlement areas, terrain, bodies of water and vegetation. Switzerland is comprehensively mapped in a winter representation. The winter national map 1:100'000 is only available in a digital format (Swiss Map Raster, API, WMTS).",
+      "title": "National Map 1:100'000, winter representation"
+    },
+    "fr": {
+      "description": "La carte nationale 1:100'000 en représentation hivernale est un dérivé de la carte nationale topographique 1:100'000 avec la même représentation détaillée du réseau routier, des localités, du terrain, de l'hydrographie et de la végétation. La Suisse est intégralement représentée en version hivernale. La carte nationale 1:100'000 hiver n'est disponible qu'en version numérique (Swiss Map Raster, API, WMTS).",
+      "title": "Carte nationale 1:100'000 en représentation hivernale"
+    },
+    "it": {
+      "description": "La carta nazionale 1:100'000 inverno è una derivazione della carta nazionale topografica 1:100'000 della Svizzera con una rappresentazione dettagliata della rete viaria, degli insediamenti, del terreno, dei corsi d'acqua e della vegetazione. La Svizzera viene riprodotta in modo capillare attraverso una rappresentazione invernale. La carta nazionale 1:100'000 inverno è disponibile esclusivamente in formato digitale (Swiss Map Raster, API, WMTS).",
+      "title": "Carta nazionale 1:100'000 - rappresentazione invernale"
+    }
+  },
+  "ch.swisstopo.landeskarte-farbe_winter_200": {
+    "de": {
+      "description": "Die Landeskarte 1:200'000 Winter ist eine Ableitung der topografischen Landeskarte 1:200'000 der Schweiz mit detaillierter Verkehrs-, Siedlungs-, Gelände-, Gewässer- und Vegetationsdarstellung. Die Schweiz wird mittels einer winterlichen Darstellung flächendeckend abgebildet. Die Landeskarte 1:200'000 Winter ist ausschliesslich in digitaler Form (Swiss Map Raster, API, WMTS) verfügbar.",
+      "title": "Landeskarte 1:200'000 Winterdarstellung"
+    },
+    "en": {
+      "description": "The winter national map 1:200'000 is a derivation of the topographical national map 1:200'000 of Switzerland with detailed depictions of traffic, settlement areas, terrain, bodies of water and vegetation. Switzerland is comprehensively mapped in a winter representation. The winter national map 1:200'000 is only available in a digital format (Swiss Map Raster, API, WMTS).",
+      "title": "National Map 1:200'000, winter representation"
+    },
+    "fr": {
+      "description": "La carte nationale 1:200'000 en représentation hivernale est un dérivé de la carte nationale topographique 1:200'000 avec la même représentation détaillée du réseau routier, des localités, du terrain, de l'hydrographie et de la végétation. La Suisse est intégralement représentée en version hivernale. La carte nationale 1:200'000 hiver n'est disponible qu'en version numérique (Swiss Map Raster, API, WMTS).",
+      "title": "Carte nationale 1:200'000 en représentation hivernale"
+    },
+    "it": {
+      "description": "La carta nazionale 1:200'000 inverno è una derivazione della carta nazionale topografica 1:200'000 della Svizzera con una rappresentazione dettagliata della rete viaria, degli insediamenti, del terreno, dei corsi d'acqua e della vegetazione. La Svizzera viene riprodotta in modo capillare attraverso una rappresentazione invernale. La carta nazionale 1:200'000 inverno è disponibile esclusivamente in formato digitale (Swiss Map Raster, API, WMTS).",
+      "title": "Carta nazionale 1:200'000 - rappresentazione invernale"
+    }
+  },
+  "ch.swisstopo.landeskarte-farbe_winter_25": {
+    "de": {
+      "description": "Die Landeskarte 1:25'000 Winter ist eine Ableitung der topografischen Landeskarte 1:25'000 der Schweiz mit detaillierter Verkehrs-, Siedlungs-, Gelände-, Gewässer- und Vegetationsdarstellung. Die Schweiz wird mittels einer winterlichen Darstellung flächendeckend abgebildet. Die Landeskarte 1:25'000 Winter ist ausschliesslich in digitaler Form (Swiss Map Raster, API, WMTS) verfügbar.",
+      "title": "Landeskarte 1:25'000 Winterdarstellung"
+    },
+    "en": {
+      "description": "The winter national map 1:25'000 is a derivation of the topographical national map 1:25'000 of Switzerland with detailed depictions of traffic, settlement areas, terrain, bodies of water and vegetation. Switzerland is comprehensively mapped in a winter representation. The winter national map 1:25'000 is only available in a digital format (Swiss Map Raster, API, WMTS).",
+      "title": "National Map 1:25'000, winter representation"
+    },
+    "fr": {
+      "description": "La carte nationale 1:25'000 en représentation hivernale est un dérivé de la carte nationale topographique 1:25'000 avec la même représentation détaillée du réseau routier, des localités, du terrain, de l'hydrographie et de la végétation. La Suisse est intégralement représentée en version hivernale. La carte nationale 1:25'000 hiver n'est disponible qu'en version numérique (Swiss Map Raster, API, WMTS).",
+      "title": "Carte nationale 1:25'000 en représentation hivernale"
+    },
+    "it": {
+      "description": "La carta nazionale 1:25'000 inverno è una derivazione della carta nazionale topografica 1:25'000 della Svizzera con una rappresentazione dettagliata della rete viaria, degli insediamenti, del terreno, dei corsi d'acqua e della vegetazione. La Svizzera viene riprodotta in modo capillare attraverso una rappresentazione invernale. La carta nazionale 1:25'000 inverno è disponibile esclusivamente in formato digitale (Swiss Map Raster, API, WMTS).",
+      "title": "Carta nazionale 1:25'000 - rappresentazione invernale"
+    }
+  },
+  "ch.swisstopo.landeskarte-farbe_winter_50": {
+    "de": {
+      "description": "",
+      "title": ""
+    },
+    "en": {
+      "description": "The winter national map 1:50'000 is a derivation of the topographical national map 1:50'000 of Switzerland with detailed depictions of traffic, settlement areas, terrain, bodies of water and vegetation. Switzerland is comprehensively mapped in a winter representation. The winter national map 1:50'000 is only available in a digital format (Swiss Map Raster, API, WMTS).",
+      "title": "National Map 1:50'000, winter representation"
+    },
+    "fr": {
+      "description": "La carte nationale 1:50'000 en représentation hivernale est un dérivé de la carte nationale topographique 1:50'000 avec la même représentation détaillée du réseau routier, des localités, du terrain, de l'hydrographie et de la végétation. La Suisse est intégralement représentée en version hivernale. La carte nationale 1:50'000 hiver n'est disponible qu'en version numérique (Swiss Map Raster, API, WMTS).",
+      "title": "Carte nationale 1:50'000 en représentation hivernale"
+    },
+    "it": {
+      "description": "La carta nazionale 1:50'000 inverno è una derivazione della carta nazionale topografica 1:50'000 della Svizzera con una rappresentazione dettagliata della rete viaria, degli insediamenti, del terreno, dei corsi d'acqua e della vegetazione. La Svizzera viene riprodotta in modo capillare attraverso una rappresentazione invernale. La carta nazionale 1:50'000 inverno è disponibile esclusivamente in formato digitale (Swiss Map Raster, API, WMTS).",
+      "title": "Carta nazionale 1:50'000 - rappresentazione invernale"
     }
   },
   "ch.swisstopo.swiss-map-vector10": {
