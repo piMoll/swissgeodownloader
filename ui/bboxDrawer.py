@@ -128,7 +128,7 @@ class BboxMapItem(QgsRubberBand):
         self.canvas = canvas
         self.rectangle = rectangle
         self.bboxId = bboxId
-        super().__init__(self.canvas, QgsWkbTypes.PolygonGeometry)
+        super().__init__(self.canvas, QgsWkbTypes.GeometryType.PolygonGeometry)
         
         self.setToGeometry(QgsGeometry().fromRect(self.rectangle))
         self.setColor(self.COLOR_BORDER)

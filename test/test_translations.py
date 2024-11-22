@@ -11,7 +11,7 @@ from .utilities import get_qgis_app
 import unittest
 import os
 
-from PyQt5.QtCore import QCoreApplication, QTranslator
+from qgis.PyQt.QtCore import QCoreApplication, QTranslator
 
 QGIS_APP = get_qgis_app()
 

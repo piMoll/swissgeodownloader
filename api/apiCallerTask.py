@@ -28,7 +28,7 @@ class ApiCallerTask(QgsTask):
     
     def __init__(self, apiRef, msgBar, func, callParams):
         description = func
-        super().__init__(description, QgsTask.CanCancel)
+        super().__init__(description, QgsTask.Flag.CanCancel)
         self.apiRef = apiRef
         self.msgBar = msgBar
         self.func = func
@@ -84,27 +84,27 @@ class ApiCallerTask(QgsTask):
                 msg = self.tr('file list received')
             elif self.func == 'downloadFiles':
                 msg = self.tr('files downloaded')
-            self.log(msg, Qgis.Success)
+            self.log(msg, Qgis.MessageLevel.Success)
         else:
             if self.isCanceled():
-                self.log(self.tr('Aborted by user'), Qgis.Info)
+                self.log(self.tr('Aborted by user'), Qgis.MessageLevel.Info)
             elif self.exception is None:
                 self.exception = self.tr('An unknown error occurred')
-                self.log(self.exception, Qgis.Critical)
-                self.message(self.exception, Qgis.Warning)
+                self.log(self.exception, Qgis.MessageLevel.Critical)
+                self.message(self.exception, Qgis.MessageLevel.Warning)
             else:
-                self.log(self.exception, Qgis.Critical)
-                self.message(self.exception, Qgis.Warning)
+                self.log(self.exception, Qgis.MessageLevel.Critical)
+                self.message(self.exception, Qgis.MessageLevel.Warning)
 
-    def log(self, msg, level=Qgis.Info, debugMsg=False):
+    def log(self, msg, level=Qgis.MessageLevel.Info, debugMsg=False):
         if debugMsg:
             if not self.DEBUG:
                 return
             else:
-                level = Qgis.NoLevel
+                level = Qgis.MessageLevel.NoLevel
         QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
     
-    def message(self, msg, level=Qgis.Info):
+    def message(self, msg, level=Qgis.MessageLevel.Info):
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}", level)
 
     def cancel(self):

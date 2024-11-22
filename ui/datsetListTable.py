@@ -34,8 +34,8 @@ class DatasetListTable(QObject):
         self.currentSelection = None
         
         self.tbl = QTableView(self.parent)
-        sizePolicy = QSizePolicy(QSizePolicy.Expanding,
-                                 QSizePolicy.MinimumExpanding)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding,
+                                 QSizePolicy.Policy.MinimumExpanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(1)
         sizePolicy.setHeightForWidth(self.tbl.sizePolicy().hasHeightForWidth())
@@ -44,21 +44,21 @@ class DatasetListTable(QObject):
         self.proxy_model = QSortFilterProxyModel()
         self.proxy_model.setSourceModel(self.model)
         self.proxy_model.setFilterKeyColumn(2)
-        self.proxy_model.sort(0, Qt.AscendingOrder)
+        self.proxy_model.sort(0, Qt.SortOrder.AscendingOrder)
         self.tbl.setModel(self.proxy_model)
 
         self.tbl.setSizePolicy(sizePolicy)
         self.tbl.setMinimumHeight(90)
         self.tbl.setMaximumHeight(250)
-        self.tbl.setSizeAdjustPolicy(QAbstractScrollArea.AdjustToContents)
+        self.tbl.setSizeAdjustPolicy(QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents)
         self.tbl.setAutoScroll(True)
         
-        self.tbl.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.tbl.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.tbl.setSelectionMode(QAbstractItemView.SelectionMode.SingleSelection)
+        self.tbl.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
         self.tbl.setObjectName("DatasetListTable")
         self.tbl.horizontalHeader().setStretchLastSection(True)
         self.tbl.verticalHeader().setVisible(False)
-        self.tbl.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.tbl.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Fixed)
         self.tbl.verticalHeader().setDefaultSectionSize(20)
 
         self.searchbar = QLineEdit()

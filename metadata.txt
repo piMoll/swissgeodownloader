@@ -2,7 +2,7 @@
 
 [general]
 name=Swiss Geo Downloader
-qgisMinimumVersion=3.10
+qgisMinimumVersion=3.16
 qgisMaximumVersion=
 description=Download swiss geodata comfortably inside QGIS
 version=2.0.1
@@ -39,3 +39,5 @@ experimental=False
 # deprecated flag (applies to the whole plugin, not just a single version)
 deprecated=False
 
+# Support Qt6 compatibility
+supportsQt6=yes

@@ -22,8 +22,8 @@ import json
 import os
 
 import requests
-from PyQt5.QtCore import QUrl, QUrlQuery, QEventLoop, QCoreApplication
-from PyQt5.QtNetwork import QNetworkRequest, QNetworkReply
+from qgis.PyQt.QtCore import QUrl, QUrlQuery, QEventLoop, QCoreApplication
+from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
 from qgis.core import QgsTask, QgsBlockingNetworkRequest, QgsFileDownloader
 
 # Translate context for super class
@@ -61,7 +61,7 @@ class ApiInterface:
         # Check if request was successful
         r = http.reply()
         try:
-            assert r.error() == QNetworkReply.NoError, r.error()
+            assert r.error() == QNetworkReply.NetworkError.NoError, r.error()
         except AssertionError:
             # Service is not reachable
             task.exception = self.tr('{} not reachable or no internet '
@@ -140,7 +140,7 @@ class ApiInterface:
         fileFetcher.downloadCanceled.connect(eventLoop.quit)
         fileFetcher.downloadCompleted.connect(eventLoop.quit)
         fileFetcher.downloadProgress.connect(onProgress)
-        eventLoop.exec_(QEventLoop.ExcludeUserInputEvents)
+        eventLoop.exec(QEventLoop.ProcessEventsFlag.ExcludeUserInputEvents)
         fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
     
     def downloadFiles(self, task: QgsTask, fileList, outputDir):

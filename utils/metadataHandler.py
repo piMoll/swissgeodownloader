@@ -98,5 +98,5 @@ def loadFromSettings(datasetId, locale):
     }
 
 
-def log(msg, level=Qgis.Info):
+def log(msg, level=Qgis.MessageLevel.Info):
     QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
