@@ -239,7 +239,7 @@ class ApiDataGeoAdmin(ApiInterface):
                 try:
                     file.setBbox(item['bbox'])
                 except AssertionError:
-                    task.log(f"File {file.id}: Bounding box not valid", Qgis.Warning)
+                    task.log(f"File {file.id}: Bounding box not valid", Qgis.MessageLevel.Warning)
                     
                 file.geom = item['geometry']
                 
@@ -267,7 +267,7 @@ class ApiDataGeoAdmin(ApiInterface):
                     try:
                         file.setTimestamp(timestamp)
                     except ValueError:
-                        task.log(f"File {file.id}: Timestamp not valid)", Qgis.Warning)
+                        task.log(f"File {file.id}: Timestamp not valid)", Qgis.MessageLevel.Warning)
                     filterItems['timestamp'].append(file.timestampStr)
                     
                 if OPTION_MAPPER['coordsys'] in asset:

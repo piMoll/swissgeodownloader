@@ -634,7 +634,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
         else:
             openDir = os.path.expanduser('~')
         folder = QFileDialog.getExistingDirectory(self,
-                    self.tr('Choose output folder'), openDir, QFileDialog.ShowDirsOnly)
+                    self.tr('Choose output folder'), openDir, QFileDialog.Option.ShowDirsOnly)
         if not folder:
             return
             
@@ -681,7 +681,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
             self.guiFileListStatus.setStyleSheet(self.LABEL_SUCCESS_STYLE)
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "
                 + self.tr('{} file(s) successfully downloaded').format(
-                            len(self.filesListDownload)), Qgis.Success)
+                            len(self.filesListDownload)), Qgis.MessageLevel.Success)
 
         self.spinnerFl.stop()
         
@@ -695,20 +695,20 @@ class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
     @staticmethod
     def showDialog(title, msg, mode='OkCancel'):
         msgBox = QMessageBox()
-        msgBox.setIcon(QMessageBox.Question)
+        msgBox.setIcon(QMessageBox.Icon.Question)
         msgBox.setWindowTitle(title)
         msgBox.setText(msg)
         if mode == 'OkCancel':
-            msgBox.setStandardButtons(QMessageBox.Ok | QMessageBox.Cancel)
+            msgBox.setStandardButtons(QMessageBox.StandardButton.Ok | QMessageBox.StandardButton.Cancel)
         elif mode == 'YesNo':
-            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            msgBox.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         elif mode == 'error':
-            msgBox.setIcon(QMessageBox.Critical)
-            msgBox.setStandardButtons(QMessageBox.Ok)
+            msgBox.setIcon(QMessageBox.Icon.Critical)
+            msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
         elif mode == 'Ok':
-            msgBox.setStandardButtons(QMessageBox.Ok)
+            msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
         else:
-            msgBox.setStandardButtons(QMessageBox.Ok)
+            msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
             
         returnValue = msgBox.exec()
-        return returnValue == QMessageBox.Ok or returnValue == QMessageBox.Yes
+        return returnValue == QMessageBox.StandardButton.Ok or returnValue == QMessageBox.StandardButton.Yes

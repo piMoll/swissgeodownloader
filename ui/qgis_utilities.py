@@ -111,11 +111,11 @@ def addOverviewMap(qgsProject, canvas, crs=SWISS_CRS):
             qgsProject.addMapLayer(wmsLayer)
             canvas.refresh()
             return tr("Layer '{}' added to map").format(
-                layerName), Qgis.Success
+                layerName), Qgis.MessageLevel.Success
         else:
             return tr("Not able to add layer '{}' to map").format(
-                layerName), Qgis.Warning
+                layerName), Qgis.MessageLevel.Warning
     else:
         return tr("Layer '{}' already added to map").format(
-            layerName), Qgis.Info
+            layerName), Qgis.MessageLevel.Info
     

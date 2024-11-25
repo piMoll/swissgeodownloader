@@ -14,7 +14,7 @@ __copyright__ = 'Copyright 2021, Patricia Moll'
 
 import unittest
 
-from PyQt5.QtGui import QIcon
+from qgis.PyQt.QtGui import QIcon
 
 
 class SwissGeoDownloaderResourcesTest(unittest.TestCase):
