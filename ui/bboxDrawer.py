@@ -63,7 +63,7 @@ class BboxPainter:
             
             # Row number as annotation
             html = ('<div style="font-size: 20px; color: rgb(0,102,255); '
-                    'text-align: center; background-color: rgba(255,255,255)">'
+                    'text-align: center; background-color: rgb(255,255,255)">'
                     '<strong>' + str(idx+1) + '</strong></div>')
             a = QgsTextAnnotation()
             c = QTextDocument()
