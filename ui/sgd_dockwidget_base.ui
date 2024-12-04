@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="allowedAreas">
-   <set>Qt::DockWidgetArea::LeftDockWidgetArea|Qt::DockWidgetArea::RightDockWidgetArea</set>
+   <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
   </property>
   <property name="windowTitle">
    <string>Swiss Geo Downloader</string>
@@ -35,8 +35,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/switzerland.png</normaloff>:/plugins/swissgeodownloader/resources/switzerland.png</iconset>
+         <iconset>
+          <normaloff>../resources/switzerland.png</normaloff>../resources/switzerland.png</iconset>
         </property>
         <property name="flat">
          <bool>false</bool>
@@ -52,15 +52,15 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/refresh.png</normaloff>:/plugins/swissgeodownloader/resources/refresh.png</iconset>
+         <iconset>
+          <normaloff>../resources/refresh.png</normaloff>../resources/refresh.png</iconset>
         </property>
        </widget>
       </item>
       <item>
        <spacer name="horizontalSpacer_4">
         <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -79,8 +79,8 @@
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/die-info.png</normaloff>:/plugins/swissgeodownloader/resources/die-info.png</iconset>
+         <iconset>
+          <normaloff>../resources/die-info.png</normaloff>../resources/die-info.png</iconset>
         </property>
         <property name="flat">
          <bool>false</bool>
@@ -116,7 +116,7 @@
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
-         <enum>Qt::Orientation::Horizontal</enum>
+         <enum>Qt::Horizontal</enum>
         </property>
         <property name="sizeHint" stdset="0">
          <size>
@@ -135,8 +135,8 @@
          <string>Download</string>
         </property>
         <property name="icon">
-         <iconset resource="../resources/resources.qrc">
-          <normaloff>:/plugins/swissgeodownloader/resources/icon.png</normaloff>:/plugins/swissgeodownloader/resources/icon.png</iconset>
+         <iconset>
+          <normaloff>../resources/icon.png</normaloff>../resources/icon.png</iconset>
         </property>
        </widget>
       </item>
@@ -157,16 +157,16 @@
        </size>
       </property>
       <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarPolicy::ScrollBarAsNeeded</enum>
+       <enum>Qt::ScrollBarAsNeeded</enum>
       </property>
       <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContentsOnFirstShow</enum>
+       <enum>QAbstractScrollArea::AdjustToContentsOnFirstShow</enum>
       </property>
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
       <property name="alignment">
-       <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignVCenter</set>
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
       </property>
       <widget class="QWidget" name="scrollAreaWidgetContents">
        <property name="geometry">
@@ -174,7 +174,7 @@
          <x>0</x>
          <y>0</y>
          <width>493</width>
-         <height>564</height>
+         <height>562</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -228,7 +228,7 @@
                <item>
                 <spacer name="horizontalSpacer_2">
                  <property name="orientation">
-                  <enum>Qt::Orientation::Horizontal</enum>
+                  <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -242,7 +242,7 @@
              </item>
              <item>
               <widget class="QgsExtentGroupBox" name="guiExtentWidget">
-               <property name="titleBase">
+               <property name="titleBase" stdset="0">
                 <string/>
                </property>
               </widget>
@@ -267,8 +267,8 @@
                   <string>Request file list</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../resources/resources.qrc">
-                   <normaloff>:/plugins/swissgeodownloader/resources/sort-down.png</normaloff>:/plugins/swissgeodownloader/resources/sort-down.png</iconset>
+                  <iconset>
+                   <normaloff>../resources/sort-down.png</normaloff>../resources/sort-down.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -278,15 +278,15 @@
                   <string>Cancel request</string>
                  </property>
                  <property name="icon">
-                  <iconset resource="../resources/resources.qrc">
-                   <normaloff>:/plugins/swissgeodownloader/resources/cancel.png</normaloff>:/plugins/swissgeodownloader/resources/cancel.png</iconset>
+                  <iconset>
+                   <normaloff>../resources/cancel.png</normaloff>../resources/cancel.png</iconset>
                  </property>
                 </widget>
                </item>
                <item>
                 <spacer name="horizontalSpacer_3">
                  <property name="orientation">
-                  <enum>Qt::Orientation::Horizontal</enum>
+                  <enum>Qt::Horizontal</enum>
                  </property>
                  <property name="sizeHint" stdset="0">
                   <size>
@@ -381,7 +381,7 @@
           <item>
            <spacer name="verticalSpacer">
             <property name="orientation">
-             <enum>Qt::Orientation::Vertical</enum>
+             <enum>Qt::Vertical</enum>
             </property>
             <property name="sizeHint" stdset="0">
              <size>
@@ -433,8 +433,6 @@
   <tabstop>guiCoordsys</tabstop>
   <tabstop>guiDownloadBtn</tabstop>
  </tabstops>
- <resources>
-  <include location="../resources/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

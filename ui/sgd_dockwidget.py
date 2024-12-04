@@ -21,13 +21,13 @@
 """
 
 import os
+from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSignal
 from qgis.PyQt.QtWidgets import (QDockWidget, QFileDialog, QMessageBox)
 from qgis.gui import QgsExtentGroupBox, QgisInterface
 from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
                        QgsProject, QgsRectangle, QgsApplication,
                        QgsMessageLog, Qgis)
-from .sgd_dockwidget_base import Ui_sgdDockWidgetBase
 from .waitingSpinnerWidget import QtWaitingSpinner
 from .ui_utilities import filesizeFormatter, MESSAGE_CATEGORY
 from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox,
@@ -39,9 +39,13 @@ from ..api.responseObjects import Dataset, ALL_VALUE, CURRENT_VALUE
 from ..api.datageoadmin import ApiDataGeoAdmin, API_EPSG
 from ..api.apiCallerTask import ApiCallerTask
 
+UI_FILE = os.path.join(os.path.dirname(__file__), 'sgd_dockwidget_base.ui')
+FORM_CLASS, _ = uic.loadUiType(UI_FILE)
+
 VERSION = Qgis.QGIS_VERSION_INT
 
-class SwissGeoDownloaderDockWidget(QDockWidget, Ui_sgdDockWidgetBase):
+
+class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
 
     closingPlugin = pyqtSignal()
 
