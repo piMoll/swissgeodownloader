@@ -25,12 +25,12 @@ from .responseObjects import (Dataset, File, CURRENT_VALUE)
 from .geocat import ApiGeoCat
 from ..utils.filterUtils import currentFileByBbox, cleanupFilterItems
 
-BASEURL = 'https://data.geo.admin.ch/api/stac/v0.9/collections'
+BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
 API_EPSG = 'EPSG:4326'
 OPTION_MAPPER = {
     'filetype': 'type',
     'format': 'geoadmin:variant',
-    'resolution': 'eo:gsd',
+    'resolution': 'gsd',
     'timestamp': 'datetime',
     'coordsys': 'proj:epsg',
 }
@@ -226,7 +226,7 @@ class ApiDataGeoAdmin(ApiInterface):
             # Readout timestamp from the item itself
             try:
                 timestamp = item['properties'][OPTION_MAPPER['timestamp']]
-            except NameError:
+            except KeyError:
                 # Extract the mandatory timestamp 'created' instead
                 timestamp = item['properties']['created']
             
