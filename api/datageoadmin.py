@@ -90,33 +90,36 @@ class ApiDataGeoAdmin(ApiInterface):
                                        if link['rel'] == 'describedby'][0]
             except (KeyError, IndexError):
                 task.log(f"No metadata link available for '{dataset.title}'", debugMsg=True)
-            # Add metadata in correct language from geoadmin API
+            
+            # Add metadata in the correct language from geocat API
             if dataset.id in md_geoadmin:
-                if md_geoadmin[dataset.id]['title']:
-                    dataset.title = md_geoadmin[dataset.id]['title']
-                if md_geoadmin[dataset.id]['description']:
-                    dataset.description = md_geoadmin[dataset.id]['description']
-            else:
+                # Get the pre-saved metadata from the json file
+                dataset.title = md_geoadmin[dataset.id].get('title', None)
+                dataset.description = md_geoadmin[dataset.id].get(
+                    'description', None)
+            if not dataset.title:
                 # Get metadata from geocat.ch: This will save the metadata to
                 #  a file so it does not have to be requested every time
                 metadata = self.geocatApi.getMeta(task, dataset.id,
-                                                    dataset.metadataLink,
-                                                    self.locale)
-                if metadata['title']:
-                    dataset.title = metadata['title']
-                if metadata['description']:
-                    dataset.description = metadata['description']
-
-                if refreshMetadata:
-                    # Request metadata in all languages. This is only used
-                    #  when we want to refresh the geocat metadata file.
-                    md_geocat[dataset.id] = self.geocatApi.refreshPresavedMetadata(
-                        task, dataset.id, dataset.metadataLink)
+                                                  dataset.metadataLink,
+                                                  self.locale)
+                if metadata:
+                    dataset.title = metadata.get('title', None)
+                    dataset.description = metadata.get('description', None)
+                    # Save metadata to file so we don't have to call the API again
+                    self.geocatApi.updatePreSavedMetadata(metadata, dataset.id,
+                                                          self.locale)
+            
+            if refreshMetadata:
+                # Request metadata in all languages. This is only used
+                #  when we want to refresh the local geocat metadata file.
+                md_geocat[dataset.id] = self.geocatApi.getMetadataInAllLocales(
+                    task, dataset.id, dataset.metadataLink)
 
             datasetList[dataset.id] = dataset
 
         if refreshMetadata:
-            self.geocatApi.updatePresavedMetadata(md_geocat)
+            self.geocatApi.updatePreSavedMetadata(md_geocat)
         
         return datasetList
     
