@@ -69,7 +69,7 @@ def getDateFromIsoString(isoString, formatted=True):
         isoString = isoString[:-1]
     dt = datetime.fromisoformat(isoString)
     if formatted:
-        return dt.strftime('%d.%m.%Y')
+        return dt.strftime('%Y-%m-%d')
     else:
         return dt
 
