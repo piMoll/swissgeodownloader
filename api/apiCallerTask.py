@@ -18,13 +18,13 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.core import QgsTask, QgsMessageLog, Qgis
+from qgis.core import Qgis, QgsMessageLog, QgsTask
+
+from .. import DEBUG
 from ..ui.ui_utilities import MESSAGE_CATEGORY
 
 
 class ApiCallerTask(QgsTask):
-    
-    DEBUG = False
     
     def __init__(self, apiRef, msgBar, func, callParams):
         description = func
@@ -42,18 +42,20 @@ class ApiCallerTask(QgsTask):
          handle them internally and raise them in self.finished()"""
         
         # Uncomment for debugging
-        # try:
-        #     # Add pydevd to path
-        #     self.DEBUG = True
-        #     import sys
-        #     sys.path.insert(0, '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
-        #     import pydevd_pycharm
-        #     pydevd_pycharm.settrace('localhost', port=53100,
-        #                             stdoutToServer=True, stderrToServer=True)
-        # except ConnectionRefusedError:
-        #     pass
-        # except ImportError:
-        #     pass
+        if DEBUG:
+            try:
+                # Add pydevd to path
+                import sys
+                sys.path.insert(0,
+                                '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
+                import pydevd_pycharm
+                pydevd_pycharm.settrace('localhost', port=53100, suspend=False,
+                                        stdoutToServer=True,
+                                        stderrToServer=True)
+            except ConnectionRefusedError:
+                pass
+            except ImportError:
+                pass
 
         if self.func == 'getDatasetList':
             self.output = self.apiRef.getDatasetList(self)
@@ -87,7 +89,7 @@ class ApiCallerTask(QgsTask):
             self.log(msg, Qgis.MessageLevel.Success)
         else:
             if self.isCanceled():
-                self.log(self.tr('Aborted by user'), Qgis.MessageLevel.Info)
+                self.log(self.tr('Aborted by user'))
             elif self.exception is None:
                 self.exception = self.tr('An unknown error occurred')
                 self.log(self.exception, Qgis.MessageLevel.Critical)
@@ -98,10 +100,9 @@ class ApiCallerTask(QgsTask):
 
     def log(self, msg, level=Qgis.MessageLevel.Info, debugMsg=False):
         if debugMsg:
-            if not self.DEBUG:
+            if not DEBUG:
                 return
-            else:
-                level = Qgis.MessageLevel.NoLevel
+            msg = f'DEBUG {msg}'
         QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
     
     def message(self, msg, level=Qgis.MessageLevel.Info):

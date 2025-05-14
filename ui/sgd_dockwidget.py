@@ -549,7 +549,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     
     def populateFileList(self, orderedFileList):
         # There are files but all of them are currently filtered out
-        if (self.fileList and not orderedFileList):
+        if self.fileList and not orderedFileList:
             self.fileListTbl.onEmptyList(self.tr('Currently selected filters '
                                                  'do not match any files'))
         else:

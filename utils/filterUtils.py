@@ -41,8 +41,8 @@ def cleanupFilterItems(filterItems):
 
 def currentFileByBbox(fileList):
     """ Searches for the most current file for each bbox and property
-    combination. Creates a dictionary for each unqique bbox that contains
-    the most current file for each propery combination.
+    combination. Creates a dictionary for each unique bbox that contains
+    the most current file for each property combination.
     Example:
     '5.22|47.45|6.13|48.33' : {
         '.tif|0.5': file,

@@ -18,12 +18,13 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.core import Qgis, QgsTask
+from qgis.core import Qgis
 
+from .apiCallerTask import ApiCallerTask
 from .apiInterface import ApiInterface
-from .responseObjects import (Dataset, File, CURRENT_VALUE)
 from .geocat import ApiGeoCat
-from ..utils.filterUtils import currentFileByBbox, cleanupFilterItems
+from .responseObjects import (CURRENT_VALUE, Dataset, File)
+from ..utils.filterUtils import cleanupFilterItems, currentFileByBbox
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
 API_EPSG = 'EPSG:4326'
@@ -44,8 +45,8 @@ class ApiDataGeoAdmin(ApiInterface):
         super().__init__(parent, locale)
         self.name = 'Swisstopo API'
         self.geocatApi = ApiGeoCat(parent, locale, 'geoadmin')
-
-    def getDatasetList(self, task: QgsTask, refreshMetadata=False):
+    
+    def getDatasetList(self, task: ApiCallerTask, refreshMetadata=False):
         """Get a list of all available datasets and read out title,
         description and other properties."""
         # Request dataset list
@@ -118,8 +119,8 @@ class ApiDataGeoAdmin(ApiInterface):
             self.geocatApi.updatePresavedMetadata(md_geocat)
         
         return datasetList
-
-    def getMetadata(self, task: QgsTask):
+    
+    def getMetadata(self, task: ApiCallerTask):
         """ Calls geoadmin API and retrieves translated titles and
         descriptions."""
         metadata = {}
@@ -148,8 +149,8 @@ class ApiDataGeoAdmin(ApiInterface):
                 'description': description
             }
         return metadata
-
-    def getDatasetDetails(self, task: QgsTask, dataset):
+    
+    def getDatasetDetails(self, task: ApiCallerTask, dataset):
         """Analyse dataset to figure out available options in gui"""
         url = dataset.filesLink
         # Get max. 40 features
@@ -197,10 +198,10 @@ class ApiDataGeoAdmin(ApiInterface):
         dataset.isEmpty = fileCount == 0
         dataset.avgSize = estimate
         return dataset
-
-    def getFileList(self, task: QgsTask, url, bbox):
+    
+    def getFileList(self, task: ApiCallerTask, url, bbox):
         """Request a list of available files that are within a bounding box.
-        Analyse the receieved list and extract file properties."""
+        Analyse the received list and extract file properties."""
         params = {}
         if bbox:
             params['bbox'] = ','.join([str(ext) for ext in bbox])
@@ -294,8 +295,8 @@ class ApiDataGeoAdmin(ApiInterface):
                 filterItems['timestamp'].insert(0, CURRENT_VALUE)
         
         return {'files': fileList, 'filters': filterItems}
-
-    def fetchAll(self, task: QgsTask, url, responsePropName, params=None,
+    
+    def fetchAll(self, task: ApiCallerTask, url, responsePropName, params=None,
                  header=None, method='get'):
         responseList = []
     

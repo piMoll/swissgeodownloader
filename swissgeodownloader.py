@@ -58,7 +58,7 @@ class SwissGeoDownloader:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
         icon = QIcon(str(os.path.join(PLUGIN_DIR, 'resources', 'icon.png')))
-        self.action = QAction(icon, u'Swiss Geo Downloader', self.iface.mainWindow())
+        self.action = QAction(icon, 'Swiss Geo Downloader', self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.action.setEnabled(True)
         self.action.setStatusTip(self.tr('Swiss Geo Downloader allows you to download '
@@ -68,7 +68,7 @@ class SwissGeoDownloader:
                                          'download swiss geodata.'))
         # Adds plugin icon to Plugins toolbar
         self.iface.addToolBarIcon(self.action)
-        self.iface.addPluginToMenu(u'Swiss Geo Downloader', self.action)
+        self.iface.addPluginToMenu('Swiss Geo Downloader', self.action)
 
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
@@ -80,7 +80,7 @@ class SwissGeoDownloader:
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
-        self.iface.removePluginWebMenu(u'&Swiss Geo Downloader', self.action)
+        self.iface.removePluginWebMenu('Swiss Geo Downloader', self.action)
         self.iface.removeToolBarIcon(self.action)
 
     def run(self):

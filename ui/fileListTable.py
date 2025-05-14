@@ -23,6 +23,7 @@ from qgis.PyQt.QtWidgets import (QHeaderView, QTableView, QAbstractItemView,
 from qgis.PyQt.QtCore import QObject, Qt, pyqtSignal
 from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel, QFont
 
+
 class FileListTable(QObject):
     
     sig_selectionChanged = pyqtSignal(str, bool)

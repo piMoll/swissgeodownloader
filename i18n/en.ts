@@ -287,7 +287,7 @@ Switch map to Swiss LV95?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="230"/>
         <source>Timestamp</source>
-        <translation>Time status</translation>
+        <translation>Timestamp</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="223"/>

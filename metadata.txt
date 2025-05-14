@@ -2,7 +2,7 @@
 
 [general]
 name=Swiss Geo Downloader
-qgisMinimumVersion=3.16
+qgisMinimumVersion=3.22
 qgisMaximumVersion=
 description=Download swiss geodata comfortably inside QGIS
 version=2.0.1

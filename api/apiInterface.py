@@ -22,12 +22,15 @@ import json
 import os
 
 import requests
-from qgis.PyQt.QtCore import QUrl, QUrlQuery, QEventLoop, QCoreApplication
-from qgis.PyQt.QtNetwork import QNetworkRequest, QNetworkReply
-from qgis.core import QgsTask, QgsBlockingNetworkRequest, QgsFileDownloader
+from qgis.PyQt.QtCore import QCoreApplication, QEventLoop, QUrl, QUrlQuery
+from qgis.PyQt.QtNetwork import QNetworkReply, QNetworkRequest
+from qgis.core import QgsBlockingNetworkRequest, QgsFileDownloader
+
+from .apiCallerTask import ApiCallerTask
 
 # Translate context for super class
 tr = 'ApiInterface'
+
 
 class ApiInterface:
     def __init__(self, parent, locale='en'):
@@ -35,8 +38,8 @@ class ApiInterface:
         self.locale = locale
         self.name = 'Api'
     
-    def fetch(self, task: QgsTask, url, params=None, header=None, method='get',
-              decoder='json'):
+    def fetch(self, task: ApiCallerTask, url, params=None, header=None,
+              method='get', decoder='json'):
         request = QNetworkRequest()
         # Prepare url
         callUrl = QUrl(url)
@@ -88,18 +91,17 @@ class ApiInterface:
                         return json.loads(content)
                     else:
                         return False
-                
                 except json.JSONDecodeError as e:
                     task.exception = str(e)
                     return False
-            elif decoder == 'string':
+            else:  # decoder string
                 return str(r.content(), 'utf-8')
         elif method == 'head':
             return r
         else:
             return False
     
-    def fetchHeadLegacy(self, task: QgsTask, url):
+    def fetchHeadLegacy(self, task: ApiCallerTask, url):
         try:
             return requests.head(url)
         except requests.exceptions.HTTPError \
@@ -108,7 +110,8 @@ class ApiInterface:
                                'information: {}', tr).format(e)
             return False
     
-    def fetchFile(self, task: QgsTask, url, filename, filePath, part, params=None):
+    def fetchFile(self, task: ApiCallerTask, url, filename, filePath, part,
+                  params=None):
         # Prepare url
         callUrl = QUrl(url)
         if params:
@@ -143,7 +146,7 @@ class ApiInterface:
         eventLoop.exec(QEventLoop.ProcessEventsFlag.ExcludeUserInputEvents)
         fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
     
-    def downloadFiles(self, task: QgsTask, fileList, outputDir):
+    def downloadFiles(self, task: ApiCallerTask, fileList, outputDir):
         task.setProgress(0)
         partProgress = 100 / len(fileList)
         
