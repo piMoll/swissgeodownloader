@@ -20,11 +20,12 @@
  ***************************************************************************/
 """
 import os
-from qgis.PyQt.QtCore import (QSettings, QTranslator, QCoreApplication, Qt)
+
+from qgis.PyQt.QtCore import (QCoreApplication, QSettings, QTranslator, Qt)
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
-from . import PLUGIN_DIR
 
+from . import PLUGIN_DIR
 # Import the code for the DockWidget
 from .ui.sgd_dockwidget import SwissGeoDownloaderDockWidget
 
@@ -72,14 +73,16 @@ class SwissGeoDownloader:
 
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
-        self.dockwidget.cleanCanvas()
-        # disconnect
-        self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
+        if self.dockwidget:
+            self.dockwidget.cleanCanvas()
+            # disconnect
+            self.dockwidget.closingPlugin.disconnect(self.onClosePlugin)
         self.dockwidget = None
         self.pluginIsActive = False
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
+        self.onClosePlugin()
         self.iface.removePluginWebMenu('Swiss Geo Downloader', self.action)
         self.iface.removeToolBarIcon(self.action)
 
