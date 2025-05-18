@@ -57,7 +57,7 @@ class File:
         self.path = None
         
         self.filetype = None
-        self.format = None
+        self.category = None
         self.resolution = None
         self.timestamp = None
         self.timestampStr = ''
@@ -74,7 +74,7 @@ class File:
 
     @property
     def propKey(self):
-        propList = [self.filetype, self.format, self.resolution]
+        propList = [self.filetype, self.category, self.resolution]
         return '|'.join([elem for elem in propList if elem is not None])
     
     @property
@@ -110,10 +110,10 @@ class File:
                 or (self.filetype is None)
                 or (filterValue == ALL_VALUE))
     
-    def formatFitsFilter(self, filterValue):
+    def categoryFitsFilter(self, filterValue):
         return (not filterValue
-                or (filterValue and self.format == filterValue)
-                or (self.format is None)
+                or (filterValue and self.category == filterValue)
+                or (self.category is None)
                 or (filterValue == ALL_VALUE))
     
     def resolutionFitsFilter(self, filterValue):

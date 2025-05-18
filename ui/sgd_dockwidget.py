@@ -75,7 +75,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.filesListStreamed = []
         self.currentFilters = {
             'filetype': None,
-            'format': None,
+            'category': None,
             'resolution': None,
             'timestamp': None,
             'coordsys': None,
@@ -127,7 +127,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         
         self.filterFields = {
             'filetype': self.guiFileType,
-            'format': self.guiFormat,
+            'category': self.guiCategory,
             'resolution': self.guiResolution,
             'timestamp': self.guiTimestamp,
             'coordsys': self.guiCoordsys,
@@ -135,7 +135,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         
         self.filterFieldLabels = {
             'filetype': self.guiFileTypeL,
-            'format': self.guiFormatL,
+            'category': self.guiCategoryL,
             'resolution': self.guiResolutionL,
             'timestamp': self.guiTimestampL,
             'coordsys': self.guiCoordsysL,
@@ -152,7 +152,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.guiDownloadBtn.setDisabled(True)
         
         self.guiFileType.currentIndexChanged.connect(self.onFilterChanged)
-        self.guiFormat.currentTextChanged.connect(self.onFilterChanged)
+        self.guiCategory.currentTextChanged.connect(self.onFilterChanged)
         self.guiResolution.currentIndexChanged.connect(self.onFilterChanged)
         self.guiTimestamp.currentIndexChanged.connect(self.onFilterChanged)
         self.guiCoordsys.currentIndexChanged.connect(self.onFilterChanged)
@@ -561,7 +561,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         for file in self.fileList:
             
             if (file.filetypeFitsFilter(self.currentFilters['filetype'])
-                and file.formatFitsFilter(self.currentFilters['format'])
+                    and file.categoryFitsFilter(
+                        self.currentFilters['category'])
                 and file.resolutionFitsFilter(self.currentFilters['resolution'])
                 and file.timestampFitsFilter(self.currentFilters['timestamp'])
                 and file.coordsysFitsFilter(self.currentFilters['coordsys'])

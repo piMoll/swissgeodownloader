@@ -32,7 +32,7 @@ BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
 API_EPSG = 'EPSG:4326'
 OPTION_MAPPER = {
     'filetype': 'type',
-    'format': 'geoadmin:variant',
+    'category': 'geoadmin:variant',
     'resolution': 'gsd',
     'timestamp': 'datetime',
     'coordsys': 'proj:epsg',
@@ -221,7 +221,7 @@ class ApiDataGeoAdmin(ApiInterface):
         
         filterItems = {
             'filetype': [],
-            'format': [],
+            'category': [],
             'resolution': [],
             'timestamp': [],
             'coordsys': [],
@@ -265,10 +265,10 @@ class ApiDataGeoAdmin(ApiInterface):
                     if completeFiletype == 'image/tiff; application=geotiff; profile=cloud-optimized':
                         fileWithMultipleTypes.append(FILETYPE_COG)
                     filterItems['filetype'].extend(fileWithMultipleTypes)
-                    
-                if OPTION_MAPPER['format'] in asset:
-                    file.format = str(asset[OPTION_MAPPER['format']])
-                    filterItems['format'].append(file.format)
+                
+                if OPTION_MAPPER['category'] in asset:
+                    file.category = str(asset[OPTION_MAPPER['category']])
+                    filterItems['category'].append(file.category)
                     
                 if OPTION_MAPPER['resolution'] in asset:
                     file.resolution = str(asset[OPTION_MAPPER['resolution']])

@@ -315,9 +315,9 @@
                 </widget>
                </item>
                <item row="1" column="0">
-                <widget class="QLabel" name="guiFormatL">
+                <widget class="QLabel" name="guiCategoryL">
                  <property name="text">
-                  <string>Format</string>
+                  <string>Category</string>
                  </property>
                 </widget>
                </item>
@@ -329,9 +329,9 @@
                 </widget>
                </item>
                <item row="1" column="1">
-                <widget class="QComboBox" name="guiFormat">
+                <widget class="QComboBox" name="guiCategory">
                  <property name="toolTip">
-                  <string>Select format</string>
+                  <string>Select category</string>
                  </property>
                 </widget>
                </item>
@@ -427,7 +427,7 @@
   <tabstop>guiRequestListBtn</tabstop>
   <tabstop>guiRequestCancelBtn</tabstop>
   <tabstop>guiFileType</tabstop>
-  <tabstop>guiFormat</tabstop>
+  <tabstop>guiCategory</tabstop>
   <tabstop>guiResolution</tabstop>
   <tabstop>guiTimestamp</tabstop>
   <tabstop>guiCoordsys</tabstop>

@@ -292,8 +292,8 @@ Changer la projection en LV95?</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="320"/>
-        <source>Format</source>
-        <translation>Format</translation>
+        <source>Category</source>
+        <translation>Catégorie</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="327"/>
@@ -322,8 +322,8 @@ Changer la projection en LV95?</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="334"/>
-        <source>Select format</source>
-        <translation>Sélectionner le format / type de données</translation>
+        <source>Select category</source>
+        <translation>Sélectionner la catégorie ou le format</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="313"/>

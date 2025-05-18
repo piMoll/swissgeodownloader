@@ -290,8 +290,8 @@ Karte im Schweizer System LV95 anzeigen?</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="320"/>
-        <source>Format</source>
-        <translation>Format</translation>
+        <source>Category</source>
+        <translation>Kategorie</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="327"/>
@@ -320,8 +320,8 @@ Karte im Schweizer System LV95 anzeigen?</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="334"/>
-        <source>Select format</source>
-        <translation>Auswahl Format / Dateityp</translation>
+        <source>Select category</source>
+        <translation>Auswahl Kategorie oder Format</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="313"/>

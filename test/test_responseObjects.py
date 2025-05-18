@@ -41,7 +41,7 @@ class TestFileObject(unittest.TestCase):
         file_obj = File(name="test_file", assetType="image",
                         href="http://example.com")
         file_obj.filetype = "image"
-        file_obj.format = "jpeg"
+        file_obj.category = "jpeg"
         file_obj.resolution = "2.0"
         self.assertEqual(file_obj.propKey, 'image|jpeg|2.0')
     
@@ -74,17 +74,17 @@ class TestFileObject(unittest.TestCase):
         self.assertTrue(file_obj.filetypeFitsFilter(""))
         self.assertFalse(file_obj.filetypeFitsFilter("video"))
     
-    def test_format_fits_filter(self):
+    def test_category_fits_filter(self):
         file_obj = File(name="test_file", assetType="image",
                         href="http://example.com")
         # If property is None, it should always pass the filter
-        self.assertTrue(file_obj.formatFitsFilter(None))
-        self.assertTrue(file_obj.formatFitsFilter("abc"))
-        file_obj.format = "jpeg"
-        self.assertTrue(file_obj.formatFitsFilter(None))
-        self.assertTrue(file_obj.formatFitsFilter("jpeg"))
-        self.assertTrue(file_obj.formatFitsFilter(""))
-        self.assertFalse(file_obj.formatFitsFilter("png"))
+        self.assertTrue(file_obj.categoryFitsFilter(None))
+        self.assertTrue(file_obj.categoryFitsFilter("abc"))
+        file_obj.category = "jpeg"
+        self.assertTrue(file_obj.categoryFitsFilter(None))
+        self.assertTrue(file_obj.categoryFitsFilter("jpeg"))
+        self.assertTrue(file_obj.categoryFitsFilter(""))
+        self.assertFalse(file_obj.categoryFitsFilter("png"))
     
     def test_has_similar_bbox(self):
         file_obj = File(name="test_file", assetType="image",

@@ -292,8 +292,8 @@ Switch map to Swiss LV95?</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="320"/>
-        <source>Format</source>
-        <translation>Format</translation>
+        <source>Category</source>
+        <translation>Category</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="327"/>
@@ -322,8 +322,8 @@ Switch map to Swiss LV95?</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="334"/>
-        <source>Select format</source>
-        <translation>Select format / data type</translation>
+        <source>Select category</source>
+        <translation>Select category or format</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.ui" line="313"/>
