@@ -33,13 +33,15 @@ from qgis.gui import QgisInterface, QgsExtentGroupBox
 from .bboxDrawer import BboxPainter
 from .datsetListTable import DatasetListTable
 from .fileListTable import FileListTable
-from .qgis_utilities import (RECOMMENDED_CRS, addOverviewMap, addToQgis,
+from .qgis_utilities import (RECOMMENDED_CRS, addLayersToQgis, addOverviewMap,
                              switchToCrs, transformBbox)
 from .ui_utilities import MESSAGE_CATEGORY, filesizeFormatter
 from .waitingSpinnerWidget import QtWaitingSpinner
 from ..api.apiCallerTask import ApiCallerTask
 from ..api.datageoadmin import API_EPSG, ApiDataGeoAdmin
-from ..api.responseObjects import ALL_VALUE, CURRENT_VALUE, Dataset
+from ..api.responseObjects import ALL_VALUE, CURRENT_VALUE, Dataset, \
+    STREAMED_SOURCE_PREFIX
+from ..utils.qgisLayerCreatorTask import QgisLayerCreatorTask
 
 UI_FILE = os.path.join(os.path.dirname(__file__), 'sgd_dockwidget_base.ui')
 FORM_CLASS, _ = uic.loadUiType(UI_FILE)
@@ -637,15 +639,16 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         hasOnlyStreamedFilesSelected = True
         for file in self.fileListFiltered.values():
             if file.selected and file.isStreamable:
-                file.path = '/vsicurl/' + file.href
+                file.path = STREAMED_SOURCE_PREFIX + file.href
                 self.filesListStreamed.append(file)
             else:
                 hasOnlyStreamedFilesSelected = False
         
+        # If there is no need for a download folder, the selected files
+        #  are added directly as streamed layers to qgis
         if hasOnlyStreamedFilesSelected:
-            # If there is no need for a download folder, the selected files
-            #  are added directly as streamed layers to qgis
-            # TODO: Await loading, then add a success to the message bar or plugin
+            # Start spinner to indicate data loading
+            self.spinnerFl.start()
             self.addFilesToQgis()
         
         else:
@@ -672,9 +675,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
                 if not confirmed:
                     self.filesListDownload = []
                     return
+            # Start spinner to indicate data loading
+            self.spinnerFl.start()
             self.startDownload()
     
-    def selectDownloadFolder(self):
+    def selectDownloadFolder(self) -> str or False:
         # Let user choose output directory
         if self.outputPath:
             openDir = self.outputPath
@@ -697,8 +702,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             lambda: self.onFinishDownload(caller.output))
         caller.taskTerminated.connect(
             lambda: self.onFinishDownload(False))
-        # Start spinner to indicate data loading
-        self.spinnerFl.start()
         # Add task to task manager
         QgsApplication.taskManager().addTask(caller)
     
@@ -710,14 +713,28 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.MessageLevel.Success)
-        self.spinnerFl.stop()
         self.addFilesToQgis()
     
     def addFilesToQgis(self):
-        # Add files (streamed and downloaded) as layers to qgis
+        # Create layer from files (streamed and downloaded) so they can be
+        # added to qgis
         filesToAdd = self.filesListDownload + self.filesListStreamed
-        addToQgis(filesToAdd)
+        task = QgisLayerCreatorTask('Daten zu QGIS hinzufügen...', filesToAdd)
+        task.taskCompleted.connect(
+            lambda: self.onAddFilesToQgisFinished(task.layerList))
+        task.taskTerminated.connect(self.onAddFilesToQgisFinished)
+        QgsApplication.taskManager().addTask(task)
+    
+    def onAddFilesToQgisFinished(self, layers=None, exception=None):
+        self.spinnerFl.stop()
         self.guiDownloadBtn.setDisabled(False)
+        
+        if exception:
+            self.msgBar.pushMessage(
+                f"{MESSAGE_CATEGORY}: {self.tr('Not possible to add layers to QGIS')}: {exception}",
+                Qgis.MessageLevel.Warning)
+        if layers:
+            addLayersToQgis(layers)
     
     def cleanCanvas(self):
         if self.bboxPainter:

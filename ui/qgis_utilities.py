@@ -19,18 +19,17 @@
  ***************************************************************************/
 """
 
-import os
-
 from qgis.PyQt.QtCore import QCoreApplication
-from qgis.core import (QgsRasterLayer, QgsVectorLayer, Qgis,
-                       QgsRectangle, QgsPoint, QgsCoordinateTransform,
-                       QgsCoordinateReferenceSystem)
+from qgis.core import (Qgis, QgsCoordinateReferenceSystem,
+                       QgsCoordinateTransform, QgsPoint, QgsProject,
+                       QgsRasterLayer, QgsRectangle)
 from qgis.gui import QgsMapCanvas
 
 SWISSTOPO_WMS_URL = 'http://wms.geo.admin.ch/'
 OVERVIEW_MAP = 'ch.swisstopo.pixelkarte-grau'
 SWISS_CRS = 'EPSG:2056'
 RECOMMENDED_CRS = ['EPSG:2056', 'EPSG:21781']
+
 
 def tr(message, **kwargs):
     """Get the translation for a string using Qt translation API.
@@ -57,39 +56,10 @@ def transformBbox(rectangle: QgsRectangle, transformer: QgsCoordinateTransform):
             urPoint.y()]
 
 
-def addToQgis(qgsProject, fileList):
-    # # Create new layer group in table of content
-    # root = QgsProject.instance().layerTreeRoot()
-    # projGroup = root.insertGroup(0, projName)
-
-    already_added = [lyr.source() for lyr in qgsProject.mapLayers().values()]
-
-    for file in fileList:
-        # Adding the file to QGIS if it's (1) a streamed file or (2) is
-        #  present in the file system and (3) is not a .zip
-        if (file.path.startswith('/vsicurl/') or os.path.exists(
-                file.path)) and not '.zip' in file.id:
-            if file.path in already_added:
-                continue
-            try:
-                rasterLyr = QgsRasterLayer(file.path, file.id)
-                if rasterLyr.isValid():
-                    qgsProject.addMapLayer(rasterLyr)
-                    continue
-                else:
-                    del rasterLyr
-            except Exception:
-                pass
-            try:
-                vectorLyr = QgsVectorLayer(file.path, file.id, "ogr")
-                if vectorLyr.isValid():
-                    qgsProject.addMapLayer(vectorLyr)
-                    continue
-                else:
-                    del vectorLyr
-            except Exception:
-                pass
-
+def addLayersToQgis(layers):
+    qgsProject = QgsProject.instance()
+    for layer in layers:
+        qgsProject.addMapLayer(layer)
 
 
 def switchToCrs(canvas: QgsMapCanvas, crs=SWISS_CRS):

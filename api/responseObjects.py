@@ -24,6 +24,7 @@ ALL_VALUE = 'all'
 CURRENT_VALUE = 'current'
 P_SIMILAR = 0.20    # max 20% difference
 FILETYPE_COG = 'streamed tiff (COG)'
+STREAMED_SOURCE_PREFIX = '/vsicurl/'
 
 
 class Dataset:
