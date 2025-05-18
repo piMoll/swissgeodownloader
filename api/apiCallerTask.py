@@ -41,7 +41,6 @@ class ApiCallerTask(QgsTask):
          return True or False. Raising exceptions will crash QGIS, so we
          handle them internally and raise them in self.finished()"""
         
-        # Uncomment for debugging
         if DEBUG:
             try:
                 # Add pydevd to path

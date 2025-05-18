@@ -37,7 +37,7 @@ OPTION_MAPPER = {
     'timestamp': 'datetime',
     'coordsys': 'proj:epsg',
 }
-API_OPTION_MAPPER = {y:x for x,y in OPTION_MAPPER.items()}
+API_OPTION_MAPPER = {y: x for x, y in OPTION_MAPPER.items()}
 API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
 
 
@@ -172,7 +172,7 @@ class ApiDataGeoAdmin(ApiInterface):
         fileCount = len(items['features'])
         
         # Check if it makes sense to select by bbox or if the full file list
-        #  should just be downlaoded directly
+        #  should just be downloaded directly
         if fileCount <= 10:
             dataset.selectByBBox = False
         

@@ -62,9 +62,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.iface = interface
         self.locale = locale
         self.canvas = self.iface.mapCanvas()
-        self.qgsProject = QgsProject.instance()
-        self.taskManager = QgsApplication.taskManager()
-        self.annManager = self.qgsProject.annotationManager()
+        self.annManager = QgsProject.instance().annotationManager()
 
         # Initialize variables
         self.datasetList = {}
@@ -89,9 +87,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.mapRefSys = self.canvas.mapSettings().destinationCrs()
         self.apiRefSys = QgsCoordinateReferenceSystem(API_EPSG)
         self.transformProj2Api = QgsCoordinateTransform(
-            self.mapRefSys, self.apiRefSys, self.qgsProject)
+            self.mapRefSys, self.apiRefSys, QgsProject.instance())
         self.transformApi2Proj = QgsCoordinateTransform(
-            self.apiRefSys, self.mapRefSys, self.qgsProject)
+            self.apiRefSys, self.mapRefSys, QgsProject.instance())
         
         # Init QgsExtentBoxGroup Widget
         self.guiExtentWidget: QgsExtentGroupBox
@@ -164,7 +162,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.guiDownloadBtn.clicked.connect(self.onDownloadFilesClicked)
         self.guiRequestCancelBtn.clicked.connect(self.onCancelRequestClicked)
         
-        self.qgsProject.crsChanged.connect(self.onMapRefSysChanged)
+        QgsProject.instance().crsChanged.connect(self.onMapRefSysChanged)
         self.canvas.extentsChanged.connect(self.onMapExtentChanged)
         self.iface.newProjectCreated.connect(self.resetFileList)
         self.canvas.scaleChanged.connect(self.setBboxVisibility)
@@ -192,7 +190,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             lambda: self.onReceiveDatasets(caller.output))
         caller.taskTerminated.connect(
             lambda: self.onReceiveDatasets([]))
-        self.taskManager.addTask(caller)
+        QgsApplication.taskManager().addTask(caller)
     
     def onMapRefSysChanged(self):
         """Listen for map canvas reference system changes and apply the new
@@ -200,9 +198,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.mapRefSys = self.canvas.mapSettings().destinationCrs()
         # Update transformations
         self.transformProj2Api = QgsCoordinateTransform(
-            self.mapRefSys, self.apiRefSys, self.qgsProject)
+            self.mapRefSys, self.apiRefSys, QgsProject.instance())
         self.transformApi2Proj = QgsCoordinateTransform(
-            self.apiRefSys, self.mapRefSys, self.qgsProject)
+            self.apiRefSys, self.mapRefSys, QgsProject.instance())
         # Update displayed extent
         mapExtent: QgsRectangle = self.canvas.extent()
         self.updateExtentValues(mapExtent, self.mapRefSys)
@@ -213,19 +211,16 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     def checkSupportedCrs(self):
         if self.mapRefSys.authid() not in RECOMMENDED_CRS:
             # If project is empty, we set the project crs automatically to LV95
-            if len(self.qgsProject.mapLayers()) == 0:
-                switchToCrs(self.qgsProject, self.canvas)
-                return True
+            if len(QgsProject.instance().mapLayers()) == 0:
+                switchToCrs(self.canvas)
+                return
     
             confirmed = self.showDialog('Swiss Geo Downloader',
                 self.tr('To download Swiss geo data it is recommended to use '
                         'the Swiss coordinate reference system.\n\nSwitch map '
                         'to Swiss LV95?'), 'YesNo')
             if confirmed:
-                switchToCrs(self.qgsProject, self.canvas)
-            else:
-                return
-        return True
+                switchToCrs(self.canvas)
     
     def onExtentChanged(self):
         """ Update output extent when the following cases occur:
@@ -240,8 +235,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             #  map coordinate system, transform the extent
             if self.guiExtentWidget.extentState() == 3 \
                     and extentCrs != self.mapRefSys and extentCrs.isValid():
-                transformer = QgsCoordinateTransform(extentCrs,
-                                self.mapRefSys, self.qgsProject)
+                transformer = QgsCoordinateTransform(
+                    extentCrs, self.mapRefSys, QgsProject.instance())
                 trafoRectangle = transformBbox(newExtent, transformer)
                 newExtent = QgsRectangle(*tuple(trafoRectangle))
             
@@ -266,8 +261,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     
     def onShowMapClicked(self):
         self.checkSupportedCrs()
-        message, level = addOverviewMap(self.qgsProject, self.canvas,
-                                        self.mapRefSys.authid())
+        message, level = addOverviewMap(self.canvas, self.mapRefSys.authid())
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {message}", level)
     
     def onRefreshDatasetsClicked(self):
@@ -314,7 +308,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
                 lambda: self.onLoadDatasetDetails(caller.output))
             caller.taskTerminated.connect(
                 lambda: self.onLoadDatasetDetails())
-            self.taskManager.addTask(caller)
+            QgsApplication.taskManager().addTask(caller)
         else:
             self.onLoadDatasetDetails()
     
@@ -467,7 +461,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         # Start spinner to indicate data loading
         self.spinnerFl.start()
         # Add task to task manager
-        self.taskManager.addTask(self.fileListRequest)
+        QgsApplication.taskManager().addTask(self.fileListRequest)
         self.guiRequestCancelBtn.setHidden(False)
 
     def onCancelRequestClicked(self):
@@ -592,7 +586,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     
     def resetFilter(self):
         """When the file list is empty, this function resets one filter
-        at the time to 'all' until file list is not empty anymore."""
+        at the time to 'all' until file list is not empty any more."""
         for filterName, uiElem in self.filterFields.items():
             if (uiElem.isEnabled() and uiElem.isVisible()
                     and uiElem.currentData() != ALL_VALUE):
@@ -706,7 +700,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         # Start spinner to indicate data loading
         self.spinnerFl.start()
         # Add task to task manager
-        self.taskManager.addTask(caller)
+        QgsApplication.taskManager().addTask(caller)
     
     def onFinishDownload(self, success):
         if success:

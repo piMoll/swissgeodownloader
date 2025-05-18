@@ -27,7 +27,6 @@ from qgis.core import (QgsRasterLayer, QgsVectorLayer, Qgis,
                        QgsCoordinateReferenceSystem)
 from qgis.gui import QgsMapCanvas
 
-
 SWISSTOPO_WMS_URL = 'http://wms.geo.admin.ch/'
 OVERVIEW_MAP = 'ch.swisstopo.pixelkarte-grau'
 SWISS_CRS = 'EPSG:2056'
@@ -92,14 +91,16 @@ def addToQgis(qgsProject, fileList):
                 pass
 
 
-def switchToCrs(qgsProject, canvas: QgsMapCanvas, crs=SWISS_CRS):
+
+def switchToCrs(canvas: QgsMapCanvas, crs=SWISS_CRS):
     newCrs = QgsCoordinateReferenceSystem(crs)
     assert newCrs.isValid()
-    qgsProject.setCrs(newCrs)
+    QgsProject.instance().setCrs(newCrs)
     canvas.refresh()
-    
-  
-def addOverviewMap(qgsProject, canvas, crs=SWISS_CRS):
+
+
+def addOverviewMap(canvas: QgsMapCanvas, crs=SWISS_CRS):
+    qgsProject = QgsProject.instance()
     layerName = tr('Swisstopo National Map (grey)')
     wmsUrl = (f'contextualWMSLegend=0&crs={crs}&dpiMode=7'
               f'&featureCount=10&format=image/png'
