@@ -18,12 +18,14 @@
  *                                                                         *
  ***************************************************************************/
 """
+from copy import deepcopy
+
 from qgis.core import Qgis
 
 from .apiCallerTask import ApiCallerTask
 from .apiInterface import ApiInterface
 from .geocat import ApiGeoCat
-from .responseObjects import (CURRENT_VALUE, Dataset, File)
+from .responseObjects import (CURRENT_VALUE, Dataset, FILETYPE_COG, File)
 from ..utils.filterUtils import cleanupFilterItems, currentFileByBbox
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
@@ -250,14 +252,19 @@ class ApiDataGeoAdmin(ApiInterface):
                 # Extract file properties, save them to the file object
                 #  and add them to the filter list
                 
+                fileWithMultipleTypes = []
                 if OPTION_MAPPER['filetype'] in asset:
-                    filetype = str(asset[OPTION_MAPPER['filetype']]).split(';')[0]
+                    completeFiletype = str(asset[OPTION_MAPPER['filetype']])
+                    filetype = completeFiletype.split(';')[0]
                     if '/' in filetype:
                         filetype = filetype.split('/')[1]
                     if filetype.startswith('x.'):
                         filetype = filetype[2:]
                     file.filetype = filetype
-                    filterItems['filetype'].append(file.filetype)
+                    fileWithMultipleTypes.append(filetype)
+                    if completeFiletype == 'image/tiff; application=geotiff; profile=cloud-optimized':
+                        fileWithMultipleTypes.append(FILETYPE_COG)
+                    filterItems['filetype'].extend(fileWithMultipleTypes)
                     
                 if OPTION_MAPPER['format'] in asset:
                     file.format = str(asset[OPTION_MAPPER['format']])
@@ -279,12 +286,19 @@ class ApiDataGeoAdmin(ApiInterface):
                     filterItems['coordsys'].append(file.coordsys)
                 
                 fileList.append(file)
+                # If one asset can support multiple file types (e.g. tif and
+                #  COG), create a copy of the file for each file type
+                if len(fileWithMultipleTypes) > 1:
+                    for fileType in fileWithMultipleTypes[1:]:
+                        copiedFile = deepcopy(file)
+                        copiedFile.filetype = fileType
+                        fileList.append(copiedFile)
 
         # Sort file list by bbox coordinates (first item on top left corner)
         fileList.sort(key=lambda f: round(f.bbox[3], 2), reverse=True)
         fileList.sort(key=lambda f: round(f.bbox[0], 2))
-
-        # Cleanup filter items by removing duplicates and adding an 'ALL' entry
+        
+        # Clean up filter items by removing duplicates and adding an 'ALL' entry
         filterItems = cleanupFilterItems(filterItems)
         
         # Extract most current file (timestamp) for every bbox on the map

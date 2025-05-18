@@ -297,7 +297,7 @@ Karte im Schweizer System LV95 anzeigen?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="218"/>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation>Download / Hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="229"/>
@@ -332,7 +332,7 @@ Karte im Schweizer System LV95 anzeigen?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="217"/>
         <source>Download list of files</source>
-        <translation>Dateiliste herunterladen</translation>
+        <translation>Dateiliste herunterladen und zu QGIS hinzufügen</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="214"/>

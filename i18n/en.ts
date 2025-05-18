@@ -297,7 +297,7 @@ Switch map to Swiss LV95?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="218"/>
         <source>Download</source>
-        <translation>Download</translation>
+        <translation>Download / Add</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="229"/>
@@ -332,7 +332,7 @@ Switch map to Swiss LV95?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="217"/>
         <source>Download list of files</source>
-        <translation>Download list of files</translation>
+        <translation>Download list of files and add to QGIS</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="214"/>

@@ -23,6 +23,7 @@ from ..ui.ui_utilities import getDateFromIsoString
 ALL_VALUE = 'all'
 CURRENT_VALUE = 'current'
 P_SIMILAR = 0.20    # max 20% difference
+FILETYPE_COG = 'streamed tiff (COG)'
 
 
 class Dataset:
@@ -46,9 +47,9 @@ class Dataset:
 
 
 class File:
-    def __init__(self, name, filetype, href):
+    def __init__(self, name, assetType, href):
         self.id = name
-        self.type = filetype
+        self.type = assetType
         self.href = href
         self.bbox = None
         self.geom = None
@@ -74,6 +75,10 @@ class File:
     def propKey(self):
         propList = [self.filetype, self.format, self.resolution]
         return '|'.join([elem for elem in propList if elem is not None])
+    
+    @property
+    def isStreamable(self):
+        return self.filetype == FILETYPE_COG
     
     def setBbox(self, bbox):
         # Bbox entries should be numbers and inside coordinate ranges of WGS84
@@ -155,5 +160,4 @@ class File:
         
         except AssertionError:
             return False
-        
         return True

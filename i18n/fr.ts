@@ -297,7 +297,7 @@ Changer la projection en LV95?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="218"/>
         <source>Download</source>
-        <translation>Télécharger</translation>
+        <translation>Télécharger / Ajouter</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="229"/>
@@ -332,7 +332,7 @@ Changer la projection en LV95?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="217"/>
         <source>Download list of files</source>
-        <translation>Télécharger la liste des fichiers</translation>
+        <translation>Télécharger la liste des fichiers et les ajouter à QGIS</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget_base.py" line="214"/>

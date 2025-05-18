@@ -21,23 +21,25 @@
 """
 
 import os
+
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSignal
 from qgis.PyQt.QtWidgets import (QDockWidget, QFileDialog, QMessageBox)
-from qgis.gui import QgsExtentGroupBox, QgisInterface
-from qgis.core import (QgsCoordinateReferenceSystem, QgsCoordinateTransform,
-                       QgsProject, QgsRectangle, QgsApplication,
-                       QgsMessageLog, Qgis)
-from .waitingSpinnerWidget import QtWaitingSpinner
-from .ui_utilities import filesizeFormatter, MESSAGE_CATEGORY
-from .qgis_utilities import (addToQgis, addOverviewMap, transformBbox,
-                             switchToCrs, RECOMMENDED_CRS)
+from qgis.core import (Qgis, QgsApplication, QgsCoordinateReferenceSystem,
+                       QgsCoordinateTransform, QgsMessageLog, QgsProject,
+                       QgsRectangle)
+from qgis.gui import QgisInterface, QgsExtentGroupBox
+
+from .bboxDrawer import BboxPainter
 from .datsetListTable import DatasetListTable
 from .fileListTable import FileListTable
-from .bboxDrawer import BboxPainter
-from ..api.responseObjects import Dataset, ALL_VALUE, CURRENT_VALUE
-from ..api.datageoadmin import ApiDataGeoAdmin, API_EPSG
+from .qgis_utilities import (RECOMMENDED_CRS, addOverviewMap, addToQgis,
+                             switchToCrs, transformBbox)
+from .ui_utilities import MESSAGE_CATEGORY, filesizeFormatter
+from .waitingSpinnerWidget import QtWaitingSpinner
 from ..api.apiCallerTask import ApiCallerTask
+from ..api.datageoadmin import API_EPSG, ApiDataGeoAdmin
+from ..api.responseObjects import ALL_VALUE, CURRENT_VALUE, Dataset
 
 UI_FILE = os.path.join(os.path.dirname(__file__), 'sgd_dockwidget_base.ui')
 FORM_CLASS, _ = uic.loadUiType(UI_FILE)
@@ -70,6 +72,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.fileList = []
         self.fileListFiltered = {}
         self.filesListDownload = []
+        self.filesListStreamed = []
         self.currentFilters = {
             'filetype': None,
             'format': None,
@@ -632,41 +635,68 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
     
     def onDownloadFilesClicked(self):
+        self.guiDownloadBtn.setDisabled(True)
+        self.filesListStreamed = []
+        self.filesListDownload = []
+        
+        # Manage streamed files first
+        hasOnlyStreamedFilesSelected = True
+        for file in self.fileListFiltered.values():
+            if file.selected and file.isStreamable:
+                file.path = '/vsicurl/' + file.href
+                self.filesListStreamed.append(file)
+            else:
+                hasOnlyStreamedFilesSelected = False
+        
+        if hasOnlyStreamedFilesSelected:
+            # If there is no need for a download folder, the selected files
+            #  are added directly as streamed layers to qgis
+            # TODO: Await loading, then add a success to the message bar or plugin
+            self.addFilesToQgis()
+        
+        else:
+            folder = self.selectDownloadFolder()
+            if not folder:
+                return
+            
+            # Save path for next download
+            self.outputPath = folder
+            waitForConfirm = False
+            # Sort out all selected files from list
+            for file in self.fileListFiltered.values():
+                if file.selected and not file.isStreamable:
+                    file.path = os.path.join(self.outputPath, file.id)
+                    self.filesListDownload.append(file)
+                    # Check if there are files that are going to be overwritten
+                    if os.path.exists(file.path):
+                        waitForConfirm = True
+            
+            if waitForConfirm:
+                confirmed = self.showDialog(self.tr('Overwrite files?'),
+                                            self.tr(
+                                                'At least one file will be overwritten. Continue?'))
+                if not confirmed:
+                    self.filesListDownload = []
+                    return
+            self.startDownload()
+    
+    def selectDownloadFolder(self):
         # Let user choose output directory
         if self.outputPath:
             openDir = self.outputPath
         else:
             openDir = os.path.expanduser('~')
-        folder = QFileDialog.getExistingDirectory(self,
-                    self.tr('Choose output folder'), openDir, QFileDialog.Option.ShowDirsOnly)
+        folder = QFileDialog.getExistingDirectory(self, self.tr(
+            'Choose output folder'), openDir, QFileDialog.Option.ShowDirsOnly)
         if not folder:
-            return
-            
-        # Save path for later
-        self.outputPath = folder
-        # Check if there are files that are going to be overwritten
-        waitForConfirm = False
-        # Sort out all selected files from list
-        self.filesListDownload = []
-        for file in self.fileListFiltered.values():
-            if file.selected:
-                file.path = os.path.join(folder, file.id)
-                self.filesListDownload.append(file)
-                if os.path.exists(file.path):
-                    waitForConfirm = True
-        
-        if waitForConfirm:
-            confirmed = self.showDialog(self.tr('Overwrite files?'),
-                self.tr('At least one file will be overwritten. Continue?'))
-            if not confirmed:
-                self.filesListDownload = []
-                return
-
-        # Call api
+            return False
+        return folder
+    
+    def startDownload(self):
         # Create separate task for request to not block ui
         caller = ApiCallerTask(self.apiDGA, self.msgBar, 'downloadFiles', {
             'fileList': self.filesListDownload,
-            'folder': folder,
+            'folder': self.outputPath,
         })
         # Listen for finished api call
         caller.taskCompleted.connect(
@@ -686,11 +716,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.MessageLevel.Success)
-
         self.spinnerFl.stop()
-        
-        # Add file as layers to qgis
-        addToQgis(self.qgsProject, self.filesListDownload)
+        self.addFilesToQgis()
+    
+    def addFilesToQgis(self):
+        # Add files (streamed and downloaded) as layers to qgis
+        filesToAdd = self.filesListDownload + self.filesListStreamed
+        addToQgis(filesToAdd)
+        self.guiDownloadBtn.setDisabled(False)
     
     def cleanCanvas(self):
         if self.bboxPainter:
