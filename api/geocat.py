@@ -94,7 +94,7 @@ class ApiGeoCat(ApiInterface):
                     if localizedString.get('locale') == '#' + locale.upper():
                         metadata[mapsTo] = localizedString.text
                         break
-                if metadata.get(mapsTo, None):
+                if metadata.get(mapsTo):
                     break
         return metadata
     

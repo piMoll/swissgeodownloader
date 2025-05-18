@@ -56,11 +56,21 @@ class TestFileObject(unittest.TestCase):
                         href="http://example.com")
         file_obj.setTimestamp("2023-07-16T12:34:56Z")
         self.assertEqual(file_obj.timestampStr, "2023-07-16")
+        self.assertRaises(ValueError, file_obj.setTimestamp, 'this is a test')
+    
+    def test_timestamp_range_parsing(self):
+        file_obj = File(name="test_file", assetType="image",
+                        href="http://example.com")
+        file_obj.setTimestamp('2023-07-16T12:34:56Z', '2024-07-16T12:34:56Z')
+        self.assertEqual(file_obj.timestampStr, '2023-07-16 / 2024-07-16')
+        self.assertRaises(ValueError, file_obj.setTimestamp,
+                          '2023-07-16T12:34:56Z', 'this is a test')
     
     def test_timestamp_invalid(self):
         file_obj = File(name="test_file", assetType="image",
                         href="http://example.com")
         self.assertRaises(ValueError, file_obj.setTimestamp, '20-12-12T00:00')
+        self.assertEqual(file_obj.timestampStr, '')
     
     def test_filetype_fits_filter(self):
         file_obj = File(name="test_file", assetType="image",

@@ -96,9 +96,9 @@ class ApiDataGeoAdmin(ApiInterface):
             # Add metadata in the correct language from geocat API
             if dataset.id in md_geoadmin:
                 # Get the pre-saved metadata from the json file
-                dataset.title = md_geoadmin[dataset.id].get('title', None)
+                dataset.title = md_geoadmin[dataset.id].get('title')
                 dataset.description = md_geoadmin[dataset.id].get(
-                    'description', None)
+                    'description')
             if not dataset.title:
                 # Get metadata from geocat.ch: This will save the metadata to
                 #  a file so it does not have to be requested every time
@@ -106,8 +106,8 @@ class ApiDataGeoAdmin(ApiInterface):
                                                   dataset.metadataLink,
                                                   self.locale)
                 if metadata:
-                    dataset.title = metadata.get('title', None)
-                    dataset.description = metadata.get('description', None)
+                    dataset.title = metadata.get('title')
+                    dataset.description = metadata.get('description')
                     # Save metadata to file so we don't have to call the API again
                     self.geocatApi.updatePreSavedMetadata(metadata, dataset.id,
                                                           self.locale)
@@ -232,9 +232,14 @@ class ApiDataGeoAdmin(ApiInterface):
             # Readout timestamp from the item itself
             try:
                 timestamp = item['properties'][OPTION_MAPPER['timestamp']]
+                endTimestamp = None
             except KeyError:
-                # Extract the mandatory timestamp 'created' instead
-                timestamp = item['properties']['created']
+                # Try to get timestamp from 'start_datetime' and 'end_datetime'
+                timestamp = item['properties'].get('start_datetime')
+                endTimestamp = item['properties'].get('end_datetime')
+                if not timestamp:
+                    # Extract the mandatory timestamp 'created' instead
+                    timestamp = item['properties']['created']
             
             # Save all files and their properties
             for assetId in item['assets']:
@@ -276,7 +281,7 @@ class ApiDataGeoAdmin(ApiInterface):
                     
                 if timestamp:
                     try:
-                        file.setTimestamp(timestamp)
+                        file.setTimestamp(timestamp, endTimestamp)
                     except ValueError:
                         task.log(f"File {file.id}: Timestamp not valid)", Qgis.MessageLevel.Warning)
                     filterItems['timestamp'].append(file.timestampStr)

@@ -94,11 +94,15 @@ class File:
             raise e
         
         self.bbox = bbox
-
-    def setTimestamp(self, timestamp):
+    
+    def setTimestamp(self, startTimestamp, endTimestamp=None):
         try:
-            self.timestamp = getDateFromIsoString(timestamp, False)
-            self.timestampStr = getDateFromIsoString(timestamp)
+            self.timestamp = getDateFromIsoString(startTimestamp, False)
+            self.timestampStr = getDateFromIsoString(startTimestamp)
+            if endTimestamp:
+                self.timestampStr = ' / '.join(
+                    [getDateFromIsoString(ts) for ts in
+                     [startTimestamp, endTimestamp]])
         except ValueError as e:
             self.timestamp = None
             self.timestampStr = ''
