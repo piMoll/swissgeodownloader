@@ -19,32 +19,45 @@
  ***************************************************************************/
 """
 import os
-import subprocess
-import sys
 import zipfile
 from fnmatch import fnmatch
-from shutil import rmtree
 
 PKG_NAME = 'swissgeodownloader'
-ZIP_EXCLUDES = [
+TOP_LEVEL_INCLUDES = [
+    'api',
+    'i18n',
+    'resources',
+    'ui',
+    'utils',
+    '__init__.py',
+    'CHANGELOG.md',
+    'LICENSE',
+    'metadata.txt',
+    'README.md',
+    'swissgeodownloader.py',
+]
+PATTERN_EXCLUDES = [
     '__pycache__',
     '.pro',
     '.ts',
-    'help/',
-    'abstractApiConnector.py',
-    'network2.py',
-    'networkaccess.py',
-    'networkmanager.py',
 ]
 
 
-def create_zip(zip_path, folder_path, ignore_patterns):
+def create_zip(zip_path, folder_path, top_level_includes, ignore_patterns):
     print('Creating ZIP archive ' + zip_path)
+    includedPaths = [os.path.join(folder_path, folder) for folder in
+                     top_level_includes]
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-        for root, _, files in os.walk(folder_path):
+        for root, folders, files in os.walk(folder_path):
             for file in files:
-                path = os.path.join(root, file)
-                archive_path = os.path.relpath(os.path.join(root, file), os.path.join(folder_path, os.pardir))
+                path = str(os.path.join(root, file))
+                if any([path.startswith(str(includedPath)) for includedPath in
+                        includedPaths]) is False:
+                    # Path does not start with a path from the include list, skip it
+                    continue
+                archive_path = str(os.path.relpath(
+                    os.path.join(root, file),
+                    os.path.join(folder_path, os.pardir)))
                 if not any(fnmatch(path, '*' + ignore + '*') for ignore in ignore_patterns):
                     print('Adding ' + archive_path)
                     zipf.write(path, archive_path)
@@ -54,22 +67,17 @@ def create_zip(zip_path, folder_path, ignore_patterns):
 
 
 if __name__ == '__main__':
-    # Deploy to another qgis profile for testing and packing
-    qgis_profile = sys.argv[0]
-    run_pb_tool = subprocess.check_output(['pbt', 'deploy', '--user-profile',  qgis_profile,  '-y'])
-
-    # Extract deploy path
-    outputList = run_pb_tool.split(b'\n')
-    deployPath = ([line for line in outputList if b'Deploying to ' in line])[0].split(b' ')[-1]
-
-    plugin_dir = deployPath.decode('utf-8')
-    zip_file = os.path.join(os.path.dirname(plugin_dir), PKG_NAME + '.zip')
-
-    # Zip content of deployed plugin
-    create_zip(zip_file, plugin_dir, ZIP_EXCLUDES)
+    # Path to plugin folder we want to deploy
+    plugin_dir = os.path.dirname(__file__)
+    # Create zip in plugin folder
+    deploy_path = plugin_dir
+    zip_file = os.path.join(deploy_path, PKG_NAME + '.zip')
     
-    # Now remove deployed plugin folder and extract zip file to have the
-    #  final "cleaned up" version
-    rmtree(plugin_dir)
-    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-        zip_ref.extractall(os.path.dirname(plugin_dir))
+    try:
+        # Clean up
+        os.remove(zip_file)
+    except FileNotFoundError:
+        pass
+    
+    # Zip content of plugin
+    create_zip(zip_file, plugin_dir, TOP_LEVEL_INCLUDES, PATTERN_EXCLUDES)
