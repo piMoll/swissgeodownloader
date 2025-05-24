@@ -1,9 +1,9 @@
 import os
-import sys
 import tempfile
+
+import SwissGeoDownloader
 from qgis.core import QgsApplication
 from qgis.testing import unittest
-import SwissGeoDownloader
 
 SwissGeoDownloader.DEBUG = True
 TEST_DIR = os.path.dirname(__file__)

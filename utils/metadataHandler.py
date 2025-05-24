@@ -5,7 +5,7 @@
  This plugin lets you comfortably download swiss geo data.
                              -------------------
         begin                : 2021-03-14
-        copyright            : (C) 2022 by Patricia Moll
+        copyright            : (C) 2025 by Patricia Moll
         email                : pimoll.dev@gmail.com
  ***************************************************************************/
 
@@ -18,13 +18,13 @@
  *                                                                         *
  ***************************************************************************/
 """
-import os
 import json
+import os
 from datetime import date
-from qgis.core import QgsSettings, QgsMessageLog, Qgis
+
+from qgis.core import Qgis, QgsMessageLog, QgsSettings
 
 from ..ui.ui_utilities import MESSAGE_CATEGORY
-
 
 SETTING_PREFIX = 'PluginSwissGeoDownloader'
 PLUGIN_PATH = os.path.dirname(os.path.dirname(__file__))

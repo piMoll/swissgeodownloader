@@ -5,7 +5,7 @@
  This plugin lets you comfortably download swiss geo data.
                              -------------------
         begin                : 2021-03-14
-        copyright            : (C) 2022 by Patricia Moll
+        copyright            : (C) 2025 by Patricia Moll
         email                : pimoll.dev@gmail.com
  ***************************************************************************/
 
@@ -96,7 +96,8 @@ class ApiCallerTask(QgsTask):
             else:
                 self.log(self.exception, Qgis.MessageLevel.Critical)
                 self.message(self.exception, Qgis.MessageLevel.Warning)
-
+    
+    @staticmethod
     def log(self, msg, level=Qgis.MessageLevel.Info, debugMsg=False):
         if debugMsg:
             if not DEBUG:

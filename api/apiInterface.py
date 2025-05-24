@@ -5,7 +5,7 @@
  This plugin lets you comfortably download swiss geo data.
                              -------------------
         begin                : 2021-03-14
-        copyright            : (C) 2022 by Patricia Moll
+        copyright            : (C) 2025 by Patricia Moll
         email                : pimoll.dev@gmail.com
  ***************************************************************************/
 
@@ -126,6 +126,7 @@ class ApiInterface:
         def onError():
             task.exception = self.tr('Error when downloading {}', tr).format(filename)
             return False
+        
         def onProgress(bytesReceived, bytesTotal):
             if task.isCanceled():
                 task.exception = self.tr('Download of {} was canceled', tr).format(

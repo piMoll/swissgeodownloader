@@ -5,7 +5,7 @@
  This plugin lets you comfortably download swiss geo data.
                              -------------------
         begin                : 2021-03-14
-        copyright            : (C) 2022 by Patricia Moll
+        copyright            : (C) 2025 by Patricia Moll
         email                : pimoll.dev@gmail.com
  ***************************************************************************/
 
@@ -19,12 +19,13 @@
  ***************************************************************************/
 """
 
+from qgis.PyQt.QtCore import QPointF, QSizeF
 from qgis.PyQt.QtGui import QColor, QTextDocument
-from qgis.PyQt.QtCore import QSizeF, QPointF
+from qgis.core import (QgsAnnotationManager, QgsCoordinateTransform,
+                       QgsGeometry, QgsPointXY, QgsRectangle,
+                       QgsTextAnnotation, QgsWkbTypes)
 from qgis.gui import QgsRubberBand
-from qgis.core import (QgsRectangle, QgsGeometry, QgsWkbTypes, QgsPointXY,
-                       QgsTextAnnotation, QgsAnnotationManager,
-                       QgsCoordinateTransform)
+
 from .qgis_utilities import transformBbox
 
 

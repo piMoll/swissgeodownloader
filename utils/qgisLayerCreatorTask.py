@@ -1,3 +1,23 @@
+"""
+/***************************************************************************
+ SwissGeoDownloader
+                                 A QGIS plugin
+ This plugin lets you comfortably download swiss geo data.
+                             -------------------
+        begin                : 2021-03-14
+        copyright            : (C) 2025 by Patricia Moll
+        email                : pimoll.dev@gmail.com
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+"""
 import os
 
 from qgis.PyQt.QtCore import QCoreApplication

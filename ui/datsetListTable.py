@@ -5,7 +5,7 @@
  This plugin lets you comfortably download swiss geo data.
                              -------------------
         begin                : 2021-03-14
-        copyright            : (C) 2022 by Patricia Moll
+        copyright            : (C) 2025 by Patricia Moll
         email                : pimoll.dev@gmail.com
  ***************************************************************************/
 
@@ -18,11 +18,12 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtWidgets import (QTableView, QAbstractItemView, QLineEdit,
-                                 QSizePolicy, QAbstractScrollArea, QHeaderView)
-from qgis.PyQt.QtCore import (QObject, Qt, pyqtSignal, QSortFilterProxyModel,
-                              QCoreApplication)
+from qgis.PyQt.QtCore import (QCoreApplication, QObject, QSortFilterProxyModel,
+                              Qt, pyqtSignal)
 from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel
+from qgis.PyQt.QtWidgets import (QAbstractItemView, QAbstractScrollArea,
+                                 QHeaderView, QLineEdit, QSizePolicy,
+                                 QTableView)
 
 
 class DatasetListTable(QObject):
