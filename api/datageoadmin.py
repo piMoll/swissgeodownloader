@@ -39,6 +39,7 @@ OPTION_MAPPER = {
 }
 API_OPTION_MAPPER = {y: x for x, y in OPTION_MAPPER.items()}
 API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
+FETCH_ALL_LIMIT = 500
 
 
 class ApiDataGeoAdmin(ApiInterface):
@@ -204,7 +205,7 @@ class ApiDataGeoAdmin(ApiInterface):
         dataset.avgSize = estimate
         return dataset
     
-    def getFileList(self, task: ApiCallerTask, url, bbox):
+    def getFileList(self, task: ApiCallerTask, url, bbox: list[float] or None):
         """Request a list of available files that are within a bounding box.
         Analyse the received list and extract file properties."""
         params = {}
@@ -212,7 +213,8 @@ class ApiDataGeoAdmin(ApiInterface):
             params['bbox'] = ','.join([str(ext) for ext in bbox])
 
         # Request files
-        responseList = self.fetchAll(task, url, 'features', params=params)
+        responseList = self.fetchAll(task, url, 'features', params=params,
+                                     limit=FETCH_ALL_LIMIT)
         if responseList is False:
             if not task.exception:
                 task.exception = self.tr('Error when requesting file list - '
@@ -319,7 +321,7 @@ class ApiDataGeoAdmin(ApiInterface):
         return {'files': fileList, 'filters': filterItems}
     
     def fetchAll(self, task: ApiCallerTask, url, responsePropName, params=None,
-                 header=None, method='get'):
+                 header=None, method='get', limit: int = -1):
         responseList = []
     
         # Fetch more responses as long as there is a 'next' link
@@ -331,7 +333,7 @@ class ApiDataGeoAdmin(ApiInterface):
             response = self.fetch(task, url, params, header, method)
         
             if not response or not isinstance(response, dict) \
-                    or not responsePropName in response:
+                    or responsePropName not in response:
                 return False
         
             responseList.extend(response[responsePropName])
@@ -344,7 +346,7 @@ class ApiDataGeoAdmin(ApiInterface):
                     if link['rel'] == 'next':
                         nextUrl = link['href']
                         break
-            if url != nextUrl:
+            if url != nextUrl and (limit == -1 or len(responseList) < limit):
                 url = nextUrl
                 # Params are already part of the next url, no need to
                 #  specify them again
