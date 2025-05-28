@@ -97,7 +97,6 @@ class ApiCallerTask(QgsTask):
                 self.log(self.exception, Qgis.MessageLevel.Critical)
                 self.message(self.exception, Qgis.MessageLevel.Warning)
     
-    @staticmethod
     def log(self, msg, level=Qgis.MessageLevel.Info, debugMsg=False):
         if debugMsg:
             if not DEBUG:
