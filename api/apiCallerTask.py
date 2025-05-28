@@ -72,6 +72,13 @@ class ApiCallerTask(QgsTask):
             self.output = self.apiRef.downloadFiles(self,
                                         self.callParams['fileList'],
                                         self.callParams['folder'])
+        
+        elif self.func == 'analyseFullCatalog':
+            self.output = self.apiRef.catalogPropertiesCrawler(self)
+        
+        elif self.func == 'refreshAllMetadata':
+            self.output = self.apiRef.getDatasetList(self)
+        
         return True
     
     def finished(self, result):

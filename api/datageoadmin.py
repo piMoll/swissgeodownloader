@@ -364,10 +364,10 @@ class ApiDataGeoAdmin(ApiInterface):
         
         self.geocatApi.updatePreSavedMetadata(md_geocat)
     
-    def catalogPropertiesCrawler(self, task: ApiCallerTask,
-                                 datasets: dict[str, Dataset]):
+    def catalogPropertiesCrawler(self, task: ApiCallerTask):
         """Crawls through all item / asset properties of the catalog and
         returns them."""
+        datasets = self.getDatasetList(task)
         items = {}
         for datasetId, dataset in datasets.items():
             items[datasetId] = {}

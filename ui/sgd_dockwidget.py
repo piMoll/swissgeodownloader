@@ -38,7 +38,6 @@ from .ui_utilities import MESSAGE_CATEGORY, filesizeFormatter
 from .waitingSpinnerWidget import QtWaitingSpinner
 from ..api.apiCallerTask import ApiCallerTask
 from ..api.datageoadmin import API_EPSG, ApiDataGeoAdmin
-from ..api.datageoadmin_fullCatalogFetch import analyseFullCatalog
 from ..api.responseObjects import ALL_VALUE, CURRENT_VALUE, Dataset, \
     STREAMED_SOURCE_PREFIX
 from ..utils.qgisLayerCreatorTask import QgisLayerCreatorTask
