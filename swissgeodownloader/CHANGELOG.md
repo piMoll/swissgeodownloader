@@ -1,17 +1,18 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2.1.0 - 2025-05-??
+## 2.1.0 - 2025-06-01
 
 ### Added
 
-- Upgrade plugin for QGIS 4.0 and Qt6
+- Add support for cloud-optimized GeoTIFFs (COGs)
+- Upgrade plugin so it's ready for QGIS 4.0 and Qt6
 - Switch from Swisstopo STAC catalog version 0.9 to 1.0
-- Ad support for cloud-optimized GeoTIFFs (COGs)
+- Introduce a limit of 500 files when fetching the file list
 
 ### Fixed
-
 - Fix wrong order of the timestamp list in certain topics
+- Reorganize code
 
 ## 2.0.1 - 2023-03-01
 ### Fixed

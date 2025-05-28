@@ -5,7 +5,7 @@ name=Swiss Geo Downloader
 qgisMinimumVersion=3.22
 qgisMaximumVersion=
 description=Download swiss geodata comfortably inside QGIS
-version=2.0.1
+version=2.1.0
 author=Patricia Moll
 email=pimoll.dev@gmail.com
 
@@ -20,15 +20,21 @@ repository=https://github.com/piMoll/swissgeodownloader
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=Current version: 2.0.1 (March 2023)
-
-    Fixed:
-    - Make retrival of datasets more robust so missing STAC attributes don't lead to an exception.
-
+changelog=Version 2.1.0 (June 2025)
+    Added
+    - Add support for cloud-optimized GeoTIFFs (COGs)
+    - Upgrade plugin, so it's ready for QGIS 4.0 and Qt6
+    - Switch from Swisstopo STAC catalog version 0.9 to 1.0
+    - Introduce a limit of 500 files when fetching the file list
+    
+    Fixed
+    - Fix wrong order of the timestamp list in certain topics
+    - Reorganize code
+    
     See full changelog at: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md
 
 # Tags are comma separated with spaces allowed
-tags=web,geodata,switzerland,download
+tags=web,geodata,switzerland,download,swiss,suisse,schweiz,geoadmin,swisstopo,geoprtal
 
 homepage=https://pimoll.github.io/swissgeodownloader/
 category=Web
