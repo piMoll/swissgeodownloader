@@ -23,8 +23,8 @@ import os
 from qgis.PyQt.QtCore import QCoreApplication
 from qgis.core import (QgsProject, QgsRasterLayer, QgsTask, QgsVectorLayer)
 
-from .. import DEBUG
-from ..api.responseObjects import STREAMED_SOURCE_PREFIX
+from swissgeodownloader import DEBUG
+from swissgeodownloader.api.responseObjects import STREAMED_SOURCE_PREFIX
 
 
 class QgisLayerCreatorTask(QgsTask):

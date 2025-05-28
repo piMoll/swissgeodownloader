@@ -25,9 +25,9 @@ from qgis.PyQt.QtCore import (QCoreApplication, QSettings, QTranslator, Qt)
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 
-from . import PLUGIN_DIR
+from swissgeodownloader import PLUGIN_DIR
 # Import the code for the DockWidget
-from .ui.sgd_dockwidget import SwissGeoDownloaderDockWidget
+from swissgeodownloader.ui.sgd_dockwidget import SwissGeoDownloaderDockWidget
 
 
 class SwissGeoDownloader:

@@ -1,6 +1,6 @@
 import unittest
 
-from SwissGeoDownloader.api.responseObjects import File
+from swissgeodownloader.api.responseObjects import File
 
 
 class TestFileObject(unittest.TestCase):

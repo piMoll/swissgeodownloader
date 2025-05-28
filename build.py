@@ -23,41 +23,23 @@ import zipfile
 from fnmatch import fnmatch
 
 PKG_NAME = 'swissgeodownloader'
-TOP_LEVEL_INCLUDES = [
-    'api',
-    'i18n',
-    'resources',
-    'ui',
-    'utils',
-    '__init__.py',
-    'CHANGELOG.md',
-    'LICENSE',
-    'metadata.txt',
-    'README.md',
-    'swissgeodownloader.py',
-]
-PATTERN_EXCLUDES = [
-    '__pycache__',
-    '.pro',
-    '.ts',
-]
+PATTERN_EXCLUDES = ['__pycache__', '.pro', '.ts', 'scripts/', 'test/']
 
 
-def create_zip(zip_path, folder_path, top_level_includes, ignore_patterns):
+def create_zip(zip_path, folder_path, ignore_patterns):
     print('Creating ZIP archive ' + zip_path)
-    includedPaths = [os.path.join(folder_path, folder) for folder in
-                     top_level_includes]
+
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        
+        # # Readme is outside the plugin dir, so we start with it
+        print('Adding README.md')
+        zipf.write(os.path.join(os.path.dirname(folder_path), 'README.md'),
+                   'README.md')
         for root, folders, files in os.walk(folder_path):
             for file in files:
                 path = str(os.path.join(root, file))
-                if any([path.startswith(str(includedPath)) for includedPath in
-                        includedPaths]) is False:
-                    # Path does not start with a path from the include list, skip it
-                    continue
-                archive_path = str(os.path.relpath(
-                    os.path.join(root, file),
-                    os.path.join(folder_path, os.pardir)))
+                archive_path = str(
+                        os.path.relpath(os.path.join(root, file), folder_path))
                 if not any(fnmatch(path, '*' + ignore + '*') for ignore in ignore_patterns):
                     print('Adding ' + archive_path)
                     zipf.write(path, archive_path)
@@ -68,10 +50,10 @@ def create_zip(zip_path, folder_path, top_level_includes, ignore_patterns):
 
 if __name__ == '__main__':
     # Path to plugin folder we want to deploy
-    plugin_dir = os.path.dirname(__file__)
+    current_dir = os.path.dirname(__file__)
     # Create zip in plugin folder
-    deploy_path = plugin_dir
-    zip_file = os.path.join(deploy_path, PKG_NAME + '.zip')
+    plugin_dir = os.path.join(current_dir, 'swissgeodownloader')
+    zip_file = os.path.join(current_dir, PKG_NAME + '.zip')
     
     try:
         # Clean up
@@ -80,4 +62,4 @@ if __name__ == '__main__':
         pass
     
     # Zip content of plugin
-    create_zip(zip_file, plugin_dir, TOP_LEVEL_INCLUDES, PATTERN_EXCLUDES)
+    create_zip(zip_file, plugin_dir, PATTERN_EXCLUDES)

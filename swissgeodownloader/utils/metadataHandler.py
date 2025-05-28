@@ -24,7 +24,7 @@ from datetime import date
 
 from qgis.core import Qgis, QgsMessageLog, QgsSettings
 
-from ..ui.ui_utilities import MESSAGE_CATEGORY
+from swissgeodownloader.ui.ui_utilities import MESSAGE_CATEGORY
 
 SETTING_PREFIX = 'PluginSwissGeoDownloader'
 PLUGIN_PATH = os.path.dirname(os.path.dirname(__file__))

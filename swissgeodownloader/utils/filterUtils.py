@@ -18,7 +18,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from ..api.responseObjects import ALL_VALUE, File
+from swissgeodownloader.api.responseObjects import ALL_VALUE, File
 
 
 def cleanupFilterItems(filterItems):

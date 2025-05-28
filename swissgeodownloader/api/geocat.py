@@ -21,9 +21,9 @@
 import re
 import xml.etree.ElementTree as ET
 
-from .apiCallerTask import ApiCallerTask
-from .apiInterface import ApiInterface
-from ..utils.metadataHandler import loadFromFile, saveToFile
+from swissgeodownloader.api.apiCallerTask import ApiCallerTask
+from swissgeodownloader.api.apiInterface import ApiInterface
+from swissgeodownloader.utils.metadataHandler import loadFromFile, saveToFile
 
 BASEURL = 'https://www.geocat.ch/geonetwork/srv/eng/csw'
 XML_NAMESPACES = {'gmd': '{http://www.isotc211.org/2005/gmd}'}

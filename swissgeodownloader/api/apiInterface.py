@@ -26,7 +26,7 @@ from qgis.PyQt.QtCore import QCoreApplication, QEventLoop, QUrl, QUrlQuery
 from qgis.PyQt.QtNetwork import QNetworkReply, QNetworkRequest
 from qgis.core import QgsBlockingNetworkRequest, QgsFileDownloader
 
-from .apiCallerTask import ApiCallerTask
+from swissgeodownloader.api.apiCallerTask import ApiCallerTask
 
 # Translate context for super class
 tr = 'ApiInterface'

@@ -18,7 +18,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from ..ui.ui_utilities import getDateFromIsoString
+from swissgeodownloader.ui.ui_utilities import getDateFromIsoString
 
 ALL_VALUE = 'all'
 CURRENT_VALUE = 'current'

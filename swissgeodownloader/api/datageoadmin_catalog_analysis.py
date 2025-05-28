@@ -2,9 +2,9 @@ import os
 
 from qgis.core import QgsApplication, QgsTask
 
-from .apiCallerTask import ApiCallerTask
-from .datageoadmin import ApiDataGeoAdmin
-from ..utils.metadataHandler import saveToFile
+from swissgeodownloader.api.apiCallerTask import ApiCallerTask
+from swissgeodownloader.api.datageoadmin import ApiDataGeoAdmin
+from swissgeodownloader.utils.metadataHandler import saveToFile
 
 
 def refreshMetadata(apiDGA, msgBar):

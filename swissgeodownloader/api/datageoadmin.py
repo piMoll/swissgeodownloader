@@ -22,12 +22,14 @@ from copy import deepcopy
 
 from qgis.core import Qgis
 
-from .apiCallerTask import ApiCallerTask
-from .apiInterface import ApiInterface
-from .geocat import ApiGeoCat
-from .responseObjects import (CURRENT_VALUE, Dataset, FILETYPE_COG, File)
+from swissgeodownloader.api.apiCallerTask import ApiCallerTask
+from swissgeodownloader.api.apiInterface import ApiInterface
+from swissgeodownloader.api.geocat import ApiGeoCat
+from swissgeodownloader.api.responseObjects import (CURRENT_VALUE, Dataset,
+                                                    FILETYPE_COG, File)
+from swissgeodownloader.utils.filterUtils import cleanupFilterItems, \
+    currentFileByBbox
 from .. import _AVAILABLE_LOCALES
-from ..utils.filterUtils import cleanupFilterItems, currentFileByBbox
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
 API_EPSG = 'EPSG:4326'

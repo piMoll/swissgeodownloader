@@ -1,13 +1,13 @@
 import unittest
 from unittest.mock import MagicMock, patch
 
-from SwissGeoDownloader.api.geocat import ApiGeoCat
+from swissgeodownloader.api.geocat import ApiGeoCat
 
 
 class TestApiGeoCat(unittest.TestCase):
     
     @classmethod
-    @patch("SwissGeoDownloader.api.geocat.DATAPATH", {'test_api': 'test_path'})
+    @patch("swissgeodownloader.api.geocat.DATAPATH", {'test_api': 'test_path'})
     def setUpClass(cls):
         cls.parent = MagicMock()
         cls.locale = "en"
@@ -18,7 +18,7 @@ class TestApiGeoCat(unittest.TestCase):
     def tearDownClass(cls):
         cls.api = None
     
-    @patch("SwissGeoDownloader.api.geocat.loadFromFile")
+    @patch("swissgeodownloader.api.geocat.loadFromFile")
     def test_load_pre_saved_metadata(self, mock_load):
         """Test loading pre-saved metadata."""
         mock_load.return_value = {"testId": {"en": {"title": "Test Title"}}}

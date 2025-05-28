@@ -29,18 +29,22 @@ from qgis.core import (Qgis, QgsApplication, QgsCoordinateReferenceSystem,
                        QgsRectangle)
 from qgis.gui import QgisInterface, QgsExtentGroupBox
 
-from .bboxDrawer import BboxPainter
-from .datsetListTable import DatasetListTable
-from .fileListTable import FileListTable
-from .qgis_utilities import (RECOMMENDED_CRS, addLayersToQgis, addOverviewMap,
-                             switchToCrs, transformBbox)
-from .ui_utilities import MESSAGE_CATEGORY, filesizeFormatter
-from .waitingSpinnerWidget import QtWaitingSpinner
-from ..api.apiCallerTask import ApiCallerTask
-from ..api.datageoadmin import API_EPSG, ApiDataGeoAdmin
-from ..api.responseObjects import ALL_VALUE, CURRENT_VALUE, Dataset, \
-    STREAMED_SOURCE_PREFIX
-from ..utils.qgisLayerCreatorTask import QgisLayerCreatorTask
+from swissgeodownloader.api.apiCallerTask import ApiCallerTask
+from swissgeodownloader.api.datageoadmin import API_EPSG, ApiDataGeoAdmin
+from swissgeodownloader.api.responseObjects import (ALL_VALUE, CURRENT_VALUE,
+                                                    Dataset,
+                                                    STREAMED_SOURCE_PREFIX)
+from swissgeodownloader.ui.bboxDrawer import BboxPainter
+from swissgeodownloader.ui.datsetListTable import DatasetListTable
+from swissgeodownloader.ui.fileListTable import FileListTable
+from swissgeodownloader.ui.qgis_utilities import (RECOMMENDED_CRS,
+                                                  addLayersToQgis,
+                                                  addOverviewMap, switchToCrs,
+                                                  transformBbox)
+from swissgeodownloader.ui.ui_utilities import (MESSAGE_CATEGORY,
+                                                filesizeFormatter)
+from swissgeodownloader.ui.waitingSpinnerWidget import QtWaitingSpinner
+from swissgeodownloader.utils.qgisLayerCreatorTask import QgisLayerCreatorTask
 
 UI_FILE = os.path.join(os.path.dirname(__file__), 'sgd_dockwidget_base.ui')
 FORM_CLASS, _ = uic.loadUiType(UI_FILE)

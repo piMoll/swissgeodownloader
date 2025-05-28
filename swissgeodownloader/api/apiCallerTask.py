@@ -20,8 +20,8 @@
 """
 from qgis.core import Qgis, QgsMessageLog, QgsTask
 
-from .. import DEBUG
-from ..ui.ui_utilities import MESSAGE_CATEGORY
+from swissgeodownloader import DEBUG
+from swissgeodownloader.ui.ui_utilities import MESSAGE_CATEGORY
 
 
 class ApiCallerTask(QgsTask):
