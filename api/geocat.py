@@ -23,7 +23,6 @@ import xml.etree.ElementTree as ET
 
 from .apiCallerTask import ApiCallerTask
 from .apiInterface import ApiInterface
-from .. import _AVAILABLE_LOCALES
 from ..utils.metadataHandler import loadFromFile, saveToFile
 
 BASEURL = 'https://www.geocat.ch/geonetwork/srv/eng/csw'
@@ -96,15 +95,6 @@ class ApiGeoCat(ApiInterface):
                         break
                 if metadata.get(mapsTo):
                     break
-        return metadata
-    
-    def getMetadataInAllLocales(self, task, datasetId, url):
-        """ Request metadata in all languages for a specific dataset."""
-        metadata = {}
-        for locale in _AVAILABLE_LOCALES:
-            localizedMetadata = self.getMeta(task, datasetId, url, locale)
-            if localizedMetadata:
-                metadata[locale] = localizedMetadata
         return metadata
     
     def loadPreSavedMetadata(self):

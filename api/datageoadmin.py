@@ -26,6 +26,7 @@ from .apiCallerTask import ApiCallerTask
 from .apiInterface import ApiInterface
 from .geocat import ApiGeoCat
 from .responseObjects import (CURRENT_VALUE, Dataset, FILETYPE_COG, File)
+from .. import _AVAILABLE_LOCALES
 from ..utils.filterUtils import cleanupFilterItems, currentFileByBbox
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
@@ -49,7 +50,7 @@ class ApiDataGeoAdmin(ApiInterface):
         self.name = 'Swisstopo API'
         self.geocatApi = ApiGeoCat(parent, locale, 'geoadmin')
     
-    def getDatasetList(self, task: ApiCallerTask, refreshMetadata=False):
+    def getDatasetList(self, task: ApiCallerTask):
         """Get a list of all available datasets and read out title,
         description and other properties."""
         # Request dataset list
@@ -112,17 +113,7 @@ class ApiDataGeoAdmin(ApiInterface):
                     # Save metadata to file so we don't have to call the API again
                     self.geocatApi.updatePreSavedMetadata(metadata, dataset.id,
                                                           self.locale)
-            
-            if refreshMetadata:
-                # Request metadata in all languages. This is only used
-                #  when we want to refresh the local geocat metadata file.
-                md_geocat[dataset.id] = self.geocatApi.getMetadataInAllLocales(
-                    task, dataset.id, dataset.metadataLink)
-
             datasetList[dataset.id] = dataset
-
-        if refreshMetadata:
-            self.geocatApi.updatePreSavedMetadata(md_geocat)
         
         return datasetList
     
@@ -354,3 +345,37 @@ class ApiDataGeoAdmin(ApiInterface):
             else:
                 url = ''
         return responseList
+    
+    def refreshAllMetadata(self, task: ApiCallerTask):
+        """Fetches metadata for all datasets and saves it to a json file."""
+        datasets = self.getDatasetList(task)
+        
+        md_geocat = {}
+        for datasetId, dataset in datasets.items():
+            # Request metadata in all languages
+            metadata = {}
+            for locale in _AVAILABLE_LOCALES:
+                localizedMetadata = self.geocatApi.getMeta(task, datasetId,
+                                                           dataset.metadataLink,
+                                                           locale)
+                if localizedMetadata:
+                    metadata[locale] = localizedMetadata
+            md_geocat[datasetId] = metadata
+        
+        self.geocatApi.updatePreSavedMetadata(md_geocat)
+    
+    def catalogPropertiesCrawler(self, task: ApiCallerTask,
+                                 datasets: dict[str, Dataset]):
+        """Crawls through all item / asset properties of the catalog and
+        returns them."""
+        items = {}
+        for datasetId, dataset in datasets.items():
+            items[datasetId] = {}
+            items[datasetId]['title'] = dataset.title
+            bbox = [7.8693964, 46.7961371, 7.9098771, 46.817595]
+            fileList = self.getFileList(task, dataset.filesLink, bbox)
+            if fileList:
+                items[datasetId]['assets'] = len(fileList['files'])
+                items[datasetId]['filters'] = {
+                    k: v for k, v in fileList['filters'].items() if v}
+        return items
