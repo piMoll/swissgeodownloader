@@ -1072,6 +1072,24 @@
       "title": "Passaggi faunistici"
     }
   },
+  "ch.bafu.feststoffe-geschiebemessnetz": {
+    "de": {
+      "description": "Eine Datenbank zur schweizweiten Erfassung von Geschiebefrachten in den Gewässern. Nach den verheerenden Ereignissen im Sommer 1987, die in vielen Regionen der Schweiz zu grossen Schäden führten, schlug die Arbeitsgruppe für operationelle Hydrologie (GHO) den Betrieb einer Datenbank zur Erfassung der Geschiebefrachten vor. Für die Datenbank Solid arbeitet das BAFU mit den Kantonen und Forschungsinstituten zusammen. Diese liefern die Werte der transportierten und in den Geschiebesammlern abgelagerten Geschiebemengen. Die Mengen werden mit Vermessungsinstrumenten oder bei der Entleerung der Geschiebesammler geschätzt. Die Datenbank Solid umfasst etwa hundert Geschiebesammle",
+      "title": "Datenbank Geschiebefrachten (Bund)"
+    },
+    "en": {
+      "description": "A bedload transport database for surface waters throughout Switzerland. Following the devastating events of the summer of 1987, which caused major damage in many regions of Switzerland, the Operational Hydrology Working Group (GHO) proposed that a bedload transport database should be set up. The SOLID database was developed by the FOEN in collaboration with the cantonal authorities and research institutes, which provide data on the amount of material transported or deposited in sediment traps. The amounts are estimated with the aid of measuring instruments or by emptying these traps. The SOLID database comprises records from about a hundred sediment traps.",
+      "title": "Database of total bedload (federal government)"
+    },
+    "fr": {
+      "description": "Une banque de données pour la détermination des volumes de charriage dans les cours d’eau à l’échelle de la Suisse. Après les événements dévastateurs de l'été 1987, qui ont provoqué des dégâts importants dans un grand nombre de régions de Suisse, le Groupe pour l'Hydrologie Opérationnelle (GHO) a proposé la création d'une banque de données des volumes de charriage. Pour la banque de données Solid, l'OFEV travaille en collaboration avec les cantons et les instituts de recherche. Ceux-ci fournissent les valeurs des charriages transportés et accumulés dans les dépotoirs. Ces quantités sont estimées à l'aide d'instruments topographiques ou lors de la vidange des dépotoirs. La banque de données Solid regroupe une centaine de dépotoirs.",
+      "title": "Banque de données pour la détérmination des volumes de charriage (Confédération)"
+    },
+    "it": {
+      "description": "Una banca dati per il rilevamento su scala nazionale del trasporto solido di fondo nelle acque svizzere. Dopo gli eventi devastanti dell'estate 1987, che hanno provocato ingenti danni in molte regioni della Svizzera, il Gruppo di lavoro per l'idrologia applicata (GHO) ha proposto d'istituire una banca dati relativa al trasporto solido di fondo. La banca dati SOLID è il frutto della collaborazione tra l'UFAM, i Cantoni e vari istituti di ricerca: questi ultimi forniscono i dati relativi ai volumi di materiale trasportato sul fondo, raccolto nelle piazze di deposito. Tali volumi sono periodicamente stimati per mezzo di strumenti di misurazione o in occasione dello svuotamento delle piazze di deposito. La banca dati SOLID raccoglie i dati di circa cento piazze di deposito.",
+      "title": "Banca dati per il rilevamento del trasporto solido di fondo (Confederazione)"
+    }
+  },
   "ch.bafu.flora-schwingrasen": {
     "de": {
       "description": "Das Inventar der Schwingrasen der Schweiz enthält die im Felde aufgefundenen Vorkommen von primären Schwingrasen mit Übergangs- und Hochmoorcharakter (83 Objekte), die eine bestimmte Mindestgrösse erreichen. Das Inventar ist eine Verfeinerung gegenüber der Inventare der Hoch- und Übergangsmoore bzw. der Flachmoore und trägt den meist kleinflächig ausgebildeten Schwingrasen besser Rechnung. Es handelt sich um stark verfilzte, zusammenhängende Rasendecken, die auf wasserdurchtränkter Unterlage aufruhend oder auf dem Wasser schwimmend beim Auftreten deutlich in schwingende Bewegungen geraten.Die Objekte sind durch Verwendung ihrer Zentrumskoordinaten (Landeskoordinaten) aus der Datenbank als Punktcoverage generiert worden.",
@@ -1715,6 +1733,42 @@
       "title": "Monitoraggio nazionale continuo dei corsi d'acqua svizzeri (NADUF) - ubicazioni delle stazioni di misurazione"
     }
   },
+  "ch.bafu.hydrologie-gewaesserzustandsmessstationen": {
+    "de": {
+      "description": "Der Datensatz stellt die Messstandorte dar, an welchen der Gewässerzustand erhoben wird. Die Kantone, die wie in anderen Umweltbereichen auch im Gewässerschutz für den Vollzug zuständig sind, führen den Grossteil der Untersuchungen der Gewässer durch. Der Bund beschränkt sich auf Untersuchungen von nationalem Interesse. Die Daten der Kantone und des Bundes werden in der vom Bundesamt für Umwelt (BAFU) betriebenen Datenbank Gewässerzustand (DBGZ) gesammelt.",
+      "title": "Messstandorte Gewässerzustand CH"
+    },
+    "en": {
+      "description": "The data set represents the monitoring stations where the water status is recorded. The cantons are responsible for water protection enforcement, as they are for other environmentally relevant aspects, and perform most of the water analyses. The Federal Government's role is limited to analyses of national relevance. The cantonal and federal data are collected in the Water Condition Database (DBGZ) held by the Federal Office for the Environment (FOEN).",
+      "title": "Water status monitoring stations CH"
+    },
+    "fr": {
+      "description": "Cette série de données regroupe des stations de mesure dans lesquelles est relevé l’état des eaux superficielles. Ce sont principalement les cantons qui réalisent ces investigations, puisque, comme pour d’autres domaines environnementaux, ils sont responsables de l’application de la législation en matière de protection des eaux. La Confédération se limite aux enquêtes d’intérêt national. Les données des cantons et de la Confédération sont rassemblées dans la banque de données sur l’état des eaux superficielles (DBGZ), qui est gérée par l’OFEV.",
+      "title": "Stations de mesure Etat des eaux CH"
+    },
+    "it": {
+      "description": "La serie di dati rappresenta i siti di misurazione presso i quali viene rilevato lo stato delle acque. I Cantoni, responsabili tra l’altro dell’esecuzione della protezione delle acque, conducono la maggior parte delle analisi. La Confederazione si limita ad effettuare analisi di interesse nazionale. I dati dei Cantoni e della Confederazione vengono raccolti nella banca dati sullo stato delle acque (DBGZ) gestita dall’Ufficio federale dell’ambiente (UFAM).",
+      "title": "Siti di misurazione dello stato delle acque CH"
+    }
+  },
+  "ch.bafu.hydrologie-hochwasserstatistik": {
+    "de": {
+      "description": "Das BAFU verwaltet die Daten zu Hochwasserereignissen, wertet sie statistisch aus und stellt sie in Form von Resultatblättern zur Verfügung. Seit 1986 findet eine systematische statistische Auswertung der Daten des Abflussmessnetzes hinsichtlich der Hochwasser statt. Während langer Zeit hielt sich die Abteilung Hydrologie dabei an die \"Empfehlungen zur Berechnung von Hochwasserwahrscheinlichkeiten\" des Deutschen Verbands für Wasserwirtschaft und Kulturbau (DVWK 1979; heute DWA). Ab 2014 arbeitet sie mit einem neuen Methodenset.",
+      "title": "HQStat Hochwasserstatistik"
+    },
+    "en": {
+      "description": "Data on flood events is managed and statistically evaluated by the FOEN; the findings are made available in the form of result sheets. A systematic statistical evaluation of flood data from the discharge measurement network has been carried out since 1986. For a long time the Hydrology Division applied the \"Recommendations on flood risk estimation\" issued by the German Association for Water, Wastewater and Waste (DVWK 1979; now DWA). From 2014 it has used a new method set.",
+      "title": "HQStat flood statistics"
+    },
+    "fr": {
+      "description": "L’OFEV gère les données relatives aux crues, les analyse du point de vue statistique et les met à disposition sous la forme de feuilles de résultats. Une analyse statistique systématique des données du réseau de mesure des débits sous l'angle des crues est réalisée depuis 1986. Durant de nombreuses années, la division Hydrologie s'est pour cela basée sur les recommandations « Berechnung von Hochwasserwarscheinlichkeiten » de la Deutsche Verband für Wasserwirtschaft und Kulturbau (DVWK 1979, aujourd'hui DWA). Or, depuis 2014, elle travaille avec un nouveau jeu de méthodes.",
+      "title": "HQStat Statistiques des crues"
+    },
+    "it": {
+      "description": "L’UFAM gestisce i dati relativi alle piene, li analizza statisticamente e li mette a disposizione del pubblico sotto forma di schede. Dal 1986 viene effettuata una valutazione statistica sistematica dei dati della rete di misurazione delle portate per quanto riguarda le piene. Per molti anni la divisione Idrologia si è attenuta alle raccomandazioni per il calcolo delle probabilità di piena del Deutscher Verband für Wasserwirtschaft und Kulturbau (DVWK 1979; oggi DWA). Dal 2014 lei utilizza un nuovo insieme di metodi.",
+      "title": "Statistica delle piene HQStat"
+    }
+  },
   "ch.bafu.hydrologie-hydromessstationen": {
     "de": {
       "description": "Der Datensatz stellt die Standorte der Stationen des Basismessnetzes der Abteilung Hydrologie des BAFU dar. Er enthält alle aktuellen Stationen, welche auf der Homepage des BAFU publiziert werden. Das Basismessnetz umfasst heute rund 260 Messstationen an Oberflächengewässern. Neben dem Wasserstand an Seen wird an den Flüssen an 200 Stellen der Abfluss bestimmt. 90% aller Stationen verfügen über eine automatische Fernabfrage.\nDie Umrisse, die beim Anklicken einer Messstation sichtbar werden, stellen das topographische Einzugsgebiet der entsprechenden Messstation dar.",
@@ -1731,6 +1785,150 @@
     "it": {
       "description": "L’insieme dei dati rappresenta i siti delle stazioni della rete di misurazione gestita dalla divisione Idrologia dall'UFAM. Include i dati di tutte le stazioni attive pubblicate sul sito dell’UFAM. La rete di misurazione di base comprende attualmente circa 260 stazioni di misurazione delle acque di superficie. Oltre al livello dei laghi, la rete misura in 200 stazioni la portata dei fiumi. Il 90 per cento delle stazioni dispone della funzione di consultazione automatica remota.\nIl perimetro che compare cliccando sulla stazione di misurazione rappresenta il bacino imbrifero topografico della stazione in questione.",
       "title": "Rete di misurazione di base Acque di superficie"
+    }
+  },
+  "ch.bafu.hydrologie-niedrigwasserstatistik": {
+    "de": {
+      "description": "Zur Beschreibung von Niedrigwasserereignissen kommen zahlreiche verschiedene Kenngrössen in Frage. Die Niedrigwasserstatistik der Abteilung Hydrologie des Bundesamts für Umwelt basiert auf den Empfehlungen des Deutschen Verbands für Wasserwirtschaft und Kulturbau (DVWK 1982/1992; heute DWA). Sie umfasst die jährlichen Werte des niedrigsten mittleren Abflusses über eine bestimmte Anzahl Tage x (NMxQ). Die Kenngrösse NMxQ interessiert bei geplanten Entnahmen oder Einleitungen. Die Statistik wird jährlich aktualisiert.",
+      "title": "Niedrigwasserstatistik NQStat"
+    },
+    "en": {
+      "description": "A wide variety of parameters may be used to describe low-flow events. The FOEN Hydrology Division's low-flow statistics are based on the recommendations of the German Association for Water, Wastewater and Waste (DWA, formerly DVWK, 1982/1992). They include the annual values for the lowest mean discharge over a given number of days x (NMxQ). The parameter NMxQ is of interest in relation to planned withdrawals or releases. The data are updated annually.",
+      "title": "NQStat low-flow statistics"
+    },
+    "fr": {
+      "description": "La description des étiages s'appuie sur un grand nombre de paramètres. Les statistiques des étiages de la division Hydrologie de l’Office fédéral de l’environnement sont basées sur les recommandations du Deutsche Verband für Wasserwirtschaft und Kulturbau (DVWK 1982/1992, aujourd’hui DWA). Elles comprennent les valeurs annuelles des débits d’étiage moyens sur un nombre x de jours (NMxQ). Les paramètres NMxQ sont intéressants pour les prises ou les restitutions d'eau. La statistique est actualisée une fois par an.",
+      "title": "Statistiques des étiages NQStat"
+    },
+    "it": {
+      "description": "Per la descrizione degli eventi di magra entrano in linea di conto numerosi parametri diversi. La statistica elaborata dalla divisione Idrologia dell’Ufficio federale dell'ambiente si basa sulle raccomandazioni dell’associazione tedesca di economia idrica e ingegneria rurale Deutscher Verband für Wasserwirtschaft und Kulturbau (DVWK 1982/1992; oggi DWA). Essa comprende i valori annuali della portata media minima nell’arco di un determinato numero di giorni x (NMxQ). L’indicatore NMxQ è rilevante per la pianificazione di prelevamenti o scarichi. I dati vengono aggiornati annualmente.",
+      "title": "Statistica delle magre NQStat"
+    }
+  },
+  "ch.bafu.hydrologie-q347": {
+    "de": {
+      "description": "Wer einem Fliessgewässer mit ständiger (ganzjähriger) Wasserführung Wasser entnimmt - sei dies zur Elektrizitätsproduktion, zur Bewässerung oder zur Kühlung -, braucht eine Bewilligung. Diese Bewilligung wird nur erteilt, wenn eine angemessene Restwassermenge im Fluss- oder Bachbett bleibt. Angewendet werden diese Restwasservorschriften gemäss Gewässerschutzgesetz nur bei neuen Wasserentnahmen sowie bei bestehenden Entnahmen, wenn die Konzession abläuft und deshalb erneuert werden muss.\n\nDie Abflussmenge Q347 ist eine der Grundlagen für die Festsetzung von Mindestrestwassermengen. Zur Bestimmung des Q347 braucht es Messungen oder geeignete Abschätzverfahren. Die Karte „Grundlagen zur Bestimmung der Abflussmenge Q347\" fasst Mess- und Modellwerte zusammen. Bei letzteren handelt es sich um grobe Schätzwerte, die mit weitergehenden Methoden verbessert werden können. Ein so gewonnener Schätzwert muss dennoch im Allgemeinen mit einer Kurzzeitmessung überprüft werden.",
+      "title": "Grundlagen zur Bestimmung der Abflussmenge Q347"
+    },
+    "en": {
+      "description": "The Water Protection Act specifies how appropriate residual flows can be determined. This applies to new water withdrawals and also to existing withdrawals for which concessions have to be renewed. Anyone who withdraws water from a permanent (non-seasonal) watercourse - for power generation, irrigation or cooling purposes - requires a licence. This will only be granted if appropriate residual flows are maintained in the river- or streambed. The residual flow regulations are only applicable to new water withdrawals and to existing withdrawals when a concession expires and has to be renewed. The Q347 discharge is one of the fundamental parameters for setting minimum residual water flow. Measurements or suitable estimation methods are required to determine the Q347. The map “Grundlagen zur Bestimmung der Abflussmenge Q347” combines measured and modelled data. The modelled data represents rough estimates which can be improved by application of more advanced methods. In general, an estimate obtained in this way must be checked by performing a short-term measurement.",
+      "title": "Basis for determining Q347 flow rate"
+    },
+    "fr": {
+      "description": "Quiconque opère un prélèvement dans un cours d'eau à débit permanent (dans lequel de l'eau s'écoule toute l'année) - que ce soit pour la production d'énergie électrique, pour l'irrigation ou pour le refroidissement - a besoin d'une autorisation. Cette autorisation n'est délivrée que si un débit résiduel convenable est maintenu dans la rivière ou dans le ruisseau. Les prescriptions garantissant des débits résiduels convenables selon la loi sur la protection des eaux ne s'appliquent toutefois qu'aux nouveaux prélèvements et lors du renouvellement de concessions pour des prélèvements existants.\n\nLe débit Q347 constitue l’une des bases pour la détermination des débits résiduels minimaux. La détermination du Q347 exige des mesures de débit ou des méthodes d’estimation. La carte « Éléments pour la détermination des débits Q347 » réunit des valeurs mesurées et des valeurs obtenues par modélisation. Ces dernières sont des estimations grossières, pouvant être précisées au moyen de méthodes plus sophistiquées. Une valeur estimée obtenue de cette manière doit généralement être contrôlée au moyen de mesures réelles sur une courte période.",
+      "title": "Eléments pour la détermination du débit Q347"
+    },
+    "it": {
+      "description": "La legge sulla protezione delle acque stabilisce in che modo è possibile determinare deflussi residuali adeguati. Le relative disposizioni si applicano sia ai prelievi d'acqua nuovi che ai prelievi esistenti per i quali è necessario un rinnovo del diritto di sfruttamento. Chi preleva acqua da un corso d'acqua a deflusso permanente (in cui l'acqua scorre durante tutto l'anno), sia per la produzione di elettricità che per l'irrigazione o il raffreddamento, necessita di un'autorizzazione. Quest'ultima viene rilasciata soltanto se nel letto del fiume o del ruscello è garantito un deflusso residuale adeguato. Tali prescrizioni relative ai deflussi residuali sono applicate solamente ai prelievi d'acqua nuovi e ai prelievi esistenti la cui concessione deve essere rinnovata. La portata Q347 costituisce una delle basi utilizzate per stabilire i deflussi residuali minimi. Per determinare la portata Q347 occorrono misurazioni o procedure di valutazione adeguate. La carta «Grundlagen zur Bestimmung der Abflussmenge Q347» riassume i valori di misurazione e di modellizzazione. Questi ultimi sono valori di stima approssimativi, che si possono migliorare utilizzando metodi più sofisticati. Un valore di stima così ottenuto deve in genere essere esaminato con una misurazione di breve termine.",
+      "title": "Basi per la determinazione dei deflussi Q347"
+    }
+  },
+  "ch.bafu.hydrologie-untersuchungsgebiete": {
+    "de": {
+      "description": "Seit 1957 betreibt die Abteilung Hydrologie ein Netz von hydrologischen Untersuchungsgebieten, mit dem Ziel, die langfristigen Veränderungen des Wasserhaushaltes in möglichst naturnahen Einzugsgebieten der unterschiedlichen Klimaregionen der Schweiz zu beobachten. Sie stellt daher für rund 40 Einzugsgebiete die natürlichen Abflusshöhen bereit und berechnet für viele dieser Gebiete die monatlichen bzw. jährlichen Gebietsniederschläge sowie die jährliche Gebietsverdunstung. Ausserdem stehen Einzugsgebietskenngrössen zur Morphometrie, Geologie/Hydrogeologie, Pedologie und Landnutzung zur Verfügung.",
+      "title": "Hydrologische Untersuchungsgebiete"
+    },
+    "en": {
+      "description": "Since 1957 the hydrology division of the FOEN has operated a network of hydrological study areas aimed at observing long-term changes in the water regime within Switzerland’s most natural catchment areas and reflecting the scope of its wide-ranging climatic regions. Therefore, it covers the natural depth of runoff for about 40 catchment areas and calculates the monthly and annual area precipitation for many of these areas as well as their annual evaporation.",
+      "title": "Hydrological study areas"
+    },
+    "fr": {
+      "description": "Depuis 1957, la division Hydrologie de l'OFEV exploite un réseau de mesure des bassins de recherches hydrologiques dans le but d’observer les changements à long terme du régime hydrologique dans des bassins versants naturels de différentes zones climatiques de Suisse. Il dispose ainsi, pour près de 40 bassins versants, de la lame d'eau écoulée et il calcule pour la plupart de ces territoires les précipitations surfaciques mensuelles ou annuelles, ainsi que l'évaporation surfacique annuelle.",
+      "title": "Stations des bassins de recherches hydrologiques en Suisse"
+    },
+    "it": {
+      "description": "Dal 1957 la divisione idrologia dell'UFAM gestisce una rete di bacini di ricerche idrologiche con lo scopo di osservare i cambiamenti a lungo termine del regime delle acque nei bacini imbriferi possibilmente naturali e situati nelle diverse regioni climatiche della Svizzera. Il servizio rileva pertanto in circa 40 bacini imbriferi i dati relativi ai livelli di flusso naturale e calcola per molte di queste aree le precipitazioni medie mensili e annuali nonché l'evaporazione regionale.",
+      "title": "Bacini di ricerche idrologiche"
+    }
+  },
+  "ch.bafu.hydrologie-untersuchungsgebiete_stationen": {
+    "de": {
+      "description": "Seit 1957 betreibt die Abteilung Hydrologie ein Netz von hydrologischen Untersuchungsgebieten, mit dem Ziel, die langfristigen Veränderungen des Wasserhaushaltes in möglichst naturnahen Einzugsgebieten der unterschiedlichen Klimaregionen der Schweiz zu beobachten. Sie stellt daher für rund 40 Einzugsgebiete die natürlichen Abflusshöhen bereit und berechnet für viele dieser Gebiete die monatlichen bzw. jährlichen Gebietsniederschläge sowie die jährliche Gebietsverdunstung. Ausserdem stehen Einzugsgebietskenngrössen zur Morphometrie, Geologie/Hydrogeologie, Pedologie und Landnutzung zur Verfügung.",
+      "title": "Messstationen der hydrologischen Untersuchungsgebiete"
+    },
+    "en": {
+      "description": "Since 1957 the hydrology division of the FOEN has operated a network of hydrological study areas aimed at observing long-term changes in the water regime within Switzerland’s most natural catchment areas and reflecting the scope of its wide-ranging climatic regions. Therefore, it covers the natural depth of runoff for about 40 catchment areas and calculates the monthly and annual area precipitation for many of these areas as well as their annual evaporation.",
+      "title": "Gauging stations for hydrological study areas"
+    },
+    "fr": {
+      "description": "Depuis 1957, la division Hydrologie de l'OFEV exploite un réseau de mesure des bassins de recherches hydrologiques dans le but d’observer les changements à long terme du régime hydrologique dans des bassins versants naturels de différentes zones climatiques de Suisse. Il dispose ainsi, pour près de 40 bassins versants, de la lame d'eau écoulée et il calcule pour la plupart de ces territoires les précipitations surfaciques mensuelles ou annuelles, ainsi que l'évaporation surfacique annuelle.",
+      "title": "Stations des bassins de recherches hydrologiques en Suisse"
+    },
+    "it": {
+      "description": "Dal 1957 la divisione idrologia dell'UFAM gestisce una rete di bacini di ricerche idrologiche con lo scopo di osservare i cambiamenti a lungo termine del regime delle acque nei bacini imbriferi possibilmente naturali e situati nelle diverse regioni climatiche della Svizzera. Il servizio rileva pertanto in circa 40 bacini imbriferi i dati relativi ai livelli di flusso naturale e calcola per molte di queste aree le precipitazioni medie mensili e annuali nonché l'evaporazione regionale.",
+      "title": "Stazioni di misurazione dei bacini di ricerche idrologiche"
+    }
+  },
+  "ch.bafu.hydrologie-wassertemperaturmessstationen": {
+    "de": {
+      "description": "Der Datensatz stellt die Standorte der Stationen des Wassertemperaturmessnetzes der Abteilung Hydrologie des Bundesamtes für Umwelt (BAFU) dar. Er enthält alle aktuellen Stationen. Das Temperaturmessnetz des BAFU beschränkt sich auf Fliessgewässer.",
+      "title": "Messstationen Wassertemperatur"
+    },
+    "en": {
+      "description": "The data set represents the locations of the stations in the water temperature monitoring network of the Hydrology Department of the Federal Office for the Environment (FOEN). It includes all the existing stations. The FOEN temperature monitoring network is limited to watercourses.",
+      "title": "Water temperature monitoring stations"
+    },
+    "fr": {
+      "description": "Cette série de données regroupe toutes les stations de mesure de la division Hydrologie de l’Office fédéral de l’environnement (OFEV) où la température de l’eau fait actuellement l’objet d’un relevé. Le réseau ne comprend que des stations situées sur des cours d’eau.",
+      "title": "Stations de mesure Température de l’eau"
+    },
+    "it": {
+      "description": "La serie di dati rappresenta i siti delle stazioni della rete di misurazione della temperatura dell’acqua della divisione Idrologia dell’Ufficio federale dell’ambiente (UFAM). Sono presenti tutte le stazioni attuali. La rete di misurazione delle temperature dell’UFAM è limitata ai corsi d’acqua.",
+      "title": "Stazioni di misurazione della temperatura dell’acqua"
+    }
+  },
+  "ch.bafu.hydrologischer-atlas_basisgebiete": {
+    "de": {
+      "description": "Die Basisgebiete bilden die unterste Ebene des Systems von Einzugsgebieten zur Beschreibung der hydrographischen Gliederung der Schweiz (Hydrologischer Atlas der Schweiz HADES). Auf dieser Ebene werden aufgrund der naturräumlichen Charakteristik möglichst homogene Gebiete (30–50 km²) zusammengefasst.",
+      "title": "Basisgebiete (Einzugsgebiete) HADES"
+    },
+    "en": {
+      "description": "The base areas form the lowest layer of the system of catchment areas that describe Switzerland’s hydrographical structure (Hydrological Atlas of Switzerland, HADES). As many uniform areas as possible (30-50km²) are combined on this level due to the nature of the natural features.",
+      "title": "Base areas (catchment areas) HADES"
+    },
+    "fr": {
+      "description": "Les bassins de bases constituent la couche inférieure du système pour la description de la répartition des bassins hydrologiques Suisse (Atlas Hydrologique de la Suisse AHDES). Sur cette couche, en fonction de leurs caractéristiques spatiales naturelles, sont reportés les bassins versants (30-50 km2) les plus homogènes possibles.",
+      "title": "Bassin de base HADES"
+    },
+    "it": {
+      "description": "I bacini di base costituiscono il livello inferiore del sistema di bacini imbriferi utilizzato per descrivere la struttura idrografica della Svizzera (Atlante idrologico della Svizzera HADES). A questo livello vengono riuniti, sulla base delle loro caratteristiche naturali, bacini possibilmente omogenei (30–50 km²).",
+      "title": "Bacini di base (bacini imbriferi) HADES"
+    }
+  },
+  "ch.bafu.hydrologischer-atlas_bilanzgebiete": {
+    "de": {
+      "description": "Die Bilanzgebiete bilden die mittlere Ebene des Systems von Ein-zugsgebieten zur Beschreibung der hydrographischen Gliederung der Schweiz (Hydrologischer Atlas der Schweiz HADES). Sie sind in der Regel 100–200 km² gross.",
+      "title": "Bilanzgebiete (Einzugsgebiete) HADES"
+    },
+    "en": {
+      "description": "The balance areas form the middle layer of the system of catchment areas that describe Switzerland’s hydrographical structure (Hydrological Atlas of Switzerland, HADES). They are usually 100-200km² in size.",
+      "title": "Balance areas (catchment areas) HADES"
+    },
+    "fr": {
+      "description": "Les bassins de bilan constituent la couche moyenne du système des bassins versants pour la description de la répartition hydrographique de la Suisse (Atlas Hydrologique de la Suisse HADES)Ils sont en règle générale d’une grandeur comprise entre 100 et 200 km2.",
+      "title": "Bassin de bilan HADES"
+    },
+    "it": {
+      "description": "I bacini di bilancio costituiscono il livello intermedio del sistema di bacini imbriferi utilizzato per  descrivere la struttura idrografica della Svizzera (Atlante idrologico della Svizzera HADES) e misurano in genere 100–200 km².",
+      "title": "Bacini di bilancio (bacini imbriferi) HADES"
+    }
+  },
+  "ch.bafu.hydrologischer-atlas_kantonale-messstationen": {
+    "de": {
+      "description": "Der Datensatz stellt die Standorte der hydrometrischen Messstationen der Kantone (Datenherkunft: „KANTON“) und Privater (Datenherkunft: „HADES “) dar. Er bildet den Stand im Jahr 2000 ab. Die angegebenen Nummern entsprechen der Bezeichnung im HADES-Atlasblatt 5.1.2. Die weiteren Attribute des Datensatzes wurden der Tabelle zum Atlasblatt entnommen.",
+      "title": "Kantonale und private Messstationen (HADES 5.1.2)"
+    },
+    "en": {
+      "description": "This set of data represents the locations of hydrometric gauging stations belonging to cantons (data source: “KANTON”) and private owners (data source: “HADES”). The data was collected in 2000. The figures entered correspond to the designation in the HADES Atlas sheet 5.1.2. Further attributes of the set of data were obtained from the Atlas sheet for the table.",
+      "title": "Cantonal & private gauging stations (HADES 5.1.2)"
+    },
+    "fr": {
+      "description": "Cette série de données regroupe les stations hydrométriques cantonales (Propriétaire : « KANTON ») et privées (Propriétaire : « HADES »). Elle représente l’état de l’année 2000. Les numéros affichés correspondent à la désignation dans l’Atlas hydrologique de la Suisse, feuille 5.1.2. Les autres attributs sont repris du tableau respectif.",
+      "title": "Stations de mesure cantonales et privées (HADES 5.1.2)"
+    },
+    "it": {
+      "description": "Questo set di dati rappresenta le ubicazioni delle stazioni di misurazione idrometrica dei Cantoni (origine dei dati: \"CANTONE\") e di privati (origine dei dati: „HADES “). Esso riproduce lo stato relativo all'anno 2000. I numeri indicati corrispondono alla definizione riportata sul foglio dell'Atlante HADES 5.1.2. Le altre caratteristiche del set di dati sono tratte dalla tabella relativa al foglio dell'Atlante.",
+      "title": "Stazioni di misura cantonali e private (HADES 5.1.2)"
     }
   },
   "ch.bafu.klima-co2_ausstoss_gebaeude": {
@@ -2039,8 +2237,42 @@
       "title": "Inquinamento atmosferico da anidride solforosa"
     }
   },
-  "ch.bafu.luftreinhaltung-stickstoff_kritischer_eintrag": {},
-  "ch.bafu.luftreinhaltung-stickstoffdeposition": {},
+  "ch.bafu.luftreinhaltung-stickstoff_kritischer_eintrag": {
+    "de": {
+      "description": "Die übermässige Deposition von reaktiven Stickstoffverbindungen (NO₂, NO₃⁻, HNO₃, NH₃, NH₄⁺) führt zur Eutrophierung (Überdüngung) von sensitiven Ökosystemen, trägt zur Bodenversauerung bei und kann zu einer erhöhten Nitratauswaschung und einer damit einhergehenden Auswaschung von Nährstoffen im Boden führen. Zusätzlich wird in den Böden die Produktion von Lachgas erhöht. Methoden zur Bestimmung kritischer Eintragsgrenzen (Critical Loads) für Stickstoff werden im Rahmen der UNECE Konvention über weiträumige grenzüberschreitende Luftverunreinigung entwickelt und angewendet. Die Zeitreihe zeigt die Karten der Überschreitung der Critical Loads für Stickstoff für sensitive Ökosysteme für die Jahre 1990, 2000, 2005, 2010, 2015 und 2020im 1km-Raster. Critical Loads gelten nur auf Flächen mit sensitiven Ökosystemen. Für die Karte wurden Inventare folgender sensitiver Ökosysteme verwendet: i) Hoch- und Flachmoore aus den Bundesinventaren der Hochmoore und der Flachmoore; ii) Trockenwiesen des Bundesinventars der Trockenwiesen und -weiden; iii) Flächen von 21 schutzwürdigen Vegetationstypen aus dem Atlas schutzwürdiger Vegetationstypen der Schweiz (Hegg et al. 1993); iv) Flächen mit montanen Heuwiesen, die Teil des Biodiversitätsmonitoring Schweiz sind (122 Flächen); v) Nährstoffarme alpine Seen in der südlichen Schweiz (100 Seen); vi) Waldflächen des Landesforstinventars (10331 Flächen) und 301 Waldflächen, die für dynamische Modellierungen verwendet werden. Sensitive Ökosysteme, die nicht in diesen Datensätzen erfasst sind, sind nicht berücksichtigt. Detaillierte Angaben zu den verwendeten Critical Loads sowie der Modellierung der Überschreitungen sind beschrieben im Bericht Critical Loads of Nitrogen and their Exceedances (nur auf Englisch erhältlich). Lokal kann die Critical Loads Überschreitung von den modellierten Daten abweichen. Einzelne Pixel sind nicht für die Bewertung von Einzelstandorten heranzuziehen.",
+      "title": "Überschreitung der kritischen Eintragsgrenzen (Critical Loads) für Stickstoff"
+    },
+    "en": {
+      "description": "Excessive deposition of reactive nitrogen compounds (NO₂, NO₃⁻, HNO₃, NH₃, NH₄⁺) causes eutrophication (over-fertilisation) of sensitive ecosystems, contributes to soil acidification and can lead to elevated nitrate leaching with associated leaching of nutrients in the soil. In addition, it also leads to increased production of nitrous oxide. Methods for establishing critical loads for nitrogen are developed and applied in the framework of the UNECE convention on long-range transboundary air pollution. The time series shows the exceedances of the critical loads for nitrogen for sensitive ecosystems for the years 1990, 2000, 2005, 2010, 2015 and 2020 in a resolution of 1 square kilometre. Critical loads only apply for areas containing sensitive ecosystems. The inventories of the following sensitive ecosystems were used for the map: i) Raised bogs and fens from the Federal Inventories of Raised and Transitional Bogs and Fenlands; ii) Dry grasslands from the National Inventory of Dry Grasslands; iii) Various types of vegetation declared worthy of protection, from the vegetation atlas by Hegg et al. (1993); iv) Sites containing mountain hay meadows that are part of the Swiss Biodiversity Monitoring (122 sites); v) Oligotrophic alpine lakes in southern Switzerland (100 lakes); vi) National Forest Inventory sites (10331 sites) and 301 additional sites used for dynamic modelling. Sensitive ecosystems that are not included in these datasets are not considered. Detailed information about the model can be found in the report Critical Loads of Nitrogen and their Exceedances. Actual critical load exceedances can deviate from the modelled grid data. Single pixels must not be used for assessing critical load exceedances at single sites.",
+      "title": "Exceedance of critical loads for nitrogen"
+    },
+    "fr": {
+      "description": "Les dépôts excessifs de composés azotés réactifs (NO₂, NO₃⁻, HNO₃, NH₃, NH₄⁺) entraînent une eutrophisation (surfertilisation) des écosystèmes sensibles, contribuent à l'acidification des sols et augmentent la lixiviation des nitrates et le lessivage des éléments nutritifs dans les sols. En outre, ces dépôts accroissent la production de protoxyde d'azote dans les sols. Les méthodes de détermination des charges critiques (« critical loads ») d'azote sont développées et appliquées dans le cadre de la Convention CEE-ONU sur la pollution atmosphérique transfrontière à longue distance. La série temporelle montre les cartes de dépassement des charges critiques d'azote dans les écosystèmes sensibles pour les années 1990, 2000, 2005. 2010, 2015 et 2020 sur une grille de 1x1 km. Ces charges critiques ne s'appliquent toutefois qu'aux surfaces contenant des écosystèmes sensibles. Pour ces cartes, les écosystèmes sensibles suivants, répertoriés dans des inventaires, ont été utilisés : i) hauts-marais et bas-marais des inventaires fédéraux des hauts-marais et des bas-marais d'importance nationale ; ii) prairies sèches de l'inventaire fédéral des prairies et pâturages secs d'importance nationale ; iii) surfaces de 21 types de végétation dignes de protection de l'Atlas de la végétation à protéger en Suisse (Hegg et al. 1993) ; iv) surfaces présentant des prairies de fauche de l'étage montagnard et faisant partie du Monitoring de la biodiversité en Suisse (122 surfaces) ; v) lacs alpins oligotrophes dans le sud de la Suisse (100 lacs) ; vi) surfaces forestières de l'inventaire forestier national (10 331 surfaces) et surfaces forestières utilisées pour les modélisations dynamiques (301). Les écosystèmes sensibles qui ne sont pas répertoriés dans ces inventaires ne sont pas pris en considération. Des informations détaillées concernant les charges critiques utilisées ainsi que la modélisation des dépassements sont présentées dans le rapport Critical Loads of Nitrogen and their Exceedances (disponible uniquement en anglais). Les dépassements des charges critiques peuvent localement diverger des données modélisées. Les pixels individuels ne doivent pas être utilisés pour l'évaluation de sites uniques.",
+      "title": "Dépassement des charges critiques d'azote"
+    },
+    "it": {
+      "description": "La deposizione eccessiva di composti azotati reattivi (NO₂, NO₃⁻, HNO₃, NH₃, NH₄⁺) porta all'eutrofizzazione (sovraconcimazione) di ecosistemi sensibili, contribuisce all'acidificazione del suolo e può comportare l'aumento del dilavamento di nitrati, causando così il dilavamento di sostanze nutritive dal suolo.La deposizione eccessiva aumenta inoltre la produzione di protossido di azoto nel suolo. I metodi per determinare i carichi critici (critical loads) di apporto di azoto vengono sviluppati e applicati nel quadro della Convenzione sull'inquinamento atmosferico transfrontaliero a lunga distanza dell'ECE-ONU. La serie temporale mostra il superamento dei carichi critici di azoto negli ecosistemi sensibili per gli anni 1990, 2000, 2005, 2010, 2015 e 2020, rappresentati in una griglia di 1x1 km. I carichi critici valgono soltanto per le superfici con ecosistemi sensibili. Per la carta sono stati utilizzati gli inventari dei seguenti ecosistemi sensibili: i) le torbiere alte e basse iscritte ai relativi inventari federali; ii) i prati secchi iscritti all'inventario federale dei prati e pascoli secchi; iii) le superfici di 21 tipi di vegetazione degni di protezione della Svizzera elencate nel relativo atlante (Hegg et al. 1993); iv) le superfici con prati da sfalcio montani, che fanno parte del Monitoraggio della biodiversità in Svizzera (122 superfici); v) i laghi alpini oligotrofici nella Svizzera meridionale (100 laghi); vi) le superfici forestali dell'Inventario Forestale Nazionale (10331 superfici) e le 301 superfici forestali impiegate per la modellizzazione dinamica. Non sono stati considerati gli ecosistemi sensibili non contemplati da questi set di dati. I dettagli sui carichi critici utilizzati e sulla modellizzazione del superamento dei carichi critici sono descritti nel rapporto Critical Loads of Nitrogen and their Exceedances (disponibile solo in inglese). A livello locale il superamento dei carichi critici può divergere dai dati modellizzati. I singoli pixel non devono essere usati per valutare singoli siti.",
+      "title": "Superamento dei carichi critici di azoto"
+    }
+  },
+  "ch.bafu.luftreinhaltung-stickstoffdeposition": {
+    "de": {
+      "description": "Die Zeitreihe zeigt die Karten der modellierten Gesamtdeposition von Stickstoff für die Jahre 1990, 2000, 2005, 2010, 2015 und 2020 im 500m-Raster als Summe von nassen, trockenen und gasförmigen Einträgen. Die schweizweiten Einträge betrugen im Jahr 2020 rund 59‘000 Tonnen Stickstoff. Reduzierte Stickstoffkomponenten (NH₃, NH₄⁺) machen im Durchschnitt rund zwei Drittel der Einträge aus. Lokal kann dieser Anteil jedoch stark variieren (abhängig vom Anteil der Nassdeposition sowie der umliegenden Emittenten). Der Modellierung wurden mittlere meteorologische Verhältnisse zugrunde gelegt. Detaillierte Angaben zur Modellierung sind beschrieben im Bericht Critical Loads of Nitrogen and their Exceedances (nur auf Englisch erhältlich). Lokal kann die Stickstoffdeposition von den modellierten Daten abweichen. Einzelne Pixel sind nicht für die Bewertung von Einzelstandorten heranzuziehen.",
+      "title": "Stickstoffdeposition"
+    },
+    "en": {
+      "description": "The time series shows the modelled total deposition of nitrogen for the years 1990, 2000, 2005, 2010, 2015 and 2020 in a resolution of 500m as a sum of wet, dry and gaseous deposition. Nationwide deposition in 2020 amounted to a total of 59'000 tonnes of nitrogen. On average, reduced nitrogen compounds (NH₃, NH₄⁺) accounted for two thirds of the deposition. This percentage can strongly vary locally depending on the amount of wet deposition and nearby emission sources. The modelled values are based on average meteorological conditions. Detailed information about the model can be found in the report Critical Loads of Nitrogen and their Exceedances. Actual nitrogen deposition can deviate from the modelled grid data. Single pixels must not be used for assessing deposition at single sites.",
+      "title": "Nitrogen Deposition"
+    },
+    "fr": {
+      "description": "La série temporelle montre les cartes de la modélisation de la somme des apports humides, secs et gazeux des dépôts azotés sur une grille de 500m pour les années 1990, 2000, 2005. 2010, 2015 et 2020. Les apports d'azote totaux en Suisse se sont élevés à 59'000 t en 2020, constitués en moyenne d'environ deux tiers de composés azotés réduits (NH₃, NH₄⁺). Cette proportion peut toutefois fortement varier localement (en fonction de la part des dépôts humides et des émetteurs à proximité). La modélisation a été réalisée sur la base de conditions météorologiques moyennes. Des informations détaillées à ce sujet sont fournies dans le rapport Critical Loads of Nitrogen and their Exceedances (disponible uniquement en anglais). Les dépôts azotés peuvent localement diverger des données modélisées. Les pixels individuels ne doivent pas être utilisés pour l'évaluation de sites uniques.",
+      "title": "Dépôts azotés"
+    },
+    "it": {
+      "description": "La serie temporale mostra la deposizione complessiva di azoto sotto forma di modellizzazione per gli anni 1990, 2000, 2005, 2010, 2015 e 2020, rappresentata in in una griglia di 500m come somma di apporti umidi, secchi o gassosi. L'apporto totale di azoto in Svizzera è stato di 59.000 tonnellate nel 2020, costituite per due terzi circa da composti azotati ridotti (NH₃, NH₄⁺). Tuttavia questa percentuale può variare considerevolmente a livello locale (a seconda della quota di deposizione umida come pure degli emettitori circostanti). La modellizzazione è basata su condizioni meteorologiche medie. I dettagli della modellizzazione sono descritti nel rapporto Critical Loads of Nitrogen and their Exceedances (disponibile solo in inglese). A livello locale la deposizione di azoto può divergere dai dati modellizzati. I singoli pixel non devono essere usati per valutare singoli siti.",
+      "title": "Deposizione di azoto"
+    }
+  },
   "ch.bafu.luftreinhaltung-stickstoffdioxid": {
     "de": {
       "description": "Unter dem Begriff Stickoxide (NOx) werden Stickstoffdioxid (NO₂) und Stickstoffmonoxid (NO) zusammengefasst. Sie entstehen beim Verbrennen von Brenn- und Treibstoffen, insbesondere bei hohen Verbrennungstemperaturen. Hauptquelle ist der Strassenverkehr. Sie sind eine wichtige Vorläufersubstanz für die Bildung von sauren Niederschlägen, sekundärem Feinstaub und – zusammen mit den flüchtigen organischen Verbindungen – von bodennahem Ozon/Sommersmog. Zusammen mit Ammoniak bilden sie Feinstaub und tragen zur Überdüngung von Ökosystemen bei. Stickstoffdioxid und andere Reizgase begünstigen ausserdem Erkrankungen der Atemwege. Kinder sind speziell betroffen. Die Zeitreihe zeigt die modellierten Karten der Jahresmittelwerte seit 1990 im 200 m Raster, ab 2020 im 20 m Raster. Lokal kann die NO₂-Konzentration von den modellierten Daten abweichen. Einzelne Pixel sind nicht für die Bewertung von Einzelstandorten heranzuziehen. Der in der Luftreinhalte-Verordnung festgelegte Jahresgrenzwert für NO₂ liegt bei 30 µg/m³.",
@@ -2057,6 +2289,24 @@
     "it": {
       "description": "Gli ossidi di azoto (NOx) comprendono il diossido di azoto (NO₂) e il monossido di azoto (NO) che si formano nei processi di combustione di carburanti e combustibili, in particolare ad alte temperature. La fonte principale è costituita dal traffico stradale. Gli ossidi di azoto sono importanti precursori delle precipitazioni acide, delle polveri fini secondarie e, insieme ai composti organici volatili, dell’ozono/smog estivo. Insieme all’ammoniaca formano l’ozono e contribuiscono all’eccessiva concimazione degli ecosistemi. Il diossido di azoto e altri gas irritanti favoriscono inoltre le malattie alle vie respiratorie, in particolare nei bambini. Le serie temporali mostrano le mappe modellate dei valori medi annuali dal 1990 su una griglia di 200 m, dal 2020 in poi su una griglia di 100 m. Localmente, la concentrazione di NO₂ può discostarsi dai dati modellati. I singoli pixel non devono essere utilizzati per la valutazione delle singole località. Il valore limite annuale per l’NO₂ indicato nell'Ordinanza contro l’inquinamento atmosferico è di 30 µg/m³.",
       "title": "Inquinamento atmosferico da diossido di azoto"
+    }
+  },
+  "ch.bafu.mittlere-abfluesse": {
+    "de": {
+      "description": "Für das Gewässernetz der Schweiz wurden die mittleren natürlichen monatlichen und jährlichen Abflüsse (m³/s) modelliert und die zugehörigen Abflussregimetypen ermittelt. Mit «MQ-GWN-CH» liegt für mittelgrosse Gewässer eine flächendeckende Datengrundlage zu den mittleren Abflüssen vor. Keine Abflusswerte werden ausgegeben für Gewässer mit Einzugsgebieten kleiner als 3 km²(Anwendungsgrenze des zugrundeliegenden Abflusshöhendatensatzes) und grösser oder gleich 500 km² (weil davon ausgegangen wird, dass dafür in der Regel verwertbare Abflussmesstationen vorhanden sind). Generell gilt, dass Messungen der hydrometrischen Stationen eine bessere Datengrundlage darstellen.",
+      "title": "Mittlere Abflüsse (m³/s) und Abflussregimetyp für das Gewässernetz der Schweiz"
+    },
+    "en": {
+      "description": "For the entire Swiss river network natural runoff (m³/s) values (monthly and annual means) have been modeled and the flow regime types determined. «MQ-GWN-CH» constitutes a dataset for the entire medium-scale river network of Switzerland. No runoff values are given for rivers with watershed areas < 3 km²(limit of application of the underlying dataset) and ≥ 500 km²(given that in general for such cases a hydrometric station is available within a useful distance). The latter starts from the assumption that measured data are as a matter of principle to be preferred to modeled estimates.",
+      "title": "Mean runoff (m³/s) and flow regime types for the river network of Switzerland"
+    },
+    "fr": {
+      "description": "Pour l’ensemble du réseau hydrographique de la Suisse ont été simulés les débits (m³/s) naturels (moyennes mensuelles et annuelles) et déterminés les types de régime d’écoulement. «MQ-GWN-CH» est une base de données des débits moyens pour l’ensemble des cours d’eau de taille moyenne du réseau hydrographique de la Suisse. Il n'inclut pas de valeurs du débit pour les cours d’eau avec un bassin versant < 3 km²(limite du champ d’application des données de base) ou ≥ 500 km² (vu que - en règle générale – pour ces cas une station hydrométrique est disponible à une distance utile). En principe des données mesurées auprès d'une station hydrométrique sont à préférer à des valeurs estimées/simulées.",
+      "title": "Débits moyens (m³/s) et types de régime d’écoulement pour le réseau hydrographique de la Suisse"
+    },
+    "it": {
+      "description": "Per l'intera rete idrica svizzera sono stati simulati i deflussi (m³/s) naturali medi mensili e annui, nonché determinati i relativi tipi di regime di deflusso. «MQ-GWN-CH» fornisce una base di informazioni estesa sui deflussi medi dei corsi d'acqua di media grandezza dell'intera rete idrica svizzera. Non include informazioni per i corsi d'acqua che presentano un bacino imbrifero < 3 km² (limitazione delle basi idrologiche usate per la simulazione) o ≥ 500 km²(per questi corsi d'acqua solitamente esiste una stazione idrometrica appropriata). Di principio, i dati misurati in una stazione idrometrica sono da preferire ai valori stimati/simulati.",
+      "title": "Deflussi medi (m³/s) e tipi di regime di deflusso per la rete idrografica Svizzera"
     }
   },
   "ch.bafu.nabelstationen": {
@@ -5943,18 +6193,222 @@
       "title": "Scenari climatici per i futuri ambienti interni (SIA 2028)"
     }
   },
-  "ch.meteoschweiz.ogd-forecasting-icon-ch1": {},
-  "ch.meteoschweiz.ogd-forecasting-icon-ch2": {},
-  "ch.meteoschweiz.ogd-nbcn": {},
-  "ch.meteoschweiz.ogd-nbcn-precip": {},
-  "ch.meteoschweiz.ogd-nime": {},
-  "ch.meteoschweiz.ogd-obs": {},
-  "ch.meteoschweiz.ogd-phenology": {},
-  "ch.meteoschweiz.ogd-pollen": {},
-  "ch.meteoschweiz.ogd-smn": {},
-  "ch.meteoschweiz.ogd-smn-precip": {},
-  "ch.meteoschweiz.ogd-smn-tower": {},
-  "ch.meteoschweiz.ogd-tot": {},
+  "ch.meteoschweiz.ogd-forecasting-icon-ch1": {
+    "de": {
+      "description": "Vorhersage von Temperatur, Feuchte, Niederschlag, Wind, Druck, Geopotential, Verdunstung und Strahlung mit 1 km Gittergrösse für die nächsten 33 Stunden – alle 3 Stunden aktualisiert, verfügbar für die letzten 24 Stunden.",
+      "title": "Numerisches Wettervorhersagemodell ICON-CH1-EPS"
+    },
+    "en": {
+      "description": "Forecast of temperature, humidity, precipitation, wind, pressure, geopotential, evaporation and radiation with 1 km grid size for the next 33 hours – updated every 3 hours, available for the last 24 hours.",
+      "title": "Numerical weather forecasting model ICON-CH1-EPS"
+    },
+    "fr": {
+      "description": "Prévision de la température, de l’humidité, des précipitations, du vent, de la pression, du géopotentiel, de l’évaporation et du rayonnement avec une grille de 1 km de côté pour les 33 prochaines heures – mise à jour toutes les 3 heures, disponible pour les dernières 24 heures.",
+      "title": "Modèle numérique de prévision météorologique ICON-CH1-EPS"
+    },
+    "it": {
+      "description": "Previsione di temperatura, umidità, precipitazioni, vento, pressione, geopotenziale, evaporazione e radiazione con passo di griglia di 1 km per le prossime 33 ore – valori aggiornati ogni 3 ore, disponibili per le ultime 24 ore.",
+      "title": "Modello numerico di previsione meteorologica ICON-CH1-EPS"
+    }
+  },
+  "ch.meteoschweiz.ogd-forecasting-icon-ch2": {
+    "de": {
+      "description": "Projekt OGD - Basisinformation zum Datenbestand / Kurzbeschreibung",
+      "title": "Numerisches Wettervorhersagemodell ICON-CH2-EPS"
+    },
+    "en": {
+      "description": "Basisinformation zum Datenbestand / Kurzbeschreibung en",
+      "title": "Numerical weather forecasting model ICON-CH2-EPS"
+    },
+    "fr": {
+      "description": "Basisinformation zum Datenbestand / Kurzbeschreibung fr",
+      "title": "Modèle numérique de prévision météorologique ICON-CH2-EPS"
+    },
+    "it": {
+      "description": "Basisinformation zum Datenbestand / Kurzbeschreibung it",
+      "title": "Modello numerico di previsione meteorologica ICON-CH2-EPS"
+    }
+  },
+  "ch.meteoschweiz.ogd-nbcn": {
+    "de": {
+      "description": "Homogene Klimamessreihen geben ein unverfälschtes Bild der Klimaentwicklung wieder und bilden eine Grundlage für Untersuchungen zur Klimaänderung: Temperatur, Niederschlag, Wind, Sonnenschein, Feuchte, Strahlung und Luftdruck – pro Station – täglich ('d'), monatlich ('m') und jährlich ('y') – vom aktuellen Jahr bis gestern ('recent'), seit Messbeginn ('historical'). Wenn Sie monatliche oder jährliche Werte benötigen, empfehlen wir Ihnen dringend, die entsprechende Auflösung herunterzuladen.",
+      "title": "Klimastationen – Homogene Messreihen"
+    },
+    "en": {
+      "description": "Homogeneous series of climate measurements reflect an unbiased picture of the climatic development and represent the basis for research on climate change: Temperature, precipitation, wind, sunshine, humidity, radiation and pressure – per station – daily ('d'), monthly ('m') and yearly ('y') – from the current year up to yesterday ('recent'), since the beginning of the measurement ('historical'). If you require monthly or yearly values, we strongly recommend that you download the corresponding resolution.",
+      "title": "Climate stations – Homogeneous data series"
+    },
+    "fr": {
+      "description": "Les séries de mesures climatiques homogènes donnent une image de l'évolution du climat et servent de base pour les études sur le changement climatique: Température, précipitations, vent, ensoleillement, humidité, rayonnement et pression – par station – journalières ('d'), mensuelles ('m') et annuelles ('y') – de l'année actuel jusqu'à hier ('recent'), depuis le début de mesure ('historical'). Si vous avez besoin de valeurs mensuelles ou annuelles, nous vous recommandons vivement de télécharger la résolution correspondante.",
+      "title": "Stations climatologiques – Séries de mesures homogènes"
+    },
+    "it": {
+      "description": "Le serie omogenee di misurazioni climatiche offrono un quadro attendibile dell’evoluzione del clima e costituiscono la base per la ricerca sui mutamenti climatici: Temperatura, precipitazioni, vento, soleggiamento, umidità, radiazione e pressione – per stazione – giornalieri ('d'), mensili ('m') e annuali ('y') – dall'anno corrente fino a ieri ('recent'), dall'inizio delle misurazioni ('historical'). Se si necessitano valori mensili o annuali, si consiglia vivamente di scaricare la risoluzione corrispondente.",
+      "title": "Stazioni climatologiche – Serie omogenee di misurazioni"
+    }
+  },
+  "ch.meteoschweiz.ogd-nbcn-precip": {
+    "de": {
+      "description": "Homogene Klimamessreihen geben ein unverfälschtes Bild der Klimaentwicklung wieder und bilden eine Grundlage für Untersuchungen zur Klimaänderung: Niederschlag – pro Station – täglich ('d'), monatlich ('m') und jährlich ('y') – vom aktuellen Jahr bis gestern ('recent'), seit Messbeginn ('historical'). Wenn Sie monatliche oder jährliche Werte benötigen, empfehlen wir Ihnen dringend, die entsprechende Auflösung herunterzuladen.",
+      "title": "Niederschlags-Klimastationen – Homogene Messreihen"
+    },
+    "en": {
+      "description": "Homogeneous series of climate measurements reflect an unbiased picture of the climatic development and represent the basis for research on climate change: Precipitation – per station – daily ('d'), monthly ('m') and yearly ('y') – from the current year up to yesterday ('recent'), since the beginning of the measurement ('historical'). If you require monthly or yearly values, we strongly recommend that you download the corresponding resolution.",
+      "title": "Climate precipitation stations – Homogeneous data series"
+    },
+    "fr": {
+      "description": "Les séries de mesures climatiques homogènes donnent une image de l'évolution du climat et servent de base pour les études sur le changement climatique: Précipitations – par station – journalières ('d'), mensuelles ('m') et annuelles ('y') – de l'année actuel jusqu'à hier ('recent'), depuis le début de mesure ('historical'). Si vous avez besoin de valeurs mensuelles ou annuelles, nous vous recommandons vivement de télécharger la résolution correspondante.",
+      "title": "Stations climatologiques pluviométriques – Séries de mesures homogènes"
+    },
+    "it": {
+      "description": "Le serie omogenee di misurazioni climatiche offrono un quadro attendibile dell’evoluzione del clima e costituiscono la base per la ricerca sui mutamenti climatici: Precipitazioni – giornalieri ('d'), mensili ('m') e annuali ('y') – dall'anno corrente fino a ieri ('recent'), dall'inizio delle misurazioni ('historical'). Se si necessitano valori mensili o annuali, si consiglia vivamente di scaricare la risoluzione corrispondente.",
+      "title": "Stazioni climatologiche pluviometriche – Serie omogenee di misurazioni"
+    }
+  },
+  "ch.meteoschweiz.ogd-nime": {
+    "de": {
+      "description": "Niederschlag und Schnee – pro Station – Werte täglich ('d'), monatlich ('m') und jährlich ('y') – vom aktuellen Jahr bis gestern ('recent'), seit Messbeginn in Zehnjahresschritten ('historical'). Wenn Sie monatliche oder jährliche Werte benötigen, empfehlen wir Ihnen dringend, die entsprechende Auflösung herunterzuladen.",
+      "title": "Manuelle Niederschlagsstationen – Messwerte"
+    },
+    "en": {
+      "description": "Precipitation and snow – per station – values daily ('d'), monthly ('m') and yearly ('y') – from the current year up to yesterday ('recent'), since the beginning of the measurement ('historical'). If you require monthly or yearly values, we strongly recommend that you download the corresponding resolution.",
+      "title": "Manual precipitation stations – Measured values"
+    },
+    "fr": {
+      "description": "Précipitations et neige – par station – valeurs journalières ('d'), mensuelles ('m') et annuelles ('y') – de l'année actuel jusqu'à hier ('recent'), depuis le début de mesure par incréments de dix ans ('historical'). Si vous avez besoin de valeurs mensuelles ou annuelles, nous vous recommandons vivement de télécharger la résolution correspondante.",
+      "title": "Stations pluviométriques manuelles – Valeurs mesurées"
+    },
+    "it": {
+      "description": "Precipitazioni e neve – per stazione – valori giornalieri ('d'), mensili ('m') e annuali ('y') – dall'anno corrente fino a ieri ('recent'), dall'inizio delle misurazioni in incrementi di dieci anni ('historical'). Se si necessitano valori mensili o annuali, si consiglia vivamente di scaricare la risoluzione corrispondente.",
+      "title": "Stazioni pluviometriche manuali – Valori misurati"
+    }
+  },
+  "ch.meteoschweiz.ogd-obs": {
+    "de": {
+      "description": "Sichtweite, aktuelles und vergangenes Wetter, Erdbodenzustand und Wolken – beobachtet zwei bis acht Mal täglich – pro Station – Werte täglich ('d'), monatlich ('m') und jährlich ('y') – vom aktuellen Jahr bis gestern ('recent'), seit Messbeginn ('historical'). Wenn Sie monatliche oder jährliche Werte benötigen, empfehlen wir Ihnen dringend, die entsprechende Auflösung herunterzuladen.",
+      "title": "Meteorologische Augenbeobachtungen"
+    },
+    "en": {
+      "description": "Visibility, current and past weather, ground conditions and clouds – observed between two and eight times per day – per station – values daily ('d'), monthly ('m') and yearly ('y') – from the current year up to yesterday ('recent'), since the beginning of the measurement ('historical'). If you require monthly or yearly values, we strongly recommend that you download the corresponding resolution.",
+      "title": "Meteorological visual observations"
+    },
+    "fr": {
+      "description": "Visibilité, temps actuel et passé, état du sol et nuages – observé deux à huit fois par jour – par station – valeurs journalières ('d'), mensuelles ('m') et annuelles ('y') – de l'année actuel jusqu'à hier ('recent'), depuis le début de mesure ('historical'). Si vous avez besoin de valeurs mensuelles ou annuelles, nous vous recommandons vivement de télécharger la résolution correspondante.",
+      "title": "Observations visuelles météorologiques"
+    },
+    "it": {
+      "description": "Visibilità, tempo attuale et passato, stato del suolo et nubi – osservato da due a otto volte al giorno – per stazione – valori giornalieri ('d'), mensili ('m') e annuali ('y') – dall'anno corrente fino a ieri ('recent'), dall'inizio delle misurazioni ('historical'). Se si necessitano valori mensili o annuali, si consiglia vivamente di scaricare la risoluzione corrispondente.",
+      "title": "Osservazione meteorologiche visive"
+    }
+  },
+  "ch.meteoschweiz.ogd-phenology": {
+    "de": {
+      "description": "Phänophasen von 26 Pflanzenarten. Anhand dieser Informationen lassen sich die Auswirkungen des Klimawandels auf die Vegetation untersuchen.",
+      "title": "Phänologische Beobachtungen"
+    },
+    "en": {
+      "description": "Phenophases of 26 plant species. On the basis of this information, it is possible to investigate the impact of climate change on the vegetation.",
+      "title": "Phenological observations"
+    },
+    "fr": {
+      "description": "Phénophases de 26 espèces de plantes. Ces informations permettent d'analyser les effets du changement climatique sur la végétation.",
+      "title": "Observations phénologiques"
+    },
+    "it": {
+      "description": "Fenofasi di 26 specie di piante. Le informazioni ottenute consentono di identificare le conseguenze del cambiamento climatico sulla vegetazione.",
+      "title": "Osservazioni fenologiche"
+    }
+  },
+  "ch.meteoschweiz.ogd-pollen": {
+    "de": {
+      "description": "Pollenkonzentration – pro Station – Werte stündlich ('h') und täglich ('d') – vom aktuellen Jahr bis gestern ('recent'), seit Messbeginn ('historical'). Wenn Sie tägliche Werte benötigen, empfehlen wir Ihnen dringend, die entsprechende Auflösung herunterzuladen.",
+      "title": "Pollenstationen – Messwerte"
+    },
+    "en": {
+      "description": "Pollen concentration – per station – values hourly ('h') and daily ('d') – from the current year up to yesterday ('recent'), since the beginning of the measurement ('historical'). If you require daily values, we strongly recommend that you download the corresponding resolution.",
+      "title": "Pollen stations – Measured values"
+    },
+    "fr": {
+      "description": "Concentration pollinique – par station – valeurs horaires ('h') et journalières ('d') – de l'année actuel jusqu'à hier ('recent'), depuis le début de mesure ('historical'). Si vous avez besoin de valeurs journalières, nous vous recommandons vivement de télécharger la résolution correspondante.",
+      "title": "Stations pollen – Valeurs mesurées"
+    },
+    "it": {
+      "description": "Concentrazione pollinica – per stazione – valori orari ('h') e giornalieri ('d') – dall'anno corrente fino a ieri ('recent'), dall'inizio delle misurazioni ('historical'). Se si necessitano valori giornalieri, si consiglia vivamente di scaricare la risoluzione corrispondente.",
+      "title": "Stazioni pollini – Valori misurati"
+    }
+  },
+  "ch.meteoschweiz.ogd-smn": {
+    "de": {
+      "description": "Temperatur, Niederschlag, Wind, Sonnenschein, Feuchte, Strahlung und Luftdruck – pro Station – Werte alle 10 Minuten ('t'), stündlich ('h'), täglich ('d'), monatlich ('m') und jährlich ('y') – seit Mitternacht ('now'), vom aktuellen Jahr bis gestern ('recent'), seit Messbeginn in Zehnjahresschritten ('historical'). Wenn Sie stündliche, tägliche, monatliche oder jährliche Werte benötigen, empfehlen wir Ihnen dringend, die entsprechende Auflösung herunterzuladen.",
+      "title": "Automatische Wetterstationen – Messwerte"
+    },
+    "en": {
+      "description": "Temperature, precipitation, wind, sunshine, humidity, radiation and pressure – per station – values every 10 minutes ('t'), hourly ('h'), daily ('d'), monthly ('m') and yearly ('y') – since midnight ('now'), from the current year up to yesterday ('recent'), since the beginning of the measurement in ten-year increments ('historical'). If you require hourly, daily, monthly or yearly values, we strongly recommend that you download the corresponding resolution.",
+      "title": "Automatic weather stations – Measured values"
+    },
+    "fr": {
+      "description": "Température, précipitations, vent, ensoleillement, humidité, rayonnement et pression – par station – valeurs toutes les 10 minutes ('t'), horaires ('h'), journalières ('d'), mensuelles ('m') et annuelles ('y') – depuis minuit ('now'), de l'année actuel jusqu'à hier ('recent'), depuis le début de mesure par incréments de dix ans ('historical'). Si vous avez besoin de valeurs horaires, journalières, mensuelles ou annuelles, nous vous recommandons vivement de télécharger la résolution correspondante.",
+      "title": "Stations météorologiques automatiques – Valeurs mesurées"
+    },
+    "it": {
+      "description": "Temperatura, precipitazioni, vento, soleggiamento, umidità, radiazione e pressione – per stazione – valori ogni 10 minuti ('t'), orari ('h'), giornalieri ('d'), mensili ('m') e annuali ('y') – dalla mezzanotte ('now'), dall'anno corrente fino a ieri ('recent'), dall'inizio delle misurazioni in incrementi di dieci anni ('historical'). Se si necessitano valori orari, giornalieri, mensili o annuali, si consiglia vivamente di scaricare la risoluzione corrispondente.",
+      "title": "Stazioni meteorologiche automatiche – Valori misurati"
+    }
+  },
+  "ch.meteoschweiz.ogd-smn-precip": {
+    "de": {
+      "description": "Niederschlag – pro Station – Werte alle 10 Minuten ('t'), stündlich ('h'), täglich ('d'), monatlich ('m') und jährlich ('y') – seit Mitternacht ('now'), vom aktuellen Jahr bis gestern ('recent'), seit Messbeginn in Zehnjahresschritten ('historical'). Wenn Sie stündliche, tägliche, monatliche oder jährliche Werte benötigen, empfehlen wir Ihnen dringend, die entsprechende Auflösung herunterzuladen.",
+      "title": "Automatische Niederschlagsstationen – Messwerte"
+    },
+    "en": {
+      "description": "Precipitation – per station – values every 10 minutes ('t'), hourly ('h'), daily ('d'), monthly ('m') and yearly ('y') – since midnight ('now'), from the current year up to yesterday ('recent'), since the beginning of the measurement in ten-year increments ('historical'). If you require hourly, daily, monthly or yearly values, we strongly recommend that you download the corresponding resolution.",
+      "title": "Automatic precipitation stations – Measured values"
+    },
+    "fr": {
+      "description": "Précipitations – par station – valeurs toutes les 10 minutes ('t'), horaires ('h'), journalières ('d'), mensuelles ('m') et annuelles ('y') – depuis minuit ('now'), de l'année actuel jusqu'à hier ('recent'), depuis le début de mesure par incréments de dix ans ('historical'). Si vous avez besoin de valeurs horaires, journalières, mensuelles ou annuelles, nous vous recommandons vivement de télécharger la résolution correspondante.",
+      "title": "Stations pluviométriques automatiques – Valeurs mesurées"
+    },
+    "it": {
+      "description": "Precipitazioni – per stazione – valori ogni 10 minuti ('t'), orari ('h'), giornalieri ('d'), mensili ('m') e annuali ('y') – dalla mezzanotte ('now'), dall'anno corrente fino a ieri ('recent'), dall'inizio delle misurazioni in incrementi di dieci anni ('historical'). Se si necessitano valori orari, giornalieri, mensili o annuali, si consiglia vivamente di scaricare la risoluzione corrispondente.",
+      "title": "Stazioni pluviometriche automatiche – Valori misurati"
+    }
+  },
+  "ch.meteoschweiz.ogd-smn-tower": {
+    "de": {
+      "description": "Temperatur, Wind, Sonnenschein, Feuchte und Strahlung – pro Station – Werte alle 10 Minuten ('t'), stündlich ('h'), täglich ('d'), monatlich ('m') und jährlich ('y') – seit Mitternacht ('now'), vom aktuellen Jahr bis gestern ('recent'), seit Messbeginn in Zehnjahresschritten ('historical'). Wenn Sie stündliche, tägliche, monatliche oder jährliche Werte benötigen, empfehlen wir Ihnen dringend, die entsprechende Auflösung herunterzuladen.",
+      "title": "Automatische Turmstationen – Messwerte"
+    },
+    "en": {
+      "description": "Temperature, wind, sunshine, humidity and radiation – per station – every 10 minutes ('t'), hourly ('h'), daily ('d'), monthly ('m') and yearly ('y') – since midnight ('now'), from the current year up to yesterday ('recent'), since the beginning of the measurement in ten-year increments ('historical'). If you require hourly, daily, monthly or yearly values, we strongly recommend that you download the corresponding resolution.",
+      "title": "Automatic tower stations – Measured values"
+    },
+    "fr": {
+      "description": "Température, vent, ensoleillement, humidité et rayonnement – par station – valeurs toutes les 10 minutes ('t'), horaires ('h'), journalières ('d'), mensuelles ('m') et annuelles ('y') – depuis minuit ('now'), de l'année actuel jusqu'à hier ('recent'), depuis le début de mesure par incréments de dix ans ('historical'). Si vous avez besoin de valeurs horaires, journalières, mensuelles ou annuelles, nous vous recommandons vivement de télécharger la résolution correspondante.",
+      "title": "Stations-tour automatiques – Valeurs mesurées"
+    },
+    "it": {
+      "description": "Temperatura, vento, soleggiamento, umidità e radiazione – per stazione – valori ogni 10 minuti ('t'), orari ('h'), giornalieri ('d'), mensili ('m') e annuali ('y') – dalla mezzanotte ('now'), dall'anno corrente fino a ieri ('recent'), dall'inizio delle misurazioni in incrementi di dieci anni ('historical'). Se si necessitano valori orari, giornalieri, mensili o annuali, si consiglia vivamente di scaricare la risoluzione corrispondente.",
+      "title": "Stazioni torre automatiche – Valori misurati"
+    }
+  },
+  "ch.meteoschweiz.ogd-tot": {
+    "de": {
+      "description": "Niederschlag – pro Station – Werte jährlich ('y') – seit Messbeginn.",
+      "title": "Totalisator-Niederschlagsstationen – Messwerte"
+    },
+    "en": {
+      "description": "Precipitation – per station – values early ('y') – since the beginning of the measurement.",
+      "title": "Totaliser precipitation stations – Measured values"
+    },
+    "fr": {
+      "description": "Précipitations – par station – valeurs annuelles ('y') – depuis le début de mesure.",
+      "title": "Stations pluviométriques totalisateur – Valeurs mesurées"
+    },
+    "it": {
+      "description": "Precipitazioni – per stazione – valori annuali ('y') – dall'inizio delle misurazioni.",
+      "title": "Pluviometri totalizzatori – Valori misurati"
+    }
+  },
   "ch.pronatura.naturschutzgebiete": {
     "de": {
       "description": "Pro Natura sichert mit Verträgen über 770 Naturschutzgebiete in der Schweiz mit einer Gesamtfläche von rund 270 km2. Aus unterschiedlichen Gründen dürfen öffentlich nur 763 Gebiete dargestellt werden. In einem Teil dieser Gebiete führt Pro Natura die professionelle Betreuung selbst aus. Über 69 km2 davon sind im Eigentum von Pro Natura. Damit ist Pro Natura die grösste private Landbesitzerin der Schweiz. Für einen besseren Schutz oder zur Arrondierung und Aufwertung von Naturschutzgebieten sichert Pro Natura jedes Jahr zusätzliche Flächen oder kauft neue Parzellen. Eine Übersicht darüber gibt der jährliche Leistungsbericht. Sie verzichtet aber auch auf die Erneuerung von Verträgen, wenn der Schutz des Gebietes durch andere Massnahmen gewährleistet ist. Mit ihren Naturschutzgebieten sichert Pro Natura Lebensräume für unzählige Tier- und Pflanzenarten und schenkt Ihnen und den folgenden Generationen attraktive, unverbaute Landschaftselemente. Die Naturschutzgebiete von Pro Natura umfassen unter anderem auch Waldreservate.",
@@ -6548,8 +7002,42 @@
       "title": "Energia geotermica profonda in Svizzera"
     }
   },
-  "ch.swisstopo.hoheitsgrenze-landesvermessung": {},
-  "ch.swisstopo.hoheitsgrenzpunkte-landesvermessung": {},
+  "ch.swisstopo.hoheitsgrenze-landesvermessung": {
+    "de": {
+      "description": "Der Datensatz «Hoheitsgrenze LV» enthält die Landesgrenze, die das Gebiet der Schweiz gegenüber den Nachbarländern begrenzt und von der Landesvermessung verwaltet wird. Sie bildet auch die Aussengrenze der Kantone, Bezirke, Gemeinden und Grundstücke, die an der Landesgrenze liegen. Die Landesgrenze muss in den Produkten der amtlichen Vermessung dargestellt werden und wird daher über einen Dienst zur Verfügung gestellt.",
+      "title": "HoheitsgrenzeLV"
+    },
+    "en": {
+      "description": "The “Territorial limit NS” data set contains the national border that delimits the territory of the Swiss Confederation from neighboring countries and is managed by the national survey. It also forms the outer boundary of cantons, districts, municipalities, and properties located on the edge of the country. The national border must be represented in official surveying products and is therefore made available via a service.",
+      "title": "Territorial limit NS"
+    },
+    "fr": {
+      "description": "Le jeu de donnée \"Limite territoriale MN\" contient la frontière nationale qui délimite le territoire de la Confédération Suisse vis-à-vis des pays voisins et qui est gérée par la mensuration nationale. Elle constitue également la limite extérieure des cantons, des districts, des communes et des biens-fonds situés en bordure du pays. La frontière nationale doit être représentée dans les produits de la mensuration officielle et est donc mise à disposition via un service.",
+      "title": "Limite territoriale MN"
+    },
+    "it": {
+      "description": "Il database «Limite territoriale MN» contiene il confine nazionale che delimita il territorio della Confederazione Svizzera rispetto ai paesi confinanti ed è gestito dalla misurazione nazionale. Costituisce anche il confine esterno dei cantoni, dei distretti, dei comuni e dei fondi situati lungo il confine del paese. Il confine nazionale deve essere rappresentato nei prodotti della misurazione ufficiale ed è quindi messo a disposizione tramite un servizio.",
+      "title": "Limite territoriale MN"
+    }
+  },
+  "ch.swisstopo.hoheitsgrenzpunkte-landesvermessung": {
+    "de": {
+      "description": "Der Datensatz «Hoheitsgrenzpunkte LV» enthält die Punkte, die die Eckpunkte der Landesgrenze (Hoheitsgrenze MN) markieren, und wird von der Landesvermessung verwaltet. Diese Punkte begrenzen sowohl das Gebiet der Schweiz gegenüber dem Ausland als auch die Aussengrenzen der Kantone, Bezirke, Gemeinden und Grundstücke der Schweiz. Sie werden in der amtlichen Vermessung als Grenzpunkte (Geodatenmodell DMAV_Grundstuecke_V1_0) verwaltet und als Dienst zur Verfügung gestellt. Die Daten werden ohne Höhenangaben geliefert.",
+      "title": "HoheitsgrenzpunkteLV"
+    },
+    "en": {
+      "description": "The “Territorial limit points NS” dataset contains the points marking the vertices of the national border (Territorial limit NS) and is managed by the national survey. These points delimit both the territory of the Swiss Confederation with respect to foreign countries and the external boundaries of Swiss cantons, districts, municipalities, and properties. Managed in the official survey as boundary points (geodata model DMAV_Grundstuecke_V1_0), they are made available as a service. The data are provided without elevation information.",
+      "title": "Territorial limit points NS"
+    },
+    "fr": {
+      "description": "Le jeu de données « Points limite territoriale MN » contient les points marquant les sommets de la frontière nationale (Limite territoriale MN) et est géré par la mensuration nationale. Ces points délimitent à la fois le territoire de la Confédération vis-à-vis de l’étranger et les limites externes des cantons, districts, communes et biens-fonds suisses. Gérés dans la mensuration officielle en tant que points limites (modèle de géodonnées DMAV_Grundstuecke_V1_0), ils sont mis à disposition sous forme de service. Les données sont fournies sans informations d'altitude.",
+      "title": "Points limite territoriale MN"
+    },
+    "it": {
+      "description": "Il dataset «Punti limite territoriale MN» contiene i punti che segnano i vertici del confine nazionale (limite territoriale MN) ed è gestito dalla misurazione nazionale. Questi punti delimitano il territorio della Confederazione Svizzera rispetto all'estero e i confini esterni dei Cantoni, dei distretti, dei Comuni e dei fondi svizzeri. Gestiti nella misurazione ufficiale come punti limite (modello di geodati DMAV_Grundstuecke_V1_0), sono messi a disposizione sotto forma di servizio. I dati sono forniti senza informazioni sull'altitudine.",
+      "title": "Punti limite territoriale MN"
+    }
+  },
   "ch.swisstopo.landeskarte-farbe-10": {
     "de": {
       "description": "Die Landeskarte 1:10'000 ist die grossmassstäblichste topografische Karte von swisstopo. Sie zeichnet sich durch die sehr detaillierte Verkehrs-, Siedlungs-, Gelände- und Vegetationsdarstellung sowie einer dichten Beschriftung aus. Ergänzt werden die Inhalte mit der Felszeichnung und dem Relief. Der Kartenperimeter umfasst das Landesgebiet der Schweiz und des Fürstentums Liechtenstein. Die Nachführung erfolgt jährlich basierend auf der aktuellsten Version des Topografischen Landschaftsmodells TLM von swisstopo. Die Landeskarte 1:10'000 wird in digitaler Form farbig und in Graustufen erstellt. Beide Versionen dienen als Basiskarte in den ersten vier Zoomstufen im Geodatenviewer des Bundes map.geo.admin.ch. Die Landeskarte 1:10'000 steht ebenfalls als Swiss Map Raster 10 in Form von georeferenzierten TIF-Dateien und als Swiss Map Vector 10 zur Verfügung und kann für individuelle Perimeterausschnitte bezogen werden.",
