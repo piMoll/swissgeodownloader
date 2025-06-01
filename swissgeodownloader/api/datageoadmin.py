@@ -27,8 +27,8 @@ from swissgeodownloader.api.apiInterface import ApiInterface
 from swissgeodownloader.api.geocat import ApiGeoCat
 from swissgeodownloader.api.responseObjects import (CURRENT_VALUE, Dataset,
                                                     FILETYPE_COG, File)
-from swissgeodownloader.utils.filterUtils import cleanupFilterItems, \
-    currentFileByBbox
+from swissgeodownloader.utils.filterUtils import (cleanupFilterItems,
+                                                  currentFileByBbox)
 from .. import _AVAILABLE_LOCALES
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
@@ -133,6 +133,9 @@ class ApiDataGeoAdmin(ApiInterface):
             return metadata
         
         for layer in faqData['layers']:
+            if task.isCanceled():
+                return False
+            
             title = ''
             description = ''
             if not 'layerBodId' in layer:
@@ -176,6 +179,9 @@ class ApiDataGeoAdmin(ApiInterface):
             
             # Get an estimate of file size
             for assetId in item['assets']:
+                if task.isCanceled():
+                    return False
+                
                 asset = item['assets'][assetId]
                 # Don't request again if we have this estimate already
                 if asset['type'] in estimate.keys():
@@ -224,6 +230,9 @@ class ApiDataGeoAdmin(ApiInterface):
         fileList = []
             
         for item in responseList:
+            if task.isCanceled():
+                return False
+            
             # Readout timestamp from the item itself
             try:
                 timestamp = item['properties'][OPTION_MAPPER['timestamp']]
@@ -238,6 +247,9 @@ class ApiDataGeoAdmin(ApiInterface):
             
             # Save all files and their properties
             for assetId in item['assets']:
+                if task.isCanceled():
+                    return False
+                
                 asset = item['assets'][assetId]
                 
                 # Create file object
