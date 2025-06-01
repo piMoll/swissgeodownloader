@@ -488,7 +488,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
 
         if self.fileList:
             # Enable download button
-            self.guiDownloadBtn.setDisabled(False)
+            self.updateDownloadBtnState()
         else:
             # Add info message to file list
             if self.getBbox():
@@ -557,6 +557,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         else:
             self.fileListTbl.fill(orderedFileList)
         self.updateSummary()
+        self.updateDownloadBtnState()
+    
+    def getCurrentlySelectedFilesAsList(self):
+        return [file for file in self.fileListFiltered.values() if
+                file.selected]
     
     def applyFilters(self, userChange=False):
         self.fileListFiltered = {}
@@ -610,16 +615,16 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.fileListFiltered[fileId].selected = isChecked
         self.bboxPainter.switchSelectState(fileId)
         self.updateSummary()
+        self.updateDownloadBtnState()
     
     def updateSummary(self):
         if self.fileListFiltered:
             fileSize = 0
             count = 0
-            for file in self.fileListFiltered.values():
-                if file.selected:
-                    count += 1
-                    if file.type in self.currentDataset.avgSize.keys():
-                        fileSize += self.currentDataset.avgSize[file.type]
+            for file in self.getCurrentlySelectedFilesAsList():
+                count += 1
+                if file.type in self.currentDataset.avgSize.keys():
+                    fileSize += self.currentDataset.avgSize[file.type]
     
                 # fileSize = sum([file.avgSize for file in self.fileListFiltered])
                 
@@ -634,6 +639,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.guiFileListStatus.setText(status)
         self.guiFileListStatus.setStyleSheet(self.LABEL_DEFAULT_STYLE)
     
+    def updateDownloadBtnState(self):
+        if len(self.getCurrentlySelectedFilesAsList()) == 0:
+            self.guiDownloadBtn.setDisabled(True)
+        else:
+            self.guiDownloadBtn.setDisabled(False)
+    
     def onDownloadFilesClicked(self):
         self.guiDownloadBtn.setDisabled(True)
         self.spinnerFl.start()
@@ -642,8 +653,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         
         # Manage streamed files first
         hasOnlyStreamedFilesSelected = True
-        for file in self.fileListFiltered.values():
-            if file.selected and file.isStreamable:
+        for file in self.getCurrentlySelectedFilesAsList():
+            if file.isStreamable:
                 file.path = STREAMED_SOURCE_PREFIX + file.href
                 self.filesListStreamed.append(file)
             else:
@@ -665,8 +676,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.outputPath = folder
             waitForConfirm = False
             # Sort out all selected files from list
-            for file in self.fileListFiltered.values():
-                if file.selected and not file.isStreamable:
+            for file in self.getCurrentlySelectedFilesAsList():
+                if not file.isStreamable:
                     file.path = os.path.join(self.outputPath, file.id)
                     self.filesListDownload.append(file)
                     # Check if there are files that are going to be overwritten
