@@ -66,6 +66,9 @@ class QgisLayerCreatorTask(QgsTask):
         progressStep = 100 / len(self.fileList)
         
         for i, file in enumerate(self.fileList):
+            if self.isCanceled():
+                return False
+            
             self.setProgress(i * progressStep)
             
             # Adding the file to QGIS if it's (1) a streamed file or (2) is
