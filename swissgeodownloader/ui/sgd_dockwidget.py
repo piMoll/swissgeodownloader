@@ -740,19 +740,30 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         filesToAdd = self.filesListDownload + self.filesListStreamed
         task = QgisLayerCreatorTask('Daten zu QGIS hinzufügen...', filesToAdd)
         task.taskCompleted.connect(
-                lambda: self.onCreateQgisLayersFinished(task.layerList))
+                lambda: self.onCreateQgisLayersFinished(task.layerList,
+                                                        task.alreadyAdded))
         task.taskTerminated.connect(self.onCreateQgisLayersFinished)
         QgsApplication.taskManager().addTask(task)
     
-    def onCreateQgisLayersFinished(self, layers=None, exception=None):
+    def onCreateQgisLayersFinished(self, layers=None, alreadyAdded=0,
+                                   exception=None):
         self.stopDownload()
         
         if exception:
+            errorMsg = self.tr('Not possible to add layers to QGIS')
             self.msgBar.pushMessage(
-                f"{MESSAGE_CATEGORY}: {self.tr('Not possible to add layers to QGIS')}: {exception}",
-                Qgis.MessageLevel.Warning)
+                    f"{MESSAGE_CATEGORY}: {errorMsg}: {exception}",
+                    Qgis.MessageLevel.Warning)
         if layers:
             addLayersToQgis(layers)
+        
+        if alreadyAdded > 0:
+            msg = self.tr(
+                    '{} layers added to QGIS, {} skipped because they are already present').format(
+                    len(layers), alreadyAdded)
+            
+            self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}",
+                                    Qgis.MessageLevel.Info)
     
     def cleanCanvas(self):
         if self.bboxPainter:

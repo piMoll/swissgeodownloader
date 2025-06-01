@@ -37,6 +37,7 @@ class QgisLayerCreatorTask(QgsTask):
         super().__init__(description, QgsTask.Flag.CanCancel)
         self.fileList = fileList
         self.layerList = []
+        self.alreadyAdded = 0
         self.exception = None
     
     def run(self):
@@ -72,6 +73,7 @@ class QgisLayerCreatorTask(QgsTask):
             if (file.path.startswith(STREAMED_SOURCE_PREFIX) or os.path.exists(
                     file.path)) and '.zip' not in file.id:
                 if file.path in already_added:
+                    self.alreadyAdded += 1
                     continue
                 try:
                     rasterLyr = QgsRasterLayer(file.path, file.id)
