@@ -51,7 +51,7 @@ class BboxPainter:
         if len(fileList.values()) > self.MAX_BBOX_TO_DISPLAY:
             return
         for idx, file in enumerate(fileList.values()):
-            if not file.bbox and not sum(file.bbox) > 0:
+            if not file.bbox:
                 continue
             coordinates = transformBbox(QgsRectangle(*tuple(file.bbox)),
                                         self.transformer)

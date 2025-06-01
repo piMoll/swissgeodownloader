@@ -84,13 +84,22 @@ class File:
     def setBbox(self, bbox):
         # Bbox entries should be numbers and inside coordinate ranges of WGS84
         try:
-            assert isinstance(bbox, list)
-            assert len(bbox) == 4
-            assert [isinstance(c, float) or isinstance(c, int) for c in bbox]
-            assert -180 <= bbox[0] <= 180 and -180 <= bbox[2] <= 180
-            assert -90 <= bbox[1] <= 90 and -90 <= bbox[3] <= 90
+            assert isinstance(bbox, list), 'bbox is not a list'
+            assert len(bbox) == 4, 'bbox does not contain 4 coordinates'
+            assert [isinstance(c, float) or isinstance(c, int) for c in bbox], \
+                'bbox contains non-numeric values'
+            assert (-180 <= bbox[0] <= 180 and -180 <= bbox[2] <= 180), \
+                'bbox coordinates out of range'
+            assert (-90 <= bbox[1] <= 90 and -90 <= bbox[3] <= 90), \
+                'bbox coordinates out of range'
+            assert (bbox[0] != bbox[2] and bbox[1] != bbox[3]), \
+                'Warning - bbox coordinates are overlapping'
+            assert (bbox[0] < bbox[2] and bbox[1] < bbox[3]), \
+                'bbox coordinates are not ordered'
         except AssertionError as e:
             self.bbox = None
+            if str(e).startswith('Warning'):
+                self.bbox = bbox
             raise e
         
         self.bbox = bbox

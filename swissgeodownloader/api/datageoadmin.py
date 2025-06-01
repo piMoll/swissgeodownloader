@@ -256,9 +256,11 @@ class ApiDataGeoAdmin(ApiInterface):
                 file = File(assetId, asset['type'], asset['href'])
                 try:
                     file.setBbox(item['bbox'])
-                except AssertionError:
-                    task.log(f"File {file.id}: Bounding box not valid", Qgis.MessageLevel.Warning)
-                    
+                except AssertionError as e:
+                    task.log((f"File {file.id}: Bounding box not valid:"
+                              f" {e} {item['bbox']}"),
+                             Qgis.MessageLevel.Warning)
+                
                 file.geom = item['geometry']
                 
                 # Extract file properties, save them to the file object
@@ -307,8 +309,9 @@ class ApiDataGeoAdmin(ApiInterface):
                         fileList.append(copiedFile)
 
         # Sort file list by bbox coordinates (first item on top left corner)
-        fileList.sort(key=lambda f: round(f.bbox[3], 2), reverse=True)
-        fileList.sort(key=lambda f: round(f.bbox[0], 2))
+        fileList.sort(key=lambda f: round(f.bbox[3], 2) if f.bbox else 0,
+                      reverse=True)
+        fileList.sort(key=lambda f: round(f.bbox[0], 2) if f.bbox else 0)
         
         # Clean up filter items by removing duplicates and adding an 'ALL' entry
         filterItems = cleanupFilterItems(filterItems)
