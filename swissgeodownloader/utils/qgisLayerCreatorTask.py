@@ -20,7 +20,6 @@
 """
 import os
 
-from qgis.PyQt.QtCore import QCoreApplication
 from qgis.core import (QgsProject, QgsRasterLayer, QgsTask, QgsVectorLayer)
 
 from swissgeodownloader import DEBUG
@@ -82,8 +81,6 @@ class QgisLayerCreatorTask(QgsTask):
                     rasterLyr = QgsRasterLayer(file.path, file.id)
                     if rasterLyr.isValid():
                         self.layerList.append(rasterLyr)
-                        rasterLyr.moveToThread(
-                            QCoreApplication.instance().thread())
                         continue
                     else:
                         del rasterLyr
@@ -93,8 +90,6 @@ class QgisLayerCreatorTask(QgsTask):
                     vectorLyr = QgsVectorLayer(file.path, file.id, "ogr")
                     if vectorLyr.isValid():
                         self.layerList.append(vectorLyr)
-                        vectorLyr.moveToThread(
-                            QCoreApplication.instance().thread())
                         continue
                     else:
                         del vectorLyr
