@@ -636,6 +636,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     
     def onDownloadFilesClicked(self):
         self.guiDownloadBtn.setDisabled(True)
+        self.spinnerFl.start()
         self.filesListStreamed = []
         self.filesListDownload = []
         
@@ -652,12 +653,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         #  are added directly as streamed layers to qgis
         if hasOnlyStreamedFilesSelected:
             # Start spinner to indicate data loading
-            self.spinnerFl.start()
-            self.addFilesToQgis()
+            self.createQgisLayers()
         
         else:
             folder = self.selectDownloadFolder()
             if not folder:
+                self.stopDownload()
                 return
             
             # Save path for next download
@@ -677,11 +678,15 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
                                             self.tr(
                                                 'At least one file will be overwritten. Continue?'))
                 if not confirmed:
-                    self.filesListDownload = []
+                    self.stopDownload()
                     return
-            # Start spinner to indicate data loading
-            self.spinnerFl.start()
             self.startDownload()
+    
+    def stopDownload(self):
+        self.guiDownloadBtn.setDisabled(False)
+        self.spinnerFl.stop()
+        self.filesListStreamed = []
+        self.filesListDownload = []
     
     def selectDownloadFolder(self) -> str or False:
         # Let user choose output directory
@@ -703,13 +708,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         })
         # Listen for finished api call
         caller.taskCompleted.connect(
-            lambda: self.onFinishDownload(caller.output))
-        caller.taskTerminated.connect(
-            lambda: self.onFinishDownload(False))
+                lambda: self.onDownloadFinished(caller.output))
+        caller.taskTerminated.connect(lambda: self.onDownloadFinished(False))
         # Add task to task manager
         QgsApplication.taskManager().addTask(caller)
     
-    def onFinishDownload(self, success):
+    def onDownloadFinished(self, success):
         if success:
             # Confirm successful download
             self.guiFileListStatus.setText(self.tr('Files successfully downloaded!'))
@@ -717,21 +721,20 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.MessageLevel.Success)
-        self.addFilesToQgis()
+        self.createQgisLayers()
     
-    def addFilesToQgis(self):
+    def createQgisLayers(self):
         # Create layer from files (streamed and downloaded) so they can be
         # added to qgis
         filesToAdd = self.filesListDownload + self.filesListStreamed
         task = QgisLayerCreatorTask('Daten zu QGIS hinzufügen...', filesToAdd)
         task.taskCompleted.connect(
-            lambda: self.onAddFilesToQgisFinished(task.layerList))
-        task.taskTerminated.connect(self.onAddFilesToQgisFinished)
+                lambda: self.onCreateQgisLayersFinished(task.layerList))
+        task.taskTerminated.connect(self.onCreateQgisLayersFinished)
         QgsApplication.taskManager().addTask(task)
     
-    def onAddFilesToQgisFinished(self, layers=None, exception=None):
-        self.spinnerFl.stop()
-        self.guiDownloadBtn.setDisabled(False)
+    def onCreateQgisLayersFinished(self, layers=None, exception=None):
+        self.stopDownload()
         
         if exception:
             self.msgBar.pushMessage(

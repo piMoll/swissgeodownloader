@@ -55,6 +55,9 @@ class QgisLayerCreatorTask(QgsTask):
             except ImportError:
                 pass
         
+        if not self.fileList or len(self.fileList) == 0:
+            return True
+        
         qgsProject = QgsProject.instance()
         already_added = [lyr.source() for lyr in
                          qgsProject.mapLayers().values()]
