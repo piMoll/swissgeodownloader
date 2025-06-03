@@ -22,14 +22,14 @@ repository=https://github.com/piMoll/swissgeodownloader
 # Uncomment the following line and add your changelog:
 changelog=Version 2.1.0 (June 2025)
     Added
-    - Add support for cloud-optimized GeoTIFFs (COGs)
+    - Add support for streamed Tiffs (cloud-optimized GeoTiffs)
     - Upgrade plugin, so it's ready for QGIS 4.0 and Qt6
     - Switch from Swisstopo STAC catalog version 0.9 to 1.0
     - Introduce a limit of 500 files when fetching the file list
     
     Fixed
     - Fix wrong order of the timestamp list in certain topics
-    - Reorganize code
+    - Refactoring
     
     See full changelog at: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md
 

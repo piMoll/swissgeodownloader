@@ -37,14 +37,6 @@ Files can be selected and deselected before starting the download.
 If the files are not zipped, they are added automatically to QGIS.
 
 
-## Further development
-The Swiss Geo Downloader isn't finished, yet. Here is a list of possible features that could be implemented next:
-* Add other data providers and their datasets to the list
-* Make it possible to add cloud-optimized tiffs to QGIS
-* Italian translation
-
-Visit the [changelog](https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md) for a list of past features and fixes.
-
 ------------------------------------------------------
 
 
@@ -54,7 +46,8 @@ Durchsuchen Sie Datensätze, fordern sie Dateien für einen ausgewählten Karten
 filtern Sie das Ergebnis und fügen Sie die Geodaten zur QGIS Karte hinzu.
 
 Momentan bietet das Plugin Zugriff auf ein grosse Auswahl von Geodaten der Swisstopo und andere Bundesämter an.
-Beispielswiese das hochgenaue Höhenmodell [swissALTI3D](https://www.swisstopo.admin.ch/de/geodata/height/alti3d.html)
+Beispielsweise das hochgenaue
+Höhenmodell [swissALTI3D](https://www.swisstopo.admin.ch/de/geodata/height/alti3d.html)
 oder die [Landeskarten](https://www.swisstopo.admin.ch/de/geodata/maps/smr/smr25.html). 
 Weitere Datenanbieter werden in zukünftigen Versionen ergänzt.
 
@@ -83,11 +76,3 @@ Dateien können selektiert oder deselektiert werden, bevor die Auswahl herunterg
 
 Geodaten, die nicht gezippt sind, werden nach dem Download automatisch als Layer in QGIS hinzugefügt.
 
-
-## Weiterentwicklung
-Der Swiss Geo Downloader wird weiterentwickelt. Folgende Features sind momentan in Planung:
-* Datensätze von anderen Datenanbieter ergänzen
-* "Cloud-optimized" (gestreamte) Tiffs zu QGIS hinzufügen
-* Italienische Übersetzung
-
-Der [Changelog](https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md) listet bereits umgesetzte Ergänzungen und Korrekturen auf.
