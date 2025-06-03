@@ -253,7 +253,7 @@ Changer la projection en LV95?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="540"/>
         <source>current</source>
-        <translation>actuel</translation>
+        <translation>le plus actuel</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="555"/>

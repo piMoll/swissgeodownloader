@@ -44,7 +44,7 @@ def currentFileByBbox(fileList):
     combination. Creates a dictionary for each unique bbox that contains
     the most current file for each property combination.
     Example:
-    '5.22|47.45|6.13|48.33' : {
+    '5.22|47.45|6.13|48.33': {
         '.tif|0.5': file,
         '.csv|0.5'; file,
     }
@@ -56,11 +56,10 @@ def currentFileByBbox(fileList):
         propKey = file.propKey
 
         # Bbox already exists
-        if bboxKey in bboxList.keys():
-            # Get dictionary of unique property combinations
-            propertyDict = bboxList[bboxKey]
+        propertyDict = bboxList.get(bboxKey)
+        if propertyDict:
             # See if property combination already exists
-            if not propKey in propertyDict:
+            if propKey not in propertyDict:
                 bboxList[bboxKey][propKey] = file
             # Other files with same properties exist: Check if file
             #  timestamp is more current

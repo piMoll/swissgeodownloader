@@ -103,6 +103,37 @@ class TestFileObject(unittest.TestCase):
         similar_bbox = [100.1, 10.1, 102.1, 12.1]
         self.assertTrue(file_obj.hasSimilarBboxAs(similar_bbox))
     
+    def test_huge_bboxes_similar(self):
+        bboxes = {
+            2023: [5.835645258473665, 45.73922949988648, 10.52253827249051,
+                47.83944608953652],
+            2022: [5.857755182140817, 45.73922949988648, 10.52253827249051,
+                47.83944608953652],
+            2016: [6.764889995565601, 45.794733721463004, 9.495713098753871,
+                47.82656806522374],
+            2010: [6.765054419290001, 45.80663032920316, 9.496159354475557,
+                47.813699891059535],
+            2014: [6.06848726911284, 46.09444142786817, 10.552510553220536,
+                47.644093800799475],
+            }
+        
+        file_obj = File(name="test_file", assetType="image",
+                        href="http://example.com")
+        
+        file_obj.setBbox(bboxes[2023])
+        similar_bbox = bboxes[2022]
+        self.assertTrue(file_obj.hasSimilarBboxAs(similar_bbox))
+        
+        file_obj.setBbox(bboxes[2016])
+        similar_bbox = bboxes[2010]
+        self.assertTrue(file_obj.hasSimilarBboxAs(similar_bbox))
+        
+        file_obj.setBbox(bboxes[2014])
+        for year, bbox in bboxes.items():
+            if year != 2014:
+                print(year)
+                self.assertFalse(file_obj.hasSimilarBboxAs(bbox))
+    
     def test_coordsys_fits_filter(self):
         file_obj = File(name="test_file", assetType="image",
                         href="http://example.com")

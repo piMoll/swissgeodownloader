@@ -253,7 +253,7 @@ Switch map to Swiss LV95?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="540"/>
         <source>current</source>
-        <translation>current</translation>
+        <translation>most current</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="555"/>

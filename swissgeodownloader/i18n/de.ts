@@ -253,7 +253,7 @@ Karte im Schweizer System LV95 anzeigen?</translation>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="540"/>
         <source>current</source>
-        <translation>aktuell</translation>
+        <translation>aktuellster</translation>
     </message>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="555"/>
