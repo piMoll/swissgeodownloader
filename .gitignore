@@ -130,9 +130,3 @@ dmypy.json
 
 # pycharm
 .idea/
-
-
-# Files that will be copied into the PKGDIR by the build script
-ATTRIBUTION.txt
-CHANGELOG.md
-LICENSE
