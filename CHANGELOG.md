@@ -4,13 +4,10 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
-
 - This is a test
 
 ## [2.1.0] - 2025-06-04
-
 ### Added
-
 - Add support for streamed Tiffs (cloud-optimized GeoTiffs)
 - Upgrade plugin so it's ready for QGIS 4.0 and Qt6
 - Switch from Swisstopo STAC catalog version 0.9 to 1.0
