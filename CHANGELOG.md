@@ -2,11 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-
 ### Added
 
 ## [2.2.0] - 2026-02-25
-
 ### Added
 - New option to create a virtual raster from tiled files and add it as a single
   layer to QGIS. Thanks to [OleMarin](https://github.com/OleMarin)
@@ -15,7 +13,6 @@ All notable changes to this project will be documented in this file.
 - Fix styling for dark mode
 
 ## [2.1.1] - 2026-01-21
-
 ### Fixed
 - Remove hard limit of 500 items when requesting files
 - Fix plugin metadata to mark this plugin ready for QGIS 4
