@@ -1,7 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## 2.1.0 - 2025-06-04
+## [Unreleased]
+
+### Added
+
+- This is a test
+
+## [2.1.0] - 2025-06-04
 
 ### Added
 
@@ -14,11 +20,11 @@ All notable changes to this project will be documented in this file.
 - Fix wrong order of the timestamp list in certain topics
 - Refactoring
 
-## 2.0.1 - 2023-03-01
+## [2.0.1] - 2023-03-01
 ### Fixed
 - Make retrival of datasets more robust so missing STAC attributes don't lead to an exception.
 
-## 2.0.0 - 2022-06-18
+## [2.0.0] - 2022-06-18
 ### Added
 - Search bar for datasets: Search the dataset list by title and description
 - Dataset list shows translated titles (languages: de, en, fr)
@@ -31,7 +37,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - SwissALTI3D and other datasets with multiple timestamps only showed oldest and newest timestamp
 
-## 1.3.0 - 2022-02-02
+## [1.3.0] - 2022-02-02
 ### Added
 - If a dataset contains one single file, the plugin will list this file automatically
 
@@ -40,7 +46,7 @@ All notable changes to this project will be documented in this file.
 - Use API paging to get all datasets instead of first 100
 - Improve plugin behaviour when quickly clicking through dataset list
 
-## 1.2.0 - 2022-01-02
+## [1.2.0] - 2022-01-02
 ### Added
 - French translations, thanks to [romainbh](https://github.com/romainbh)
 ### Fixed
@@ -48,7 +54,7 @@ All notable changes to this project will be documented in this file.
 - The button for extent option 'current layer' was removed because it does not behave consistently.
 - The bounding box from option 'calculate from layer' was not read out correctly.
 
-## 1.1.0 - 2021-09-05
+## [1.1.0] - 2021-09-05
 ### Added
 - Show bounding box of the available files in map
 - Added button to refresh dataset list
@@ -62,7 +68,7 @@ All notable changes to this project will be documented in this file.
 - Check internet connection on initialization and inform user if API cannot be accessed
 - GUI improvements for small displays
 
-## 1.0.0 - 2021-05-26
+## [1.0.0] - 2021-05-26
 This is the initial version of the Swiss Data Downloader plugin.
 ### Added
 - Load Swisstopo STAC collection content, display the available datasets in a list

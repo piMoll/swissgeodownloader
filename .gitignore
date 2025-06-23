@@ -134,5 +134,5 @@ dmypy.json
 
 # Files that will be copied into the PKGDIR by the build script
 ATTRIBUTION.txt
-CHANGELOG.txt
-LICENSE.txt
+CHANGELOG.md
+LICENSE
