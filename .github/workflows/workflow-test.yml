@@ -23,6 +23,12 @@ jobs:
       - name: copy readme
         run: cp README.md swissgeodownloader/README.md
 
+      - name: copy license
+        run: cp LICENSE swissgeodownloader/LICENSE
+
+      - name: copy changelog
+        run: cp CHANGELOG.md swissgeodownloader/CHANGELOG.md
+
       - name: Package
         if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         run: |
