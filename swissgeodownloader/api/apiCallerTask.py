@@ -21,7 +21,7 @@
 from qgis.core import Qgis, QgsMessageLog, QgsTask
 
 from swissgeodownloader import DEBUG
-from swissgeodownloader.utils.ui_utilities import MESSAGE_CATEGORY
+from swissgeodownloader.utils.utilities import MESSAGE_CATEGORY
 
 
 class ApiCallerTask(QgsTask):
