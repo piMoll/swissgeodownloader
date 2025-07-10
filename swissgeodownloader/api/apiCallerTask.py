@@ -18,10 +18,10 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.core import Qgis, QgsMessageLog, QgsTask
+from qgis.core import Qgis, QgsTask
 
 from swissgeodownloader import DEBUG
-from swissgeodownloader.utils.utilities import MESSAGE_CATEGORY
+from swissgeodownloader.utils.utilities import MESSAGE_CATEGORY, log
 
 
 class ApiCallerTask(QgsTask):
@@ -100,11 +100,7 @@ class ApiCallerTask(QgsTask):
                 self.message(self.exception, Qgis.MessageLevel.Warning)
     
     def log(self, msg, level=Qgis.MessageLevel.Info, debugMsg=False):
-        if debugMsg:
-            if not DEBUG:
-                return
-            msg = f'DEBUG {msg}'
-        QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
+        log(msg, level, debugMsg)
     
     def message(self, msg, level=Qgis.MessageLevel.Info):
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}", level)

@@ -22,9 +22,9 @@ import json
 import os
 from datetime import date
 
-from qgis.core import Qgis, QgsMessageLog, QgsSettings
+from qgis.core import QgsSettings
 
-from swissgeodownloader.utils.utilities import MESSAGE_CATEGORY
+from swissgeodownloader.utils.utilities import log
 
 SETTING_PREFIX = 'PluginSwissGeoDownloader'
 PLUGIN_PATH = os.path.dirname(os.path.dirname(__file__))
@@ -97,6 +97,3 @@ def loadFromSettings(collectionId, locale):
         'abstract': s.value(f"{settingsPath}/abstract", ''),
         }
 
-
-def log(msg, level=Qgis.MessageLevel.Info):
-    QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
