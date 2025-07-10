@@ -49,8 +49,8 @@ from swissgeodownloader.ui.qgis_utilities import (RECOMMENDED_CRS,
                                                   transformBbox)
 from swissgeodownloader.ui.waitingSpinnerWidget import QtWaitingSpinner
 from swissgeodownloader.utils.qgisLayerCreatorTask import QgisLayerCreatorTask
-from swissgeodownloader.utils.ui_utilities import (MESSAGE_CATEGORY,
-                                                   filesizeFormatter)
+from swissgeodownloader.utils.utilities import (MESSAGE_CATEGORY,
+                                                filesizeFormatter)
 
 UI_FILE = os.path.join(os.path.dirname(__file__), 'sgd_dockwidget_base.ui')
 FORM_CLASS, _ = uic.loadUiType(UI_FILE)
