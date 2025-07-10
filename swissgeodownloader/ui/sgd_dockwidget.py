@@ -25,7 +25,7 @@ from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSignal
 from qgis.PyQt.QtWidgets import (QDockWidget, QFileDialog, QMessageBox)
 from qgis.core import (Qgis, QgsApplication, QgsCoordinateReferenceSystem,
-                       QgsCoordinateTransform, QgsMessageLog, QgsProject,
+                       QgsCoordinateTransform, QgsProject,
                        QgsRectangle)
 from qgis.gui import QgisInterface, QgsExtentGroupBox
 
@@ -34,6 +34,7 @@ from swissgeodownloader.api.datageoadmin import API_EPSG, ApiDataGeoAdmin
 from swissgeodownloader.api.responseObjects import (ALL_VALUE, CURRENT_VALUE,
                                                     Collection,
                                                     STREAMED_SOURCE_PREFIX)
+from swissgeodownloader.api.stac_client import StacClient
 from swissgeodownloader.ui.bboxDrawer import BboxPainter
 from swissgeodownloader.ui.datsetListTable import CollectionListTable
 from swissgeodownloader.ui.fileListTable import FileListTable
@@ -41,10 +42,10 @@ from swissgeodownloader.ui.qgis_utilities import (RECOMMENDED_CRS,
                                                   addLayersToQgis,
                                                   addOverviewMap, switchToCrs,
                                                   transformBbox)
-from swissgeodownloader.ui.ui_utilities import (MESSAGE_CATEGORY,
-                                                filesizeFormatter)
 from swissgeodownloader.ui.waitingSpinnerWidget import QtWaitingSpinner
 from swissgeodownloader.utils.qgisLayerCreatorTask import QgisLayerCreatorTask
+from swissgeodownloader.utils.ui_utilities import (MESSAGE_CATEGORY,
+                                                   filesizeFormatter)
 
 UI_FILE = os.path.join(os.path.dirname(__file__), 'sgd_dockwidget_base.ui')
 FORM_CLASS, _ = uic.loadUiType(UI_FILE)
@@ -86,7 +87,6 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         
         self.outputPath = None
         self.msgBar = self.iface.messageBar()
-        self.msgLog = QgsMessageLog()
         
         # Coordinate system
         self.mapRefSys = self.canvas.mapSettings().destinationCrs()
