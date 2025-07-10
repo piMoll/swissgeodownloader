@@ -1,6 +1,4 @@
 plugin_path: swissgeodownloader
-#github_organization_slug:
-project_slug: swissgeodownloader
-#transifex_coordinator: 
-#transifex_organization: 
-repository_url: https://github.com/piMoll/swissgeodownloader/
+changelog_path: CHANGELOG.md
+changelog_include: True
+changelog_number_of_entries: 1

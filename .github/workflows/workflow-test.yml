@@ -20,14 +20,11 @@ jobs:
       - name: Install qgis-plugin-ci
         run: pip3 install qgis-plugin-ci
 
-      - name: copy readme
-        run: cp README.md swissgeodownloader/README.md
-
-      - name: copy license
-        run: cp LICENSE swissgeodownloader/LICENSE
-
-      - name: copy changelog
-        run: cp CHANGELOG.md swissgeodownloader/CHANGELOG.md
+      - name: copy readme, license and changelog
+        run: |
+          cp README.md swissgeodownloader/README.md
+          cp LICENSE swissgeodownloader/LICENSE
+          cp CHANGELOG.md swissgeodownloader/CHANGELOG.md
 
       - name: Package
         if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
