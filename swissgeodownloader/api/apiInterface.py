@@ -101,6 +101,41 @@ class ApiInterface:
         else:
             return False
     
+    def fetchAll(self, task: ApiCallerTask, url, responsePropName, params=None,
+                 header=None, method='get', limit: int = -1):
+        responseList = []
+        
+        # Fetch more responses as long as there is a 'next' link
+        #  in the response
+        while url:
+            if task.isCanceled():
+                return False
+            
+            response = self.fetch(task, url, params, header, method)
+            
+            if not response or not isinstance(response, dict) \
+                    or responsePropName not in response:
+                return False
+            
+            responseList.extend(response[responsePropName])
+            
+            # Get the next bunch of files by using the next link
+            #  in the response
+            nextUrl = ''
+            if response['links']:
+                for link in response['links']:
+                    if link['rel'] == 'next':
+                        nextUrl = link['href']
+                        break
+            if url != nextUrl and (limit == -1 or len(responseList) < limit):
+                url = nextUrl
+                # Params are already part of the next url, no need to
+                #  specify them again
+                params = {}
+            else:
+                url = ''
+        return responseList
+    
     def fetchHeadLegacy(self, task: ApiCallerTask, url):
         try:
             return requests.head(url)

@@ -32,10 +32,10 @@ from qgis.gui import QgisInterface, QgsExtentGroupBox
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
 from swissgeodownloader.api.datageoadmin import API_EPSG, ApiDataGeoAdmin
 from swissgeodownloader.api.responseObjects import (ALL_VALUE, CURRENT_VALUE,
-                                                    Dataset,
+                                                    Collection,
                                                     STREAMED_SOURCE_PREFIX)
 from swissgeodownloader.ui.bboxDrawer import BboxPainter
-from swissgeodownloader.ui.datsetListTable import DatasetListTable
+from swissgeodownloader.ui.datsetListTable import CollectionListTable
 from swissgeodownloader.ui.fileListTable import FileListTable
 from swissgeodownloader.ui.qgis_utilities import (RECOMMENDED_CRS,
                                                   addLayersToQgis,
@@ -70,8 +70,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.annManager = QgsProject.instance().annotationManager()
 
         # Initialize variables
-        self.datasetList: dict[str: Dataset] = {}
-        self.currentDataset: Dataset = Dataset()
+        self.collectionList: dict[str: Collection] = {}
+        self.currentCollection: Collection = Collection()
         self.fileList = []
         self.fileListFiltered = {}
         self.filesListDownload = []
@@ -106,18 +106,19 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         # Initialize class to draw bbox of files in map
         self.bboxPainter = BboxPainter(self.canvas,
                                        self.transformApi2Proj, self.annManager)
-
-        # Dataset and file list table
-        self.datasetListTbl = DatasetListTable(self, self.guiDatasets)
-        self.datasetListTbl.sig_selectionChanged.connect(self.onDatasetSelectionChange)
+        
+        # Collection and file list table
+        self.collectionListTbl = CollectionListTable(self, self.guiDatasets)
+        self.collectionListTbl.sig_selectionChanged.connect(
+                self.onCollectionSelectionChange)
         
         self.fileListTbl = FileListTable(self, self.guiFileListLayout)
         self.fileListTbl.sig_selectionChanged.connect(self.onFileSelectionChange)
         
         # Create spinners to indicate data loading
-        # Spinner for dataset request
-        self.spinnerDs = QtWaitingSpinner(self)
-        self.verticalLayout.addWidget(self.spinnerDs)
+        # Spinner for getCollections request
+        self.spinnerCol = QtWaitingSpinner(self)
+        self.verticalLayout.addWidget(self.spinnerCol)
         
         # Spinner for file list request
         self.spinnerFl = QtWaitingSpinner(self)
@@ -125,7 +126,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         
         # Connect signals
         self.guiShowMapBtn.clicked.connect(self.onShowMapClicked)
-        self.guiRefreshDatasetsBtn.clicked.connect(self.onRefreshDatasetsClicked)
+        self.guiRefreshDatasetsBtn.clicked.connect(
+                self.onRefreshCollectionsClicked)
         self.guiInfoBtn.clicked.connect(self.onInfoClicked)
         
         self.filterFields = {
@@ -177,24 +179,25 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         
         self.deactivateFilterFields()
         
-        # Finally, initialize apis and request available datasets
+        # Finally, initialize apis and request available collections
         self.apiDGA = ApiDataGeoAdmin(self, self.locale)
-        self.loadDatasetList()
+        self.loadCollectionList()
     
     def closeEvent(self, event, **kwargs):
         self.bboxPainter.removeAll()
         self.closingPlugin.emit()
         event.accept()
     
-    def loadDatasetList(self):
+    def loadCollectionList(self):
         # Create separate task for request to not block ui
-        self.spinnerDs.start()
-        caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetList', {})
+        self.spinnerCol.start()
+        # self.stacClient.requestCollections(self.onReceiveCollections)
+        caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getCollections', {})
         # Listen for finished api call
         caller.taskCompleted.connect(
-            lambda: self.onReceiveDatasets(caller.output))
+                lambda: self.onReceiveCollections(caller.output))
         caller.taskTerminated.connect(
-            lambda: self.onReceiveDatasets([]))
+                lambda: self.onReceiveCollections([]))
         QgsApplication.taskManager().addTask(caller)
     
     def onMapRefSysChanged(self):
@@ -269,11 +272,11 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         message, level = addOverviewMap(self.canvas, self.mapRefSys.authid())
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {message}", level)
     
-    def onRefreshDatasetsClicked(self):
+    def onRefreshCollectionsClicked(self):
         self.resetFileList()
-        self.datasetListTbl.resetSearch()
-        self.datasetListTbl.unselect()
-        self.loadDatasetList()
+        self.collectionListTbl.resetSearch()
+        self.collectionListTbl.unselect()
+        self.loadCollectionList()
     
     def onInfoClicked(self):
         self.showDialog(self.tr('Swiss Geo Downloader - Info'),
@@ -288,43 +291,45 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             return
         self.bboxPainter.switchNumberVisibility()
     
-    def onReceiveDatasets(self, datasetList: dict[str: Dataset]):
-        """Receive list of available datasets"""
-        self.datasetList = datasetList
-        self.datasetListTbl.fill(self.datasetList.values() if self.datasetList else [])
-        self.spinnerDs.stop()
+    def onReceiveCollections(self, collectionList: dict[str: Collection]):
+        """Receive list of available collections"""
+        self.collectionList = collectionList
+        self.collectionListTbl.fill(
+                self.collectionList.values() if self.collectionList else [])
+        self.spinnerCol.stop()
     
-    def onDatasetSelectionChange(self, datasetId: str):
-        """Set dataset and load details on first selection"""
+    def onCollectionSelectionChange(self, collectionId: str):
+        """Set collection and load details on first selection"""
         # Ignore double clicks or very fast clicks
-        if self.currentDataset and datasetId == self.currentDataset.id:
+        if self.currentCollection and collectionId == self.currentCollection.id:
             return
-        if not datasetId:
-            self.onUnselectDataset()
+        if not collectionId:
+            self.onUnselectCollection()
             return
         
-        self.currentDataset = self.datasetList[datasetId]
+        self.currentCollection = self.collectionList[collectionId]
         
-        if not self.currentDataset.analysed:
-            caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getDatasetDetails',
-                                   {'dataset': self.currentDataset})
+        if not self.currentCollection.analysed:
+            caller = ApiCallerTask(self.apiDGA, self.msgBar,
+                                   'getCollectionDetails',
+                                   {'collection': self.currentCollection})
             # Listen for finished api call
             caller.taskCompleted.connect(
-                lambda: self.onLoadDatasetDetails(caller.output))
+                    lambda: self.onLoadCollectionDetails(caller.output))
             caller.taskTerminated.connect(
-                lambda: self.onLoadDatasetDetails())
+                    lambda: self.onLoadCollectionDetails())
             QgsApplication.taskManager().addTask(caller)
         else:
-            self.onLoadDatasetDetails()
+            self.onLoadCollectionDetails()
     
-    def onLoadDatasetDetails(self, dataset: Dataset = None):
-        """Set up ui according to the nature of the selected dataset"""
-        if dataset:
-            self.datasetList[dataset.id] = dataset
-            self.currentDataset = dataset
-
-        # Show dataset status if no files are available
-        if not self.currentDataset or self.currentDataset.isEmpty:
+    def onLoadCollectionDetails(self, collection: Collection = None):
+        """Set up ui according to the nature of the selected collection"""
+        if collection:
+            self.collectionList[collection.id] = collection
+            self.currentCollection = collection
+        
+        # Show collection status if no files are available
+        if not self.currentCollection or self.currentCollection.isEmpty:
             self.guiGroupExtent.setDisabled(True)
             self.guiExtentWidget.setCollapsed(True)
             self.guiGroupFiles.setDisabled(True)
@@ -337,7 +342,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.deactivateFilterFields()
 
         # Activate / deactivate Extent
-        if not self.currentDataset.selectByBBox:
+        if not self.currentCollection.selectByBBox:
             self.guiExtentWidget.setCollapsed(True)
             self.updateSelectMode()
             self.guiGroupExtent.setDisabled(True)
@@ -351,9 +356,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.guiRequestListBtn.setDisabled(False)
         self.guiRequestListBtn.setHidden(False)
         self.resetFileList()
-
-        # If dataset has few files, get the file list directly
-        if not self.currentDataset.selectByBBox:
+        
+        # If collection has few files, get the file list directly
+        if not self.currentCollection.selectByBBox:
             self.onLoadFileListClicked()
             self.guiRequestListBtn.setDisabled(True)
     
@@ -400,9 +405,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         for labelElem in self.filterFieldLabels.values():
             labelElem.setEnabled(True)
             labelElem.setHidden(False)
-        
-    def onUnselectDataset(self):
-        self.currentDataset = {}
+    
+    def onUnselectCollection(self):
+        self.currentCollection = {}
         
         self.onReceiveFileList([])
         self.guiGroupExtent.setDisabled(True)
@@ -429,7 +434,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     
     def updateSelectMode(self):
         if self.guiFullExtentChbox.isChecked():
-            bbox = QgsRectangle(*tuple(self.currentDataset.bbox))
+            bbox = QgsRectangle(*tuple(self.currentCollection.bbox))
             self.updateExtentValues(bbox, self.apiRefSys)
     
     def getBbox(self) -> list:
@@ -457,7 +462,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         # Call api
         # Create a separate task for request to not block ui
         self.fileListRequest = ApiCallerTask(self.apiDGA, self.msgBar,
-            'getFileList', {'url': self.currentDataset.filesLink, 'bbox': bbox})
+                                             'getFileList', {
+                                                 'url': self.currentCollection.filesLink,
+                                                 'bbox': bbox})
         # Listen for finished api call
         self.fileListRequest.taskCompleted.connect(
             lambda: self.onReceiveFileList(self.fileListRequest.output))
@@ -623,8 +630,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             count = 0
             for file in self.getCurrentlySelectedFilesAsList():
                 count += 1
-                if file.type in self.currentDataset.avgSize.keys():
-                    fileSize += self.currentDataset.avgSize[file.type]
+                if file.type in self.currentCollection.avgSize.keys():
+                    fileSize += self.currentCollection.avgSize[file.type]
     
                 # fileSize = sum([file.avgSize for file in self.fileListFiltered])
                 

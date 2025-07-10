@@ -55,18 +55,19 @@ class ApiCallerTask(QgsTask):
                 pass
             except ImportError:
                 pass
-
-        if self.func == 'getDatasetList':
-            self.output = self.apiRef.getDatasetList(self)
         
-        elif self.func == 'getDatasetDetails':
-            self.output = self.apiRef.getDatasetDetails(self,
-                                        self.callParams['dataset'])
+        if self.func == 'getCollections':
+            self.output = self.apiRef.getCollections(self)
+        
+        elif self.func == 'getCollectionDetails':
+            self.output = self.apiRef.getCollectionDetails(self,
+                                                           self.callParams[
+                                                               'collection'])
         
         elif self.func == 'getFileList':
             self.output = self.apiRef.getFileList(self,
-                                        self.callParams['url'],
-                                        self.callParams['bbox'])
+                                                  self.callParams['url'],
+                                                  self.callParams['bbox'])
         
         elif self.func == 'downloadFiles':
             self.output = self.apiRef.downloadFiles(self,
@@ -80,7 +81,7 @@ class ApiCallerTask(QgsTask):
         completed (successfully or not)"""
         if result and self.output is not False:
             msg = self.tr('request completed')
-            if self.func == 'getDatasetList':
+            if self.func == 'getCollections':
                 msg = self.tr('available datasets received')
             elif self.func == 'getFileList':
                 msg = self.tr('file list received')

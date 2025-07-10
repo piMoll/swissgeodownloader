@@ -25,8 +25,8 @@ from qgis.core import Qgis
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
 from swissgeodownloader.api.apiInterface import ApiInterface
 from swissgeodownloader.api.geocat import ApiGeoCat
-from swissgeodownloader.api.responseObjects import (CURRENT_VALUE, Dataset,
-                                                    FILETYPE_COG, File)
+from swissgeodownloader.api.responseObjects import (Asset, CURRENT_VALUE,
+                                                    Collection, FILETYPE_COG)
 from swissgeodownloader.utils.filterUtils import (cleanupFilterItems,
                                                   currentFileByBbox)
 from .. import _AVAILABLE_LOCALES
@@ -39,7 +39,7 @@ OPTION_MAPPER = {
     'resolution': 'gsd',
     'timestamp': 'datetime',
     'coordsys': 'proj:epsg',
-}
+    }
 API_OPTION_MAPPER = {y: x for x, y in OPTION_MAPPER.items()}
 API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
 FETCH_ALL_LIMIT = 500
@@ -52,72 +52,95 @@ class ApiDataGeoAdmin(ApiInterface):
         self.name = 'Swisstopo API'
         self.geocatApi = ApiGeoCat(parent, locale, 'geoadmin')
     
-    def getDatasetList(self, task: ApiCallerTask):
-        """Get a list of all available datasets and read out title,
+    def getCollections(self, task: ApiCallerTask):
+        """Get a list of all available collections and read out title,
         description and other properties."""
-        # Request dataset list
-        collection = self.fetchAll(task, BASEURL, 'collections')
-        if collection is False:
+        # Request collections list
+        response = self.fetchAll(task, BASEURL, 'collections')
+        if response is False:
             if not task.exception:
                 task.exception = self.tr('Error when loading available dataset'
                                          ' - Unexpected API response')
             return False
         
-        datasetList = {}
         # Geoadmin metadata: Fetches translated titles and descriptions
-        #  of datasets
+        #  of collections
         md_geoadmin = self.getMetadata(task)
-        # Geocat metadata: Alternative if geoadmin does not have the dataset
-        md_geocat = {}
         
-        for ds in collection:
+        collections = self.processCollections(response, md_geoadmin, task)
+        # For all collections that lack metadata (e.g. title) add external
+        #  metadata from geocat
+        return self.addExternalMetadata(collections, self.geocatApi,
+                                        self.locale, task)
+    
+    @staticmethod
+    def processCollections(collections, metadata, task: ApiCallerTask):
+        collectionList = {}
+        for col in collections:
             
             if task.isCanceled():
                 return False
-
-            dataset = Dataset(ds['id'], [link['href'] for link in ds['links']
+            
+            collection = Collection(col['id'],
+                                    [link['href'] for link in col['links']
                               if link['rel'] == 'items'][0])
-            dataset.title = ds['title']
+            collection.title = col['title']
             try:
-                dataset.description = ds['description']
+                collection.description = col['description']
             except (KeyError, IndexError):
-                task.log(f"No description available for '{dataset.title}'", debugMsg=True)
+                task.log(f"No description available for '{collection.title}'",
+                         debugMsg=True)
             try:
-                dataset.bbox = ds['extent']['spatial']['bbox'][0]
+                collection.bbox = col['extent']['spatial']['bbox'][0]
             except (KeyError, IndexError):
-                task.log(f"No bbox available for '{dataset.title}'", debugMsg=True)
+                task.log(f"No bbox available for '{collection.title}'",
+                         debugMsg=True)
             try:
-                dataset.licenseLink = [link['href'] for link in ds['links']
+                collection.licenseLink = [link['href'] for link in col['links']
                                        if link['rel'] == 'license'][0]
             except (KeyError, IndexError):
-                task.log(f"No licence link available for '{dataset.title}'", debugMsg=True)
+                task.log(f"No licence link available for '{collection.title}'",
+                         debugMsg=True)
             try:
-                dataset.metadataLink = [link['href'] for link in ds['links']
+                collection.metadataLink = \
+                    [link['href'] for link in col['links']
                                        if link['rel'] == 'describedby'][0]
             except (KeyError, IndexError):
-                task.log(f"No metadata link available for '{dataset.title}'", debugMsg=True)
+                task.log(
+                        f"No metadata link available for '{collection.title}'",
+                        debugMsg=True)
             
             # Add metadata in the correct language from geocat API
-            if dataset.id in md_geoadmin:
+            if collection.id in metadata:
                 # Get the pre-saved metadata from the json file
-                dataset.title = md_geoadmin[dataset.id].get('title')
-                dataset.description = md_geoadmin[dataset.id].get(
+                collection.title = metadata[collection.id].get('title')
+                collection.description = metadata[collection.id].get(
                     'description')
-            if not dataset.title:
-                # Get metadata from geocat.ch: This will save the metadata to
-                #  a file so it does not have to be requested every time
-                metadata = self.geocatApi.getMeta(task, dataset.id,
-                                                  dataset.metadataLink,
-                                                  self.locale)
-                if metadata:
-                    dataset.title = metadata.get('title')
-                    dataset.description = metadata.get('description')
-                    # Save metadata to file so we don't have to call the API again
-                    self.geocatApi.updatePreSavedMetadata(metadata, dataset.id,
-                                                          self.locale)
-            datasetList[dataset.id] = dataset
+            
+            collectionList[collection.id] = collection
         
-        return datasetList
+        return collectionList
+    
+    @staticmethod
+    def addExternalMetadata(collections, metadataService, locale,
+                            task: ApiCallerTask):
+        for col in collections:
+            if task.isCanceled():
+                return False
+            if col.title:
+                continue
+            # Get metadata from geocat.ch
+            metadata = metadataService.getMeta(task, col.id,
+                                               col.metadataLink, locale)
+            if not metadata:
+                continue
+            
+            col.title = metadata.get('title')
+            col.description = metadata.get('description')
+            # Save metadata to file so we don't have to call the API again
+            metadataService.updatePreSavedMetadata(metadata, col.id,
+                                                   locale)
+        return collections
     
     def getMetadata(self, task: ApiCallerTask):
         """ Calls geoadmin API and retrieves translated titles and
@@ -126,7 +149,7 @@ class ApiDataGeoAdmin(ApiInterface):
         
         params = {
             'lang': self.locale
-        }
+            }
         faqData = self.fetch(task, API_METADATA_URL, params)
         if not faqData or not isinstance(faqData, dict) \
                 or 'layers' not in faqData:
@@ -138,25 +161,25 @@ class ApiDataGeoAdmin(ApiInterface):
             
             title = ''
             description = ''
-            if not 'layerBodId' in layer:
+            if 'layerBodId' not in layer:
                 continue
             layerId = layer['layerBodId']
             if 'fullName' in layer:
                 title = layer['fullName']
             if 'attributes' in layer and 'inspireAbstract' in layer['attributes']:
-                 description = layer['attributes']['inspireAbstract']
+                description = layer['attributes']['inspireAbstract']
             
             metadata[layerId] = {
                 'title': title,
                 'description': description
-            }
+                }
         return metadata
     
-    def getDatasetDetails(self, task: ApiCallerTask, dataset):
-        """Analyse dataset to figure out available options in gui"""
-        url = dataset.filesLink
+    def getCollectionDetails(self, task: ApiCallerTask, collection):
+        """Analyse collection to figure out available options in gui"""
+        url = collection.filesLink
         # Get max. 40 features
-        items = self.fetch(task, url, params={'limit' : 40})
+        items = self.fetch(task, url, params={'limit': 40})
     
         if not items or not isinstance(items, dict) \
                 or 'features' not in items:
@@ -171,7 +194,7 @@ class ApiDataGeoAdmin(ApiInterface):
         # Check if it makes sense to select by bbox or if the full file list
         #  should just be downloaded directly
         if fileCount <= 10:
-            dataset.selectByBBox = False
+            collection.selectByBBox = False
         
         # Analyze size of an item to estimate download sizes later on
         if fileCount > 0:
@@ -186,23 +209,16 @@ class ApiDataGeoAdmin(ApiInterface):
                 # Don't request again if we have this estimate already
                 if asset['type'] in estimate.keys():
                     continue
-                # Check Content-Length header
-                if Qgis.QGIS_VERSION_INT >= 31800:
-                    # Make a HEAD request to get the file size
-                    header = self.fetch(task, asset['href'], method='head')
-                    if header and header.hasRawHeader(b'Content-Length'):
-                        estimate[asset['type']] = int(header.rawHeader(b'Content-Length'))
-                else:
-                    # If QGIS version is below 3.18, use library 'requests'
-                    # to make a HEAD request
-                    header = self.fetchHeadLegacy(task, asset['href'])
-                    if header:
-                        estimate[asset['type']] = int(header.headers['Content-Length'])
-
-        dataset.analysed = True
-        dataset.isEmpty = fileCount == 0
-        dataset.avgSize = estimate
-        return dataset
+                # Check Content-Length header: Make a HEAD request to get the file size
+                header = self.fetch(task, asset['href'], method='head')
+                if header and header.hasRawHeader(b'Content-Length'):
+                    estimate[asset['type']] = int(
+                            header.rawHeader(b'Content-Length'))
+        
+        collection.analysed = True
+        collection.isEmpty = fileCount == 0
+        collection.avgSize = estimate
+        return collection
     
     def getFileList(self, task: ApiCallerTask, url, bbox: list[float] or None):
         """Request a list of available files that are within a bounding box.
@@ -219,14 +235,17 @@ class ApiDataGeoAdmin(ApiInterface):
                 task.exception = self.tr('Error when requesting file list - '
                                          'Unexpected API response')
             return False
-        
+        return self.processItems(responseList, task)
+    
+    @staticmethod
+    def processItems(responseList, task: ApiCallerTask):
         filterItems = {
             'filetype': [],
             'category': [],
             'resolution': [],
             'timestamp': [],
             'coordsys': [],
-        }
+            }
         fileList = []
             
         for item in responseList:
@@ -253,7 +272,7 @@ class ApiDataGeoAdmin(ApiInterface):
                 asset = item['assets'][assetId]
                 
                 # Create file object
-                file = File(assetId, asset['type'], asset['href'])
+                file = Asset(assetId, asset['type'], asset['href'])
                 try:
                     file.setBbox(item['bbox'])
                 except AssertionError as e:
@@ -328,71 +347,36 @@ class ApiDataGeoAdmin(ApiInterface):
         
         return {'files': fileList, 'filters': filterItems}
     
-    def fetchAll(self, task: ApiCallerTask, url, responsePropName, params=None,
-                 header=None, method='get', limit: int = -1):
-        responseList = []
-    
-        # Fetch more responses as long as there is a 'next' link
-        #  in the response
-        while url:
-            if task.isCanceled():
-                return False
-        
-            response = self.fetch(task, url, params, header, method)
-        
-            if not response or not isinstance(response, dict) \
-                    or responsePropName not in response:
-                return False
-        
-            responseList.extend(response[responsePropName])
-        
-            # Get the next bunch of files by using the next link
-            #  in the response
-            nextUrl = ''
-            if response['links']:
-                for link in response['links']:
-                    if link['rel'] == 'next':
-                        nextUrl = link['href']
-                        break
-            if url != nextUrl and (limit == -1 or len(responseList) < limit):
-                url = nextUrl
-                # Params are already part of the next url, no need to
-                #  specify them again
-                params = {}
-            else:
-                url = ''
-        return responseList
-    
     def refreshAllMetadata(self, task: ApiCallerTask):
-        """Fetches metadata for all datasets and saves it to a json file."""
-        datasets = self.getDatasetList(task)
+        """Fetches metadata for all collections and saves it to a json file."""
+        collections = self.getCollections(task)
         
         md_geocat = {}
-        for datasetId, dataset in datasets.items():
+        for collectionId, collection in collections.items():
             # Request metadata in all languages
             metadata = {}
             for locale in _AVAILABLE_LOCALES:
-                localizedMetadata = self.geocatApi.getMeta(task, datasetId,
-                                                           dataset.metadataLink,
+                localizedMetadata = self.geocatApi.getMeta(task, collectionId,
+                                                           collection.metadataLink,
                                                            locale)
                 if localizedMetadata:
                     metadata[locale] = localizedMetadata
-            md_geocat[datasetId] = metadata
+            md_geocat[collectionId] = metadata
         
         self.geocatApi.updatePreSavedMetadata(md_geocat)
     
     def catalogPropertiesCrawler(self, task: ApiCallerTask):
         """Crawls through all item / asset properties of the catalog and
         returns them."""
-        datasets = self.getDatasetList(task)
+        collections = self.getCollections(task)
         items = {}
-        for datasetId, dataset in datasets.items():
-            items[datasetId] = {}
-            items[datasetId]['title'] = dataset.title
+        for collectionId, collection in collections.items():
+            items[collectionId] = {}
+            items[collectionId]['title'] = collection.title
             bbox = [7.8693964, 46.7961371, 7.9098771, 46.817595]
-            fileList = self.getFileList(task, dataset.filesLink, bbox)
+            fileList = self.getFileList(task, collection.filesLink, bbox)
             if fileList:
-                items[datasetId]['assets'] = len(fileList['files'])
-                items[datasetId]['filters'] = {
+                items[collectionId]['assets'] = len(fileList['files'])
+                items[collectionId]['filters'] = {
                     k: v for k, v in fileList['filters'].items() if v}
         return items

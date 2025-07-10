@@ -27,7 +27,7 @@ FILETYPE_COG = 'streamed tiff (COG)'
 STREAMED_SOURCE_PREFIX = '/vsicurl/'
 
 
-class Dataset:
+class Collection:
     def __init__(self, ident='', filesLink=''):
         self.id = ident
         self.filesLink = filesLink
@@ -47,7 +47,7 @@ class Dataset:
                     .replace('.', ' ').lower()
 
 
-class File:
+class Asset:
     def __init__(self, name, assetType, href):
         self.id = name
         self.type = assetType
