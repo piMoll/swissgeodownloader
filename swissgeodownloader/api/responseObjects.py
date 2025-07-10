@@ -55,7 +55,7 @@ class DatasetStructure(Enum):
     DEFAULT_DATASET = "default"
 
 
-class Dataset:
+class Collection:
     def __init__(self, ident='', filesLink=''):
         self.id = ident
         self.filesLink = filesLink
@@ -87,7 +87,7 @@ class Dataset:
             return self.id == compareName
 
 
-class File:
+class Asset:
     def __init__(self, name, assetType, href):
         self.id = name
         self.type = assetType

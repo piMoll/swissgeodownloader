@@ -26,7 +26,7 @@ from qgis.PyQt.QtWidgets import (QAbstractItemView, QAbstractScrollArea,
                                  QTableView)
 
 
-class DatasetListTable(QObject):
+class CollectionListTable(QObject):
     sig_selectionChanged = pyqtSignal(str)
     
     def __init__(self, parent, layout):

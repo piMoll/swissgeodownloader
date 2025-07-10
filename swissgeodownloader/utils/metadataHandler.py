@@ -34,7 +34,7 @@ SAVE_DIRECTORY = os.path.join(PLUGIN_PATH, 'api')
 def saveToFile(metadata, filename):
     try:
         jsonData = json.dumps(metadata, indent=2, sort_keys=True,
-                                   ensure_ascii=False)
+                              ensure_ascii=False)
     except Exception:
         log('Converting metadata to json data not successful')
         return
@@ -58,11 +58,11 @@ def loadFromFile(filename):
             return {}
     else:
         log('Metadata file not found')
-    
 
-def saveToSettings(datasetId, metadata, locale):
+
+def saveToSettings(collectionId, metadata, locale):
     s = QgsSettings()
-    settingsPath = f"{SETTING_PREFIX}/metadata/{datasetId}/{locale}"
+    settingsPath = f"{SETTING_PREFIX}/metadata/{collectionId}/{locale}"
     
     today = date.today()
     s.setValue(f"{settingsPath}/title", metadata['title'])
@@ -70,20 +70,20 @@ def saveToSettings(datasetId, metadata, locale):
     s.setValue(f"{settingsPath}/date", today.isoformat())
 
 
-def loadFromSettings(datasetId, locale):
+def loadFromSettings(collectionId, locale):
     # Read out metadata from QGIS settings
     s = QgsSettings()
-    settingsPath = f"{SETTING_PREFIX}/metadata/{datasetId}/{locale}"
+    settingsPath = f"{SETTING_PREFIX}/metadata/{collectionId}/{locale}"
     
     updateDateStr = s.value(f"{settingsPath}/date", None)
     if not updateDateStr:
-        log('Loading from settings not successfull, no date')
+        log('Loading from settings not successful, no date')
         return None
     
     try:
         updateDate = date.fromisoformat(updateDateStr)
     except Exception:
-        log('Loading from settings not successfull, update date not valid')
+        log('Loading from settings not successful, update date not valid')
         return None
     
     # Check if metadata ist still up to date
@@ -95,7 +95,7 @@ def loadFromSettings(datasetId, locale):
     return {
         'title': s.value(f"{settingsPath}/title", ''),
         'abstract': s.value(f"{settingsPath}/abstract", ''),
-    }
+        }
 
 
 def log(msg, level=Qgis.MessageLevel.Info):

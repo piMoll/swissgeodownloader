@@ -18,7 +18,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from swissgeodownloader.api.responseObjects import ALL_VALUE, File
+from swissgeodownloader.api.responseObjects import ALL_VALUE, Asset
 
 
 def cleanupFilterItems(filterItems):
@@ -51,7 +51,7 @@ def currentFileByBbox(fileList):
     """
     bboxList = {}
     for file in fileList:
-        file: File
+        file: Asset
         bboxKey = file.bboxKey
         propKey = file.propKey
 

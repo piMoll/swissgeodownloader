@@ -51,17 +51,17 @@ class ApiGeoCat(ApiInterface):
         self.preSavedMetadata = {}
         self.loadPreSavedMetadata()
     
-    def getMeta(self, task: ApiCallerTask, datasetId, metadataUrl, locale):
-        """Requests metadata for a dataset Id. Since calling geocat several
+    def getMeta(self, task: ApiCallerTask, collectionId, metadataUrl, locale):
+        """Requests metadata for a collection Id. Since calling geocat several
         times on each plugin start is very slow, metadata is saved to a file
         and read from there. Only if there is no metadata for a specific
-        dataset in the file, geocat.ch is called."""
+        collection in the file, geocat.ch is called."""
         metadata = {}
         
         # Check if metadata has been pre-saved and return this data
-        if datasetId in self.preSavedMetadata \
-                and locale in self.preSavedMetadata[datasetId]:
-            return self.preSavedMetadata[datasetId][locale]
+        if collectionId in self.preSavedMetadata \
+                and locale in self.preSavedMetadata[collectionId]:
+            return self.preSavedMetadata[collectionId][locale]
         
         geocatDsId = self.extractUuid(metadataUrl)
         if not geocatDsId:
@@ -101,15 +101,15 @@ class ApiGeoCat(ApiInterface):
         """Read pre-saved metadata from json file."""
         self.preSavedMetadata = loadFromFile(self.dataPath)
     
-    def updatePreSavedMetadata(self, metadata, datasetId=None, locale=None):
+    def updatePreSavedMetadata(self, metadata, collectionId=None, locale=None):
         """Update the pre-saved metadata with a completely new dictionary or
-        only update partially by adding a new dataset."""
-        if datasetId and locale:
+        only update partially by adding a new collection."""
+        if collectionId and locale:
             # Make a partial update of the data in the file
-            if datasetId not in self.preSavedMetadata:
-                self.preSavedMetadata[datasetId] = {locale: metadata}
+            if collectionId not in self.preSavedMetadata:
+                self.preSavedMetadata[collectionId] = {locale: metadata}
             else:
-                self.preSavedMetadata[datasetId][locale] = metadata
+                self.preSavedMetadata[collectionId][locale] = metadata
             saveToFile(self.preSavedMetadata, self.dataPath)
         else:
             # Fully replace the data in the file
