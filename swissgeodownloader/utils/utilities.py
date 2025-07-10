@@ -21,6 +21,9 @@
 from datetime import datetime
 
 from qgis.PyQt.QtCore import QCoreApplication
+from qgis.core import Qgis, QgsMessageLog
+
+from swissgeodownloader import DEBUG
 
 MESSAGE_CATEGORY = 'Swiss Geo Downloader'
 
@@ -73,3 +76,10 @@ def getDateFromIsoString(isoString, formatted=True):
     else:
         return dt
 
+
+def log(msg, level=Qgis.MessageLevel.Info, debugMsg=False):
+    if debugMsg:
+        if not DEBUG:
+            return
+        msg = f'DEBUG {msg}'
+    QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
