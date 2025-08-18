@@ -22,33 +22,53 @@ import os
 
 from osgeo import gdal
 from qgis.core import (
+    QgsApplication,
     QgsProject,
     QgsRasterLayer,
     QgsTask,
-    QgsVectorLayer,
-    QgsMessageLog,
-    Qgis
+    QgsVectorLayer
 )
 
-from swissgeodownloader.api.responseObjects import STREAMED_SOURCE_PREFIX
-from swissgeodownloader.ui.ui_utilities import MESSAGE_CATEGORY
+from swissgeodownloader.api.responseObjects import SgdAsset, STREAMED_SOURCE_PREFIX
 
 
+def createQgisLayersInTask(fileList: list[SgdAsset], callback):
+    # Create layer from files (streamed and downloaded) so they can be
+    # added to qgis
+    task = QgisLayerCreatorTask('Daten zu QGIS hinzufügen...', fileList)
+    task.taskCompleted.connect(
+            lambda: callback(task.layerList, task.alreadyAdded))
+    task.taskTerminated.connect(callback)
+    QgsApplication.taskManager().addTask(task)
+    
+    
 class QgisLayerCreatorTask(QgsTask):
     """ QGIS can freeze when a lot of layers have to be created in the main
      thread. Instead, layers are created in this separate QTask and moved to
      the main thread. After the task has finished, they are added to the map
      in the main thread."""
     
-    def __init__(self, description, fileList, vrtOutputPath):
+    def __init__(self, description, fileList: list[SgdAsset], vrtOutputPath):
         super().__init__(description, QgsTask.Flag.CanCancel)
         self.fileList = fileList
-        self.layerList = []
-        self.alreadyAdded = 0
+        self.layerList: list[QgsRasterLayer | QgsVectorLayer] = []
+        self.alreadyAdded: int = 0
         self.exception = None
         self.vrtOutputPath = vrtOutputPath
     
     def run(self):
+        if DEBUG:
+            try:
+                # Add pydevd to path
+                import sys
+                sys.path.insert(0,
+                                '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
+                import pydevd_pycharm
+                pydevd_pycharm.settrace('localhost', port=53100, suspend=False)
+            except ConnectionRefusedError:
+                pass
+            except ImportError:
+                pass
         
         if not self.fileList or len(self.fileList) == 0:
             return True
@@ -70,8 +90,10 @@ class QgisLayerCreatorTask(QgsTask):
             
             # Adding the file to QGIS if it's (1) a streamed file or (2) is
             #  present in the file system and (3) is not a .zip
-            if (file.path.startswith(STREAMED_SOURCE_PREFIX) or os.path.exists(
-                    file.path)) and '.zip' not in file.id:
+            if file.isStreamable or os.path.exists(file.path):
+                if '.zip' in file.id:
+                    # Can't add zip files to QGIS
+                    continue
                 if file.path in already_added:
                     self.alreadyAdded += 1
                     continue

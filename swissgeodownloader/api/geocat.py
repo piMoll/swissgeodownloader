@@ -22,8 +22,9 @@ import re
 import xml.etree.ElementTree as ET
 
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
-from swissgeodownloader.api.apiInterface import ApiInterface
+from swissgeodownloader.api.network_requests import fetch
 from swissgeodownloader.utils.metadataHandler import loadFromFile, saveToFile
+from swissgeodownloader.utils.utilities import tr
 
 BASEURL = 'https://www.geocat.ch/geonetwork/srv/eng/csw'
 XML_NAMESPACES = {'gmd': '{http://www.isotc211.org/2005/gmd}'}
@@ -35,23 +36,23 @@ REQUEST_PARAMS = {
     'outputFormat': 'application/xml',
     'outputSchema': 'http://www.isotc211.org/2005/gmd',
 }
-DATAPATH = {
-    'geoadmin': 'datageoadmin_geocat_metadata.json'
-}
+
+# Translate context
+trc = 'ApiGeoCat'
 
 
-class ApiGeoCat(ApiInterface):
+class ApiGeoCat:
     
-    def __init__(self, parent, locale, targetApi):
+    def __init__(self, locale, fileName):
         """Request metadata from geocat.ch, the official geodata metadata
         service for switzerland."""
-        super().__init__(parent, locale)
-        self.name = 'Geocat'
-        self.dataPath = DATAPATH[targetApi]
+        self.locale = locale
+        self.dataPath = fileName
         self.preSavedMetadata = {}
         self.loadPreSavedMetadata()
     
-    def getMeta(self, task: ApiCallerTask, collectionId, metadataUrl, locale):
+    def getMeta(self, task: ApiCallerTask, collectionId: str, metadataUrl: str,
+                locale: str):
         """Requests metadata for a collection Id. Since calling geocat several
         times on each plugin start is very slow, metadata is saved to a file
         and read from there. Only if there is no metadata for a specific
@@ -65,18 +66,18 @@ class ApiGeoCat(ApiInterface):
         
         geocatDsId = self.extractUuid(metadataUrl)
         if not geocatDsId:
-            task.log(self.tr(
-                'Error when trying to retrieve metadata - No dataset ID found') + f':\n{metadataUrl}')
+            task.log(tr(
+                'Error when trying to retrieve metadata - No dataset ID found', trc) + f':\n{metadataUrl}')
             return metadata
 
         # Call geocat API
         rqParams = REQUEST_PARAMS
         rqParams['id'] = geocatDsId
-        xml = self.fetch(task, BASEURL, params=rqParams, decoder='string')
+        xml = fetch(task, BASEURL, params=rqParams, decoder='string')
         try:
             root = ET.fromstring(xml)
         except ET.ParseError:
-            task.log(self.tr('Error when trying to retrieve metadata - Response cannot be parsed'))
+            task.log(tr('Error when trying to retrieve metadata - Response cannot be parsed', trc))
             return metadata
         
         # Search for title and description in xml
@@ -95,13 +96,18 @@ class ApiGeoCat(ApiInterface):
                         break
                 if metadata.get(mapsTo):
                     break
+        
+        # Save metadata to file so we don't have to call the API again
+        self.updatePreSavedMetadata(metadata, collectionId, locale)
+        
         return metadata
     
     def loadPreSavedMetadata(self):
         """Read pre-saved metadata from json file."""
         self.preSavedMetadata = loadFromFile(self.dataPath)
     
-    def updatePreSavedMetadata(self, metadata, collectionId=None, locale=None):
+    def updatePreSavedMetadata(self, metadata, collectionId: str | None = None,
+                               locale: str | None = None):
         """Update the pre-saved metadata with a completely new dictionary or
         only update partially by adding a new collection."""
         if collectionId and locale:

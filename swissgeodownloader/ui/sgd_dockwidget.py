@@ -26,31 +26,48 @@ from datetime import datetime
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSignal
 from qgis.PyQt.QtWidgets import (QDockWidget, QFileDialog, QMessageBox)
-from qgis.core import (Qgis, QgsApplication, QgsCoordinateReferenceSystem,
-                       QgsCoordinateTransform, QgsProject,
-                       QgsRectangle)
+from qgis.core import (
+    QgsRasterLayer,
+    QgsVectorLayer,
+    Qgis,
+    QgsApplication,
+    QgsCoordinateReferenceSystem,
+    QgsCoordinateTransform,
+    QgsProject,
+    QgsRectangle
+)
 from qgis.gui import QgisInterface, QgsExtentGroupBox
 
-from swissgeodownloader.api.apiCallerTask import ApiCallerTask
+from swissgeodownloader.api.apiCallerTask import (
+    GetCollectionsTask,
+    AnalyseCollectionTask,
+    GetFileListTask,
+    DownloadFilesTask
+)
 from swissgeodownloader.api.datageoadmin import API_EPSG, ApiDataGeoAdmin
 from swissgeodownloader.api.responseObjects import (
     ALL_VALUE, CURRENT_VALUE,
-    Collection,
     STREAMED_SOURCE_PREFIX,
+    SgdStacCollection, SgdAsset,
     DatasetStructure, TILED_DATASET_FILETYPE
 )
-from swissgeodownloader.api.stac_client import StacClient
 from swissgeodownloader.ui.bboxDrawer import BboxPainter
 from swissgeodownloader.ui.datsetListTable import CollectionListTable
 from swissgeodownloader.ui.fileListTable import FileListTable
-from swissgeodownloader.ui.qgis_utilities import (RECOMMENDED_CRS,
-                                                  addLayersToQgis,
-                                                  addOverviewMap, switchToCrs,
-                                                  transformBbox)
+from swissgeodownloader.ui.qgis_utilities import (
+    RECOMMENDED_CRS,
+    addLayersToQgis,
+    addOverviewMap,
+    switchToCrs,
+    transformBbox
+)
 from swissgeodownloader.ui.waitingSpinnerWidget import QtWaitingSpinner
-from swissgeodownloader.utils.qgisLayerCreatorTask import QgisLayerCreatorTask
-from swissgeodownloader.utils.utilities import (MESSAGE_CATEGORY,
-                                                filesizeFormatter)
+from swissgeodownloader.utils.qgisLayerCreatorTask import \
+    createQgisLayersInTask
+from swissgeodownloader.utils.utilities import (
+    MESSAGE_CATEGORY,
+    filesizeFormatter
+)
 
 UI_FILE = os.path.join(os.path.dirname(__file__), 'sgd_dockwidget_base.ui')
 FORM_CLASS, _ = uic.loadUiType(UI_FILE)
@@ -63,10 +80,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     closingPlugin = pyqtSignal()
     
     LABEL_SUCCESS_STYLE = 'QLabel { color : green; font-weight: bold;}'
-    
 
     def __init__(self, interface: QgisInterface, locale, parent=None):
-        """Constructor."""
         super(SwissGeoDownloaderDockWidget, self).__init__(parent)
         self.setupUi(self)
         self.iface = interface
@@ -75,12 +90,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.annManager = QgsProject.instance().annotationManager()
 
         # Initialize variables
-        self.collectionList: dict[str: Collection] = {}
-        self.currentCollection: Collection = Collection()
-        self.fileList = []
-        self.fileListFiltered = {}
-        self.filesListDownload = []
-        self.filesListStreamed = []
+        self.collectionList: dict[str, SgdStacCollection] = {}
+        self.currentCollection: SgdStacCollection | None = None
+        self.fileList: list[SgdAsset] = []
+        self.fileListFiltered: dict[str, SgdAsset] = {}
+        self.filesListDownload: list[SgdAsset] = []
+        self.filesListStreamed: list[SgdAsset] = []
         self.currentFilters = {
             'filetype': None,
             'category': None,
@@ -187,7 +202,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.deactivateFilterFields()
         
         # Finally, initialize apis and request available collections
-        self.apiDGA = ApiDataGeoAdmin(self, self.locale)
+        self.apiDGA = ApiDataGeoAdmin(self.locale)
         self.loadCollectionList()
     
     def closeEvent(self, event, **kwargs):
@@ -198,13 +213,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     def loadCollectionList(self):
         # Create separate task for request to not block ui
         self.spinnerCol.start()
-        # self.stacClient.requestCollections(self.onReceiveCollections)
-        caller = ApiCallerTask(self.apiDGA, self.msgBar, 'getCollections', {})
+        caller = GetCollectionsTask(self.apiDGA, self.msgBar, 'get STAC collections')
         # Listen for finished api call
         caller.taskCompleted.connect(
                 lambda: self.onReceiveCollections(caller.output))
         caller.taskTerminated.connect(
-                lambda: self.onReceiveCollections([]))
+                lambda: self.onReceiveCollections({}))
         QgsApplication.taskManager().addTask(caller)
     
     def onMapRefSysChanged(self):
@@ -298,7 +312,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             return
         self.bboxPainter.switchNumberVisibility()
     
-    def onReceiveCollections(self, collectionList: dict[str: Collection]):
+    def onReceiveCollections(self,
+                             collectionList: dict[str, SgdStacCollection]):
         """Receive list of available collections"""
         self.collectionList = collectionList
         self.collectionListTbl.fill(
@@ -308,7 +323,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     def onCollectionSelectionChange(self, collectionId: str):
         """Set collection and load details on first selection"""
         # Ignore double clicks or very fast clicks
-        if self.currentCollection and collectionId == self.currentCollection.id:
+        if self.currentCollection and collectionId == self.currentCollection.id():
             return
         if not collectionId:
             self.onUnselectCollection()
@@ -316,10 +331,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         
         self.currentCollection = self.collectionList[collectionId]
         
-        if not self.currentCollection.analysed:
-            caller = ApiCallerTask(self.apiDGA, self.msgBar,
-                                   'getCollectionDetails',
-                                   {'collection': self.currentCollection})
+        if not self.currentCollection.analysed():
+            caller = AnalyseCollectionTask(self.apiDGA, self.msgBar,
+                                   'analyse STAC collection',
+                                   collection=self.currentCollection)
             # Listen for finished api call
             caller.taskCompleted.connect(
                     lambda: self.onLoadCollectionDetails(caller.output))
@@ -329,14 +344,14 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         else:
             self.onLoadCollectionDetails()
     
-    def onLoadCollectionDetails(self, collection: Collection = None):
+    def onLoadCollectionDetails(self, collection: SgdStacCollection = None):
         """Set up ui according to the nature of the selected collection"""
         if collection:
-            self.collectionList[collection.id] = collection
+            self.collectionList[collection.id()] = collection
             self.currentCollection = collection
         
         # Show collection status if no files are available
-        if not self.currentCollection or self.currentCollection.isEmpty:
+        if not self.currentCollection or self.currentCollection.isEmpty():
             self.guiGroupExtent.setDisabled(True)
             self.guiExtentWidget.setCollapsed(True)
             self.guiGroupFiles.setDisabled(True)
@@ -350,7 +365,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.deactivateFilterFields()
 
         # Activate / deactivate Extent
-        if not self.currentCollection.selectByBBox:
+        if not self.currentCollection.selectByBBox():
             self.guiExtentWidget.setCollapsed(True)
             self.updateSelectMode()
             self.guiGroupExtent.setDisabled(True)
@@ -366,7 +381,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.resetFileList()
         
         # If collection has few files, get the file list directly
-        if not self.currentCollection.selectByBBox:
+        if not self.currentCollection.selectByBBox():
             self.onLoadFileListClicked()
             self.guiRequestListBtn.setDisabled(True)
         self.updateSingleLayerOptionVisibility()
@@ -416,7 +431,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             labelElem.setHidden(False)
     
     def onUnselectCollection(self):
-        self.currentCollection = {}
+        self.currentCollection = None
         
         self.onReceiveFileList([])
         self.guiGroupExtent.setDisabled(True)
@@ -443,7 +458,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     
     def updateSelectMode(self):
         if self.guiFullExtentChbox.isChecked():
-            bbox = QgsRectangle(*tuple(self.currentCollection.bbox))
+            bbox = QgsRectangle(*tuple(self.currentCollection.bbox()))
             self.updateExtentValues(bbox, self.apiRefSys)
     
     def getBbox(self) -> list:
@@ -470,10 +485,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         
         # Call api
         # Create a separate task for request to not block ui
-        self.fileListRequest = ApiCallerTask(self.apiDGA, self.msgBar,
-                                             'getFileList', {
-                                                 'url': self.currentCollection.filesLink,
-                                                 'bbox': bbox})
+        self.fileListRequest = GetFileListTask(self.apiDGA, self.msgBar,
+                                'get file list',
+                                collectionId=self.currentCollection.id(), bbox=bbox)
         # Listen for finished api call
         self.fileListRequest.taskCompleted.connect(
             lambda: self.onReceiveFileList(self.fileListRequest.output))
@@ -486,7 +500,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.guiRequestCancelBtn.setHidden(False)
 
     def onCancelRequestClicked(self):
-        if self.fileListRequest:
+        if self.fileListRequest.status() == self.fileListRequest.Running:
             self.fileListRequest.cancel()
             self.guiRequestCancelBtn.setHidden(True)
             self.guiRequestListBtn.setHidden(False)
@@ -576,7 +590,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.updateDownloadBtnState()
         self.updateSingleLayerOptionVisibility()
     
-    def getCurrentlySelectedFilesAsList(self):
+    def getCurrentlySelectedFilesAsList(self) -> list[SgdAsset]:
         return [file for file in self.fileListFiltered.values() if
                 file.selected]
     
@@ -641,10 +655,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             count = 0
             for file in self.getCurrentlySelectedFilesAsList():
                 count += 1
-                if file.type in self.currentCollection.avgSize.keys():
-                    fileSize += self.currentCollection.avgSize[file.type]
-    
-                # fileSize = sum([file.avgSize for file in self.fileListFiltered])
+                if file.mediaType() in self.currentCollection.avgSize().keys():
+                    fileSize += self.currentCollection.avgSize()[
+                        file.mediaType()]
                 
             if fileSize > 0:
                 status = self.tr("{} file(s), approximately {}")\
@@ -667,7 +680,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         # Only show checkbox for creating a single layer if dataset
         return (self.currentCollection and
                 # 1) exists and has tiled data structure
-                self.currentCollection.structure == DatasetStructure.TILED_DATASET
+                self.currentCollection.structure() == DatasetStructure.TILED_DATASET
                 # 2) there is more than one file
                 and len(self.fileListFiltered) > 1
                 # 3) there is no "all" filter active
@@ -686,7 +699,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         if self.supportsSingleLayerOption() and self.guiAddAsSingleLayerChbox.isChecked():
             currentDateTime = datetime.now().strftime('%Y-%m-%d_%H%M%S')
             return os.path.join(self.outputPath,
-                                f'{self.currentDataset.id}-combined_{currentDateTime}.vrt')
+                                f'{self.currentCollection.id()}-combined_{currentDateTime}.vrt')
         return None
     
     def onDownloadFilesClicked(self):
@@ -694,21 +707,19 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.spinnerFl.start()
         self.filesListStreamed = []
         self.filesListDownload = []
+        filesToDownload = self.getCurrentlySelectedFilesAsList()
         
-        # Manage streamed files first
-        hasOnlyStreamedFilesSelected = True
-        for file in self.getCurrentlySelectedFilesAsList():
+        # Set href as path for streamed files so qgis knows to stream them directly
+        for file in filesToDownload:
             if file.isStreamable:
                 file.path = STREAMED_SOURCE_PREFIX + file.href
                 self.filesListStreamed.append(file)
-            else:
-                hasOnlyStreamedFilesSelected = False
         
         # If there is no need for a download folder, the selected files
         #  are added directly as streamed layers to qgis
-        if hasOnlyStreamedFilesSelected:
+        if len(self.filesListStreamed) == len(filesToDownload):
             # Start spinner to indicate data loading
-            self.createQgisLayers()
+            createQgisLayersInTask(self.filesListStreamed, self.onCreateQgisLayersFinished)
         
         else:
             folder = self.selectDownloadFolder()
@@ -720,7 +731,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.outputPath = folder
             waitForConfirm = False
             # Sort out all selected files from list
-            for file in self.getCurrentlySelectedFilesAsList():
+            for file in filesToDownload:
                 if not file.isStreamable:
                     file.path = os.path.join(self.outputPath, file.id)
                     self.filesListDownload.append(file)
@@ -743,7 +754,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.filesListStreamed = []
         self.filesListDownload = []
     
-    def selectDownloadFolder(self):
+    def selectDownloadFolder(self) -> str:
         # Let user choose output directory
         if self.outputPath:
             openDir = self.outputPath
@@ -751,16 +762,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             openDir = os.path.expanduser('~')
         folder = QFileDialog.getExistingDirectory(self, self.tr(
             'Choose output folder'), openDir, QFileDialog.Option.ShowDirsOnly)
-        if not folder:
-            return False
         return folder
     
     def startDownload(self):
         # Create separate task for request to not block ui
-        caller = ApiCallerTask(self.apiDGA, self.msgBar, 'downloadFiles', {
-            'fileList': self.filesListDownload,
-            'folder': self.outputPath,
-        })
+        caller = DownloadFilesTask(self.apiDGA, self.msgBar, 'download files',
+                                   fileList=self.filesListDownload, outputDir=self.outputPath)
         # Listen for finished api call
         caller.taskCompleted.connect(
                 lambda: self.onDownloadFinished(caller.output))
@@ -776,25 +783,12 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: "
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.MessageLevel.Success)
-        self.createQgisLayers()
-    
-    def createQgisLayers(self):
-        # Create layer from files (streamed and downloaded) so they can be
-        # added to qgis
+        
         filesToAdd = self.filesListDownload + self.filesListStreamed
-        task = QgisLayerCreatorTask(self.tr('Adding files to QGIS...'),
-                                    filesToAdd,
-                                    self.evaluateSingleLayerOption())
-        task.taskCompleted.connect(
-                lambda: self.onCreateQgisLayersFinished(task.layerList,
-                                                        task.alreadyAdded,
-                                                        task.exception))
-        task.taskTerminated.connect(
-                lambda: self.onCreateQgisLayersFinished(None, 0,
-                                                        task.exception))
-        QgsApplication.taskManager().addTask(task)
+        createQgisLayersInTask(filesToAdd, self.onCreateQgisLayersFinished)
     
-    def onCreateQgisLayersFinished(self, layers=None, alreadyAdded=0,
+    def onCreateQgisLayersFinished(self, layers: list[QgsRasterLayer | QgsVectorLayer] | None = None,
+                                   alreadyAdded: int = 0,
                                    exception=None):
         self.stopDownload()
         
