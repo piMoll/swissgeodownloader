@@ -18,10 +18,10 @@
  *                                                                         *
  ***************************************************************************/
 """
-from swissgeodownloader.api.responseObjects import ALL_VALUE, Asset
+from swissgeodownloader.api.responseObjects import ALL_VALUE, SgdAsset
 
 
-def cleanupFilterItems(filterItems):
+def cleanupFilterItems(filterItems: dict):
     """Cleanup filter values so no duplicates are present. Also add 'ALL'
     option."""
     # Remove duplicate entries in the filter list and sort
@@ -39,7 +39,7 @@ def cleanupFilterItems(filterItems):
     return filterItems
 
 
-def currentFileByBbox(fileList):
+def currentFileByBbox(fileList: list[SgdAsset]):
     """ Searches for the most current file for each bbox and property
     combination. Creates a dictionary for each unique bbox that contains
     the most current file for each property combination.
@@ -51,7 +51,6 @@ def currentFileByBbox(fileList):
     """
     bboxList = {}
     for file in fileList:
-        file: Asset
         bboxKey = file.bboxKey
         propKey = file.propKey
 

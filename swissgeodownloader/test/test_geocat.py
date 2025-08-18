@@ -7,12 +7,10 @@ from swissgeodownloader.api.geocat import ApiGeoCat
 class TestApiGeoCat(unittest.TestCase):
     
     @classmethod
-    @patch("swissgeodownloader.api.geocat.DATAPATH", {'test_api': 'test_path'})
     def setUpClass(cls):
         cls.parent = MagicMock()
         cls.locale = "en"
-        cls.target_api = "test_api"
-        cls.api: ApiGeoCat = ApiGeoCat(cls.parent, cls.locale, cls.target_api)
+        cls.api: ApiGeoCat = ApiGeoCat(cls.locale, 'test_path')
     
     @classmethod
     def tearDownClass(cls):

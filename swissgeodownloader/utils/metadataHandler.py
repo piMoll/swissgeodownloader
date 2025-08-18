@@ -24,11 +24,11 @@ from datetime import date
 
 from qgis.core import QgsSettings
 
+from swissgeodownloader import PLUGIN_DIR
 from swissgeodownloader.utils.utilities import log
 
 SETTING_PREFIX = 'PluginSwissGeoDownloader'
-PLUGIN_PATH = os.path.dirname(os.path.dirname(__file__))
-SAVE_DIRECTORY = os.path.join(PLUGIN_PATH, 'api')
+SAVE_DIRECTORY = os.path.join(PLUGIN_DIR, 'api')
 
 
 def saveToFile(metadata, filename):
@@ -58,6 +58,7 @@ def loadFromFile(filename):
             return {}
     else:
         log('Metadata file not found')
+    return {}
 
 
 def saveToSettings(collectionId, metadata, locale):

@@ -34,8 +34,7 @@ def classFactory(iface):
             import sys
             sys.path.append('/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
             import pydevd_pycharm
-            pydevd_pycharm.settrace('localhost', port=53100, suspend=False,
-                                    stdoutToServer=True, stderrToServer=True)
+            pydevd_pycharm.settrace('localhost', port=53100, suspend=False)
         except ConnectionRefusedError:
             pass
         except ImportError:

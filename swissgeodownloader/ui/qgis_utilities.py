@@ -20,9 +20,16 @@
 """
 
 from qgis.PyQt.QtCore import QCoreApplication
-from qgis.core import (Qgis, QgsCoordinateReferenceSystem,
-                       QgsCoordinateTransform, QgsPoint, QgsProject,
-                       QgsRasterLayer, QgsRectangle)
+from qgis.core import (
+    QgsVectorLayer,
+    Qgis,
+    QgsCoordinateReferenceSystem,
+    QgsCoordinateTransform,
+    QgsPoint,
+    QgsProject,
+    QgsRasterLayer,
+    QgsRectangle
+)
 from qgis.gui import QgsMapCanvas
 
 SWISSTOPO_WMS_URL = 'http://wms.geo.admin.ch/'
@@ -56,7 +63,7 @@ def transformBbox(rectangle: QgsRectangle, transformer: QgsCoordinateTransform):
             urPoint.y()]
 
 
-def addLayersToQgis(layers):
+def addLayersToQgis(layers: list[QgsRasterLayer | QgsVectorLayer]):
     qgsProject = QgsProject.instance()
     for layer in layers:
         qgsProject.addMapLayer(layer)

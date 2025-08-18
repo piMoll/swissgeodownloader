@@ -28,11 +28,11 @@ from swissgeodownloader import DEBUG
 MESSAGE_CATEGORY = 'Swiss Geo Downloader'
 
 
-def tr(message, **kwargs):
+def tr(message, context='@default', **kwargs):
     """Get the translation for a string using Qt translation API.
     We implement this ourselves since we do not inherit QObject.
     """
-    return QCoreApplication.translate('@default', message)
+    return QCoreApplication.translate(context, message)
 
 
 def formatCoordinate(number):

@@ -20,8 +20,12 @@
 """
 from qgis.PyQt.QtCore import QObject, Qt, pyqtSignal
 from qgis.PyQt.QtGui import QFont, QStandardItem, QStandardItemModel
-from qgis.PyQt.QtWidgets import (QAbstractItemView, QAbstractScrollArea,
-                                 QHeaderView, QSizePolicy, QTableView)
+from qgis.PyQt.QtWidgets import (
+    QAbstractItemView, QAbstractScrollArea,
+    QHeaderView, QSizePolicy, QTableView
+)
+
+from swissgeodownloader.api.responseObjects import SgdAsset
 
 
 class FileListTable(QObject):
@@ -61,14 +65,14 @@ class FileListTable(QObject):
         
         self.showEmptyMessage = False
 
-    def fill(self, fileList):
+    def fill(self, fileList: list[SgdAsset]):
         self.model.clear()
         self.showEmptyMessage = False
         
         # Insert data into cells
         for i, file in enumerate(fileList):
             item0 = QStandardItem()
-            item1 = QStandardItem(file.id)
+            item1 = QStandardItem(file.displayName)
             item1.setCheckState(Qt.CheckState.Checked)
             item1.setCheckable(False)
             item1.setEditable(False)

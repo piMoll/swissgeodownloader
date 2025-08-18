@@ -21,7 +21,6 @@
 import json
 import os
 
-import requests
 from qgis.PyQt.QtCore import QCoreApplication, QEventLoop, QUrl, QUrlQuery
 from qgis.PyQt.QtNetwork import QNetworkReply, QNetworkRequest
 from qgis.core import QgsBlockingNetworkRequest, QgsFileDownloader
@@ -135,15 +134,6 @@ class ApiInterface:
             else:
                 url = ''
         return responseList
-    
-    def fetchHeadLegacy(self, task: ApiCallerTask, url):
-        try:
-            return requests.head(url)
-        except requests.exceptions.HTTPError \
-               or requests.exceptions.RequestException as e:
-            task.log = self.tr('Error when requesting header '
-                               'information: {}', tr).format(e)
-            return False
     
     def fetchFile(self, task: ApiCallerTask, url, filename, filePath, part,
                   params=None):
