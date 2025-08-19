@@ -25,7 +25,7 @@ from qgis.core import Qgis, QgsStacItem
 from swissgeodownloader import _AVAILABLE_LOCALES
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
 from swissgeodownloader.api.geocat import ApiGeoCat
-from swissgeodownloader.api.network_requests import fetch
+from swissgeodownloader.api.network_request import fetch
 from swissgeodownloader.api.responseObjects import (
     CURRENT_VALUE,
     FILETYPE_STREAMED,

@@ -33,7 +33,7 @@ from qgis.core import (
 )
 
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
-from swissgeodownloader.api.network_requests import fetch, createUrl, fetchFile
+from swissgeodownloader.api.network_request import fetch, createUrl, fetchFile
 from swissgeodownloader.api.responseObjects import SgdAsset
 
 

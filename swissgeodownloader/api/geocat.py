@@ -22,7 +22,7 @@ import re
 import xml.etree.ElementTree as ET
 
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
-from swissgeodownloader.api.network_requests import fetch
+from swissgeodownloader.api.network_request import fetch
 from swissgeodownloader.utils.metadataHandler import loadFromFile, saveToFile
 from swissgeodownloader.utils.utilities import tr
 
