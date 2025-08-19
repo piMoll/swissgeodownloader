@@ -95,17 +95,12 @@ class StacClient:
                 raise Exception('User canceled')
             
             if requestAdditionalProperties:
-                rawStacItemResponse = fetch(task, url)
+                rawStacItemResponse: dict = fetch(task, url)
                 
                 requestedItems = self._parseItems(task, rawStacItemResponse)
                 url = next(
-                        (
-                            link["href"]
-                            for link in rawStacItemResponse["links"]
-                            if link["rel"] == "next"
-                        ),
-                        None,
-                )
+                        (link["href"] for link in rawStacItemResponse["links"]
+                            if link["rel"] == "next"), None)
             
             else:
                 response: QgsStacItemCollection = self.controller.fetchItemCollection(

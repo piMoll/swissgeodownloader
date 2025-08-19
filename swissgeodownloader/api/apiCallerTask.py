@@ -34,7 +34,7 @@ class ApiCallerTask(QgsTask):
         self.output = None
         self.exception = None
         self.successMsg = self.tr('request completed')
-        
+    
     def run(self):
         try:        
             self.run_task()
@@ -64,7 +64,7 @@ class ApiCallerTask(QgsTask):
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}", level)
     
     def tr(self, message, **kwargs):
-        return QCoreApplication.translate( 'ApiCallerTask', message)
+        return QCoreApplication.translate('ApiCallerTask', message)
 
 
 class GetCollectionsTask(ApiCallerTask):

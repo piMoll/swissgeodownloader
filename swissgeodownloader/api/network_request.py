@@ -70,7 +70,8 @@ def fetch(
     except AssertionError:
         # Service is not reachable
         task.exception = tr(
-                "{} not reachable or no internet connection", trc).format(callUrl)
+                "{} not reachable or no internet connection", trc).format(
+                callUrl)
         # Service returned an error
         if r.content():
             try:

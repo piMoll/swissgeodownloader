@@ -67,9 +67,10 @@ class ApiGeoCat:
         geocatDsId = self.extractUuid(metadataUrl)
         if not geocatDsId:
             task.log(tr(
-                'Error when trying to retrieve metadata - No dataset ID found', trc) + f':\n{metadataUrl}')
+                    'Error when trying to retrieve metadata - No dataset ID found',
+                    trc) + f':\n{metadataUrl}')
             return metadata
-
+        
         # Call geocat API
         rqParams = REQUEST_PARAMS
         rqParams['id'] = geocatDsId
@@ -77,7 +78,9 @@ class ApiGeoCat:
         try:
             root = ET.fromstring(xml)
         except ET.ParseError:
-            task.log(tr('Error when trying to retrieve metadata - Response cannot be parsed', trc))
+            task.log(
+                    tr('Error when trying to retrieve metadata - Response cannot be parsed',
+                       trc))
             return metadata
         
         # Search for title and description in xml
@@ -89,7 +92,8 @@ class ApiGeoCat:
         for mapsTo, searchTerm in searchTerms.items():
             xmlElements = [elem for elem in root.iter(tag=searchTerm)]
             for xmlElem in xmlElements:
-                localizedStrings = [elem for elem in xmlElem.iter(tag=f"{XML_NAMESPACES['gmd']}LocalisedCharacterString")]
+                localizedStrings = [elem for elem in xmlElem.iter(
+                        tag=f"{XML_NAMESPACES['gmd']}LocalisedCharacterString")]
                 for localizedString in localizedStrings:
                     if localizedString.get('locale') == '#' + locale.upper():
                         metadata[mapsTo] = localizedString.text

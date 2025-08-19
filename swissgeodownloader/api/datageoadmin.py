@@ -111,7 +111,7 @@ class ApiDataGeoAdmin:
         
         params = {
             'lang': self.locale
-            }
+        }
         faqData: dict = fetch(task, API_METADATA_URL, params)
         if not faqData or not isinstance(faqData, dict) \
                 or 'layers' not in faqData:
@@ -132,7 +132,7 @@ class ApiDataGeoAdmin:
             metadata[layerId] = {
                 'title': title,
                 'description': description
-                }
+            }
         return metadata
     
     def analyseCollectionItems(self, task: ApiCallerTask,
@@ -140,9 +140,8 @@ class ApiDataGeoAdmin:
         """Analyse collection to figure out available options in gui"""
         # Get max. 40 features
         try:
-            items: list[QgsStacItem] = self.stacClient.fetchItems(task,
-                                                                  collection.id(),
-                                                                  {'limit': 40})
+            items: list[QgsStacItem] = self.stacClient.fetchItems(
+                    task, collection.id(), {'limit': 40})
         except Exception as e:
             task.exception = f"{tr('Error when loading dataset details - Unexpected API response', trc)}: {task.exception or str(e)}"
             raise Exception(task.exception)
@@ -184,8 +183,8 @@ class ApiDataGeoAdmin:
         Analyse the received list and extract file properties."""
         
         try:
-            stacItemsResponse = self.stacClient.fetchItems(task, collectionId,
-                                                       {'bbox': bbox}, True)
+            stacItemsResponse = self.stacClient.fetchItems(
+                    task, collectionId, {'bbox': bbox}, True)
         except Exception as e:
             task.exception = f"{tr('Error when requesting file list - Unexpected API response', trc)}: {task.exception or e}"
             raise Exception(task.exception)
@@ -200,7 +199,7 @@ class ApiDataGeoAdmin:
             'resolution': [],
             'timestamp': [],
             'coordsys': [],
-            }
+        }
         fileList = []
         
         for item in stacItemResponse:
@@ -219,8 +218,8 @@ class ApiDataGeoAdmin:
                     # Extract the mandatory timestamp 'created' instead
                     timestamp = item.properties().get('created')
             
-            
-            additionalAssetProperties = self.stacClient.assetProperties.get(item.id(), {})
+            additionalAssetProperties = self.stacClient.assetProperties.get(
+                    item.id(), {})
             # Save all files and their properties
             for (assetId, asset) in item.assets().items():
                 if task.isCanceled():
@@ -245,7 +244,7 @@ class ApiDataGeoAdmin:
                     fileTypesPerAsset.append(file.filetype)
                     if file.isCloudOptimized():
                         fileTypesPerAsset.append(
-                                    f'{file.filetype}, {FILETYPE_STREAMED}')
+                                f'{file.filetype}, {FILETYPE_STREAMED}')
                     filterItems['filetype'].extend(fileTypesPerAsset)
                 
                 if timestamp:
@@ -279,7 +278,7 @@ class ApiDataGeoAdmin:
                         copiedFile = file.copy()
                         copiedFile.filetype = fileType
                         fileList.append(copiedFile)
-
+        
         # Sort file list by bbox coordinates (first item on top left corner)
         fileList.sort(key=lambda f: round(f.bbox[3], 2) if f.bbox else 0,
                       reverse=True)
@@ -291,7 +290,7 @@ class ApiDataGeoAdmin:
         # Extract most current file (timestamp) for every bbox on the map
         if len(filterItems['timestamp']) >= 2:
             mostCurrentFileInBbox = currentFileByBbox(fileList)
-                
+            
             if len(mostCurrentFileInBbox.keys()) > 1:
                 for savedBboxDicts in mostCurrentFileInBbox.values():
                     for file in savedBboxDicts.values():
