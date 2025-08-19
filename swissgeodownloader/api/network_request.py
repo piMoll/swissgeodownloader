@@ -19,174 +19,141 @@
  ***************************************************************************/
 """
 import json
-import os
 
-from qgis.PyQt.QtCore import QCoreApplication, QEventLoop, QUrl, QUrlQuery
+from qgis.PyQt.QtCore import (
+    QByteArray,
+    QEventLoop,
+    QUrl,
+    QUrlQuery
+)
 from qgis.PyQt.QtNetwork import QNetworkReply, QNetworkRequest
 from qgis.core import QgsBlockingNetworkRequest, QgsFileDownloader
 
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
+from swissgeodownloader.utils.utilities import tr
 
-# Translate context for super class
-tr = 'ApiInterface'
+trc = "ApiInterface"
 
 
-class ApiInterface:
-    def __init__(self, parent, locale='en'):
-        self.parent = parent
-        self.locale = locale
-        self.name = 'Api'
+def fetch(
+        task: ApiCallerTask,
+        url: QUrl | str,
+        params=None,
+        header=None,
+        method="get",
+        decoder="json",
+) -> dict | QByteArray:
+    """Perform a blocking network request without the help of the
+    QgsStacController. This is necessary because the controller does not
+    parse all available item/asset properties of the response."""
     
-    def fetch(self, task: ApiCallerTask, url, params=None, header=None,
-              method='get', decoder='json'):
-        request = QNetworkRequest()
-        # Prepare url
-        callUrl = QUrl(url)
-        if params:
-            queryParams = QUrlQuery()
-            for key, value in params.items():
-                queryParams.addQueryItem(key, str(value))
-            callUrl.setQuery(queryParams)
-        request.setUrl(callUrl)
-        
-        if header:
-            request.setHeader(*tuple(header))
-        
-        task.log(self.tr('Start request {}', tr).format(callUrl.toString()))
-        # Start request
-        http = QgsBlockingNetworkRequest()
-        if method == 'get':
-            http.get(request, forceRefresh=True)
-        elif method == 'head':
-            http.head(request, forceRefresh=True)
-        
-        # Check if request was successful
-        r = http.reply()
-        try:
-            assert r.error() == QNetworkReply.NetworkError.NoError, r.error()
-        except AssertionError:
-            # Service is not reachable
-            task.exception = self.tr('{} not reachable or no internet '
-                                     'connection', tr).format(self.name)
-            # Service returned an error
-            if r.content():
-                try:
-                    errorResp = json.loads(str(r.content(), 'utf-8'))
-                except json.JSONDecodeError as e:
-                    task.exception = str(e)
-                    return False
-                if 'code' and 'description' in errorResp:
-                    task.exception = (
-                        self.tr('{} returns error', tr).format(self.name) +
-                        f": {errorResp['code']} - {errorResp['description']}")
-            return False
-        
-        # Process response
-        if method == 'get':
-            if decoder == 'json':
-                try:
-                    content = str(r.content(), 'utf-8')
-                    if content:
-                        return json.loads(content)
-                    else:
-                        return False
-                except json.JSONDecodeError as e:
-                    task.exception = str(e)
-                    return False
-            else:  # decoder string
-                return str(r.content(), 'utf-8')
-        elif method == 'head':
-            return r
-        else:
-            return False
+    request = QNetworkRequest()
+    # Prepare url
+    callUrl = createUrl(url, params)
+    request.setUrl(callUrl)
     
-    def fetchAll(self, task: ApiCallerTask, url, responsePropName, params=None,
-                 header=None, method='get', limit: int = -1):
-        responseList = []
-        
-        # Fetch more responses as long as there is a 'next' link
-        #  in the response
-        while url:
-            if task.isCanceled():
-                return False
-            
-            response = self.fetch(task, url, params, header, method)
-            
-            if not response or not isinstance(response, dict) \
-                    or responsePropName not in response:
-                return False
-            
-            responseList.extend(response[responsePropName])
-            
-            # Get the next bunch of files by using the next link
-            #  in the response
-            nextUrl = ''
-            if response['links']:
-                for link in response['links']:
-                    if link['rel'] == 'next':
-                        nextUrl = link['href']
-                        break
-            if url != nextUrl and (limit == -1 or len(responseList) < limit):
-                url = nextUrl
-                # Params are already part of the next url, no need to
-                #  specify them again
-                params = {}
-            else:
-                url = ''
-        return responseList
+    if header:
+        request.setHeader(*tuple(header))
     
-    def fetchFile(self, task: ApiCallerTask, url, filename, filePath, part,
-                  params=None):
-        # Prepare url
-        callUrl = QUrl(url)
-        if params:
-            queryParams = QUrlQuery()
-            for key, value in params.items():
-                queryParams.addQueryItem(key, str(value))
-            callUrl.setQuery(queryParams)
-        
-        task.log(self.tr('Start download of {}', tr).format(callUrl.toString()))
-        fileFetcher = QgsFileDownloader(callUrl, filePath)
-        
-        def onError():
-            task.exception = self.tr('Error when downloading {}', tr).format(filename)
-            return False
-        
-        def onProgress(bytesReceived, bytesTotal):
-            if task.isCanceled():
-                task.exception = self.tr('Download of {} was canceled', tr).format(
+    task.log(tr("Start request {}", trc).format(callUrl))
+    # Start request
+    http = QgsBlockingNetworkRequest()
+    if method == "get":
+        http.get(request, forceRefresh=True)
+    elif method == "head":
+        http.head(request, forceRefresh=True)
+    
+    # Check if request was successful
+    r = http.reply()
+    try:
+        assert r.error() == QNetworkReply.NetworkError.NoError, r.error()
+    except AssertionError:
+        # Service is not reachable
+        task.exception = tr(
+                "{} not reachable or no internet connection", trc).format(callUrl)
+        # Service returned an error
+        if r.content():
+            try:
+                errorResp = json.loads(str(r.content(), "utf-8"))
+            except json.JSONDecodeError as e:
+                task.exception = str(e)
+                raise e
+            if "code" and "description" in errorResp:
+                task.exception = (
+                        tr("{} returns error", trc).format(callUrl)
+                        + f": {errorResp['code']} - {errorResp['description']}"
+                )
+        return False
+    
+    # Process response
+    if method == "get":
+        if decoder == "json":
+            try:
+                content = str(r.content(), "utf-8")
+                if content:
+                    return json.loads(content)
+                else:
+                    raise Exception('Empty response')
+            except json.JSONDecodeError as e:
+                task.exception = str(e)
+                raise Exception(task.exception)
+        else:  # decoder string
+            return r.content()
+    elif method == "head":
+        return r
+    else:
+        raise Exception(f"Method {method} not supported")
+
+
+def fetchFile(task: ApiCallerTask, url: QUrl | str, filename: str,
+              filePath: str, part: float, params: dict | None = None):
+    # Prepare url
+    callUrl = QUrl(url)
+    if params:
+        queryParams = QUrlQuery()
+        for key, value in params.items():
+            queryParams.addQueryItem(key, str(value))
+        callUrl.setQuery(queryParams)
+    
+    task.log(tr('Start download of {}', trc).format(callUrl.toString()))
+    fileFetcher = QgsFileDownloader(callUrl, filePath)
+    
+    def onError():
+        task.exception = tr('Error when downloading {}', trc).format(filename)
+        return False
+    
+    def onProgress(bytesReceived, bytesTotal):
+        if task.isCanceled():
+            task.exception = tr('Download of {} was canceled', trc).format(
                     filename)
-                fileFetcher.cancelDownload()
-            else:
-                partProgress = 0
-                if bytesTotal > 0:
-                    partProgress = (part / 100) * (bytesReceived / bytesTotal)
-                task.setProgress(task.progress() + partProgress)
-        
-        # Run file download in separate event loop
-        eventLoop = QEventLoop()
-        fileFetcher.downloadError.connect(onError)
-        fileFetcher.downloadCanceled.connect(eventLoop.quit)
-        fileFetcher.downloadCompleted.connect(eventLoop.quit)
-        fileFetcher.downloadProgress.connect(onProgress)
-        eventLoop.exec(QEventLoop.ProcessEventsFlag.ExcludeUserInputEvents)
-        fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
-    
-    def downloadFiles(self, task: ApiCallerTask, fileList, outputDir):
-        task.setProgress(0)
-        partProgress = 100 / len(fileList)
-        
-        for file in fileList:
-            savePath = os.path.join(outputDir, file.id)
-            self.fetchFile(task, file.href, file.id, savePath, partProgress)
-            if task.isCanceled():
-                return False
+            fileFetcher.cancelDownload()
+        else:
+            partProgress = 0
+            if bytesTotal > 0:
+                partProgress = (part / 100) * (bytesReceived / bytesTotal)
             task.setProgress(task.progress() + partProgress)
-        return True
     
-    def tr(self, message, context=None, **kwargs):
-        """Get the translation for a string using Qt translation API.
-        We implement this ourselves since we do not inherit QObject."""
-        if not context:
-            context = type(self).__name__
-        return QCoreApplication.translate(context, message)
+    # Run file download in separate event loop
+    eventLoop = QEventLoop()
+    fileFetcher.downloadError.connect(onError)
+    fileFetcher.downloadCanceled.connect(eventLoop.quit)
+    fileFetcher.downloadCompleted.connect(eventLoop.quit)
+    fileFetcher.downloadProgress.connect(onProgress)
+    eventLoop.exec(QEventLoop.ProcessEventsFlag.ExcludeUserInputEvents)
+    fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
+
+
+def createUrl(baseUrl: QUrl | str, urlParams: dict | None):
+    url = QUrl(baseUrl)
+    if urlParams:
+        queryParams = QUrlQuery()
+        for key, value in urlParams.items():
+            if value is None or value == "" or value == []:
+                continue
+            if isinstance(value, list):
+                param = ",".join([str(v) for v in value])
+            else:
+                param = str(value)
+            queryParams.addQueryItem(key, param)
+        url.setQuery(queryParams)
+    return url
