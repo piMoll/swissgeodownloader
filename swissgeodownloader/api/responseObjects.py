@@ -70,7 +70,7 @@ class SgdStacCollection(QgsStacCollection):
             extent.yMinimum(),
             extent.xMaximum(),
             extent.yMaximum(),
-            ]
+        ]
     
     def metadataLink(self):
         return self._linkByRelation("describedby")
@@ -80,13 +80,15 @@ class SgdStacCollection(QgsStacCollection):
     
     def _linkByRelation(self, relation):
         try:
-            return [link.href() for link in self.links() if link.relation() == relation][0]
+            return [link.href() for link in self.links() if
+                link.relation() == relation][0]
         except IndexError:
             return ""
     
     def searchText(self):
         return (
-            " ".join([self.id() or "", self.title() or "", self.description() or ""])
+            " ".join([self.id() or "", self.title() or "",
+                         self.description() or ""])
             .lower()
         )
     
@@ -120,7 +122,7 @@ class SgdAsset(QgsStacAsset):
         self.timestamp = None
         self.timestampStr = ""
         self.coordsys = None
-
+        
         self.isMostCurrent = False
     
     @property
@@ -129,7 +131,7 @@ class SgdAsset(QgsStacAsset):
             return ""
         # This will round the coordinates to ~ 5-10 m
         return "|".join([str(round(coord, 4)) for coord in self.bbox])
-
+    
     @property
     def propKey(self):
         propList = [self.filetype, self.category, self.resolution]
@@ -166,7 +168,7 @@ class SgdAsset(QgsStacAsset):
                 max(bbox.yMinimum(), bbox.yMaximum())]
             assert [
                 isinstance(c, float) or isinstance(c, int) for c in bboxList
-                ], "bbox contains non-numeric values"
+            ], "bbox contains non-numeric values"
             assert (
                     -180 <= bboxList[0] <= 180 and -180 <= bboxList[2] <= 180
             ), "bbox coordinates out of range"
@@ -195,12 +197,12 @@ class SgdAsset(QgsStacAsset):
                 self.timestampStr = " / ".join(
                         [getDateFromIsoString(ts) for ts in
                             [startTimestamp, endTimestamp]]
-                        )
+                )
         except ValueError as e:
             self.timestamp = None
             self.timestampStr = ""
             raise e
-
+    
     def filetypeFitsFilter(self, filterValue):
         return (not filterValue
                 or (filterValue and self.filetype == filterValue)
@@ -218,20 +220,20 @@ class SgdAsset(QgsStacAsset):
                 or (filterValue and self.resolution == filterValue)
                 or (self.resolution is None)
                 or (filterValue == ALL_VALUE))
-
+    
     def timestampFitsFilter(self, filterValue):
         return (not filterValue
                 or (filterValue and self.timestampStr == filterValue)
                 or (self.timestampStr is None)
                 or (filterValue == ALL_VALUE)
                 or (filterValue == CURRENT_VALUE and self.isMostCurrent))
-
+    
     def coordsysFitsFilter(self, filterValue):
         return (not filterValue
                 or (filterValue and self.coordsys == filterValue)
                 or (self.coordsys is None)
                 or (filterValue == ALL_VALUE))
-
+    
     def hasSimilarBboxAs(self, bbox: list[float]):
         if not self.bbox or not bbox:
             return False
@@ -246,9 +248,11 @@ class SgdAsset(QgsStacAsset):
             assert s_height != 0 and s_length != 0
             
             # Check if similar bbox length
-            assert (1 - P_SIMILAR) < abs((length) / (s_length)) < (1 + P_SIMILAR)
+            assert (1 - P_SIMILAR) < abs(length / s_length) < (
+                    1 + P_SIMILAR)
             # Check if similar bbox height
-            assert (1 - P_SIMILAR) < abs((height) / (s_height)) < (1 + P_SIMILAR)
+            assert (1 - P_SIMILAR) < abs(height / s_height) < (
+                    1 + P_SIMILAR)
             
             # Check if similar absolute position of corner points
             assert abs(self.bbox[0] - bbox[0]) < s_length * P_SIMILAR

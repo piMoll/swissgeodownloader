@@ -35,7 +35,7 @@ class ApiCallerTask(QgsTask):
         self.output = None
         self.exception = None
         self.successMsg = self.tr('request completed')
-        
+    
     def run(self):
         try:
             if DEBUG:
@@ -45,12 +45,13 @@ class ApiCallerTask(QgsTask):
                     sys.path.insert(0,
                                     '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
                     import pydevd_pycharm
-                    pydevd_pycharm.settrace('localhost', port=53100, suspend=False)
+                    pydevd_pycharm.settrace('localhost', port=53100,
+                                            suspend=False)
                 except ConnectionRefusedError:
                     pass
                 except ImportError:
                     pass
-        
+            
             self.run_task()
             return True
         except Exception as e:
@@ -78,7 +79,7 @@ class ApiCallerTask(QgsTask):
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}", level)
     
     def tr(self, message, **kwargs):
-        return QCoreApplication.translate( 'ApiCallerTask', message)
+        return QCoreApplication.translate('ApiCallerTask', message)
 
 
 class GetCollectionsTask(ApiCallerTask):
