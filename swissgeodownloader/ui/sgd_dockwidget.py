@@ -25,7 +25,7 @@ from datetime import datetime
 
 from qgis.PyQt import uic
 from qgis.PyQt.QtCore import pyqtSignal
-from qgis.PyQt.QtWidgets import (QDockWidget, QFileDialog, QMessageBox)
+from qgis.PyQt.QtWidgets import (QFileDialog, QMessageBox)
 from qgis.core import (
     QgsRasterLayer,
     QgsVectorLayer,
@@ -36,7 +36,7 @@ from qgis.core import (
     QgsProject,
     QgsRectangle
 )
-from qgis.gui import QgisInterface, QgsExtentGroupBox
+from qgis.gui import QgsDockWidget, QgisInterface, QgsExtentGroupBox
 
 from swissgeodownloader.api.apiCallerTask import (
     GetCollectionsTask,
@@ -75,7 +75,7 @@ FORM_CLASS, _ = uic.loadUiType(UI_FILE)
 VERSION = Qgis.QGIS_VERSION_INT
 
 
-class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
+class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
 
     closingPlugin = pyqtSignal()
     
