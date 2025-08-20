@@ -41,8 +41,6 @@ BASEURL = 'https://data.geo.admin.ch/api/stac/v1'
 API_EPSG = 'EPSG:4326'
 API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
 
-trc = "ApiInterface"
-
 
 class ApiDataGeoAdmin:
     
