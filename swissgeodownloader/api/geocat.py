@@ -38,9 +38,6 @@ REQUEST_PARAMS = {
     'outputSchema': 'http://www.isotc211.org/2005/gmd',
 }
 
-# Translate context
-trc = 'ApiGeoCat'
-
 
 class ApiGeoCat:
     

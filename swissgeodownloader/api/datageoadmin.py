@@ -42,9 +42,6 @@ API_EPSG = 'EPSG:4326'
 API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
 
 
-trc = "ApiInterface"
-
-
 class ApiDataGeoAdmin:
     
     def __init__(self, locale='en'):

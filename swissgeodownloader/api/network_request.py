@@ -31,8 +31,6 @@ from qgis.core import QgsTask, QgsBlockingNetworkRequest, QgsFileDownloader
 
 from swissgeodownloader.utils.utilities import translate, log
 
-trc = "ApiInterface"
-
 
 def fetch(
         task: QgsTask,
@@ -144,7 +142,7 @@ def fetchFile(task: QgsTask, url: QUrl | str, filename: str,
     fileFetcher.downloadCompleted.disconnect(eventLoop.quit)
 
 
-def createUrl(baseUrl: QUrl | str, urlParams: dict | None):
+def createUrl(baseUrl: QUrl | str, urlParams: dict | None) -> QUrl:
     url = QUrl(baseUrl)
     if urlParams:
         queryParams = QUrlQuery()

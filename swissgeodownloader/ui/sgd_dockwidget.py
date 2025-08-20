@@ -806,9 +806,12 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
         filesToAdd = self.filesListDownload + self.filesListStreamed
         createQgisLayersInTask(filesToAdd, self.onCreateQgisLayersFinished)
     
-    def onCreateQgisLayersFinished(self, layers: list[QgsRasterLayer | QgsVectorLayer] | None = None,
-                                   alreadyAdded: int = 0,
-                                   exception=None):
+    def onCreateQgisLayersFinished(
+            self,
+            layers: list[QgsRasterLayer | QgsVectorLayer] | None = None,
+            alreadyAdded: int = 0,
+            exception=None
+    ):
         self.stopDownload()
         
         if exception:
