@@ -26,7 +26,7 @@ from swissgeodownloader.utils.utilities import MESSAGE_CATEGORY, log
 
 class ApiCallerTask(QgsTask):
     
-    def __init__(self, apiRef, msgBar, description, **kwargs):
+    def __init__(self, apiRef, msgBar=None, description='', **kwargs):
         super().__init__(description, QgsTask.Flag.CanCancel)
         self.apiRef = apiRef
         self.msgBar = msgBar
@@ -73,7 +73,8 @@ class ApiCallerTask(QgsTask):
             self.message(self.exception, Qgis.MessageLevel.Warning)
     
     def message(self, msg, level=Qgis.MessageLevel.Info):
-        self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}", level)
+        if self.msgBar:
+            self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}", level)
 
 
 class GetCollectionsTask(ApiCallerTask):

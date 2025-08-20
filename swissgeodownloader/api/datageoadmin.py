@@ -30,7 +30,7 @@ from swissgeodownloader.api.responseObjects import (
     SgdAsset,
     SgdStacCollection
 )
-from swissgeodownloader.api.stac_client import StacClient
+from swissgeodownloader.api.stac_client import STACClient
 from swissgeodownloader.utils.filterUtils import (
     cleanupFilterItems,
     currentFileByBbox
@@ -48,7 +48,7 @@ class ApiDataGeoAdmin:
     
     def __init__(self, locale='en'):
         self.locale = locale
-        self.stacClient = StacClient(BASEURL)
+        self.stacClient = STACClient(BASEURL)
         self.ownMetadata = {}
         self.geocatClient = ApiGeoCat(locale, 'datageoadmin_geocat_metadata.json')
     

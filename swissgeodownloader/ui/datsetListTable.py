@@ -117,6 +117,14 @@ class CollectionListTable(QObject):
             self.currentSelection = dsId
             self.sig_selectionChanged.emit(dsId)
     
+    def searchAndSelectByID(self, collectionId):
+        self.resetSearch()
+        self.tbl.clearSelection()
+        self.searchbar.setText(collectionId)
+        self.tbl.selectRow(0)
+        self.currentSelection = collectionId
+        self.sig_selectionChanged.emit(collectionId)
+    
     def unselect(self):
         self.tbl.clearSelection()
         self.currentSelection = None

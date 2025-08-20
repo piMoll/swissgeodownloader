@@ -164,7 +164,8 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
         }
         
         # API caller task
-        self.fileListRequest = None
+        self.collectionsRequest: GetCollectionsTask | None = None
+        self.fileListRequest: GetFileListTask | None = None
         self.guiRequestCancelBtn.setHidden(True)
 
         # Deactivate unused ui-elements
@@ -200,6 +201,18 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
         self.apiDGA = ApiDataGeoAdmin(self.locale)
         self.loadCollectionList()
     
+    def setCurrentCollection(self, collectionId: str):
+        self.onUnselectCollection()
+        
+        def searchAndSelectCollection():
+            self.collectionListTbl.searchAndSelectByID(collectionId)
+        
+        if self.collectionsRequest in QgsApplication.taskManager().activeTasks():
+            self.collectionsRequest.taskCompleted.connect(
+                    searchAndSelectCollection)
+        else:
+            searchAndSelectCollection()
+    
     def closeEvent(self, event, **kwargs):
         self.bboxPainter.removeAll()
         self.closingPlugin.emit()
@@ -208,13 +221,15 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
     def loadCollectionList(self):
         # Create separate task for request to not block ui
         self.spinnerCol.start()
-        caller = GetCollectionsTask(self.apiDGA, self.msgBar, 'get STAC collections')
+        self.collectionsRequest = GetCollectionsTask(self.apiDGA, self.msgBar,
+                                                     'get STAC collections')
         # Listen for finished api call
-        caller.taskCompleted.connect(
-                lambda: self.onReceiveCollections(caller.output))
-        caller.taskTerminated.connect(
+        self.collectionsRequest.taskCompleted.connect(
+                lambda: self.onReceiveCollections(
+                        self.collectionsRequest.output))
+        self.collectionsRequest.taskTerminated.connect(
                 lambda: self.onReceiveCollections({}))
-        QgsApplication.taskManager().addTask(caller)
+        QgsApplication.taskManager().addTask(self.collectionsRequest)
     
     def onMapRefSysChanged(self):
         """Listen for map canvas reference system changes and apply the new
@@ -324,7 +339,9 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
             self.onUnselectCollection()
             return
         
-        self.currentCollection = self.collectionList[collectionId]
+        self.currentCollection = self.collectionList.get(collectionId)
+        if not self.currentCollection:
+            return
         
         if not self.currentCollection.analysed():
             caller = AnalyseCollectionTask(self.apiDGA, self.msgBar,
