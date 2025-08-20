@@ -28,7 +28,7 @@ from swissgeodownloader import DEBUG
 MESSAGE_CATEGORY = 'Swiss Geo Downloader'
 
 
-def tr(message, context='@default', **kwargs):
+def translate(context, message):
     """Get the translation for a string using Qt translation API.
     We implement this ourselves since we do not inherit QObject.
     """

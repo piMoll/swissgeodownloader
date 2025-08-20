@@ -22,6 +22,7 @@
 import os
 
 from qgis.core import (
+    QgsTask,
     QgsBox3D,
     QgsGeometry,
     QgsStacAsset,
@@ -32,7 +33,6 @@ from qgis.core import (
     QgsStacItemCollection
 )
 
-from swissgeodownloader.api.apiCallerTask import ApiCallerTask
 from swissgeodownloader.api.network_request import fetch, createUrl, fetchFile
 from swissgeodownloader.api.responseObjects import SgdAsset
 
@@ -44,9 +44,8 @@ class StacClient:
         self.controller = QgsStacController()
         self.assetProperties = {}
     
-    def fetchCollections(
-            self, task: ApiCallerTask, params: dict = None
-    ) -> list[QgsStacCollection]:
+    def fetchCollections(self, task: QgsTask,
+                         params: dict = None) -> list[QgsStacCollection]:
         """Get a list of all available collections."""
         
         url = createUrl(f"{self.url}/collections", params)
@@ -79,7 +78,7 @@ class StacClient:
     
     def fetchItems(
             self,
-            task: ApiCallerTask,
+            task: QgsTask,
             collectionId: str,
             params: dict = None,
             requestAdditionalProperties: bool = False,
@@ -121,7 +120,7 @@ class StacClient:
         
         return items
     
-    def _parseItems(self, task: ApiCallerTask,
+    def _parseItems(self, task: QgsTask,
                     rawStacItemResponse: dict) -> list[QgsStacItem]:
         """Parse the raw json response from the stac api into a list of items
         and assets. This is necessary because the STAC controller does not parse
@@ -174,8 +173,8 @@ class StacClient:
         return parsedItems
     
     @staticmethod
-    def downloadFiles(task: ApiCallerTask, fileList: list[SgdAsset],
-                      outputDir: str):
+    def downloadFiles(task: QgsTask, fileList: list[SgdAsset],
+                      outputDir: str) -> bool:
         task.setProgress(0)
         partProgress = 100 / len(fileList)
         

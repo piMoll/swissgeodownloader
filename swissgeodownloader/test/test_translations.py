@@ -1,5 +1,5 @@
-import unittest
 import os
+import unittest
 
 from qgis.PyQt.QtCore import QCoreApplication, QTranslator
 
@@ -28,7 +28,8 @@ class TestSafeTranslations(unittest.TestCase):
         QCoreApplication.installTranslator(translator)
 
         expected_message = 'Swisstopo Landeskarte (grau)'
-        real_message = QCoreApplication.translate("@default", 'Swisstopo National Map (grey)')
+        real_message = QCoreApplication.translate("SGD",
+                                                  'Swisstopo National Map (grey)')
         self.assertEqual(real_message, expected_message)
 
 

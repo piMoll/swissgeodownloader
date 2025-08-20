@@ -27,16 +27,15 @@ from qgis.PyQt.QtCore import (
     QUrlQuery
 )
 from qgis.PyQt.QtNetwork import QNetworkReply, QNetworkRequest
-from qgis.core import QgsBlockingNetworkRequest, QgsFileDownloader
+from qgis.core import QgsTask, QgsBlockingNetworkRequest, QgsFileDownloader
 
-from swissgeodownloader.api.apiCallerTask import ApiCallerTask
-from swissgeodownloader.utils.utilities import tr
+from swissgeodownloader.utils.utilities import translate, log
 
 trc = "ApiInterface"
 
 
 def fetch(
-        task: ApiCallerTask,
+        task: QgsTask,
         url: QUrl | str,
         params=None,
         header=None,
@@ -55,7 +54,7 @@ def fetch(
     if header:
         request.setHeader(*tuple(header))
     
-    task.log(tr("Start request {}", trc).format(callUrl))
+    log(translate("SGD", "Start request {}").format(callUrl))
     # Start request
     http = QgsBlockingNetworkRequest()
     if method == "get":
@@ -69,8 +68,8 @@ def fetch(
         assert r.error() == QNetworkReply.NetworkError.NoError, r.error()
     except AssertionError:
         # Service is not reachable
-        task.exception = tr(
-                "{} not reachable or no internet connection", trc).format(
+        task.exception = translate("SGD",
+                                   "{} not reachable or no internet connection").format(
                 callUrl)
         # Service returned an error
         if r.content():
@@ -81,7 +80,7 @@ def fetch(
                 raise e
             if "code" and "description" in errorResp:
                 task.exception = (
-                        tr("{} returns error", trc).format(callUrl)
+                        translate("SGD", "{} returns error").format(callUrl)
                         + f": {errorResp['code']} - {errorResp['description']}"
                 )
         return False
@@ -106,7 +105,7 @@ def fetch(
         raise Exception(f"Method {method} not supported")
 
 
-def fetchFile(task: ApiCallerTask, url: QUrl | str, filename: str,
+def fetchFile(task: QgsTask, url: QUrl | str, filename: str,
               filePath: str, part: float, params: dict | None = None):
     # Prepare url
     callUrl = QUrl(url)
@@ -116,17 +115,18 @@ def fetchFile(task: ApiCallerTask, url: QUrl | str, filename: str,
             queryParams.addQueryItem(key, str(value))
         callUrl.setQuery(queryParams)
     
-    task.log(tr('Start download of {}', trc).format(callUrl.toString()))
+    log(translate("SGD", 'Start download of {}').format(callUrl.toString()))
     fileFetcher = QgsFileDownloader(callUrl, filePath)
     
     def onError():
-        task.exception = tr('Error when downloading {}', trc).format(filename)
+        task.exception = translate("SGD", 'Error when downloading {}'
+                                   ).format(filename)
         return False
     
     def onProgress(bytesReceived, bytesTotal):
         if task.isCanceled():
-            task.exception = tr('Download of {} was canceled', trc).format(
-                    filename)
+            task.exception = translate("SGD", 'Download of {} was canceled'
+                                       ).format(filename)
             fileFetcher.cancelDownload()
         else:
             partProgress = 0

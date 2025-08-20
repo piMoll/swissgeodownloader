@@ -18,12 +18,10 @@
  *                                                                         *
  ***************************************************************************/
 """
-
 from qgis.PyQt.QtCore import QUrl
-from qgis.core import Qgis, QgsStacItem
+from qgis.core import QgsTask, Qgis, QgsStacItem
 
 from swissgeodownloader import _AVAILABLE_LOCALES
-from swissgeodownloader.api.apiCallerTask import ApiCallerTask
 from swissgeodownloader.api.geocat import ApiGeoCat
 from swissgeodownloader.api.network_request import fetch
 from swissgeodownloader.api.responseObjects import (
@@ -37,7 +35,7 @@ from swissgeodownloader.utils.filterUtils import (
     cleanupFilterItems,
     currentFileByBbox
 )
-from swissgeodownloader.utils.utilities import tr
+from swissgeodownloader.utils.utilities import translate, log
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v1'
 API_EPSG = 'EPSG:4326'
@@ -54,12 +52,14 @@ class ApiDataGeoAdmin:
         self.ownMetadata = {}
         self.geocatClient = ApiGeoCat(locale, 'datageoadmin_geocat_metadata.json')
     
-    def getCollections(self, task: ApiCallerTask) -> dict[str, SgdStacCollection]:
+    def getCollections(self, task: QgsTask) -> dict[str, SgdStacCollection]:
         collectionList = {}
         try:
             collections = self.stacClient.fetchCollections(task)
         except Exception as e:
-            task.exception = f"{tr('Error when loading available dataset - Unexpected API response', trc)}: {task.exception or str(e)}"
+            msg = self.tr(
+                    'Error when loading available dataset - Unexpected API response')
+            task.exception = f"{msg}: {task.exception or str(e)}"
             raise Exception(task.exception)
         
         # Geoadmin metadata: Fetches translated collection titles and descriptions
@@ -75,14 +75,14 @@ class ApiDataGeoAdmin:
             # Check if important properties are available and log missing ones
             report = coll.reportCompleteness()
             if report:
-                task.log(report, debugMsg=True)
+                log(report, debugMsg=True)
             
             collectionList[coll.id()] = coll
         
         return collectionList
     
     def addMetadataToCollection(self, collection: SgdStacCollection,
-                                task: ApiCallerTask):
+                                task: QgsTask):
         if collection.id() in self.ownMetadata:
             metadata = self.ownMetadata[collection.id()]
             
@@ -103,7 +103,7 @@ class ApiDataGeoAdmin:
         collection.setDescription(
                 collection.description() or gcMetadata.get('description'))
     
-    def getOwnMetadata(self, task: ApiCallerTask):
+    def getOwnMetadata(self, task: QgsTask):
         """ Calls geoadmin API and retrieves translated titles and
         descriptions."""
         metadata = {}
@@ -134,7 +134,7 @@ class ApiDataGeoAdmin:
             }
         return metadata
     
-    def analyseCollectionItems(self, task: ApiCallerTask,
+    def analyseCollectionItems(self, task: QgsTask,
                                collection: SgdStacCollection) -> SgdStacCollection:
         """Analyse collection to figure out available options in gui"""
         # Get max. 40 features
@@ -142,7 +142,9 @@ class ApiDataGeoAdmin:
             items: list[QgsStacItem] = self.stacClient.fetchItems(
                     task, collection.id(), {'limit': 40})
         except Exception as e:
-            task.exception = f"{tr('Error when loading dataset details - Unexpected API response', trc)}: {task.exception or str(e)}"
+            msg = self.tr(
+                    'Error when loading dataset details - Unexpected API response')
+            task.exception = f"{msg}: {task.exception or str(e)}"
             raise Exception(task.exception)
         
         estimate = {}
@@ -176,7 +178,7 @@ class ApiDataGeoAdmin:
         collection.setAvgSize(estimate)
         return collection
     
-    def getFileList(self, task: ApiCallerTask, collectionId,
+    def getFileList(self, task: QgsTask, collectionId,
                     bbox: list[float] | None) -> dict:
         """Request a list of available files that are within a bounding box.
         Analyse the received list and extract file properties."""
@@ -185,13 +187,15 @@ class ApiDataGeoAdmin:
             stacItemsResponse = self.stacClient.fetchItems(
                     task, collectionId, {'bbox': bbox}, True)
         except Exception as e:
-            task.exception = f"{tr('Error when requesting file list - Unexpected API response', trc)}: {task.exception or e}"
+            msg = self.tr(
+                    'Error when requesting file list - Unexpected API response')
+            task.exception = f"{msg}: {task.exception or e}"
             raise Exception(task.exception)
         
         return self._processItems(stacItemsResponse, task)
     
     def _processItems(self, stacItemResponse: list[QgsStacItem],
-                      task: ApiCallerTask) -> dict:
+                      task: QgsTask) -> dict:
         filterItems = {
             'filetype': [],
             'category': [],
@@ -231,9 +235,8 @@ class ApiDataGeoAdmin:
                 try:
                     file.setBbox(item.boundingBox())
                 except AssertionError as e:
-                    task.log((f"File {file.id}: Bounding box not valid:"
-                              f" {e} {item.boundingBox()}"),
-                             Qgis.MessageLevel.Warning)
+                    log(f"File {file.id}: Bounding box not valid: {e} {item.boundingBox()}",
+                        Qgis.MessageLevel.Warning)
                 
                 # Extract file properties, save them to the file object
                 #  and add them to the filter list
@@ -250,8 +253,8 @@ class ApiDataGeoAdmin:
                     try:
                         file.setTimestamp(timestamp, endTimestamp)
                     except ValueError:
-                        task.log(f"File {file.id}: Timestamp not valid)",
-                                 Qgis.MessageLevel.Warning)
+                        log(f"File {file.id}: Timestamp not valid)",
+                            Qgis.MessageLevel.Warning)
                     filterItems['timestamp'].append(file.timestampStr)
                 
                 # These are Swisstopo specific properties that don't follow
@@ -298,10 +301,10 @@ class ApiDataGeoAdmin:
         
         return {'files': fileList, 'filters': filterItems}
     
-    def downloadFiles(self, task: ApiCallerTask, fileList, outputDir):
+    def downloadFiles(self, task: QgsTask, fileList, outputDir):
         self.stacClient.downloadFiles(task, fileList, outputDir)
     
-    def refreshAllMetadata(self, task: ApiCallerTask):
+    def refreshAllMetadata(self, task: QgsTask):
         """Fetches metadata for all collections and saves it to a json file."""
         collections = self.getCollections(task)
         
@@ -318,7 +321,7 @@ class ApiDataGeoAdmin:
         
         self.geocatClient.updatePreSavedMetadata(md_geocat)
     
-    def catalogPropertiesCrawler(self, task: ApiCallerTask):
+    def catalogPropertiesCrawler(self, task: QgsTask):
         """Crawls through all item / asset properties of the catalog and
         returns them."""
         collections = self.getCollections(task)
@@ -334,3 +337,6 @@ class ApiDataGeoAdmin:
                     k: v for k, v in fileList["filters"].items() if v
                 }
         return items
+    
+    def tr(self, message):
+        return translate(message, type(self).__name__)

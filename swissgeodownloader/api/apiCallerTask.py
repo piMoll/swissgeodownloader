@@ -18,7 +18,6 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtCore import QCoreApplication
 from qgis.core import Qgis, QgsTask
 
 from swissgeodownloader import DEBUG
@@ -56,7 +55,8 @@ class ApiCallerTask(QgsTask):
             return True
         except Exception as e:
             if not self.exception:
-                self.exception = f"{self.tr('An unknown error occurred')}: {e}"
+                msg = self.tr('An unknown error occurred')
+                self.exception = f"{msg}: {e}"
             raise e
     
     def run_task(self):
@@ -65,21 +65,15 @@ class ApiCallerTask(QgsTask):
     def finished(self, result):
         """This function is called when the task has completed, successfully or not"""
         if self.isCanceled():
-            self.log(self.tr('Aborted by user'))
+            log(self.tr('Aborted by user'))
         elif result and self.output is not False:
-            self.log(self.successMsg, Qgis.MessageLevel.Success)
+            log(self.successMsg, Qgis.MessageLevel.Success)
         else:
-            self.log(self.exception, Qgis.MessageLevel.Critical)
+            log(self.exception, Qgis.MessageLevel.Critical)
             self.message(self.exception, Qgis.MessageLevel.Warning)
-    
-    def log(self, msg, level=Qgis.MessageLevel.Info, debugMsg=False):
-        log(msg, level, debugMsg)
     
     def message(self, msg, level=Qgis.MessageLevel.Info):
         self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {msg}", level)
-    
-    def tr(self, message, **kwargs):
-        return QCoreApplication.translate('ApiCallerTask', message)
 
 
 class GetCollectionsTask(ApiCallerTask):

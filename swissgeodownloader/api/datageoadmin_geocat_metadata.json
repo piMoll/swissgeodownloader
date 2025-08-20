@@ -1,4 +1,10 @@
 {
+  "ch.agroscope.amphibien-ausbreitungskarten": {
+    "de": {
+      "description": "Schweizweite Karten, die die Ausbreitungs-Wahrscheinlichkeiten von 11 Amphibienarten in Hektar-Auflösung darstellen. Jede Rasterzelle gibt die relative Wahrscheinlichkeit an, dass sich wandernde Individuen auf ihrem Weg zwischen bekannten Amphibienlaichgebiete durch diesen Hektar wandern. Die Karte zeigt die Ausbreitungs-Wahrscheinlichkeit, die entlang einer Skala von Blau über Gelb bis Rot zunimmt. \nDiese Karten sollten als Heatmaps für die Ausbreitungsaktivität bestehender Populationen betrachtet werden. In der Praxis zeigen diese Karten auch Orte, an denen potenzielle neue Amphibienlaichgebiete die höchsten Chancen haben, besiedelt zu werden. \nGebiete mit vielen Populationen in unmittelbarer Nähe erscheinen dunkler rot, was die höhere Wahrscheinlichkeit einer Ausbreitung widerspiegelt, da sich mehrere Ausbreitungsrouten zwischen den Populationen überschneiden. Diese Eigenschaft der Karten verdient besondere Aufmerksamkeit. Hellere Schattierungen an den Rändern der Artenverbreitung bedeuten nicht unbedingt eine schwächere Verbindung zwischen den Populationen, sondern sind eher eine Folge der geringeren Dichte an Amphibienlaichgebieten an den Rändern der Verbreitung. Die Farbskala soll im Kontext der unmittelbaren Umgebung betrachtet werden.\nDie Ausbreitungskarte wurde mit Circuitscape berechnet und basiert auf einer Landschaftswiderstandsmatrix, die aus dem am besten bewerteten Verbreitungsmodell für jede Art abgeleitet wurde.\nFür Details, siehe die beigefügte Datenbeschreibung.\nLiteratur:\nChurko G., Szerencsits E., Aldrich A., Schmidt B. R. (2024). Spatial analysis of the potential exposure of amphibians to plant protection products at the landscape scale. Basic and Applied Ecology, 76, 14-24. https://doi.org/10.1016/j.baae.2024.02.004",
+      "title": "Amphibien Ausbreitungskarten"
+    }
+  },
   "ch.agroscope.feuchtflaechenpotential-kulturlandschaft": {
     "de": {
       "description": "Das Feuchtflächenpotential wurde anhand der Prozesse Wasserakkumulation und Versickerung beurteilt. Aus dem Höhenmodell (Swissalti3d © swisstopo) wurden Reliefparameter berechnet und Ebenen und Mulden modelliert. Das Potential der Versickerung wurde von Bodenkarten abgeleitet. Wo keine detaillierten Bodenkarten vorhanden waren, wurden geologische Karten und andere Surrogate in einem Expertenmodell überlagert und gewichtet. Der Vektor-Datensatz ist auf die vorwiegend landwirtschaftlich genutzten Feldblöcke zugeschnitten.\nVersickerung: 4 Klassen;\nWasserakkumulation: 5 Klassen.\n\nZitat: \nSzerencsits, E., Prasuhn, V., Churko, G., Herzog, F., Utiger, C., Zihlmann, U. et al. (2018). Karte potenzieller Feucht-Acker-Flächen der Schweiz. Agroscope Science, 72, 67.\nhttps://www.feuchtacker.ch/",
@@ -1001,6 +1007,9 @@
       "description": "La Svizzera svolge una funzione significativa quale luogo di svernamento e di sosta per diverse specie di uccelli migratori. Consapevole di questa importanza, nel 1974 il Consiglio federale ha firmato la \"Convenzione sulle zone umide d'importanza internazionale\". La Convenzione è stata stipulata nel 1971 a Ramsar (Convezione di Ramsar). Nel 1975 la Convenzione è stata ratificata dall'Assemblea federale. Nel 1976, sulla base di criteri precedenti, è stato redatto un inventario delle riserve di uccelli acquatici d'importanza internazionale ubicate in Svizzera. Nel 1995 la Stazione ornitologica svizzera di Sempach ha presentato la seconda versione rivista di questo inventario che comprende gli oggetti di importanza nazionale. Secondo l'articolo 11 della nuova legge federale sulla caccia e la protezione dei mammiferi e degli uccelli selvatici (LCP), la Confederazione ha l'obbligo di delimitare riserve di uccelli acquatici e migratori d'importanza internazionale. Dopo la revisione del 1992, 2001, 2009, 2015 e 2023 il presente inventario comprende le zone principali contenute nell'inventario della Stazione ornitologica svizzera, di cui 10 di importanza nazionale e 25 di rilevanza internazionale.",
       "title": "Inventario federale delle riserve di uccelli acquatici e migratori d'importanza internazionale e nazionale"
     }
+  },
+  "ch.bafu.erosion-gruenland_bodenabtrag": {
+    "de": {}
   },
   "ch.bafu.fauna-steinbockkolonien": {
     "de": {
@@ -2326,6 +2335,9 @@
       "description": "La Rete nazionale d'osservazione degli inquinanti atmosferici (NABEL) misura l'inquinamento dell'aria in Svizzera sulla base di dati rilevati in 16 località. Le stazioni sono distribuite sull'insieme del territorio e misurano il carico d'inquinanti in luoghi tipici (per es. strade del centro città, zone residenziali, campagna). Le stazioni della rete NABEL rappresentano, a seconda del tipo di ubicazione, diverse situazioni di inquinamento. La qualità dell'aria dovrebbe pertanto essere valutata principalmente in base al tipo di ubicazione e non secondo la posizione geografica della stazione.",
       "title": "Rete nazionale d'osservazione degli inquinanti atmosferici NABEL: stazioni"
     }
+  },
+  "ch.bafu.niederschlagserosivitaet": {
+    "de": {}
   },
   "ch.bafu.oekomorphologie-f": {
     "de": {
@@ -6443,6 +6455,12 @@
     "it": {
       "description": "È importante che la Svizzera promuova il potenziale di sviluppo a lungo termine del Centro europeo per la ricerca nucleare (CERN), in particolare per quanto riguarda la pianificazione del territorio. Per questo motivo, il Consiglio federale ha avviato i lavori relativi a un piano settoriale della Confederazione incentrato sui progetti del CERN. Con un piano settoriale, il Consiglio federale intende rendere più semplici e chiare le procedure amministrative per la pianificazione del territorio e migliorare la sicurezza della pianificazione per tutti i progetti del CERN, compreso il FCC se sarà realizzato. Questo piano fornirà un quadro di riferimento che permetterà di tenere adeguatamente in considerazione gli obiettivi della politica della ricerca, della Svizzera in quanto Stato che ospita il CERN e della politica di pianificazione territoriale. Inoltre, il piano risponde a una richiesta del Cantone di Ginevra.",
       "title": "Piano settoriale CERN consultazione"
+    }
+  },
+  "ch.sem.sachplan-asyl_anhoerung": {
+    "de": {
+      "description": "Laufende oder vergangene Anhörungen der Kantone und Gemeinden sowie Information und Mitwirkung der Bevölkerung nach Art. 19 RPV des Sachplans Asyl (SPA).",
+      "title": "Sachplan Asyl (SPA) - Anhörungen"
     }
   },
   "ch.sem.sachplan-asyl_kraft": {
