@@ -21,10 +21,11 @@
 import re
 import xml.etree.ElementTree as ET
 
-from swissgeodownloader.api.apiCallerTask import ApiCallerTask
+from qgis.core import QgsTask
+
 from swissgeodownloader.api.network_request import fetch
 from swissgeodownloader.utils.metadataHandler import loadFromFile, saveToFile
-from swissgeodownloader.utils.utilities import tr
+from swissgeodownloader.utils.utilities import translate, log
 
 BASEURL = 'https://www.geocat.ch/geonetwork/srv/eng/csw'
 XML_NAMESPACES = {'gmd': '{http://www.isotc211.org/2005/gmd}'}
@@ -51,7 +52,7 @@ class ApiGeoCat:
         self.preSavedMetadata = {}
         self.loadPreSavedMetadata()
     
-    def getMeta(self, task: ApiCallerTask, collectionId: str, metadataUrl: str,
+    def getMeta(self, task: QgsTask, collectionId: str, metadataUrl: str,
                 locale: str):
         """Requests metadata for a collection Id. Since calling geocat several
         times on each plugin start is very slow, metadata is saved to a file
@@ -66,9 +67,9 @@ class ApiGeoCat:
         
         geocatDsId = self.extractUuid(metadataUrl)
         if not geocatDsId:
-            task.log(tr(
-                    'Error when trying to retrieve metadata - No dataset ID found',
-                    trc) + f':\n{metadataUrl}')
+            msg = translate('SGD',
+                            'Error when trying to retrieve metadata - No dataset ID found')
+            log(f'{msg}:\n{metadataUrl}')
             return metadata
         
         # Call geocat API
@@ -78,9 +79,9 @@ class ApiGeoCat:
         try:
             root = ET.fromstring(xml)
         except ET.ParseError:
-            task.log(
-                    tr('Error when trying to retrieve metadata - Response cannot be parsed',
-                       trc))
+            msg = translate('SGD',
+                            'Error when trying to retrieve metadata - Response cannot be parsed')
+            log(msg)
             return metadata
         
         # Search for title and description in xml

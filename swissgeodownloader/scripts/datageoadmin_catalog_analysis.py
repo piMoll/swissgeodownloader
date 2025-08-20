@@ -9,13 +9,13 @@ from swissgeodownloader.utils.metadataHandler import saveToFile
 
 def refreshMetadata():
     api = ApiDataGeoAdmin(None)
-    task = ApiCallerTask(api, None, '', {})
+    task = ApiCallerTask(api, None, '')
     api.refreshAllMetadata(task)
 
 
 def analyseFullCatalog():
     api = ApiDataGeoAdmin(None)
-    task = ApiCallerTask(api, None, '', {})
+    task = ApiCallerTask(api, None, '')
     items = api.catalogPropertiesCrawler(task)
     save(items)
 

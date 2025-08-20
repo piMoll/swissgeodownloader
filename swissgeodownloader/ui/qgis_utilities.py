@@ -19,7 +19,6 @@
  ***************************************************************************/
 """
 
-from qgis.PyQt.QtCore import QCoreApplication
 from qgis.core import (
     QgsVectorLayer,
     Qgis,
@@ -32,17 +31,12 @@ from qgis.core import (
 )
 from qgis.gui import QgsMapCanvas
 
+from swissgeodownloader.utils.utilities import translate
+
 SWISSTOPO_WMS_URL = 'http://wms.geo.admin.ch/'
 OVERVIEW_MAP = 'ch.swisstopo.pixelkarte-grau'
 SWISS_CRS = 'EPSG:2056'
 RECOMMENDED_CRS = ['EPSG:2056', 'EPSG:21781']
-
-
-def tr(message, **kwargs):
-    """Get the translation for a string using Qt translation API.
-    We implement this ourselves since we do not inherit QObject.
-    """
-    return QCoreApplication.translate('@default', message)
 
 
 def transformBbox(rectangle: QgsRectangle, transformer: QgsCoordinateTransform):
@@ -78,7 +72,7 @@ def switchToCrs(canvas: QgsMapCanvas, crs=SWISS_CRS):
 
 def addOverviewMap(canvas: QgsMapCanvas, crs=SWISS_CRS):
     qgsProject = QgsProject.instance()
-    layerName = tr('Swisstopo National Map (grey)')
+    layerName = translate('SGD', 'Swisstopo National Map (grey)')
     wmsUrl = (f'contextualWMSLegend=0&crs={crs}&dpiMode=7'
               f'&featureCount=10&format=image/png'
               f'&layers={OVERVIEW_MAP}'
@@ -91,12 +85,13 @@ def addOverviewMap(canvas: QgsMapCanvas, crs=SWISS_CRS):
         if wmsLayer.isValid():
             qgsProject.addMapLayer(wmsLayer)
             canvas.refresh()
-            return tr("Layer '{}' added to map").format(
+            return translate('SGD', "Layer '{}' added to map").format(
                 layerName), Qgis.MessageLevel.Success
         else:
-            return tr("Not able to add layer '{}' to map").format(
+            return translate('SGD',
+                             "Not able to add layer '{}' to map").format(
                 layerName), Qgis.MessageLevel.Warning
     else:
-        return tr("Layer '{}' already added to map").format(
+        return translate('SGD', "Layer '{}' already added to map").format(
             layerName), Qgis.MessageLevel.Info
     
