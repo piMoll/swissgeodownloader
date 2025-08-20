@@ -32,12 +32,16 @@ from qgis.core import (
     QgsStacItem,
     QgsStacItemCollection
 )
+from swiss_locator.swissgeodownloader.api.network_request import (
+    fetch,
+    createUrl,
+    fetchFile
+)
+from swiss_locator.swissgeodownloader.api.responseObjects import SgdAsset
 
-from swissgeodownloader.api.network_request import fetch, createUrl, fetchFile
-from swissgeodownloader.api.responseObjects import SgdAsset
 
-
-class StacClient:
+class STACClient:
+    CACHE: dict[str, list[QgsStacCollection]] = {}
     
     def __init__(self, url):
         self.url = url
@@ -48,10 +52,14 @@ class StacClient:
                          params: dict = None) -> list[QgsStacCollection]:
         """Get a list of all available collections."""
         
-        url = createUrl(f"{self.url}/collections", params)
+        initUrl = createUrl(f"{self.url}/collections", params)
+        
+        if self.CACHE.get(initUrl):
+            return self.CACHE.get(initUrl)
         
         errorMsg = ""
         collections = []
+        url = initUrl
         
         while url:
             if task.isCanceled():
@@ -74,6 +82,9 @@ class StacClient:
             ):
                 url = response.nextUrl() if not response.nextUrl().isEmpty() else None
         
+        if len(collections) > 0:
+            self.CACHE[initUrl] = collections
+        
         return collections
     
     def fetchItems(
@@ -88,6 +99,7 @@ class StacClient:
         url = createUrl(f"{self.url}/collections/{collectionId}/items", params)
         errorMsg = ""
         items: list[QgsStacItem] = []
+        self.assetProperties = {}
         
         while url:
             if task.isCanceled():
@@ -126,8 +138,6 @@ class StacClient:
         and assets. This is necessary because the STAC controller does not parse
          additional properties of the asset."""
         parsedItems = []
-        self.assetProperties = {}
-        
         for rawItem in rawStacItemResponse["features"]:
             
             if task.isCanceled():
