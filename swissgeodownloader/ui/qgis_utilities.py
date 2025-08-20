@@ -94,4 +94,17 @@ def addOverviewMap(canvas: QgsMapCanvas, crs=SWISS_CRS):
     else:
         return translate('SGD', "Layer '{}' already added to map").format(
             layerName), Qgis.MessageLevel.Info
-    
+
+
+def validateBbox(bbox, authid=SWISS_CRS):
+    bboxRectangle = QgsRectangle(bbox[0], bbox[1], bbox[2], bbox[3])
+    lv95 = QgsCoordinateReferenceSystem(authid)
+    maxBbox = lv95.bounds()
+    if maxBbox.contains(bboxRectangle):
+        return bbox
+    else:
+        return [
+            maxBbox.xMinimum(),
+            maxBbox.yMinimum(),
+            maxBbox.xMaximum(),
+            maxBbox.yMaximum()]

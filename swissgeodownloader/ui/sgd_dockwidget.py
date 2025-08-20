@@ -56,7 +56,8 @@ from swissgeodownloader.ui.qgis_utilities import (
     addLayersToQgis,
     addOverviewMap,
     switchToCrs,
-    transformBbox
+    transformBbox,
+    validateBbox
 )
 from swissgeodownloader.ui.waitingSpinnerWidget import QtWaitingSpinner
 from swissgeodownloader.utils.qgisLayerCreatorTask import \
@@ -106,7 +107,7 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
         self.msgBar = self.iface.messageBar()
         
         # Coordinate system
-        self.mapRefSys = self.canvas.mapSettings().destinationCrs()
+        self.mapRefSys = QgsProject.instance().crs()
         self.apiRefSys = QgsCoordinateReferenceSystem(API_EPSG)
         self.transformProj2Api = QgsCoordinateTransform(
             self.mapRefSys, self.apiRefSys, QgsProject.instance())
@@ -234,7 +235,7 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
     def onMapRefSysChanged(self):
         """Listen for map canvas reference system changes and apply the new
         crs to extent widget."""
-        self.mapRefSys = self.canvas.mapSettings().destinationCrs()
+        self.mapRefSys = QgsProject.instance().crs()
         # Update transformations
         self.transformProj2Api = QgsCoordinateTransform(
             self.mapRefSys, self.apiRefSys, QgsProject.instance())
@@ -480,6 +481,7 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
         
         rectangle = self.guiExtentWidget.currentExtent()
         bbox = transformBbox(rectangle, self.transformProj2Api)
+        bbox = validateBbox(bbox, self.apiRefSys.authid())
         if float('inf') in bbox:
             bbox = []
         return bbox
