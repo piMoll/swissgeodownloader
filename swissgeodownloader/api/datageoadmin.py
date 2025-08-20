@@ -88,8 +88,6 @@ class ApiDataGeoAdmin:
             
             collection.setTitle(metadata.get('title'))
             collection.setDescription(metadata.get('description'))
-        
-        if collection.title():
             return
         
         # Get external metadata from geocat.ch
@@ -99,9 +97,9 @@ class ApiDataGeoAdmin:
         if not gcMetadata:
             return
         
-        collection.setTitle(collection.title() or gcMetadata.get('title'))
+        collection.setTitle(gcMetadata.get('title') or collection.title())
         collection.setDescription(
-                collection.description() or gcMetadata.get('description'))
+            gcMetadata.get('description') or collection.description())
     
     def getOwnMetadata(self, task: QgsTask):
         """ Calls geoadmin API and retrieves translated titles and
