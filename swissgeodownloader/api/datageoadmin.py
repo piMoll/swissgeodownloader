@@ -310,7 +310,8 @@ class ApiDataGeoAdmin:
             metadata = {}
             for locale in _AVAILABLE_LOCALES:
                 localizedMetadata = self.geocatClient.getMeta(
-                        task, collectionId, collection.metadataLink(), locale)
+                        task, collectionId, collection.metadataLink(), locale,
+                        False)
                 if localizedMetadata:
                     metadata[locale] = localizedMetadata
             md_geocat[collectionId] = metadata
