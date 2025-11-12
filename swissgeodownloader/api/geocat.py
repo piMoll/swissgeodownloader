@@ -24,7 +24,7 @@ import xml.etree.ElementTree as ET
 from qgis.core import QgsTask
 
 from swissgeodownloader.api.network_request import fetch
-from swissgeodownloader.utils.metadataHandler import loadFromFile, saveToFile
+from swissgeodownloader.utils.metadata_handler import loadFromFile, saveToFile
 from swissgeodownloader.utils.utilities import translate, log
 
 BASEURL = 'https://www.geocat.ch/geonetwork/srv/eng/csw'

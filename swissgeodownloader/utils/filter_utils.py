@@ -18,7 +18,7 @@
  *                                                                         *
  ***************************************************************************/
 """
-from swissgeodownloader.api.responseObjects import ALL_VALUE, SgdAsset
+from swissgeodownloader.api.response_objects import ALL_VALUE, SgdAsset
 
 
 def cleanupFilterItems(filterItems: dict):

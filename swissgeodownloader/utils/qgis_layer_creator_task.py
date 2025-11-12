@@ -30,7 +30,7 @@ from qgis.core import (
 )
 
 from swissgeodownloader import DEBUG
-from swissgeodownloader.api.responseObjects import SgdAsset, STREAMED_SOURCE_PREFIX
+from swissgeodownloader.api.response_objects import SgdAsset, STREAMED_SOURCE_PREFIX
 from swissgeodownloader.utils.utilities import translate
 
 
