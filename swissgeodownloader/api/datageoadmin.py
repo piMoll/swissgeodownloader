@@ -24,14 +24,14 @@ from qgis.core import QgsTask, Qgis, QgsStacItem
 from swissgeodownloader import _AVAILABLE_LOCALES
 from swissgeodownloader.api.geocat import ApiGeoCat
 from swissgeodownloader.api.network_request import fetch
-from swissgeodownloader.api.responseObjects import (
+from swissgeodownloader.api.response_objects import (
     CURRENT_VALUE,
     FILETYPE_STREAMED,
     SgdAsset,
     SgdStacCollection
 )
 from swissgeodownloader.api.stac_client import STACClient
-from swissgeodownloader.utils.filterUtils import (
+from swissgeodownloader.utils.filter_utils import (
     cleanupFilterItems,
     currentFileByBbox
 )

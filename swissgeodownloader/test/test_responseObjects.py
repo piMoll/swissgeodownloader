@@ -2,7 +2,7 @@ import unittest
 
 from qgis.core import QgsStacAsset, QgsBox3D
 
-from swissgeodownloader.api.responseObjects import SgdAsset, FILETYPE_STREAMED
+from swissgeodownloader.api.response_objects import SgdAsset, FILETYPE_STREAMED
 
 
 class TestFileObject(unittest.TestCase):

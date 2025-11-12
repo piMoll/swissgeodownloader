@@ -25,7 +25,7 @@ from qgis.PyQt.QtWidgets import (
     QHeaderView, QSizePolicy, QTableView
 )
 
-from swissgeodownloader.api.responseObjects import SgdAsset
+from swissgeodownloader.api.response_objects import SgdAsset
 
 
 class FileListTable(QObject):

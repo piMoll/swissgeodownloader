@@ -29,7 +29,7 @@ from qgis.core import (
 )
 
 from swissgeodownloader import DEBUG
-from swissgeodownloader.api.responseObjects import SgdAsset
+from swissgeodownloader.api.response_objects import SgdAsset
 from swissgeodownloader.utils.utilities import translate
 
 

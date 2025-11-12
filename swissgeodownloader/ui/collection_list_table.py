@@ -29,7 +29,7 @@ from qgis.PyQt.QtWidgets import (
     QTableView
 )
 
-from swissgeodownloader.api.responseObjects import SgdStacCollection
+from swissgeodownloader.api.response_objects import SgdStacCollection
 
 
 class CollectionListTable(QObject):
