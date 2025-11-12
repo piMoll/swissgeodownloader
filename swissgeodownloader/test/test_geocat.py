@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
 from swissgeodownloader.api.geocat import ApiGeoCat
 
@@ -8,7 +8,6 @@ class TestApiGeoCat(unittest.TestCase):
     
     @classmethod
     def setUpClass(cls):
-        cls.parent = MagicMock()
         cls.locale = "en"
         cls.api: ApiGeoCat = ApiGeoCat(cls.locale, 'test_path')
     
@@ -41,7 +40,7 @@ class TestApiGeoCat(unittest.TestCase):
         url = 'https://www.geocat.ch/geonetwork/srv/api/records/a7109ba7-9a1e5?language=all'
         self.assertIsNone(self.api.extractUuid(url))
     
-    def test_extract_uuid_from_invalid_url_(self):
+    def test_extract_uuid_from_invalid_url(self):
         url = '//www.geocat.ch/geonetwork/srv/api/records/a7109ba7-9a1e5?language=all'
         self.assertIsNone(self.api.extractUuid(url))
 
