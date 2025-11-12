@@ -298,7 +298,7 @@ class ApiDataGeoAdmin:
         return {'files': fileList, 'filters': filterItems}
     
     def downloadFiles(self, task: QgsTask, fileList, outputDir):
-        self.stacClient.downloadFiles(task, fileList, outputDir)
+        return self.stacClient.downloadFiles(task, fileList, outputDir)
     
     def refreshAllMetadata(self, task: QgsTask):
         """Fetches metadata for all collections and saves it to a json file."""
