@@ -182,7 +182,7 @@
     </message>
 </context>
 <context>
-    <name>SwissGeoDownloaderDockWidget</name
+    <name>SwissGeoDownloaderDockWidget</name>
     <message>
         <location filename="../ui/sgd_dockwidget.py" line="298"/>
         <source>Swiss Geo Downloader - Info</source>
