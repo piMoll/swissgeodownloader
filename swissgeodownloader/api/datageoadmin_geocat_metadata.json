@@ -1130,6 +1130,9 @@
       "title": "Banca dati per il rilevamento del trasporto solido di fondo (Confederazione)"
     }
   },
+  "ch.bafu.fischerei-aeschen": {
+    "de": {}
+  },
   "ch.bafu.flora-schwingrasen": {
     "de": {
       "description": "Das Inventar der Schwingrasen der Schweiz enthält die im Felde aufgefundenen Vorkommen von primären Schwingrasen mit Übergangs- und Hochmoorcharakter (83 Objekte), die eine bestimmte Mindestgrösse erreichen. Das Inventar ist eine Verfeinerung gegenüber der Inventare der Hoch- und Übergangsmoore bzw. der Flachmoore und trägt den meist kleinflächig ausgebildeten Schwingrasen besser Rechnung. Es handelt sich um stark verfilzte, zusammenhängende Rasendecken, die auf wasserdurchtränkter Unterlage aufruhend oder auf dem Wasser schwimmend beim Auftreten deutlich in schwingende Bewegungen geraten.Die Objekte sind durch Verwendung ihrer Zentrumskoordinaten (Landeskoordinaten) aus der Datenbank als Punktcoverage generiert worden.",
@@ -2437,6 +2440,12 @@
     "it": {
       "description": "La Rete nazionale d'osservazione degli inquinanti atmosferici (NABEL) misura l'inquinamento dell'aria in Svizzera sulla base di dati rilevati in 16 località. Le stazioni sono distribuite sull'insieme del territorio e misurano il carico d'inquinanti in luoghi tipici (per es. strade del centro città, zone residenziali, campagna). Le stazioni della rete NABEL rappresentano, a seconda del tipo di ubicazione, diverse situazioni di inquinamento. La qualità dell'aria dovrebbe pertanto essere valutata principalmente in base al tipo di ubicazione e non secondo la posizione geografica della stazione.",
       "title": "Rete nazionale d'osservazione degli inquinanti atmosferici NABEL: stazioni"
+    }
+  },
+  "ch.bafu.neophyten": {
+    "de": {
+      "description": "Das Set Invasive gebietsfremde Pflanzen enthält die Karten der potentiellen Verbreitung von 56 in der Schweiz vorkommenden invasiven gebietsfremden Arten sowie solchen aus Nachbarländern mit dem Potential sich in die Schweiz auszudehnen. Die Karten sind das Ergebnis einer Modellierung der Uni Lausanne zur Vorhersage der Verbreitung von invasiven Pflanzen, welche in der Schwarzen Liste resp. der Watchliste aufgeführt sind. Das Modell basiert auf den verfügbaren Daten von GBIF (Global Biodiversity Information Facility), verknüpft mit aktuellen Klimadaten von Worldclim (1km Auflösung) sowie den verfügbaren Daten von InfoFlora verknüpft mit Klimadaten der WSL (100 m Auflösung). Die Karten mit 100 m Auflösung beinhalten weitere Variablen wie Landnutzung und Geologie.",
+      "title": "Invasive gebietsfremde Pflanzen"
     }
   },
   "ch.bafu.niederschlagserosivitaet": {
@@ -5276,6 +5285,12 @@
       "title": "Censimenti/statistiche delle aziende: Addetti (EPT)"
     }
   },
+  "ch.bfs.bildungsstand": {
+    "de": {
+      "description": "Das Produkt «Bildungsstand – Geodaten» liefert schweizweit feinräumige Informationen über den höchsten Bildungsabschluss der ständigen Wohnbevölkerung im Alter von 25 bis 64 Jahren. Die Datengrundlage bilden mehrere statistische Erhebungen der Bundesverwaltung und werden durch ein zweistufiges Imputationsmodell ergänzt, das fehlende Angaben schätzt. Das Bildungsniveau wird nach einer dreistufigen Nomenklatur ausgewiesen: obligatorische Schule, Sekundarstufe II und Tertiärstufe. Die Daten stehen für die Referenzjahre 1990 und 2000 sowie für jedes Jahr ab 2017 zur Verfügung und liegen schweizweit in drei räumlichen Auflösungen vor: Hektaren (100 × 100 m Raster), raumbezogene statistische Grundeinheiten der ersten Stufe (USPAT1-Regionen) sowie Gemeinden.",
+      "title": "Bildungsstand"
+    }
+  },
   "ch.bfs.erreichbarkeit": {
     "de": {
       "description": "Die Messung der Entfernung zu Dienstleistungen für jede bewohnte Hektare in der Schweiz stellt vielfältige statistische Informationen über den Zugang zu Gütern, Dienstleistungen sowie Rückzugsorten zur Verfügung.\n \nEine ausreichende Grundversorgung mit den im Alltag benötigten Gütern und Dienstleistungen sowie Zugang zu Rückzugsorten wie Seeufer oder Wälder, sind für die Lebensqualität von grosser Bedeutung. Die Berechnung der Erreichbarkeit zu diesen Dienstleistungen ist eine Methode um dieses Phänomen zu messen. Die Erreichbarkeit wird durch die auf dem Strassennetz zurückgelegte Distanz zwischen dem Wohnort und dem Standort des nächstgelegenen Dienstleisters, respektive des nächstgelegenen Rückzugsorts, operationalisiert. Dabei werden Wohnorte nicht individuell, sondern aggregiert nach bewohnten Hektaren, verwendet.",
@@ -7119,6 +7134,12 @@
       "title": "Materie prime, siti di produzione e estrazione per la produzione di laterizi"
     }
   },
+  "ch.swisstopo.geologie-swissbedrock": {
+    "de": {
+      "description": "swissBEDROCK ist ein umfassender Datensatz, der detaillierte Informationen über die Felsoberfläche der Schweiz bereitstellt.\nZusätzlich zum Höhenmodell der Felsoberfläche (BEM) enthält es Informationen über die Mächtigkeit des Lockergesteins (TMUD), Angaben zu Unsicherheiten, Autoren sowie Änderungen gegenüber früheren Versionen.\nDer Datensatz ist als Multiband-Rasterdatensatz (Rasterzellengröße 10 x 10 Meter) mit <a href=\"https://www.geocat.ch/geonetwork/srv/api/records/f7836146-3f9a-4807-9011-618800409236/attachments/Attribute_Table.pdf?approved=true\" target=\"_blank\">11 Informationsbändern</a> pro Zelle strukturiert. Er unterstützt Versionierung für Transparenz und Rückverfolgbarkeit und wird durch automatisierte Aktualisierungen innerhalb definierter Gebiete gepflegt, unter Verwendung neuer Bohrloch- und Kartierungsinformationen oder durch Ersetzungen mit Beiträgen Dritter. Der vollständige swissBEDROCK-Datensatz kann <a href=\"https://www.swisstopo.admin.ch/de/swissbedrock-de\" target=\"_blank\">hier heruntergeladen</a> oder auf <a href=\"https://viewer.swissgeol.ch/?lon=8.41012&lat=46.83165&elevation=425641&heading=0&pitch=-90&map=ch.swisstopo.pixelkarte-grau&map_transparency=0.00&layers=ch.swisstopo.swissbedrock-geotiff&layers_visibility=true&layers_transparency=0.50&layers_timestamp=\" target=\"_blank\">viewer.swissgeol.ch</a> zellweise angezeigt und abgefragt werden.\nEine Datei mit den <a href=\"https://www.geocat.ch/geonetwork/srv/api/records/f7836146-3f9a-4807-9011-618800409236/attachments/swissBEDROCK_ReleaseNotes_R1.pdf?approved=true\" target=\"_blank\">Versionshinweisen</a> wird bereitgestellt, die Herkunft und Eigenschaften der verschiedenen Modellkomponenten beschreibt. Weitere Informationen zur methodischen Übersicht und zum Arbeitsablauf sind in der <a href=\"https://www.geocat.ch/geonetwork/srv/api/records/f7836146-3f9a-4807-9011-618800409236/attachments/swissBEDROCK_model_description.pdf?approved=true\" target=\"_blank\">Modellbeschreibung</a> zu finden. 3D-Modelle stellen Vereinfachungen der realen Geologie dar. Der Nutzer anerkennt, dass die Autoren alle zumutbaren Aufwände unternommen haben, um die Informationen im geologischen 3D-Modell zu verifizieren. Es gibt keine Garantie, dass die angegebenen Daten an einem bestimmten Punkt im Untergrund korrekt sind. Der Herausgeber ist unter keinen Umständen für jegliche Verluste oder Schäden materieller oder immaterieller Art haftbar, welche aus dem Zugriff auf, die Nutzung oder Nichtnutzung der veröffentlichen Informationen, durch Missbrauch oder technische Störungen entstehen.",
+      "title": "swissBEDROCK"
+    }
+  },
   "ch.swisstopo.geologie-thermale_waesser": {
     "de": {
       "description": "Dieser Datensatz enthält eine Übersicht über Grundwässer in der Schweiz, die eine geothermische Erwärmung erfahren haben. Die erhöhte Temperatur von thermalem Grundwasser kommt durch die Interaktion mit dem umliegenden Gestein bei der Zirkulation in grösseren Tiefen der Erdkruste zustande. Die Temperatur von untiefem, nicht-thermalem Grundwasser wird im Gegenzug hauptsächlich durch die Atmosphäre beeinflusst und weist im Jahresgang i. d. R. saisonale Schwankungen auf. In diesem Datensatz gilt ein Grundwasser dann als thermal, wenn die Wassertemperatur konstant mehr als 5°C über der lokalen, durchschnittlichen Jahres-Lufttemperatur liegt.\nDer Datensatz teilt sich in drei Hauptkategorien auf, welche sich durch den Typ des Wasseraustritts /-zutritts ergeben: 1) Quellwasser, 2) Tunnelwasser und 3) durch Bohrungen erschlossenes Grundwasser. Im Zuge der Zirkulation durch den geologischen Untergrund nimmt ein Grundwasser mittels Wasser-Gesteins-Interaktionen eine charakteristische chemische Signatur an. Diese Signatur wird hier durch den chemischen Wassertyp, Mineralisationsgrad, pH-Wert und die elektrische Leitfähigkeit wiedergegeben. Einige der Messwerte können durch Kontamination mit technischen Wässern (z.B. Bohrspülung) und/oder der Atmosphäre (z.B. Gasaustausch) oder methodologischen Ursachen grössere Unsicherheiten aufweisen. Auf die einzelnen Attribute wird im <a href=\"https://www.geocat.ch/geonetwork/srv/api/records/04fb057a-4c46-4d6d-8a64-8003df749762/attachments/Object%20catalog%20Thermal%20waters%20Platzhalter.pdf?approved=true\" target=\"_blank\">Objektkatalog</a> detailliert eingegangen.\nDer Datensatz erhebt keinen Anspruch auf Vollständigkeit. Für Auskünfte zu den einzelnen Messwerten wenden Sie sich bitte an den Datenherrn.",
@@ -7713,6 +7734,12 @@
       "title": "swissBOUNDARIES3D"
     }
   },
+  "ch.swisstopo.swissboundaries3d.inspire": {
+    "de": {
+      "description": "Die Verwaltungseinheiten basieren auf dem Datensatz swissBOUNDARIES3D von swisstopo. Dieser Datensatz enthält alle Verwaltungseinheiten und Landesgrenzen der Schweiz und des Fürstentums Liechtenstein in Vektorform. Das Produkt basiert auf einem optimierten Datenmodell für die Schweiz und ist konform mit den Daten des Bundesamtes für Statistik und den europäischen INSPIRE-Richtlinien. swissBOUNDARIES3D ersetzt ab 2010 den Datensatz GG25.",
+      "title": "Verwaltungseinheiten der Schweiz – INSPIRE"
+    }
+  },
   "ch.swisstopo.swissbuildings3d_2": {
     "de": {
       "description": "swissBUILDINGS3D 2.0 ist ein Vektordatensatz, der Gebäude als 3D-Modelle mit Dachformen und Dachüberständen darstellt. Die hohe Genauigkeit in allen drei Dimensionen, die grossflächige Abdeckung sowie die realitätsnahe Wiedergabe der Gebäudevolumenkörper machen dieses Produkt zu einem wertvollen Basisdatensatz für verschiedenste Anwendungen.",
@@ -7821,6 +7848,12 @@
       "title": "swissNAMES3D nomi geografici della misurazione nazionale"
     }
   },
+  "ch.swisstopo.swissnames3d.inspire": {
+    "de": {
+      "description": "Die geografische Namen basieren auf dem Datensatz swissNAMES3D. swissNAMES3D ist die vollständigste Sammlung von geografische Namen über die Schweiz und das Fürstentum Liechtenstein und umfasst über 437000 georeferenzierte Einträge, die in verschiedene Kategorien unterteilt sind. Der Datensatz ersetzt ab 2015 das auf dem Namengut der Landeskartenwerke basierende und bis 2008 nachgeführte Produkt SwissNames. Die Darstellung der geografischen Namen im Geoportal des Bundes entspricht einer Auswahl aus swissNAMES3D, die auf die ausgewählte Zoomstufe zugeschnitten ist. Es handelt sich hier um die INSPIRE Konforme Produktableitung.",
+      "title": "Geografische Namen Schweiz - INSPIRE"
+    }
+  },
   "ch.swisstopo.swisssurface3d": {
     "de": {
       "description": "swissSURFACE3D beschreibt die Oberfläche der Schweiz mit allen natürlichen und künstlichen Elementen in Form einer klassifizierten Punktwolke. Die mit einem airborne LiDAR erhobenen Daten zeichnen sich durch eine hohe Punktdichte und Genauigkeit aus. swissSURFACE3D wird in Kacheln von jeweils 1 km2 produziert. Die Kachelnummerierung entspricht den Kilometerkoordinaten des südwestlichen Eckpunkts einer Kachel.",
@@ -7926,6 +7959,12 @@
     "it": {
       "description": "swissTNE Base è la base di riferimento spaziale della Rete dei trasporti CH, la futura infrastruttura nazionale di geodati per i trasporti e la mobilità. Questa rete di base mappa le quattro modalità di trasporto (ferrovia, strada, cavo e acqua) in modo multimodale, senza l’aggiunta di informazioni tematiche e settoriali. Serve come denominatore comune per assicurare l’interoperabilità tra i dati spaziali sui trasporti e la mobilità, indipendentemente dal fatto che siano disponibili in forma geometrica, dettagliata o aggregata. Il set di dati si basa ancora esclusivamente sul modello topografico del paesaggio TLM, ma sarà ulteriormente sviluppata ed integrata nell'ambito dell'implementazione della Rete dei trasporti CH. Inoltre, il prodotto swissTNE BaseTLM fornisce informazioni specifici essenziali derivate da swissTLM3D e relative a queste geometrie.",
       "title": "Rete dei trasporti CH - swissTNE Base"
+    }
+  },
+  "ch.swisstopo.technische-aufnahmen": {
+    "de": {
+      "description": "Die sogenannten «Technischen Aufnahmen», die ab den 1880er-Jahren erstellt wurden, bilden den ältesten Sammlungsteil der Bildsammlung von swisstopo. Er umfasst rund 40'000 fotografische Objekte. Die Aufnahmen zeigen häufig Referenzpunkte der Landestriangulationen. Dieser Sammlungsteil dokumentiert aber auch, wie seinerzeit gearbeitet wurde. Er erzählt damit Geschichten aus dem abenteuerlichen Leben der Landestopografen.",
+      "title": "Technische Aufnahmen swisstopo"
     }
   },
   "ch.swisstopo.unterkuenfte-winter": {
