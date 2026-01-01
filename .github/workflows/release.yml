@@ -38,7 +38,7 @@ jobs:
           VERSION=0.0.0
           qgis-plugin-ci package ${VERSION}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         with:
           name: swissgeodownloader_dev
