@@ -25,10 +25,14 @@ from qgis.core import Qgis
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
 from swissgeodownloader.api.apiInterface import ApiInterface
 from swissgeodownloader.api.geocat import ApiGeoCat
-from swissgeodownloader.api.responseObjects import (CURRENT_VALUE, Dataset,
-                                                    FILETYPE_COG, File)
-from swissgeodownloader.utils.filterUtils import (cleanupFilterItems,
-                                                  currentFileByBbox)
+from swissgeodownloader.api.responseObjects import (
+    CURRENT_VALUE, Dataset,
+    FILETYPE_COG, File
+)
+from swissgeodownloader.utils.filterUtils import (
+    cleanupFilterItems,
+    currentFileByBbox
+)
 from .. import _AVAILABLE_LOCALES
 
 BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
@@ -42,7 +46,6 @@ OPTION_MAPPER = {
 }
 API_OPTION_MAPPER = {y: x for x, y in OPTION_MAPPER.items()}
 API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
-FETCH_ALL_LIMIT = 500
 
 
 class ApiDataGeoAdmin(ApiInterface):
@@ -212,8 +215,7 @@ class ApiDataGeoAdmin(ApiInterface):
             params['bbox'] = ','.join([str(ext) for ext in bbox])
 
         # Request files
-        responseList = self.fetchAll(task, url, 'features', params=params,
-                                     limit=FETCH_ALL_LIMIT)
+        responseList = self.fetchAll(task, url, 'features', params=params)
         if responseList is False:
             if not task.exception:
                 task.exception = self.tr('Error when requesting file list - '
