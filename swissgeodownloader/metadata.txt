@@ -3,9 +3,9 @@
 [general]
 name=Swiss Geo Downloader
 qgisMinimumVersion=3.22
-qgisMaximumVersion=
+qgisMaximumVersion=4.99
 description=Download swiss geodata comfortably inside QGIS
-version=2.1.0
+version=2.1.1
 author=Patricia Moll
 email=pimoll.dev@gmail.com
 
@@ -20,7 +20,12 @@ repository=https://github.com/piMoll/swissgeodownloader
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=Version 2.1.0 (June 2025)
+changelog=Version 2.1.1 (January 2026)
+    Fixed
+    - Remove hard limit of 500 items when requesting files
+    - Fix plugin metadata to mark this plugin ready for QGIS 4
+
+    Version 2.1.0 (June 2025)
     Added
     - Add support for streamed Tiffs (cloud-optimized GeoTiffs)
     - Upgrade plugin, so it's ready for QGIS 4.0 and Qt6

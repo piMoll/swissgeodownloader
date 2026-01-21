@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.1.1 - 2026-01-21
+
+### Fixed
+- Remove hard limit of 500 items when requesting files
+- Fix plugin metadata to mark this plugin ready for QGIS 4
+
 ## 2.1.0 - 2025-06-04
 
 ### Added
