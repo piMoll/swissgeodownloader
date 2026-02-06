@@ -20,10 +20,11 @@
 """
 import os
 
+from osgeo import gdal
 from qgis.core import (QgsProject, QgsRasterLayer, QgsTask, QgsVectorLayer)
 
 from swissgeodownloader import DEBUG
-from swissgeodownloader.api.responseObjects import STREAMED_SOURCE_PREFIX
+from swissgeodownloader.api.responseObjects import STREAMED_SOURCE_PREFIX, DatasetStructure
 
 
 class QgisLayerCreatorTask(QgsTask):
@@ -32,12 +33,14 @@ class QgisLayerCreatorTask(QgsTask):
      the main thread. After the task has finished, they are added to the map
      in the main thread."""
     
-    def __init__(self, description, fileList):
+    def __init__(self, description, fileList, datasetStructure: DatasetStructure, vrtOutputPath):
         super().__init__(description, QgsTask.Flag.CanCancel)
         self.fileList = fileList
         self.layerList = []
         self.alreadyAdded = 0
         self.exception = None
+        self.datasetStructure = datasetStructure
+        self.vrtOutputPath = vrtOutputPath
     
     def run(self):
         if DEBUG:
@@ -64,6 +67,10 @@ class QgisLayerCreatorTask(QgsTask):
         
         progressStep = 100 / len(self.fileList)
         
+        if self.datasetStructure is DatasetStructure.TILED_DATASET:
+            self.combineTiles()
+            return True
+            
         for i, file in enumerate(self.fileList):
             if self.isCanceled():
                 return False
@@ -99,6 +106,19 @@ class QgisLayerCreatorTask(QgsTask):
         self.setProgress(100)
         return True
     
+    def combineTiles(self):
+            pathList = [self.vrtOutputPath / file.path for file in self.fileList]
+            gdal.BuildVRT(self.vrtOutputPath, pathList)
+            try:
+                rasterLyr = QgsRasterLayer(str(self.vrtOutputPath), self.vrtOutputPath.stem)
+                if rasterLyr.isValid():
+                    self.layerList.append(rasterLyr)
+                else:
+                    del rasterLyr
+            except Exception:
+                pass
+            self.setProgress(100)
+        
     def finished(self, result):
         if not result:
             if self.isCanceled():

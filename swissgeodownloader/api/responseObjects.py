@@ -18,6 +18,7 @@
  *                                                                         *
  ***************************************************************************/
 """
+from enum import Enum
 from swissgeodownloader.ui.ui_utilities import getDateFromIsoString
 
 ALL_VALUE = 'all'
@@ -25,6 +26,24 @@ CURRENT_VALUE = 'current'
 P_SIMILAR = 0.20    # max 20% difference
 FILETYPE_COG = 'streamed tiff (COG)'
 STREAMED_SOURCE_PREFIX = '/vsicurl/'
+
+
+# This list is incomplete.
+# Please amend it, when you notice a dataset,
+# whose files should be combined into a single layer.
+TILED_DATASET_IDS = [
+    "ch.swisstopo.swissalti3d",
+]
+
+
+class DatasetStructure(Enum):
+    """
+    Whether each file from the remote dataset represents a map tile.
+    (Otherwise we assume that each file represents a feature
+    and will create a separate layer per file of the dataset.)
+    """
+    TILED_DATASET = "tiled"
+    DEFAULT_DATASET = "default"
 
 
 class Dataset:
@@ -40,6 +59,7 @@ class Dataset:
         self.isEmpty = None
         self.avgSize = {}
         self.analysed = False
+        self.structure = DatasetStructure.TILED_DATASET if self.id in TILED_DATASET_IDS else DatasetStructure.DEFAULT_DATASET
 
     @property
     def searchtext(self):
