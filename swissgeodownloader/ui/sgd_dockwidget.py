@@ -740,7 +740,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         # Create layer from files (streamed and downloaded) so they can be
         # added to qgis
         filesToAdd = self.filesListDownload + self.filesListStreamed
-        currentDateTime = datetime.now().strftime('%d-%m-%Y_%H:%M:%S')
+        currentDateTime = datetime.now().strftime('%d-%m-%Y_%H_%M_%S')
         vrtOutputPath = Path(self.outputPath) / (self.currentDataset.id + '-combined_' + currentDateTime + '.vrt')
         task = QgisLayerCreatorTask('Daten zu QGIS hinzufügen...', filesToAdd, self.currentDataset.structure, vrtOutputPath)
         task.taskCompleted.connect(
