@@ -655,9 +655,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.guiDownloadBtn.setDisabled(False)
     
     def supportsSingleLayerOption(self) -> bool:
-        # Only show checkbox for creating a single layer if dataset has
-        # 1) tiled data structure
-        return (self.currentDataset.structure == DatasetStructure.TILED_DATASET
+        # Only show checkbox for creating a single layer if dataset
+        return (self.currentDataset and
+                # 1) exists and has tiled data structure
+                self.currentDataset.structure == DatasetStructure.TILED_DATASET
                 # 2) there is more than one file
                 and len(self.fileListFiltered) > 1
                 # 3) there is no "all" filter active

@@ -34,8 +34,8 @@ TILED_DATASET_IDS = [
     "ch.swisstopo.swissalti3d",
     "ch.swisstopo.swissaltiregio",
     "ch.swisstopo.swissimage-dop10",
-    "ch.swisstopo.landeskarte-farbe-*",
-    "ch.swisstopo.pixelkarte-farbe-*",
+    "ch.swisstopo.landeskarte-farbe*",
+    "ch.swisstopo.pixelkarte-farbe*",
     "ch.swisstopo.swisssurface3d-raster"
 ]
 
