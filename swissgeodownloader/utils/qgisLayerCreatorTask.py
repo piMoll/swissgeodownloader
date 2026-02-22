@@ -105,17 +105,19 @@ class QgisLayerCreatorTask(QgsTask):
         return True
     
     def combineTiles(self):
-            pathList = [self.vrtOutputPath / file.path for file in self.fileList]
-            gdal.BuildVRT(self.vrtOutputPath, pathList)
-            try:
-                rasterLyr = QgsRasterLayer(str(self.vrtOutputPath), self.vrtOutputPath.stem)
-                if rasterLyr.isValid():
-                    self.layerList.append(rasterLyr)
-                else:
-                    del rasterLyr
-            except Exception:
-                pass
-            self.setProgress(100)
+        pathList = [file.path for file in self.fileList]
+        gdal.BuildVRT(self.vrtOutputPath, pathList)
+        rasterLyr = QgsRasterLayer(self.vrtOutputPath,
+                                   os.path.splitext(os.path.basename(
+                                           self.vrtOutputPath))[0])
+        try:
+            if rasterLyr.isValid():
+                self.layerList.append(rasterLyr)
+            else:
+                del rasterLyr
+        except Exception:
+            pass
+        self.setProgress(100)
         
     def finished(self, result):
         if not result:

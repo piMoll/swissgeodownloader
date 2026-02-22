@@ -674,11 +674,9 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     
     def evaluateSingleLayerOption(self):
         if self.supportsSingleLayerOption() and self.guiAddAsSingleLayerChbox.isChecked():
-            currentDateTime = datetime.now().strftime('%d-%m-%Y_%H_%M_%S')
-            # return os.path.join(self.outputPath,
-            #                     f'{self.currentDataset.id}-combined_{currentDateTime}.vrt')
-            return Path(self.outputPath) / (
-                    self.currentDataset.id + '-combined_' + currentDateTime + '.vrt')
+            currentDateTime = datetime.now().strftime('%d-%m-%Y_%H%M%S')
+            return os.path.join(self.outputPath,
+                                f'{self.currentDataset.id}-combined_{currentDateTime}.vrt')
         return None
     
     def onDownloadFilesClicked(self):
