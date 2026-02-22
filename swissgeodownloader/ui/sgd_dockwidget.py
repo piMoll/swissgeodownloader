@@ -33,9 +33,12 @@ from qgis.gui import QgisInterface, QgsExtentGroupBox
 
 from swissgeodownloader.api.apiCallerTask import ApiCallerTask
 from swissgeodownloader.api.datageoadmin import API_EPSG, ApiDataGeoAdmin
-from swissgeodownloader.api.responseObjects import (ALL_VALUE, CURRENT_VALUE,
-                                                    Dataset,
-                                                    STREAMED_SOURCE_PREFIX)
+from swissgeodownloader.api.responseObjects import (
+    ALL_VALUE, CURRENT_VALUE,
+    Dataset,
+    STREAMED_SOURCE_PREFIX,
+    DatasetStructure, TILED_DATASET_FILETYPE
+)
 from swissgeodownloader.ui.bboxDrawer import BboxPainter
 from swissgeodownloader.ui.datsetListTable import DatasetListTable
 from swissgeodownloader.ui.fileListTable import FileListTable
@@ -155,6 +158,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.guiExtentWidget.setCollapsed(True)
         self.guiGroupFiles.setDisabled(True)
         self.guiDownloadBtn.setDisabled(True)
+        self.guiAddAsSingleLayerChbox.setChecked(True)
+        self.guiAddAsSingleLayerChbox.hide()
         
         self.guiFileType.currentIndexChanged.connect(self.onFilterChanged)
         self.guiCategory.currentTextChanged.connect(self.onFilterChanged)
@@ -560,6 +565,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.fileListTbl.fill(orderedFileList)
         self.updateSummary()
         self.updateDownloadBtnState()
+        self.updateSingleLayerOptionVisibility()
     
     def getCurrentlySelectedFilesAsList(self):
         return [file for file in self.fileListFiltered.values() if
@@ -618,6 +624,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.bboxPainter.switchSelectState(fileId)
         self.updateSummary()
         self.updateDownloadBtnState()
+        self.updateSingleLayerOptionVisibility()
     
     def updateSummary(self):
         if self.fileListFiltered:
@@ -646,6 +653,33 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.guiDownloadBtn.setDisabled(True)
         else:
             self.guiDownloadBtn.setDisabled(False)
+    
+    def supportsSingleLayerOption(self) -> bool:
+        # Only show checkbox for creating a single layer if dataset has
+        # 1) tiled data structure
+        return (self.currentDataset.structure == DatasetStructure.TILED_DATASET
+                # 2) there is more than one file
+                and len(self.fileListFiltered) > 1
+                # 3) there is no "all" filter active
+                and all([val != ALL_VALUE for val in
+                            self.currentFilters.values()])
+                # 4) the filtered filetype supports single file creation
+                and self.currentFilters['filetype'] in TILED_DATASET_FILETYPE)
+    
+    def updateSingleLayerOptionVisibility(self):
+        if self.supportsSingleLayerOption():
+            self.guiAddAsSingleLayerChbox.show()
+        else:
+            self.guiAddAsSingleLayerChbox.hide()
+    
+    def evaluateSingleLayerOption(self):
+        if self.supportsSingleLayerOption() and self.guiAddAsSingleLayerChbox.isChecked():
+            currentDateTime = datetime.now().strftime('%d-%m-%Y_%H_%M_%S')
+            # return os.path.join(self.outputPath,
+            #                     f'{self.currentDataset.id}-combined_{currentDateTime}.vrt')
+            return Path(self.outputPath) / (
+                    self.currentDataset.id + '-combined_' + currentDateTime + '.vrt')
+        return None
     
     def onDownloadFilesClicked(self):
         self.guiDownloadBtn.setDisabled(True)
@@ -740,9 +774,8 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         # Create layer from files (streamed and downloaded) so they can be
         # added to qgis
         filesToAdd = self.filesListDownload + self.filesListStreamed
-        currentDateTime = datetime.now().strftime('%d-%m-%Y_%H_%M_%S')
-        vrtOutputPath = Path(self.outputPath) / (self.currentDataset.id + '-combined_' + currentDateTime + '.vrt')
-        task = QgisLayerCreatorTask('Daten zu QGIS hinzufügen...', filesToAdd, self.currentDataset.structure, vrtOutputPath)
+        task = QgisLayerCreatorTask('Daten zu QGIS hinzufügen...', filesToAdd,
+                                    self.evaluateSingleLayerOption())
         task.taskCompleted.connect(
                 lambda: self.onCreateQgisLayersFinished(task.layerList,
                                                         task.alreadyAdded))

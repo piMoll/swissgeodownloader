@@ -33,13 +33,12 @@ class QgisLayerCreatorTask(QgsTask):
      the main thread. After the task has finished, they are added to the map
      in the main thread."""
     
-    def __init__(self, description, fileList, datasetStructure: DatasetStructure, vrtOutputPath):
+    def __init__(self, description, fileList, vrtOutputPath):
         super().__init__(description, QgsTask.Flag.CanCancel)
         self.fileList = fileList
         self.layerList = []
         self.alreadyAdded = 0
         self.exception = None
-        self.datasetStructure = datasetStructure
         self.vrtOutputPath = vrtOutputPath
     
     def run(self):
@@ -67,9 +66,8 @@ class QgisLayerCreatorTask(QgsTask):
         
         progressStep = 100 / len(self.fileList)
         
-        if self.datasetStructure is DatasetStructure.TILED_DATASET:
-            self.combineTiles()
-            return True
+        if self.vrtOutputPath:
+            return self.combineTiles()
             
         for i, file in enumerate(self.fileList):
             if self.isCanceled():

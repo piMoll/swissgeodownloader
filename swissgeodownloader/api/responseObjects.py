@@ -27,12 +27,21 @@ P_SIMILAR = 0.20    # max 20% difference
 FILETYPE_COG = 'streamed tiff (COG)'
 STREAMED_SOURCE_PREFIX = '/vsicurl/'
 
-
-# This list is incomplete.
-# Please amend it, when you notice a dataset,
-# whose files should be combined into a single layer.
+# This list is incomplete. Please amend it when you notice a dataset whose
+# files should be combined into a single layer.
+# IDs with wildcards at the end will be used with "startsWith"
 TILED_DATASET_IDS = [
     "ch.swisstopo.swissalti3d",
+    "ch.swisstopo.swissaltiregio",
+    "ch.swisstopo.swissimage-dop10",
+    "ch.swisstopo.landeskarte-farbe-*",
+    "ch.swisstopo.pixelkarte-farbe-*",
+    "ch.swisstopo.swisssurface3d-raster"
+]
+
+TILED_DATASET_FILETYPE = [
+    "tiff",
+    "streamed tiff (COG)",
 ]
 
 
@@ -59,12 +68,23 @@ class Dataset:
         self.isEmpty = None
         self.avgSize = {}
         self.analysed = False
-        self.structure = DatasetStructure.TILED_DATASET if self.id in TILED_DATASET_IDS else DatasetStructure.DEFAULT_DATASET
 
     @property
     def searchtext(self):
         return ' '.join([self.id or '', self.title or '', self.description or ''])\
                     .replace('.', ' ').lower()
+    
+    @property
+    def structure(self):
+        return DatasetStructure.TILED_DATASET if any(
+                [self._isIdSimilarTo(name) for name in
+                    TILED_DATASET_IDS]) else DatasetStructure.DEFAULT_DATASET
+    
+    def _isIdSimilarTo(self, compareName: str):
+        if compareName.endswith('*'):
+            return self.id.startswith(compareName[:-1])
+        else:
+            return self.id == compareName
 
 
 class File:
