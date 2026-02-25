@@ -339,6 +339,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             self.fileListTbl.onEmptyList(self.tr('No files available in this '
                                                  'dataset'))
             self.guiRequestListBtn.setDisabled(True)
+            self.updateSingleLayerOptionVisibility()
             return
         
         self.deactivateFilterFields()
@@ -363,6 +364,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         if not self.currentDataset.selectByBBox:
             self.onLoadFileListClicked()
             self.guiRequestListBtn.setDisabled(True)
+        self.updateSingleLayerOptionVisibility()
     
     def blockFilterSignals(self):
         for uiElem in self.filterFields.values():
