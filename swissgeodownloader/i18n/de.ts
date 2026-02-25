@@ -11,17 +11,17 @@
     <message>
         <location filename="../ui/qgis_utilities.py" line="87"/>
         <source>Layer &apos;{}&apos; added to map</source>
-        <translation>Layer &apos;{}&apos; zur Karte hinzugefügt</translation>
+        <translation>Layer '{}' zur Karte hinzugefügt</translation>
     </message>
     <message>
         <location filename="../ui/qgis_utilities.py" line="90"/>
         <source>Not able to add layer &apos;{}&apos; to map</source>
-        <translation>Fehler beim Erstellen des Layers &apos;{}&apos;</translation>
+        <translation>Fehler beim Erstellen des Layers '{}'</translation>
     </message>
     <message>
         <location filename="../ui/qgis_utilities.py" line="93"/>
         <source>Layer &apos;{}&apos; already added to map</source>
-        <translation>Layer &apos;{}&apos; bereits in Karte vorhanden</translation>
+        <translation>Layer '{}' bereits in Karte vorhanden</translation>
     </message>
 </context>
 <context>
@@ -60,17 +60,17 @@
 <context>
     <name>ApiDataGeoAdmin</name>
     <message>
-        <location filename="../api/datageoadmin.py" line="62"/>
+        <location filename="../api/datageoadmin.py" line="65"/>
         <source>Error when loading available dataset - Unexpected API response</source>
         <translation>Fehler beim Laden der Datensätze - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="219"/>
+        <location filename="../api/datageoadmin.py" line="221"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Fehler beim Laden der Dateiliste - Unerwartete API-Antwort</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="164"/>
+        <location filename="../api/datageoadmin.py" line="167"/>
         <source>Error when loading dataset details - Unexpected API response</source>
         <translation>Fehler beim Laden der Datensatz-Details - Unerwartete API-Antwort</translation>
     </message>
@@ -152,12 +152,12 @@
 <context>
     <name>QgisLayerCreatorTask</name>
     <message>
-        <location filename="../utils/qgisLayerCreatorTask.py" line="107"/>
+        <location filename="../utils/qgisLayerCreatorTask.py" line="139"/>
         <source>Aborted by user</source>
         <translation>Abbruch durch Benutzer</translation>
     </message>
     <message>
-        <location filename="../utils/qgisLayerCreatorTask.py" line="109"/>
+        <location filename="../utils/qgisLayerCreatorTask.py" line="141"/>
         <source>An unknown error occurred</source>
         <translation>Ein unbekannter Fehler ist aufgetreten</translation>
     </message>
@@ -178,42 +178,42 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="279"/>
+        <location filename="../ui/sgd_dockwidget.py" line="286"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="332"/>
+        <location filename="../ui/sgd_dockwidget.py" line="339"/>
         <source>No files available in this dataset</source>
         <translation>Keine Daten im Datensatz vorhanden</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="637"/>
+        <location filename="../ui/sgd_dockwidget.py" line="646"/>
         <source>No files found.</source>
         <translation>Keine Daten gefunden.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="708"/>
+        <location filename="../ui/sgd_dockwidget.py" line="743"/>
         <source>Choose output folder</source>
         <translation>Wähle Speicherort</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="688"/>
+        <location filename="../ui/sgd_dockwidget.py" line="723"/>
         <source>Overwrite files?</source>
         <translation>Daten überschreiben?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="688"/>
+        <location filename="../ui/sgd_dockwidget.py" line="723"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>Mindestens eine Datei wird überschrieben. Trotzdem fortfahren?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="730"/>
+        <location filename="../ui/sgd_dockwidget.py" line="765"/>
         <source>Files successfully downloaded!</source>
         <translation>Dateien erfolgreich heruntergeladen!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="279"/>
+        <location filename="../ui/sgd_dockwidget.py" line="286"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader ermöglicht es auf einfache und bequeme Art Schweizer Geodaten herunterzuladen.
 Bei allen Datensätzen handelt es sich um frei verfügbare Geodaten.
@@ -222,22 +222,22 @@ Weitere Informationen:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="732"/>
+        <location filename="../ui/sgd_dockwidget.py" line="767"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} Datei(en) erfolgreich heruntergeladen</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="632"/>
+        <location filename="../ui/sgd_dockwidget.py" line="641"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} Datei(en), ca. {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="635"/>
+        <location filename="../ui/sgd_dockwidget.py" line="644"/>
         <source>{} file(s)</source>
         <translation>{} Datei(en)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="223"/>
+        <location filename="../ui/sgd_dockwidget.py" line="230"/>
         <source>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
 
 Switch map to Swiss LV95?</source>
@@ -246,37 +246,37 @@ Switch map to Swiss LV95?</source>
 Karte im Schweizer System LV95 anzeigen?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="538"/>
+        <location filename="../ui/sgd_dockwidget.py" line="545"/>
         <source>all</source>
         <translation>alle</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="540"/>
+        <location filename="../ui/sgd_dockwidget.py" line="547"/>
         <source>current</source>
         <translation>aktuellster</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="555"/>
+        <location filename="../ui/sgd_dockwidget.py" line="562"/>
         <source>Currently selected filters do not match any files</source>
         <translation>Aktuell ausgewählte Filter stimmen mit keiner Datei überein</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="495"/>
+        <location filename="../ui/sgd_dockwidget.py" line="502"/>
         <source>No files available in current extent</source>
         <translation>Keine Dateien im aktuellen Kartenausschnitt verfügbar</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="498"/>
+        <location filename="../ui/sgd_dockwidget.py" line="505"/>
         <source>No files available</source>
         <translation>Keine Dateien vorhanden</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="761"/>
+        <location filename="../ui/sgd_dockwidget.py" line="800"/>
         <source>{} layers added to QGIS, {} skipped because they are already present</source>
         <translation>{} Layer zur Karte hinzugefügt. {} ignoriert, weil sie bereits vorhanden sind</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="753"/>
+        <location filename="../ui/sgd_dockwidget.py" line="792"/>
         <source>Not possible to add layers to QGIS</source>
         <translation>Dateien können nicht zur Karte hinzugefügt werden</translation>
     </message>
@@ -289,72 +289,72 @@ Karte im Schweizer System LV95 anzeigen?</translation>
         <translation>Swiss Geo Downloader</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="198"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="211"/>
         <source>1. Dataset</source>
         <translation>1. Datensatz</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="320"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="333"/>
         <source>Category</source>
         <translation>Kategorie</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="327"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="340"/>
         <source>Resolution [m]</source>
         <translation>Auflösung [m]</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="355"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="368"/>
         <source>Coord.sys</source>
         <translation>Koordinatensystem</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="341"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="354"/>
         <source>Timestamp</source>
         <translation>Zeitstand</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="267"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="280"/>
         <source>Request file list</source>
         <translation>Dateiliste anfordern</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="135"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="148"/>
         <source>Download</source>
         <translation>Download</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="334"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="347"/>
         <source>Select category</source>
         <translation>Auswahl Kategorie oder Format</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="313"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="326"/>
         <source>Select resolution (only raster based datasets)</source>
         <translation>Auswahl Auflösung (nur bei Raster Datensätzen)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="362"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="375"/>
         <source>Select coordinate reference system</source>
         <translation>Auswahl Koordinatensystem</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="348"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="361"/>
         <source>Select timestamp</source>
         <translation>Auswahl Zeitstand</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="224"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="237"/>
         <source>Full dataset extent</source>
         <translation>Ganzer Datensatz</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="306"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="319"/>
         <source>Filter file list by type</source>
         <translation>Filtere Dateiliste nach Dateityp</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="132"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="145"/>
         <source>Download list of files</source>
         <translation>Dateiliste herunterladen und zu QGIS hinzufügen</translation>
     </message>
@@ -374,24 +374,34 @@ Karte im Schweizer System LV95 anzeigen?</translation>
         <translation>Liste der Datensätze aktualisieren</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="210"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="223"/>
         <source>2. Extent</source>
         <translation>2. Ausdehnung</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="256"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="269"/>
         <source>3. Files</source>
         <translation>3. Dateien</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="369"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="382"/>
         <source>File type</source>
         <translation>Dateityp</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget_base.ui" line="278"/>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="291"/>
         <source>Cancel request</source>
         <translation>Abfrage abbrechen</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="135"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combine tiled files to a virtual raster and add them as a single layer to QGIS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Kombiniert die Kacheln zu einem virtuellen Raster und füge sie als einen einzelnen Layer zu QGIS hinzu&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget_base.ui" line="138"/>
+        <source>Add as single layer</source>
+        <translation >Als einzelner Layer hinzufügen</translation>
     </message>
 </context>
 </TS>

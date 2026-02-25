@@ -18,6 +18,7 @@
  *                                                                         *
  ***************************************************************************/
 """
+from enum import Enum
 from swissgeodownloader.ui.ui_utilities import getDateFromIsoString
 
 ALL_VALUE = 'all'
@@ -25,6 +26,33 @@ CURRENT_VALUE = 'current'
 P_SIMILAR = 0.20    # max 20% difference
 FILETYPE_COG = 'streamed tiff (COG)'
 STREAMED_SOURCE_PREFIX = '/vsicurl/'
+
+# This list is incomplete. Please amend it when you notice a dataset whose
+# files should be combined into a single layer.
+# IDs with wildcards at the end will be used with "startsWith"
+TILED_DATASET_IDS = [
+    "ch.swisstopo.swissalti3d",
+    "ch.swisstopo.swissaltiregio",
+    "ch.swisstopo.swissimage-dop10",
+    "ch.swisstopo.landeskarte-farbe*",
+    "ch.swisstopo.pixelkarte-farbe*",
+    "ch.swisstopo.swisssurface3d-raster"
+]
+
+TILED_DATASET_FILETYPE = [
+    "tiff",
+    "streamed tiff (COG)",
+]
+
+
+class DatasetStructure(Enum):
+    """
+    Whether each file from the remote dataset represents a map tile.
+    (Otherwise we assume that each file represents a feature
+    and will create a separate layer per file of the dataset.)
+    """
+    TILED_DATASET = "tiled"
+    DEFAULT_DATASET = "default"
 
 
 class Dataset:
@@ -45,6 +73,18 @@ class Dataset:
     def searchtext(self):
         return ' '.join([self.id or '', self.title or '', self.description or ''])\
                     .replace('.', ' ').lower()
+    
+    @property
+    def structure(self):
+        return DatasetStructure.TILED_DATASET if any(
+                [self._isIdSimilarTo(name) for name in
+                    TILED_DATASET_IDS]) else DatasetStructure.DEFAULT_DATASET
+    
+    def _isIdSimilarTo(self, compareName: str):
+        if compareName.endswith('*'):
+            return self.id.startswith(compareName[:-1])
+        else:
+            return self.id == compareName
 
 
 class File:
