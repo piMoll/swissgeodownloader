@@ -20,10 +20,10 @@
 """
 import os
 
-__version__ = '2.1.1'
+__version__ = '2.2.0'
 
 PLUGIN_DIR = os.path.dirname(__file__)
-_AVAILABLE_LOCALES = ['de', 'en', 'it', 'fr']
+_AVAILABLE_LOCALES = ['de', 'en', 'fr']
 
 
 def classFactory(iface):

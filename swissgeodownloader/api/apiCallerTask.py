@@ -84,8 +84,6 @@ class ApiCallerTask(QgsTask):
     
     def log(self, msg, level=Qgis.MessageLevel.Info, debugMsg=False):
         if debugMsg:
-            if not DEBUG:
-                return
             msg = f'DEBUG {msg}'
         QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)
     

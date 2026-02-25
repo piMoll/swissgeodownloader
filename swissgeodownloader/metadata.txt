@@ -5,7 +5,7 @@ name=Swiss Geo Downloader
 qgisMinimumVersion=3.22
 qgisMaximumVersion=4.99
 description=Download swiss geodata comfortably inside QGIS
-version=2.1.1
+version=2.2.0
 author=Patricia Moll
 email=pimoll.dev@gmail.com
 
@@ -20,21 +20,10 @@ repository=https://github.com/piMoll/swissgeodownloader
 # Recommended items:
 
 # Uncomment the following line and add your changelog:
-changelog=Version 2.1.1 (January 2026)
-    Fixed
-    - Remove hard limit of 500 items when requesting files
-    - Fix plugin metadata to mark this plugin ready for QGIS 4
-
-    Version 2.1.0 (June 2025)
+changelog=Version 2.2.0 - (February 2026)
     Added
-    - Add support for streamed Tiffs (cloud-optimized GeoTiffs)
-    - Upgrade plugin, so it's ready for QGIS 4.0 and Qt6
-    - Switch from Swisstopo STAC catalog version 0.9 to 1.0
-    - Introduce a limit of 500 files when fetching the file list
-    
-    Fixed
-    - Fix wrong order of the timestamp list in certain topics
-    - Refactoring
+    - New option to create a virtual raster from tiled files and add it as a single
+      layer to QGIS. Thanks to [OleMarin](https://github.com/OleMarin)
     
     See full changelog at: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md
 

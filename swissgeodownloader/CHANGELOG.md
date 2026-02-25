@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## 2.2.0 - 2026-02-25
+
+### Added
+- New option to create a virtual raster from tiled files and add it as a single
+  layer to QGIS. Thanks to [OleMarin](https://github.com/OleMarin)
+
 ## 2.1.1 - 2026-01-21
 
 ### Fixed
@@ -10,7 +16,6 @@ All notable changes to this project will be documented in this file.
 ## 2.1.0 - 2025-06-04
 
 ### Added
-
 - Add support for streamed Tiffs (cloud-optimized GeoTiffs)
 - Upgrade plugin so it's ready for QGIS 4.0 and Qt6
 - Switch from Swisstopo STAC catalog version 0.9 to 1.0
