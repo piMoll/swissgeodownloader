@@ -152,12 +152,12 @@
 <context>
     <name>QgisLayerCreatorTask</name>
     <message>
-        <location filename="../utils/qgisLayerCreatorTask.py" line="139"/>
+        <location filename="../utils/qgisLayerCreatorTask.py" line="143"/>
         <source>Aborted by user</source>
         <translation>Aborted by user</translation>
     </message>
     <message>
-        <location filename="../utils/qgisLayerCreatorTask.py" line="141"/>
+        <location filename="../utils/qgisLayerCreatorTask.py" line="145"/>
         <source>An unknown error occurred</source>
         <translation>An unknown error occurred</translation>
     </message>
@@ -197,42 +197,42 @@ Further information:
         <translation>No files available in this dataset</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="646"/>
+        <location filename="../ui/sgd_dockwidget.py" line="648"/>
         <source>No files found.</source>
         <translation>No files found.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="743"/>
+        <location filename="../ui/sgd_dockwidget.py" line="745"/>
         <source>Choose output folder</source>
         <translation>Choose output folder</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="723"/>
+        <location filename="../ui/sgd_dockwidget.py" line="725"/>
         <source>Overwrite files?</source>
         <translation>Overwrite files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="723"/>
+        <location filename="../ui/sgd_dockwidget.py" line="725"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>At least one file will be overwritten. Continue?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="765"/>
+        <location filename="../ui/sgd_dockwidget.py" line="767"/>
         <source>Files successfully downloaded!</source>
         <translation>Files successfully downloaded!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="767"/>
+        <location filename="../ui/sgd_dockwidget.py" line="769"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} file(s) successfully downloaded</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="641"/>
+        <location filename="../ui/sgd_dockwidget.py" line="643"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} file(s), approximately {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="644"/>
+        <location filename="../ui/sgd_dockwidget.py" line="646"/>
         <source>{} file(s)</source>
         <translation>{} file(s)</translation>
     </message>
@@ -246,39 +246,44 @@ Switch map to Swiss LV95?</source>
 Switch map to Swiss LV95?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="545"/>
+        <location filename="../ui/sgd_dockwidget.py" line="547"/>
         <source>all</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="547"/>
+        <location filename="../ui/sgd_dockwidget.py" line="549"/>
         <source>current</source>
         <translation>most current</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="562"/>
+        <location filename="../ui/sgd_dockwidget.py" line="564"/>
         <source>Currently selected filters do not match any files</source>
         <translation>Currently selected filters do not match any files</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="502"/>
+        <location filename="../ui/sgd_dockwidget.py" line="504"/>
         <source>No files available in current extent</source>
         <translation>No files available in current extent</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="505"/>
+        <location filename="../ui/sgd_dockwidget.py" line="507"/>
         <source>No files available</source>
         <translation>No files available</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="800"/>
+        <location filename="../ui/sgd_dockwidget.py" line="803"/>
         <source>{} layers added to QGIS, {} skipped because they are already present</source>
         <translation>{} layers added to the map. {} skipped because they are already present</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="792"/>
-        <source>Not possible to add layers to QGIS</source>
-        <translation>Not able to add files to the map</translation>
+        <location filename="../ui/sgd_dockwidget.py" line="795"/>
+        <source>An error occurred while adding the layers to QGIS. See details in the log.</source>
+        <translation>An error occurred while adding the layers to QGIS. See details in the log.</translation>
+    </message>
+    <message>
+        <location filename="../ui/sgd_dockwidget.py" line="778"/>
+        <source>Adding files to QGIS...</source>
+        <translation>Adding files to QGIS...</translation>
     </message>
 </context>
 <context>

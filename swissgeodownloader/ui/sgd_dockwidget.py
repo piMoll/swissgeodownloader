@@ -736,7 +736,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.filesListStreamed = []
         self.filesListDownload = []
     
-    def selectDownloadFolder(self) -> str or False:
+    def selectDownloadFolder(self):
         # Let user choose output directory
         if self.outputPath:
             openDir = self.outputPath
@@ -775,12 +775,16 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         # Create layer from files (streamed and downloaded) so they can be
         # added to qgis
         filesToAdd = self.filesListDownload + self.filesListStreamed
-        task = QgisLayerCreatorTask('Daten zu QGIS hinzufügen...', filesToAdd,
+        task = QgisLayerCreatorTask(self.tr('Adding files to QGIS...'),
+                                    filesToAdd,
                                     self.evaluateSingleLayerOption())
         task.taskCompleted.connect(
                 lambda: self.onCreateQgisLayersFinished(task.layerList,
-                                                        task.alreadyAdded))
-        task.taskTerminated.connect(self.onCreateQgisLayersFinished)
+                                                        task.alreadyAdded,
+                                                        task.exception))
+        task.taskTerminated.connect(
+                lambda: self.onCreateQgisLayersFinished(None, 0,
+                                                        task.exception))
         QgsApplication.taskManager().addTask(task)
     
     def onCreateQgisLayersFinished(self, layers=None, alreadyAdded=0,
@@ -788,10 +792,10 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.stopDownload()
         
         if exception:
-            errorMsg = self.tr('Not possible to add layers to QGIS')
-            self.msgBar.pushMessage(
-                    f"{MESSAGE_CATEGORY}: {errorMsg}: {exception}",
-                    Qgis.MessageLevel.Warning)
+            errorMsg = self.tr(
+                    'An error occurred while adding the layers to QGIS. See details in the log.')
+            self.msgBar.pushMessage(f"{MESSAGE_CATEGORY}: {errorMsg}",
+                                    Qgis.MessageLevel.Warning)
         if layers:
             addLayersToQgis(layers)
         

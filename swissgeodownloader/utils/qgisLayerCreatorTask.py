@@ -21,10 +21,18 @@
 import os
 
 from osgeo import gdal
-from qgis.core import (QgsProject, QgsRasterLayer, QgsTask, QgsVectorLayer)
+from qgis.core import (
+    QgsProject,
+    QgsRasterLayer,
+    QgsTask,
+    QgsVectorLayer,
+    QgsMessageLog,
+    Qgis
+)
 
 from swissgeodownloader import DEBUG
-from swissgeodownloader.api.responseObjects import STREAMED_SOURCE_PREFIX, DatasetStructure
+from swissgeodownloader.api.responseObjects import STREAMED_SOURCE_PREFIX
+from swissgeodownloader.ui.ui_utilities import MESSAGE_CATEGORY
 
 
 class QgisLayerCreatorTask(QgsTask):
@@ -68,7 +76,7 @@ class QgisLayerCreatorTask(QgsTask):
         
         if self.vrtOutputPath:
             return self.combineTiles()
-            
+        
         for i, file in enumerate(self.fileList):
             if self.isCanceled():
                 return False
@@ -82,46 +90,57 @@ class QgisLayerCreatorTask(QgsTask):
                 if file.path in already_added:
                     self.alreadyAdded += 1
                     continue
-                try:
-                    rasterLyr = QgsRasterLayer(file.path, file.id)
-                    if rasterLyr.isValid():
-                        self.layerList.append(rasterLyr)
-                        continue
-                    else:
-                        del rasterLyr
-                except Exception:
-                    pass
-                try:
-                    vectorLyr = QgsVectorLayer(file.path, file.id, "ogr")
-                    if vectorLyr.isValid():
-                        self.layerList.append(vectorLyr)
-                        continue
-                    else:
-                        del vectorLyr
-                except Exception:
-                    pass
-        
-        self.setProgress(100)
+                
+                # Try to create a raster layer first, if that fails, create a
+                #  vector layer
+                success = self.createRasterLayer(file.path, file.id)
+                if success:
+                    continue
+                
+                self.createVectorLayer(file.path, file.id)
         return True
     
     def combineTiles(self):
-        pathList = [file.path for file in self.fileList]
-        gdal.BuildVRT(self.vrtOutputPath, pathList)
-        rasterLyr = QgsRasterLayer(self.vrtOutputPath,
-                                   os.path.splitext(os.path.basename(
-                                           self.vrtOutputPath))[0])
         try:
+            pathList = [file.path for file in self.fileList]
+            gdal.BuildVRT(self.vrtOutputPath, pathList)
+        except Exception as e:
+            self.exception = str(e)
+            return False
+        layerName = os.path.splitext(os.path.basename(self.vrtOutputPath))[0]
+        return self.createRasterLayer(self.vrtOutputPath, layerName)
+    
+    def createRasterLayer(self, filepath, filename):
+        try:
+            rasterLyr = QgsRasterLayer(filepath, filename)
             if rasterLyr.isValid():
                 self.layerList.append(rasterLyr)
+                return True
             else:
                 del rasterLyr
-        except Exception:
-            pass
-        self.setProgress(100)
-        
+        except Exception as e:
+            self.exception = f'{filename}: {e}' if self.exception is None else self.exception + f'\n{filename}: {e}'
+        return False
+    
+    def createVectorLayer(self, filepath, filename):
+        try:
+            vectorLyr = QgsVectorLayer(filepath, filename, "ogr")
+            if vectorLyr.isValid():
+                self.layerList.append(vectorLyr)
+                return True
+            else:
+                del vectorLyr
+        except Exception as e:
+            self.exception = f'{filename}: {e}' if self.exception is None else self.exception + f'\n{filename}: {e}'
+        return False
+    
     def finished(self, result):
+        self.setProgress(100)
         if not result:
             if self.isCanceled():
                 self.exception = self.tr('Aborted by user')
             elif self.exception is None:
                 self.exception = self.tr('An unknown error occurred')
+        for e in str(self.exception).split('\n'):
+            QgsMessageLog.logMessage(e, MESSAGE_CATEGORY,
+                                     Qgis.MessageLevel.Warning)
