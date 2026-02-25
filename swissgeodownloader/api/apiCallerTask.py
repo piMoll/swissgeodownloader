@@ -20,7 +20,6 @@
 """
 from qgis.core import Qgis, QgsMessageLog, QgsTask
 
-from swissgeodownloader import DEBUG
 from swissgeodownloader.ui.ui_utilities import MESSAGE_CATEGORY
 
 
@@ -40,21 +39,6 @@ class ApiCallerTask(QgsTask):
         """Here the time-consuming requests are started. This method MUST
          return True or False. Raising exceptions will crash QGIS, so we
          handle them internally and raise them in self.finished()"""
-        
-        if DEBUG:
-            try:
-                # Add pydevd to path
-                import sys
-                sys.path.insert(0,
-                                '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
-                import pydevd_pycharm
-                pydevd_pycharm.settrace('localhost', port=53100, suspend=False,
-                                        stdoutToServer=True,
-                                        stderrToServer=True)
-            except ConnectionRefusedError:
-                pass
-            except ImportError:
-                pass
 
         if self.func == 'getDatasetList':
             self.output = self.apiRef.getDatasetList(self)

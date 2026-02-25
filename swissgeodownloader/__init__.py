@@ -22,24 +22,10 @@ import os
 
 __version__ = '2.1.1'
 
-DEBUG = False
 PLUGIN_DIR = os.path.dirname(__file__)
 _AVAILABLE_LOCALES = ['de', 'en', 'it', 'fr']
 
 
 def classFactory(iface):
-    if DEBUG:
-        try:
-            # To allow remote debugging with PyCharm, add pydevd to the path
-            import sys
-            sys.path.append('/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
-            import pydevd_pycharm
-            pydevd_pycharm.settrace('localhost', port=53100, suspend=False,
-                                    stdoutToServer=True, stderrToServer=True)
-        except ConnectionRefusedError:
-            pass
-        except ImportError:
-            pass
-    
     from .swissgeodownloader import SwissGeoDownloader
     return SwissGeoDownloader(iface)

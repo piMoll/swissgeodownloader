@@ -30,7 +30,6 @@ from qgis.core import (
     Qgis
 )
 
-from swissgeodownloader import DEBUG
 from swissgeodownloader.api.responseObjects import STREAMED_SOURCE_PREFIX
 from swissgeodownloader.ui.ui_utilities import MESSAGE_CATEGORY
 
@@ -50,20 +49,6 @@ class QgisLayerCreatorTask(QgsTask):
         self.vrtOutputPath = vrtOutputPath
     
     def run(self):
-        if DEBUG:
-            try:
-                # Add pydevd to path
-                import sys
-                sys.path.insert(0,
-                                '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
-                import pydevd_pycharm
-                pydevd_pycharm.settrace('localhost', port=53100, suspend=False,
-                                        stdoutToServer=True,
-                                        stderrToServer=True)
-            except ConnectionRefusedError:
-                pass
-            except ImportError:
-                pass
         
         if not self.fileList or len(self.fileList) == 0:
             return True
