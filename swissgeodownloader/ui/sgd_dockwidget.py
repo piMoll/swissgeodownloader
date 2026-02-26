@@ -88,7 +88,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
             'coordsys': None,
         }
         
-        self.outputPath = None
+        self.outputPath = os.path.expanduser('~')
         self.msgBar = self.iface.messageBar()
         self.msgLog = QgsMessageLog()
         self.LABEL_DEFAULT_STYLE = self.guiFileListStatus.styleSheet()
@@ -677,7 +677,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
     
     def evaluateSingleLayerOption(self):
         if self.supportsSingleLayerOption() and self.guiAddAsSingleLayerChbox.isChecked():
-            currentDateTime = datetime.now().strftime('%d-%m-%Y_%H%M%S')
+            currentDateTime = datetime.now().strftime('%Y-%m-%d_%H%M%S')
             return os.path.join(self.outputPath,
                                 f'{self.currentDataset.id}-combined_{currentDateTime}.vrt')
         return None
