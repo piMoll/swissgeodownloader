@@ -60,8 +60,7 @@ VERSION = Qgis.QGIS_VERSION_INT
 class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
 
     closingPlugin = pyqtSignal()
-
-    LABEL_DEFAULT_STYLE = 'QLabel { color : black; font-weight: normal;}'
+    
     LABEL_SUCCESS_STYLE = 'QLabel { color : green; font-weight: bold;}'
     
 
@@ -92,6 +91,7 @@ class SwissGeoDownloaderDockWidget(QDockWidget, FORM_CLASS):
         self.outputPath = None
         self.msgBar = self.iface.messageBar()
         self.msgLog = QgsMessageLog()
+        self.LABEL_DEFAULT_STYLE = self.guiFileListStatus.styleSheet()
         
         # Coordinate system
         self.mapRefSys = self.canvas.mapSettings().destinationCrs()
