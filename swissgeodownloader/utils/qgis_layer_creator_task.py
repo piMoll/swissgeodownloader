@@ -26,19 +26,19 @@ from qgis.core import (
     QgsProject,
     QgsRasterLayer,
     QgsTask,
-    QgsVectorLayer
+    QgsVectorLayer,
+    Qgis
 )
 
-from swissgeodownloader import DEBUG
-from swissgeodownloader.api.response_objects import SgdAsset, STREAMED_SOURCE_PREFIX
-from swissgeodownloader.utils.utilities import translate
+from swissgeodownloader.api.response_objects import SgdAsset
+from swissgeodownloader.utils.utilities import translate, log
 
 
 def createQgisLayersInTask(fileList: list[SgdAsset], callback):
     # Create layer from files (streamed and downloaded) so they can be
     # added to qgis
     task = QgisLayerCreatorTask(
-            translate('SGD', 'Daten zu QGIS hinzufügen'),
+            translate('SGD', 'Adding files to QGIS...'),
             fileList)
     task.taskCompleted.connect(
             lambda: callback(task.layerList, task.alreadyAdded))
@@ -61,18 +61,6 @@ class QgisLayerCreatorTask(QgsTask):
         self.vrtOutputPath = vrtOutputPath
     
     def run(self):
-        if DEBUG:
-            try:
-                # Add pydevd to path
-                import sys
-                sys.path.insert(0,
-                                '/snap/pycharm-professional/current/debug-eggs/pydevd-pycharm.egg')
-                import pydevd_pycharm
-                pydevd_pycharm.settrace('localhost', port=53100, suspend=False)
-            except ConnectionRefusedError:
-                pass
-            except ImportError:
-                pass
         
         if not self.fileList or len(self.fileList) == 0:
             return True
@@ -153,5 +141,4 @@ class QgisLayerCreatorTask(QgsTask):
             elif self.exception is None:
                 self.exception = self.tr('An unknown error occurred')
         for e in str(self.exception).split('\n'):
-            QgsMessageLog.logMessage(e, MESSAGE_CATEGORY,
-                                     Qgis.MessageLevel.Warning)
+            log(e, Qgis.MessageLevel.Warning)

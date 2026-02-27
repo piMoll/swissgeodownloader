@@ -18,7 +18,6 @@ All notable changes to this project will be documented in this file.
 - Fix plugin metadata to mark this plugin ready for QGIS 4
 
 ## [2.1.0] - 2025-06-04
-
 ### Added
 - Add support for streamed Tiffs (cloud-optimized GeoTiffs)
 - Upgrade plugin so it's ready for QGIS 4.0 and Qt6

@@ -35,7 +35,7 @@ class ApiCallerTask(QgsTask):
         self.successMsg = self.tr('request completed')
     
     def run(self):
-        try:        
+        try:
             self.run_task()
             return True
         except Exception as e:
