@@ -33,7 +33,7 @@ STREAMED_SOURCE_PREFIX = "/vsicurl/"
 
 # This list is incomplete. Please amend it when you notice a dataset whose
 # files should be combined into a single layer.
-# IDs with wildcards at the end will be used with "startsWith"
+# IDs with wildcards at the end will be used with a "startsWith" comparison
 TILED_DATASET_IDS = [
     "ch.swisstopo.swissalti3d",
     "ch.swisstopo.swissaltiregio",
@@ -43,9 +43,10 @@ TILED_DATASET_IDS = [
     "ch.swisstopo.swisssurface3d-raster"
 ]
 
+# These strings will be used to compare file types with a "contains" operator
 TILED_DATASET_FILETYPE = [
     "tiff",
-    "streamed tiff (COG)",
+    FILETYPE_STREAMED,
 ]
 
 

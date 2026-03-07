@@ -697,7 +697,7 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
     def supportsSingleLayerOption(self) -> bool:
         # Only show checkbox for creating a single layer if dataset
         return (self.currentCollection and
-                # 1) exists and has tiled data structure
+                # 1) exists and has a tiled data structure
                 self.currentCollection.structure() == DatasetStructure.TILED_DATASET
                 # 2) there is more than one file
                 and len(self.fileListFiltered) > 1
@@ -705,7 +705,8 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
                 and all([val != ALL_VALUE for val in
                             self.currentFilters.values()])
                 # 4) the filtered filetype supports single file creation
-                and self.currentFilters['filetype'] in TILED_DATASET_FILETYPE)
+                and any([filetype in self.currentFilters['filetype'] for
+                            filetype in TILED_DATASET_FILETYPE]))
     
     def updateSingleLayerOptionVisibility(self):
         if self.supportsSingleLayerOption():
@@ -713,7 +714,7 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
         else:
             self.guiAddAsSingleLayerChbox.hide()
     
-    def evaluateSingleLayerOption(self):
+    def createSingleLayerSavePath(self):
         if self.supportsSingleLayerOption() and self.guiAddAsSingleLayerChbox.isChecked():
             currentDateTime = datetime.now().strftime('%Y-%m-%d_%H%M%S')
             return os.path.join(self.outputPath,
@@ -736,8 +737,9 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
         # If there is no need for a download folder, the selected files
         #  are added directly as streamed layers to qgis
         if len(self.filesListStreamed) == len(filesToDownload):
-            # Start spinner to indicate data loading
-            createQgisLayersInTask(self.filesListStreamed, self.onCreateQgisLayersFinished)
+            createQgisLayersInTask(self.filesListStreamed,
+                                   self.createSingleLayerSavePath(),
+                                   self.onCreateQgisLayersFinished)
         
         else:
             folder = self.selectDownloadFolder()
@@ -802,8 +804,10 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.MessageLevel.Success)
         
+        # TODO: Not working (OR the download isnt working)
         filesToAdd = self.filesListDownload + self.filesListStreamed
-        createQgisLayersInTask(filesToAdd, self.onCreateQgisLayersFinished)
+        createQgisLayersInTask(filesToAdd, self.createSingleLayerSavePath(),
+                               self.onCreateQgisLayersFinished)
     
     def onCreateQgisLayersFinished(
             self,

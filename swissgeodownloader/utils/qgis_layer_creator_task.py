@@ -34,15 +34,16 @@ from swissgeodownloader.api.response_objects import SgdAsset
 from swissgeodownloader.utils.utilities import translate, log
 
 
-def createQgisLayersInTask(fileList: list[SgdAsset], callback):
+def createQgisLayersInTask(fileList: list[SgdAsset], vrtOutputPath, callback):
     # Create layer from files (streamed and downloaded) so they can be
     # added to qgis
     task = QgisLayerCreatorTask(
             translate('SGD', 'Adding files to QGIS...'),
-            fileList)
+            fileList, vrtOutputPath)
     task.taskCompleted.connect(
-            lambda: callback(task.layerList, task.alreadyAdded))
-    task.taskTerminated.connect(callback)
+            lambda: callback(task.layerList, task.alreadyAdded,
+                             task.exception))
+    task.taskTerminated.connect(lambda: callback([], 0, task.exception))
     QgsApplication.taskManager().addTask(task)
     
     
