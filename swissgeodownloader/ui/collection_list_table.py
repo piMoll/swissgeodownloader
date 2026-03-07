@@ -18,15 +18,21 @@
  *                                                                         *
  ***************************************************************************/
 """
-from qgis.PyQt.QtCore import (QCoreApplication, QObject, QSortFilterProxyModel,
-                              Qt, pyqtSignal)
+from qgis.PyQt.QtCore import (
+    QCoreApplication, QObject, QSortFilterProxyModel,
+    Qt, pyqtSignal
+)
 from qgis.PyQt.QtGui import QStandardItem, QStandardItemModel
-from qgis.PyQt.QtWidgets import (QAbstractItemView, QAbstractScrollArea,
-                                 QHeaderView, QLineEdit, QSizePolicy,
-                                 QTableView)
+from qgis.PyQt.QtWidgets import (
+    QAbstractItemView, QAbstractScrollArea,
+    QHeaderView, QLineEdit, QSizePolicy,
+    QTableView
+)
+
+from swissgeodownloader.api.response_objects import SgdStacCollection
 
 
-class DatasetListTable(QObject):
+class CollectionListTable(QObject):
     sig_selectionChanged = pyqtSignal(str)
     
     def __init__(self, parent, layout):
@@ -71,24 +77,24 @@ class DatasetListTable(QObject):
 
         self.searchbar.textChanged.connect(self.onSearch)
         self.tbl.clicked.connect(self.onClick)
-
-    def fill(self, data):
+    
+    def fill(self, data: list[SgdStacCollection]):
         self.model.clear()
         
         # Insert data into cells
-        for i, ds in enumerate(data):
-            item0 = QStandardItem(ds.id)
-            item0.setToolTip(ds.id)
+        for i, coll in enumerate(data):
+            item0 = QStandardItem(coll.id())
+            item0.setToolTip(coll.id())
             item0.setEditable(False)
-            item1 = QStandardItem(ds.title)
-            item1.setToolTip(ds.title)
+            item1 = QStandardItem(coll.title())
+            item1.setToolTip(coll.title())
             item1.setEditable(False)
-            item2 = QStandardItem(ds.searchtext)
+            item2 = QStandardItem(coll.searchText())
             item2.setEditable(False)
             self.model.appendRow([item0, item1, item2])
-            self.model.setData(self.model.index(i, 0), ds.id)
-            self.model.setData(self.model.index(i, 1), ds.title)
-            self.model.setData(self.model.index(i, 2), ds.searchtext)
+            self.model.setData(self.model.index(i, 0), coll.id())
+            self.model.setData(self.model.index(i, 1), coll.title())
+            self.model.setData(self.model.index(i, 2), coll.searchText())
             
         self.model.setHorizontalHeaderLabels([self.tr('ID'), self.tr('Title'),
                                               self.tr('Search text')])
@@ -98,7 +104,7 @@ class DatasetListTable(QObject):
     
     def onSearch(self, search):
         self.proxy_model.setFilterFixedString(search.lower())
-        # Remove selection if the selected item is not visible anymore
+        # Remove selection if the selected item is not visible any more
         selectedIdx = self.tbl.selectionModel().selection().indexes()
         if selectedIdx and selectedIdx[0].data() != self.currentSelection:
             self.unselect()
@@ -110,6 +116,14 @@ class DatasetListTable(QObject):
         else:
             self.currentSelection = dsId
             self.sig_selectionChanged.emit(dsId)
+    
+    def searchAndSelectByID(self, collectionId):
+        self.resetSearch()
+        self.tbl.clearSelection()
+        self.searchbar.setText(collectionId)
+        self.tbl.selectRow(0)
+        self.currentSelection = collectionId
+        self.sig_selectionChanged.emit(collectionId)
     
     def unselect(self):
         self.tbl.clearSelection()

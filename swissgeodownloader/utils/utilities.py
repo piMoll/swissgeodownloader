@@ -21,15 +21,18 @@
 from datetime import datetime
 
 from qgis.PyQt.QtCore import QCoreApplication
+from qgis.core import Qgis, QgsMessageLog
+
+from swissgeodownloader import DEBUG
 
 MESSAGE_CATEGORY = 'Swiss Geo Downloader'
 
 
-def tr(message, **kwargs):
+def translate(context, message):
     """Get the translation for a string using Qt translation API.
     We implement this ourselves since we do not inherit QObject.
     """
-    return QCoreApplication.translate('@default', message)
+    return QCoreApplication.translate(context, message)
 
 
 def formatCoordinate(number):
@@ -73,3 +76,10 @@ def getDateFromIsoString(isoString, formatted=True):
     else:
         return dt
 
+
+def log(msg, level=Qgis.MessageLevel.Info, debugMsg=False):
+    if debugMsg:
+        if not DEBUG:
+            return
+        msg = f'DEBUG {msg}'
+    QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)

@@ -127,6 +127,19 @@
        </spacer>
       </item>
       <item>
+       <widget class="QCheckBox" name="guiAddAsSingleLayerChbox">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Combine tiled files to a virtual raster and add them as a single layer to QGIS&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="text">
+         <string>Add as single layer</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="guiDownloadBtn">
         <property name="toolTip">
          <string>Download list of files</string>
@@ -173,8 +186,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>493</width>
-         <height>562</height>
+         <width>479</width>
+         <height>582</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -242,7 +255,7 @@
              </item>
              <item>
               <widget class="QgsExtentGroupBox" name="guiExtentWidget">
-               <property name="titleBase" stdset="0">
+               <property name="titleBase">
                 <string/>
                </property>
               </widget>
@@ -431,6 +444,7 @@
   <tabstop>guiResolution</tabstop>
   <tabstop>guiTimestamp</tabstop>
   <tabstop>guiCoordsys</tabstop>
+  <tabstop>guiAddAsSingleLayerChbox</tabstop>
   <tabstop>guiDownloadBtn</tabstop>
  </tabstops>
  <resources/>

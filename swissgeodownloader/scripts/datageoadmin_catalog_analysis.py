@@ -2,20 +2,20 @@ import os
 
 from qgis.core import QgsApplication
 
-from swissgeodownloader.api.apiCallerTask import ApiCallerTask
+from swissgeodownloader.api.api_caller_task import ApiCallerTask
 from swissgeodownloader.api.datageoadmin import ApiDataGeoAdmin
-from swissgeodownloader.utils.metadataHandler import saveToFile
+from swissgeodownloader.utils.metadata_handler import saveToFile
 
 
 def refreshMetadata():
-    api = ApiDataGeoAdmin(None)
-    task = ApiCallerTask(api, None, '', {})
+    api = ApiDataGeoAdmin()
+    task = ApiCallerTask(api, None, '')
     api.refreshAllMetadata(task)
 
 
 def analyseFullCatalog():
-    api = ApiDataGeoAdmin(None)
-    task = ApiCallerTask(api, None, '', {})
+    api = ApiDataGeoAdmin('de')
+    task = ApiCallerTask(api, None, '')
     items = api.catalogPropertiesCrawler(task)
     save(items)
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
     # Get arguments from command line
     import sys
     
-    action = sys.argv[1] if len(sys.argv) > 1 else None
+    action = sys.argv[1] if len(sys.argv) > 1 else "analyseFullCatalog"
     
     QGIS_APP = QgsApplication([], False)
     QGIS_APP.initQgis()
