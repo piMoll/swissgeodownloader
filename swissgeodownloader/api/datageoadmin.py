@@ -46,7 +46,7 @@ class ApiDataGeoAdmin:
     
     def __init__(self, locale='en'):
         self.locale = locale
-        self.stacClient = STACClient(BASEURL)
+        self.stacClient: STACClient = STACClient(BASEURL)
         self.ownMetadata = {}
         self.geocatClient = ApiGeoCat(locale, 'datageoadmin_geocat_metadata.json')
     

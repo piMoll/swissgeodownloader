@@ -804,7 +804,6 @@ class SwissGeoDownloaderDockWidget(QgsDockWidget, FORM_CLASS):
                 + self.tr('{} file(s) successfully downloaded').format(
                             len(self.filesListDownload)), Qgis.MessageLevel.Success)
         
-        # TODO: Not working (OR the download isnt working)
         filesToAdd = self.filesListDownload + self.filesListStreamed
         createQgisLayersInTask(filesToAdd, self.createSingleLayerSavePath(),
                                self.onCreateQgisLayersFinished)
