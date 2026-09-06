@@ -20,13 +20,13 @@
 """
 
 import re
-import xml.etree.ElementTree as ET
 
 from qgis.core import QgsTask
 
 from swissgeodownloader.api.network_request import fetch
 from swissgeodownloader.utils.metadata_handler import loadFromFile, saveToFile
 from swissgeodownloader.utils.utilities import translate, log
+from swissgeodownloader.utils import safe_xml
 
 BASEURL = "https://www.geocat.ch/geonetwork/srv/eng/csw"
 XML_NAMESPACES = {"gmd": "{http://www.isotc211.org/2005/gmd}"}
@@ -83,8 +83,8 @@ class ApiGeoCat:
         rqParams["id"] = geocatDsId
         xml = fetch(task, BASEURL, params=rqParams, decoder="string")
         try:
-            root = ET.fromstring(xml)
-        except ET.ParseError:
+            root = safe_xml.fromstring(xml)
+        except safe_xml.ParseError:
             msg = translate(
                 "SGD",
                 "Error when trying to retrieve metadata - Response cannot be parsed",
