@@ -19,13 +19,15 @@
  *                                                                         *
  ***************************************************************************/
 """
+
 import os
 
-from qgis.PyQt.QtCore import (QCoreApplication, QSettings, QTranslator, Qt)
+from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 
 from swissgeodownloader import PLUGIN_DIR
+
 # Import the code for the DockWidget
 from swissgeodownloader.ui.sgd_dockwidget import SwissGeoDownloaderDockWidget
 
@@ -38,13 +40,13 @@ class SwissGeoDownloader:
         self.iface = iface
 
         # Initialize locale
-        self.locale = QSettings().value('locale/userLocale')[0:2]
-        locale_path = os.path.join(PLUGIN_DIR, 'i18n', '{}.qm'.format(self.locale))
+        self.locale = QSettings().value("locale/userLocale")[0:2]
+        locale_path = os.path.join(PLUGIN_DIR, "i18n", f"{self.locale}.qm")
 
         if not os.path.exists(locale_path):
-            self.locale = 'en'
-            locale_path = os.path.join(PLUGIN_DIR, 'i18n', self.locale + '.qm')
-        
+            self.locale = "en"
+            locale_path = os.path.join(PLUGIN_DIR, "i18n", self.locale + ".qm")
+
         self.translator = QTranslator()
         self.translator.load(locale_path)
         QCoreApplication.installTranslator(self.translator)
@@ -58,18 +60,23 @@ class SwissGeoDownloader:
 
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
-        icon = QIcon(str(os.path.join(PLUGIN_DIR, 'resources', 'icon.png')))
-        self.action = QAction(icon, 'Swiss Geo Downloader', self.iface.mainWindow())
+        icon = QIcon(str(os.path.join(PLUGIN_DIR, "resources", "icon.png")))
+        self.action = QAction(icon, "Swiss Geo Downloader", self.iface.mainWindow())
         self.action.triggered.connect(self.run)
         self.action.setEnabled(True)
-        self.action.setStatusTip(self.tr('Swiss Geo Downloader allows you to download '
-                                         'geodata of Switzerland in an easy and '
-                                         'convenient way.'))
-        self.action.setWhatsThis(self.tr('Swiss Geo Downloader is a plugin to to '
-                                         'download swiss geodata.'))
+        self.action.setStatusTip(
+            self.tr(
+                "Swiss Geo Downloader allows you to download "
+                "geodata of Switzerland in an easy and "
+                "convenient way."
+            )
+        )
+        self.action.setWhatsThis(
+            self.tr("Swiss Geo Downloader is a plugin to to download swiss geodata.")
+        )
         # Adds plugin icon to Plugins toolbar
         self.iface.addToolBarIcon(self.action)
-        self.iface.addPluginToMenu('Swiss Geo Downloader', self.action)
+        self.iface.addPluginToMenu("Swiss Geo Downloader", self.action)
 
     def onClosePlugin(self):
         """Cleanup necessary items here when plugin dockwidget is closed"""
@@ -83,7 +90,7 @@ class SwissGeoDownloader:
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
         self.onClosePlugin()
-        self.iface.removePluginWebMenu('Swiss Geo Downloader', self.action)
+        self.iface.removePluginWebMenu("Swiss Geo Downloader", self.action)
         self.iface.removeToolBarIcon(self.action)
 
     def run(self):
@@ -98,5 +105,7 @@ class SwissGeoDownloader:
             self.dockwidget.closingPlugin.connect(self.onClosePlugin)
 
             # Show the dockwidget
-            self.iface.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self.dockwidget)
+            self.iface.addDockWidget(
+                Qt.DockWidgetArea.RightDockWidgetArea, self.dockwidget
+            )
             self.dockwidget.show()

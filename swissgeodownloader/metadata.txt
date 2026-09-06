@@ -24,7 +24,7 @@ changelog=Version 2.2.0 - (February 2026)
     Added
     - New option to create a virtual raster from tiled files and add it as a single
       layer to QGIS. Thanks to [OleMarin](https://github.com/OleMarin)
-    
+
     See full changelog at: https://github.com/piMoll/swissgeodownloader/blob/main/CHANGELOG.md
 
 # Tags are comma separated with spaces allowed

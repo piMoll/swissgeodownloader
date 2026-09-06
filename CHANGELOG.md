@@ -67,7 +67,7 @@ All notable changes to this project will be documented in this file.
 - Show bounding box of the available files in map
 - Added button to refresh dataset list
 - Switch automatically to swiss crs if map is empty
-- Suggest crs change if user is not in swiss crs 
+- Suggest crs change if user is not in swiss crs
 ### Fixed
 - Improve API error handling, show correct error response instead of generic ones
 - Don't show error message if user cancels a request

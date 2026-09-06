@@ -7,10 +7,10 @@ from qgis.testing import unittest
 import swissgeodownloader
 
 swissgeodownloader.DEBUG = True
-    
+
 QGIS_APP = QgsApplication([], False)
-tmpdir = tempfile.mkdtemp('', 'QGIS-PythonTestConfigPath-')
-os.environ['QGIS_CUSTOM_CONFIG_PATH'] = tmpdir
+tmpdir = tempfile.mkdtemp("", "QGIS-PythonTestConfigPath-")
+os.environ["QGIS_CUSTOM_CONFIG_PATH"] = tmpdir
 
 QGIS_APP.initQgis()
 
@@ -21,4 +21,4 @@ def stopTestRun(self):
         QGIS_APP.exitQgis()
 
 
-setattr(unittest.TestResult, 'stopTestRun', stopTestRun)
+setattr(unittest.TestResult, "stopTestRun", stopTestRun)
