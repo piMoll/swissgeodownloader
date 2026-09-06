@@ -18,383 +18,322 @@
  *                                                                         *
  ***************************************************************************/
 """
-from copy import deepcopy
 
-from qgis.core import Qgis
+from qgis.PyQt.QtCore import QUrl
+from qgis.core import QgsTask, Qgis, QgsStacItem
 
-from swissgeodownloader.api.apiCallerTask import ApiCallerTask
-from swissgeodownloader.api.apiInterface import ApiInterface
+from swissgeodownloader import _AVAILABLE_LOCALES
 from swissgeodownloader.api.geocat import ApiGeoCat
-from swissgeodownloader.api.responseObjects import (
-    CURRENT_VALUE, Dataset,
-    FILETYPE_COG, File
+from swissgeodownloader.api.network_request import fetch
+from swissgeodownloader.api.response_objects import (
+    CURRENT_VALUE,
+    FILETYPE_STREAMED,
+    SgdAsset,
+    SgdStacCollection,
 )
-from swissgeodownloader.utils.filterUtils import (
-    cleanupFilterItems,
-    currentFileByBbox
-)
-from .. import _AVAILABLE_LOCALES
+from swissgeodownloader.api.stac_client import STACClient
+from swissgeodownloader.utils.filter_utils import cleanupFilterItems, currentFileByBbox
+from swissgeodownloader.utils.utilities import translate, log
 
-BASEURL = 'https://data.geo.admin.ch/api/stac/v1/collections'
-API_EPSG = 'EPSG:4326'
-OPTION_MAPPER = {
-    'filetype': 'type',
-    'category': 'geoadmin:variant',
-    'resolution': 'gsd',
-    'timestamp': 'datetime',
-    'coordsys': 'proj:epsg',
-}
-API_OPTION_MAPPER = {y: x for x, y in OPTION_MAPPER.items()}
-API_METADATA_URL = 'https://api3.geo.admin.ch/rest/services/api/MapServer'
+BASEURL = "https://data.geo.admin.ch/api/stac/v1"
+API_EPSG = "EPSG:4326"
+API_METADATA_URL = "https://api3.geo.admin.ch/rest/services/api/MapServer"
 
 
-class ApiDataGeoAdmin(ApiInterface):
-    
-    def __init__(self, parent, locale='en'):
-        super().__init__(parent, locale)
-        self.name = 'Swisstopo API'
-        self.geocatApi = ApiGeoCat(parent, locale, 'geoadmin')
-    
-    def getDatasetList(self, task: ApiCallerTask):
-        """Get a list of all available datasets and read out title,
-        description and other properties."""
-        # Request dataset list
-        collection = self.fetchAll(task, BASEURL, 'collections')
-        if collection is False:
-            if not task.exception:
-                task.exception = self.tr('Error when loading available dataset'
-                                         ' - Unexpected API response')
-            return False
-        
-        datasetList = {}
-        # Geoadmin metadata: Fetches translated titles and descriptions
-        #  of datasets
-        md_geoadmin = self.getMetadata(task)
-        # Geocat metadata: Alternative if geoadmin does not have the dataset
-        md_geocat = {}
-        
-        for ds in collection:
-            
-            if task.isCanceled():
-                return False
+class ApiDataGeoAdmin:
+    def __init__(self, locale="en"):
+        self.locale = locale
+        self.stacClient: STACClient = STACClient(BASEURL)
+        self.ownMetadata = {}
+        self.geocatClient = ApiGeoCat(locale, "datageoadmin_geocat_metadata.json")
 
-            dataset = Dataset(ds['id'], [link['href'] for link in ds['links']
-                              if link['rel'] == 'items'][0])
-            dataset.title = ds['title']
-            try:
-                dataset.description = ds['description']
-            except (KeyError, IndexError):
-                task.log(f"No description available for '{dataset.title}'", debugMsg=True)
-            try:
-                dataset.bbox = ds['extent']['spatial']['bbox'][0]
-            except (KeyError, IndexError):
-                task.log(f"No bbox available for '{dataset.title}'", debugMsg=True)
-            try:
-                dataset.licenseLink = [link['href'] for link in ds['links']
-                                       if link['rel'] == 'license'][0]
-            except (KeyError, IndexError):
-                task.log(f"No licence link available for '{dataset.title}'", debugMsg=True)
-            try:
-                dataset.metadataLink = [link['href'] for link in ds['links']
-                                       if link['rel'] == 'describedby'][0]
-            except (KeyError, IndexError):
-                task.log(f"No metadata link available for '{dataset.title}'", debugMsg=True)
-            
-            # Add metadata in the correct language from geocat API
-            if dataset.id in md_geoadmin:
-                # Get the pre-saved metadata from the json file
-                dataset.title = md_geoadmin[dataset.id].get('title')
-                dataset.description = md_geoadmin[dataset.id].get(
-                    'description')
-            if not dataset.title:
-                # Get metadata from geocat.ch: This will save the metadata to
-                #  a file so it does not have to be requested every time
-                metadata = self.geocatApi.getMeta(task, dataset.id,
-                                                  dataset.metadataLink,
-                                                  self.locale)
-                if metadata:
-                    dataset.title = metadata.get('title')
-                    dataset.description = metadata.get('description')
-                    # Save metadata to file so we don't have to call the API again
-                    self.geocatApi.updatePreSavedMetadata(metadata, dataset.id,
-                                                          self.locale)
-            datasetList[dataset.id] = dataset
-        
-        return datasetList
-    
-    def getMetadata(self, task: ApiCallerTask):
-        """ Calls geoadmin API and retrieves translated titles and
+    def getCollections(self, task: QgsTask) -> dict[str, SgdStacCollection]:
+        collectionList = {}
+        try:
+            collections = self.stacClient.fetchCollections(task)
+        except Exception as e:
+            msg = self.tr(
+                "Error when loading available dataset - Unexpected API response"
+            )
+            task.exception = f"{msg}: {task.exception or str(e)}"
+            raise Exception(task.exception)
+
+        # Geoadmin metadata: Fetches translated collection titles and descriptions
+        self.ownMetadata = self.getOwnMetadata(task)
+
+        for stacCollection in collections:
+            coll = SgdStacCollection(stacCollection)
+
+            # Get title and description in the current locale and add
+            # missing metadata if necessary
+            self.addMetadataToCollection(coll, task)
+
+            # Check if important properties are available and log missing ones
+            report = coll.reportCompleteness()
+            if report:
+                log(report, debugMsg=True)
+
+            collectionList[coll.id()] = coll
+
+        return collectionList
+
+    def addMetadataToCollection(self, collection: SgdStacCollection, task: QgsTask):
+        if collection.id() in self.ownMetadata:
+            metadata = self.ownMetadata[collection.id()]
+
+            collection.setTitle(metadata.get("title"))
+            collection.setDescription(metadata.get("description"))
+            return
+
+        # Get external metadata from geocat.ch
+        gcMetadata = self.geocatClient.getMeta(
+            task, collection.id(), collection.metadataLink(), self.locale
+        )
+        if not gcMetadata:
+            return
+
+        collection.setTitle(gcMetadata.get("title") or collection.title())
+        collection.setDescription(
+            gcMetadata.get("description") or collection.description()
+        )
+
+    def getOwnMetadata(self, task: QgsTask):
+        """Calls geoadmin API and retrieves translated titles and
         descriptions."""
         metadata = {}
-        
-        params = {
-            'lang': self.locale
-        }
-        faqData = self.fetch(task, API_METADATA_URL, params)
-        if not faqData or not isinstance(faqData, dict) \
-                or 'layers' not in faqData:
+
+        params = {"lang": self.locale}
+        faqData: dict = fetch(task, API_METADATA_URL, params)
+        if not faqData or not isinstance(faqData, dict) or "layers" not in faqData:
             return metadata
-        
-        for layer in faqData['layers']:
+
+        for layer in faqData["layers"]:
             if task.isCanceled():
-                return False
-            
-            title = ''
-            description = ''
-            if not 'layerBodId' in layer:
+                raise Exception("User canceled")
+
+            description = ""
+            if "layerBodId" not in layer:
                 continue
-            layerId = layer['layerBodId']
-            if 'fullName' in layer:
-                title = layer['fullName']
-            if 'attributes' in layer and 'inspireAbstract' in layer['attributes']:
-                 description = layer['attributes']['inspireAbstract']
-            
-            metadata[layerId] = {
-                'title': title,
-                'description': description
-            }
+            layerId = layer.get("layerBodId")
+            title = layer.get("fullName", "")
+            if "attributes" in layer and "inspireAbstract" in layer["attributes"]:
+                description = layer["attributes"]["inspireAbstract"]
+
+            metadata[layerId] = {"title": title, "description": description}
         return metadata
-    
-    def getDatasetDetails(self, task: ApiCallerTask, dataset):
-        """Analyse dataset to figure out available options in gui"""
-        url = dataset.filesLink
+
+    def analyseCollectionItems(
+        self, task: QgsTask, collection: SgdStacCollection
+    ) -> SgdStacCollection:
+        """Analyse collection to figure out available options in gui"""
         # Get max. 40 features
-        items = self.fetch(task, url, params={'limit' : 40})
-    
-        if not items or not isinstance(items, dict) \
-                or 'features' not in items:
-            if not task.exception:
-                task.exception = self.tr('Error when loading dataset details '
-                                         '- Unexpected API response')
-            return False
-        
+        try:
+            items: list[QgsStacItem] = self.stacClient.fetchItems(
+                task, collection.id(), {"limit": 40}
+            )
+        except Exception as e:
+            msg = self.tr(
+                "Error when loading dataset details - Unexpected API response"
+            )
+            task.exception = f"{msg}: {task.exception or str(e)}"
+            raise Exception(task.exception)
+
         estimate = {}
-        fileCount = len(items['features'])
-        
+        itemCount = len(items)
+
         # Check if it makes sense to select by bbox or if the full file list
         #  should just be downloaded directly
-        if fileCount <= 10:
-            dataset.selectByBBox = False
-        
-        # Analyze size of an item to estimate download sizes later on
-        if fileCount > 0:
-            item = items['features'][-1]
-            
-            # Get an estimate of file size
-            for assetId in item['assets']:
-                if task.isCanceled():
-                    return False
-                
-                asset = item['assets'][assetId]
-                # Don't request again if we have this estimate already
-                if asset['type'] in estimate.keys():
-                    continue
-                # Check Content-Length header
-                if Qgis.QGIS_VERSION_INT >= 31800:
-                    # Make a HEAD request to get the file size
-                    header = self.fetch(task, asset['href'], method='head')
-                    if header and header.hasRawHeader(b'Content-Length'):
-                        estimate[asset['type']] = int(header.rawHeader(b'Content-Length'))
-                else:
-                    # If QGIS version is below 3.18, use library 'requests'
-                    # to make a HEAD request
-                    header = self.fetchHeadLegacy(task, asset['href'])
-                    if header:
-                        estimate[asset['type']] = int(header.headers['Content-Length'])
+        if itemCount <= 10:
+            collection.setSelectByBBox(False)
 
-        dataset.analysed = True
-        dataset.isEmpty = fileCount == 0
-        dataset.avgSize = estimate
-        return dataset
-    
-    def getFileList(self, task: ApiCallerTask, url, bbox: list[float] or None):
+        # Analyze size of an item to estimate download sizes later on
+        if itemCount > 0:
+            item = items[-1]
+
+            # Get an estimate of file size
+            for assetId, asset in item.assets().items():
+                if task.isCanceled():
+                    raise Exception("User canceled")
+
+                # Don't request again if we have this estimate already
+                if assetId in estimate.keys():
+                    continue
+                # Check Content-Length header: Make a HEAD request to get the file size
+                header = fetch(task, QUrl(asset.href()), method="head")
+                if header and header.hasRawHeader(b"Content-Length"):
+                    estimate[asset.mediaType()] = int(
+                        header.rawHeader(b"Content-Length")
+                    )
+
+        collection.setAnalysed(True)
+        collection.setIsEmpty(itemCount == 0)
+        collection.setAvgSize(estimate)
+        return collection
+
+    def getFileList(
+        self, task: QgsTask, collectionId, bbox: list[float] | None
+    ) -> dict:
         """Request a list of available files that are within a bounding box.
         Analyse the received list and extract file properties."""
-        params = {}
-        if bbox:
-            params['bbox'] = ','.join([str(ext) for ext in bbox])
 
-        # Request files
-        responseList = self.fetchAll(task, url, 'features', params=params)
-        if responseList is False:
-            if not task.exception:
-                task.exception = self.tr('Error when requesting file list - '
-                                         'Unexpected API response')
-            return False
-        
+        try:
+            stacItemsResponse = self.stacClient.fetchItems(
+                task, collectionId, {"bbox": bbox}, True
+            )
+        except Exception as e:
+            msg = self.tr("Error when requesting file list - Unexpected API response")
+            task.exception = f"{msg}: {task.exception or e}"
+            raise Exception(task.exception)
+
+        return self._processItems(stacItemsResponse, task)
+
+    def _processItems(self, stacItemResponse: list[QgsStacItem], task: QgsTask) -> dict:
         filterItems = {
-            'filetype': [],
-            'category': [],
-            'resolution': [],
-            'timestamp': [],
-            'coordsys': [],
+            "filetype": [],
+            "category": [],
+            "resolution": [],
+            "timestamp": [],
+            "coordsys": [],
         }
         fileList = []
-            
-        for item in responseList:
+
+        for item in stacItemResponse:
             if task.isCanceled():
-                return False
-            
+                raise Exception("User canceled")
+
             # Readout timestamp from the item itself
             try:
-                timestamp = item['properties'][OPTION_MAPPER['timestamp']]
+                timestamp = item.properties().get("datetime")
                 endTimestamp = None
             except KeyError:
                 # Try to get timestamp from 'start_datetime' and 'end_datetime'
-                timestamp = item['properties'].get('start_datetime')
-                endTimestamp = item['properties'].get('end_datetime')
+                timestamp = item.properties().get("start_datetime")
+                endTimestamp = item.properties().get("end_datetime")
                 if not timestamp:
                     # Extract the mandatory timestamp 'created' instead
-                    timestamp = item['properties']['created']
-            
+                    timestamp = item.properties().get("created")
+
+            additionalAssetProperties = self.stacClient.assetProperties.get(
+                item.id(), {}
+            )
             # Save all files and their properties
-            for assetId in item['assets']:
+            for assetId, asset in item.assets().items():
                 if task.isCanceled():
-                    return False
-                
-                asset = item['assets'][assetId]
-                
+                    raise Exception("User canceled")
+
                 # Create file object
-                file = File(assetId, asset['type'], asset['href'])
+                file = SgdAsset(assetId, asset)
+                file.properties = additionalAssetProperties.get(assetId, {})
+
                 try:
-                    file.setBbox(item['bbox'])
+                    file.setBbox(item.boundingBox())
                 except AssertionError as e:
-                    task.log((f"File {file.id}: Bounding box not valid:"
-                              f" {e} {item['bbox']}"),
-                             Qgis.MessageLevel.Warning)
-                
-                file.geom = item['geometry']
-                
+                    log(
+                        f"File {file.id}: Bounding box not valid: {e} {item.boundingBox()}",
+                        Qgis.MessageLevel.Warning,
+                    )
+
                 # Extract file properties, save them to the file object
                 #  and add them to the filter list
-                
-                fileWithMultipleTypes = []
-                if OPTION_MAPPER['filetype'] in asset:
-                    completeFiletype = str(asset[OPTION_MAPPER['filetype']])
-                    filetype = completeFiletype.split(';')[0]
-                    if '/' in filetype:
-                        filetype = filetype.split('/')[1]
-                    if filetype.startswith('x.'):
-                        filetype = filetype[2:]
-                    file.filetype = filetype
-                    fileWithMultipleTypes.append(filetype)
-                    if completeFiletype == 'image/tiff; application=geotiff; profile=cloud-optimized':
-                        fileWithMultipleTypes.append(FILETYPE_COG)
-                    filterItems['filetype'].extend(fileWithMultipleTypes)
-                
-                if OPTION_MAPPER['category'] in asset:
-                    file.category = str(asset[OPTION_MAPPER['category']])
-                    filterItems['category'].append(file.category)
-                    
-                if OPTION_MAPPER['resolution'] in asset:
-                    file.resolution = str(asset[OPTION_MAPPER['resolution']])
-                    filterItems['resolution'].append(file.resolution)
-                    
+
+                fileTypesPerAsset = []
+                if file.filetype:
+                    fileTypesPerAsset.append(file.filetype)
+                    if file.isCloudOptimized():
+                        fileTypesPerAsset.append(
+                            f"{file.filetype}, {FILETYPE_STREAMED}"
+                        )
+                    filterItems["filetype"].extend(fileTypesPerAsset)
+
                 if timestamp:
                     try:
                         file.setTimestamp(timestamp, endTimestamp)
                     except ValueError:
-                        task.log(f"File {file.id}: Timestamp not valid)", Qgis.MessageLevel.Warning)
-                    filterItems['timestamp'].append(file.timestampStr)
-                    
-                if OPTION_MAPPER['coordsys'] in asset:
-                    file.coordsys = str(asset[OPTION_MAPPER['coordsys']])
-                    filterItems['coordsys'].append(file.coordsys)
-                
+                        log(
+                            f"File {file.id}: Timestamp not valid)",
+                            Qgis.MessageLevel.Warning,
+                        )
+                    filterItems["timestamp"].append(file.timestampStr)
+
+                # These are Swisstopo specific properties that don't follow
+                #  the STAC specification
+                if file.properties.get("geoadmin:variant"):
+                    file.category = str(file.properties.get("geoadmin:variant"))
+                    filterItems["category"].append(file.category)
+
+                if file.properties.get("gsd"):
+                    file.resolution = str(file.properties.get("gsd"))
+                    filterItems["resolution"].append(file.resolution)
+
+                if file.properties.get("proj:epsg"):
+                    file.coordsys = str(file.properties.get("proj:epsg"))
+                    filterItems["coordsys"].append(file.coordsys)
+
                 fileList.append(file)
                 # If one asset can support multiple file types (e.g. tif and
                 #  COG), create a copy of the file for each file type
-                if len(fileWithMultipleTypes) > 1:
-                    for fileType in fileWithMultipleTypes[1:]:
-                        copiedFile = deepcopy(file)
+                if len(fileTypesPerAsset) > 1:
+                    for fileType in fileTypesPerAsset[1:]:
+                        copiedFile = file.copy()
                         copiedFile.filetype = fileType
                         fileList.append(copiedFile)
 
         # Sort file list by bbox coordinates (first item on top left corner)
-        fileList.sort(key=lambda f: round(f.bbox[3], 2) if f.bbox else 0,
-                      reverse=True)
+        fileList.sort(key=lambda f: round(f.bbox[3], 2) if f.bbox else 0, reverse=True)
         fileList.sort(key=lambda f: round(f.bbox[0], 2) if f.bbox else 0)
-        
+
         # Clean up filter items by removing duplicates and adding an 'ALL' entry
         filterItems = cleanupFilterItems(filterItems)
-        
+
         # Extract most current file (timestamp) for every bbox on the map
-        if len(filterItems['timestamp']) >= 2:
+        if len(filterItems["timestamp"]) >= 2:
             mostCurrentFileInBbox = currentFileByBbox(fileList)
-                
+
             if len(mostCurrentFileInBbox.keys()) > 1:
                 for savedBboxDicts in mostCurrentFileInBbox.values():
                     for file in savedBboxDicts.values():
                         file.isMostCurrent = True
-                filterItems['timestamp'].insert(0, CURRENT_VALUE)
-        
-        return {'files': fileList, 'filters': filterItems}
-    
-    def fetchAll(self, task: ApiCallerTask, url, responsePropName, params=None,
-                 header=None, method='get', limit: int = -1):
-        responseList = []
-    
-        # Fetch more responses as long as there is a 'next' link
-        #  in the response
-        while url:
-            if task.isCanceled():
-                return False
-        
-            response = self.fetch(task, url, params, header, method)
-        
-            if not response or not isinstance(response, dict) \
-                    or responsePropName not in response:
-                return False
-        
-            responseList.extend(response[responsePropName])
-        
-            # Get the next bunch of files by using the next link
-            #  in the response
-            nextUrl = ''
-            if response['links']:
-                for link in response['links']:
-                    if link['rel'] == 'next':
-                        nextUrl = link['href']
-                        break
-            if url != nextUrl and (limit == -1 or len(responseList) < limit):
-                url = nextUrl
-                # Params are already part of the next url, no need to
-                #  specify them again
-                params = {}
-            else:
-                url = ''
-        return responseList
-    
-    def refreshAllMetadata(self, task: ApiCallerTask):
-        """Fetches metadata for all datasets and saves it to a json file."""
-        datasets = self.getDatasetList(task)
-        
+                filterItems["timestamp"].insert(0, CURRENT_VALUE)
+
+        return {"files": fileList, "filters": filterItems}
+
+    def downloadFiles(self, task: QgsTask, fileList, outputDir):
+        return self.stacClient.downloadFiles(task, fileList, outputDir)
+
+    def refreshAllMetadata(self, task: QgsTask):
+        """Fetches metadata for all collections and saves it to a json file."""
+        collections = self.getCollections(task)
+
         md_geocat = {}
-        for datasetId, dataset in datasets.items():
+        for collectionId, collection in collections.items():
             # Request metadata in all languages
             metadata = {}
             for locale in _AVAILABLE_LOCALES:
-                localizedMetadata = self.geocatApi.getMeta(task, datasetId,
-                                                           dataset.metadataLink,
-                                                           locale)
+                localizedMetadata = self.geocatClient.getMeta(
+                    task, collectionId, collection.metadataLink(), locale, False
+                )
                 if localizedMetadata:
                     metadata[locale] = localizedMetadata
-            md_geocat[datasetId] = metadata
-        
-        self.geocatApi.updatePreSavedMetadata(md_geocat)
-    
-    def catalogPropertiesCrawler(self, task: ApiCallerTask):
+            md_geocat[collectionId] = metadata
+
+        self.geocatClient.updatePreSavedMetadata(md_geocat)
+
+    def catalogPropertiesCrawler(self, task: QgsTask):
         """Crawls through all item / asset properties of the catalog and
         returns them."""
-        datasets = self.getDatasetList(task)
+        collections = self.getCollections(task)
         items = {}
-        for datasetId, dataset in datasets.items():
-            items[datasetId] = {}
-            items[datasetId]['title'] = dataset.title
+        for collectionId, collection in collections.items():
+            items[collectionId] = {}
+            items[collectionId]["title"] = collection.title()
             bbox = [7.8693964, 46.7961371, 7.9098771, 46.817595]
-            fileList = self.getFileList(task, dataset.filesLink, bbox)
+            fileList = self.getFileList(task, collectionId, bbox)
             if fileList:
-                items[datasetId]['assets'] = len(fileList['files'])
-                items[datasetId]['filters'] = {
-                    k: v for k, v in fileList['filters'].items() if v}
+                items[collectionId]["assets"] = len(fileList["files"])
+                items[collectionId]["filters"] = {
+                    k: v for k, v in fileList["filters"].items() if v
+                }
         return items
+
+    def tr(self, message):
+        return translate(message, type(self).__name__)

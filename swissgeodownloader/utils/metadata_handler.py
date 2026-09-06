@@ -19,16 +19,40 @@
  ***************************************************************************/
 """
 
+import json
 import os
 
-__version__ = "2.3.0"
+from swissgeodownloader import PLUGIN_DIR
+from swissgeodownloader.utils.utilities import log
 
-DEBUG = False
-PLUGIN_DIR = os.path.dirname(__file__)
-_AVAILABLE_LOCALES = ["de", "en", "fr"]
+SETTING_PREFIX = "PluginSwissGeoDownloader"
+SAVE_DIRECTORY = os.path.join(PLUGIN_DIR, "api")
 
 
-def classFactory(iface):
-    from .swissgeodownloader import SwissGeoDownloader
+def saveToFile(metadata, filename):
+    try:
+        jsonData = json.dumps(metadata, indent=2, sort_keys=True, ensure_ascii=False)
+    except Exception:
+        log("Converting metadata to json data not successful")
+        return
 
-    return SwissGeoDownloader(iface)
+    metafile = os.path.join(SAVE_DIRECTORY, filename)
+    try:
+        with open(metafile, "w", encoding="utf8") as f:
+            f.write(jsonData)
+    except PermissionError:
+        log("Saving metadata to json file not successful")
+
+
+def loadFromFile(filename):
+    filepath = os.path.join(SAVE_DIRECTORY, filename)
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, encoding="utf-8") as f:
+                return json.load(f)
+        except json.JSONDecodeError:
+            log("Loading metadata from file not possible")
+            return {}
+    else:
+        log("Metadata file not found")
+    return {}

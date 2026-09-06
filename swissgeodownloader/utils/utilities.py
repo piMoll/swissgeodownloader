@@ -18,58 +18,69 @@
  *                                                                         *
  ***************************************************************************/
 """
+
 from datetime import datetime
 
 from qgis.PyQt.QtCore import QCoreApplication
+from qgis.core import Qgis, QgsMessageLog
 
-MESSAGE_CATEGORY = 'Swiss Geo Downloader'
+from swissgeodownloader import DEBUG
+
+MESSAGE_CATEGORY = "Swiss Geo Downloader"
 
 
-def tr(message, **kwargs):
+def translate(context, message):
     """Get the translation for a string using Qt translation API.
     We implement this ourselves since we do not inherit QObject.
     """
-    return QCoreApplication.translate('@default', message)
+    return QCoreApplication.translate(context, message)
 
 
-def formatCoordinate(number):
-    """Format big numbers with thousand separator, swiss-style"""
-    if number is None:
-        return ''
+def formatCoordinate(num):
+    """Format big numbers with a thousand separator, swiss-style"""
+    if num is None:
+        return ""
     # Format big numbers with thousand separator
-    elif number >= 1000:
-        return f"{number:,.0f}".replace(',', "'")
+    elif num >= 1000:
+        return f"{num:,.0f}".replace(",", "'")
     else:
-        return f"{number:,.6f}"
-    
+        return f"{num:,.6f}"
+
 
 def castToNum(formattedNum):
     """Casts formatted numbers back to floats"""
     if type(formattedNum) in [int, float]:
         return formattedNum
     try:
-        num = float(formattedNum.replace("'", ''))
+        num = float(formattedNum.replace("'", ""))
     except (ValueError, AttributeError):
         num = None
     return num
 
 
-def filesizeFormatter(num, suffix='B'):
+def filesizeFormatter(num, suffix="B"):
     """Formats data sizes to human readable units"""
-    for unit in ['','K','M','G','T','P','E','Z']:
+    for unit in ["", "K", "M", "G", "T", "P", "E", "Z"]:
         if abs(num) < 1024.0:
-            return "%3.1f %s%s" % (num, unit, suffix)
+            return f"{num:3.1f} {unit}{suffix}"
         num /= 1024.0
-    return "%.1f %s%s" % (num, 'Yi', suffix)
+    return f"{num:.1f} Yi{suffix}"
 
 
 def getDateFromIsoString(isoString, formatted=True):
     """Translate ISO date string to date or swiss date format"""
-    if isoString[-1] == 'Z':
+    if isoString[-1] == "Z":
         isoString = isoString[:-1]
     dt = datetime.fromisoformat(isoString)
     if formatted:
-        return dt.strftime('%Y-%m-%d')
+        return dt.strftime("%Y-%m-%d")
     else:
         return dt
 
+
+def log(msg, level=Qgis.MessageLevel.Info, debugMsg=False):
+    if debugMsg:
+        if not DEBUG:
+            return
+        msg = f"DEBUG {msg}"
+    QgsMessageLog.logMessage(str(msg), MESSAGE_CATEGORY, level)

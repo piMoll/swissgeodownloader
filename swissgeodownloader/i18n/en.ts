@@ -2,57 +2,27 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en" sourcelanguage="en">
 <context>
-    <name>@default</name>
+    <name>AnalyseCollectionTask</name>
     <message>
-        <location filename="../test/test_translations.py" line="31"/>
-        <source>Swisstopo National Map (grey)</source>
-        <translation>Swisstopo National Map (grey)</translation>
-    </message>
-    <message>
-        <location filename="../ui/qgis_utilities.py" line="87"/>
-        <source>Layer &apos;{}&apos; added to map</source>
-        <translation>Layer '{}' added to map</translation>
-    </message>
-    <message>
-        <location filename="../ui/qgis_utilities.py" line="90"/>
-        <source>Not able to add layer &apos;{}&apos; to map</source>
-        <translation>Error when creating layer '{}'</translation>
-    </message>
-    <message>
-        <location filename="../ui/qgis_utilities.py" line="93"/>
-        <source>Layer &apos;{}&apos; already added to map</source>
-        <translation>Layer '{}' already added to map</translation>
+        <location filename="../api/api_caller_task.py" line="73"/>
+        <source>available datasets received</source>
+        <translation>available datasets received</translation>
     </message>
 </context>
 <context>
     <name>ApiCallerTask</name>
     <message>
-        <location filename="../api/apiCallerTask.py" line="82"/>
+        <location filename="../api/api_caller_task.py" line="35"/>
         <source>request completed</source>
         <translation>request completed</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="84"/>
-        <source>available datasets received</source>
-        <translation>available datasets received</translation>
-    </message>
-    <message>
-        <location filename="../api/apiCallerTask.py" line="86"/>
-        <source>file list received</source>
-        <translation>file list received</translation>
-    </message>
-    <message>
-        <location filename="../api/apiCallerTask.py" line="88"/>
-        <source>files downloaded</source>
-        <translation>files downloaded</translation>
-    </message>
-    <message>
-        <location filename="../api/apiCallerTask.py" line="94"/>
+        <location filename="../api/api_caller_task.py" line="43"/>
         <source>An unknown error occurred</source>
         <translation>An unknown error occurred</translation>
     </message>
     <message>
-        <location filename="../api/apiCallerTask.py" line="92"/>
+        <location filename="../api/api_caller_task.py" line="53"/>
         <source>Aborted by user</source>
         <translation>Aborted by user</translation>
     </message>
@@ -60,25 +30,135 @@
 <context>
     <name>ApiDataGeoAdmin</name>
     <message>
-        <location filename="../api/datageoadmin.py" line="65"/>
+        <location filename="../api/datageoadmin.py" line="58"/>
         <source>Error when loading available dataset - Unexpected API response</source>
         <translation>Error when loading available dataset - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="221"/>
+        <location filename="../api/datageoadmin.py" line="186"/>
         <source>Error when requesting file list - Unexpected API response</source>
         <translation>Error when requesting file list - Unexpected API response</translation>
     </message>
     <message>
-        <location filename="../api/datageoadmin.py" line="167"/>
+        <location filename="../api/datageoadmin.py" line="141"/>
         <source>Error when loading dataset details - Unexpected API response</source>
         <translation>Error when loading dataset details - Unexpected API response</translation>
     </message>
 </context>
 <context>
-    <name>ApiGeoCat</name>
+    <name>CollectionListTable</name>
     <message>
-        <location filename="../api/geocat.py" line="68"/>
+        <location filename="../ui/collection_list_table.py" line="73"/>
+        <source>Search</source>
+        <translation>Search</translation>
+    </message>
+    <message>
+        <location filename="../ui/collection_list_table.py" line="99"/>
+        <source>ID</source>
+        <translation>ID</translation>
+    </message>
+    <message>
+        <location filename="../ui/collection_list_table.py" line="99"/>
+        <source>Title</source>
+        <translation>Title</translation>
+    </message>
+    <message>
+        <location filename="../ui/collection_list_table.py" line="99"/>
+        <source>Search text</source>
+        <translation>Search text</translation>
+    </message>
+</context>
+<context>
+    <name>DownloadFilesTask</name>
+    <message>
+        <location filename="../api/api_caller_task.py" line="85"/>
+        <source>files downloaded</source>
+        <translation>files downloaded</translation>
+    </message>
+</context>
+<context>
+    <name>GetCollectionsTask</name>
+    <message>
+        <location filename="../api/api_caller_task.py" line="67"/>
+        <source>available datasets received</source>
+        <translation>available datasets received</translation>
+    </message>
+</context>
+<context>
+    <name>GetFileListTask</name>
+    <message>
+        <location filename="../api/api_caller_task.py" line="79"/>
+        <source>file list received</source>
+        <translation>file list received</translation>
+    </message>
+</context>
+<context>
+    <name>QgisLayerCreatorTask</name>
+    <message>
+        <location filename="../utils/qgis_layer_creator_task.py" line="140"/>
+        <source>Aborted by user</source>
+        <translation>Aborted by user</translation>
+    </message>
+    <message>
+        <location filename="../utils/qgis_layer_creator_task.py" line="142"/>
+        <source>An unknown error occurred</source>
+        <translation>An unknown error occurred</translation>
+    </message>
+</context>
+<context>
+    <name>SGD</name>
+    <message>
+        <location filename="../test/test_translations.py" line="31"/>
+        <source>Swisstopo National Map (grey)</source>
+        <translation>Swisstopo National Map (grey)</translation>
+    </message>
+    <message>
+        <location filename="../ui/qgis_utilities.py" line="88"/>
+        <source>Layer &apos;{}&apos; added to map</source>
+        <translation>Layer '{}' added to map</translation>
+    </message>
+    <message>
+        <location filename="../ui/qgis_utilities.py" line="91"/>
+        <source>Not able to add layer &apos;{}&apos; to map</source>
+        <translation>Error when creating layer '{}'</translation>
+    </message>
+    <message>
+        <location filename="../ui/qgis_utilities.py" line="95"/>
+        <source>Layer &apos;{}&apos; already added to map</source>
+        <translation>Layer '{}' already added to map</translation>
+    </message>
+    <message>
+        <location filename="../api/network_request.py" line="55"/>
+        <source>Start request {}</source>
+        <translation>Start request {}</translation>
+    </message>
+    <message>
+        <location filename="../api/network_request.py" line="69"/>
+        <source>{} not reachable or no internet connection</source>
+        <translation>{} not reachable or no internet connection</translation>
+    </message>
+    <message>
+        <location filename="../api/network_request.py" line="80"/>
+        <source>{} returns error</source>
+        <translation>{} returns error</translation>
+    </message>
+    <message>
+        <location filename="../api/network_request.py" line="117"/>
+        <source>Start download of {}</source>
+        <translation>Start download of {}</translation>
+    </message>
+    <message>
+        <location filename="../api/network_request.py" line="121"/>
+        <source>Error when downloading {}</source>
+        <translation>Error when downloading {}</translation>
+    </message>
+    <message>
+        <location filename="../api/network_request.py" line="127"/>
+        <source>Download of {} was canceled</source>
+        <translation>Download of {} was canceled</translation>
+    </message>
+    <message>
+        <location filename="../api/geocat.py" line="67"/>
         <source>Error when trying to retrieve metadata - No dataset ID found</source>
         <translation>Error when trying to retrieve metadata - No dataset ID found</translation>
     </message>
@@ -87,79 +167,10 @@
         <source>Error when trying to retrieve metadata - Response cannot be parsed</source>
         <translation>Error when trying to retrieve metadata - Response cannot be parsed</translation>
     </message>
-</context>
-<context>
-    <name>ApiInterface</name>
     <message>
-        <location filename="../api/apiInterface.py" line="56"/>
-        <source>Start request {}</source>
-        <translation>Start request {}</translation>
-    </message>
-    <message>
-        <location filename="../api/apiInterface.py" line="70"/>
-        <source>{} not reachable or no internet connection</source>
-        <translation>{} not reachable or no internet connection</translation>
-    </message>
-    <message>
-        <location filename="../api/apiInterface.py" line="109"/>
-        <source>Error when requesting header information: {}</source>
-        <translation>Error when requesting header information: {}</translation>
-    </message>
-    <message>
-        <location filename="../api/apiInterface.py" line="123"/>
-        <source>Start download of {}</source>
-        <translation>Start download of {}</translation>
-    </message>
-    <message>
-        <location filename="../api/apiInterface.py" line="127"/>
-        <source>Error when downloading {}</source>
-        <translation>Error when downloading {}</translation>
-    </message>
-    <message>
-        <location filename="../api/apiInterface.py" line="132"/>
-        <source>Download of {} was canceled</source>
-        <translation>Download of {} was canceled</translation>
-    </message>
-    <message>
-        <location filename="../api/apiInterface.py" line="80"/>
-        <source>{} returns error</source>
-        <translation>{} returns error</translation>
-    </message>
-</context>
-<context>
-    <name>DatasetListTable</name>
-    <message>
-        <location filename="../ui/datsetListTable.py" line="67"/>
-        <source>Search</source>
-        <translation>Search</translation>
-    </message>
-    <message>
-        <location filename="../ui/datsetListTable.py" line="93"/>
-        <source>ID</source>
-        <translation>ID</translation>
-    </message>
-    <message>
-        <location filename="../ui/datsetListTable.py" line="93"/>
-        <source>Title</source>
-        <translation>Title</translation>
-    </message>
-    <message>
-        <location filename="../ui/datsetListTable.py" line="93"/>
-        <source>Search text</source>
-        <translation>Search text</translation>
-    </message>
-</context>
-<context>
-    <name>QgisLayerCreatorTask</name>
-    <message>
-        <location filename="../utils/qgisLayerCreatorTask.py" line="143"/>
-        <source>Aborted by user</source>
-        <translation>Aborted by user</translation>
-    </message>
-    <message>
-        <location filename="../utils/qgisLayerCreatorTask.py" line="145"/>
-        <source>An unknown error occurred</source>
-        <translation>An unknown error occurred</translation>
+        <location filename="../utils/qgis_layer_creator_task.py" line="40"/>
+        <source>Daten zu QGIS hinzufügen</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -178,12 +189,12 @@
 <context>
     <name>SwissGeoDownloaderDockWidget</name>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="286"/>
+        <location filename="../ui/sgd_dockwidget.py" line="318"/>
         <source>Swiss Geo Downloader - Info</source>
         <translation>Swiss Geo Downloader - Info</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="286"/>
+        <location filename="../ui/sgd_dockwidget.py" line="318"/>
         <source>PLUGIN_INFO</source>
         <translation>Swiss Geo Downloader allows you to download Swiss geodata in an easy and convenient way.
 All provided datasets are open data.
@@ -192,52 +203,52 @@ Further information:
 {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="339"/>
+        <location filename="../ui/sgd_dockwidget.py" line="376"/>
         <source>No files available in this dataset</source>
         <translation>No files available in this dataset</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="648"/>
+        <location filename="../ui/sgd_dockwidget.py" line="686"/>
         <source>No files found.</source>
         <translation>No files found.</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="745"/>
+        <location filename="../ui/sgd_dockwidget.py" line="781"/>
         <source>Choose output folder</source>
         <translation>Choose output folder</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="725"/>
+        <location filename="../ui/sgd_dockwidget.py" line="761"/>
         <source>Overwrite files?</source>
         <translation>Overwrite files?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="725"/>
+        <location filename="../ui/sgd_dockwidget.py" line="761"/>
         <source>At least one file will be overwritten. Continue?</source>
         <translation>At least one file will be overwritten. Continue?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="767"/>
+        <location filename="../ui/sgd_dockwidget.py" line="799"/>
         <source>Files successfully downloaded!</source>
         <translation>Files successfully downloaded!</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="769"/>
+        <location filename="../ui/sgd_dockwidget.py" line="801"/>
         <source>{} file(s) successfully downloaded</source>
         <translation>{} file(s) successfully downloaded</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="643"/>
+        <location filename="../ui/sgd_dockwidget.py" line="681"/>
         <source>{} file(s), approximately {}</source>
         <translation>{} file(s), approximately {}</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="646"/>
+        <location filename="../ui/sgd_dockwidget.py" line="684"/>
         <source>{} file(s)</source>
         <translation>{} file(s)</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="230"/>
+        <location filename="../ui/sgd_dockwidget.py" line="262"/>
         <source>To download Swiss geo data it is recommended to use the Swiss coordinate reference system.
 
 Switch map to Swiss LV95?</source>
@@ -246,37 +257,37 @@ Switch map to Swiss LV95?</source>
 Switch map to Swiss LV95?</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="547"/>
+        <location filename="../ui/sgd_dockwidget.py" line="586"/>
         <source>all</source>
         <translation>all</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="549"/>
+        <location filename="../ui/sgd_dockwidget.py" line="588"/>
         <source>current</source>
         <translation>most current</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="564"/>
+        <location filename="../ui/sgd_dockwidget.py" line="603"/>
         <source>Currently selected filters do not match any files</source>
         <translation>Currently selected filters do not match any files</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="504"/>
+        <location filename="../ui/sgd_dockwidget.py" line="543"/>
         <source>No files available in current extent</source>
         <translation>No files available in current extent</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="507"/>
+        <location filename="../ui/sgd_dockwidget.py" line="546"/>
         <source>No files available</source>
         <translation>No files available</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="803"/>
+        <location filename="../ui/sgd_dockwidget.py" line="825"/>
         <source>{} layers added to QGIS, {} skipped because they are already present</source>
         <translation>{} layers added to the map. {} skipped because they are already present</translation>
     </message>
     <message>
-        <location filename="../ui/sgd_dockwidget.py" line="795"/>
+        <location filename="../ui/sgd_dockwidget.py" line="817"/>
         <source>An error occurred while adding the layers to QGIS. See details in the log.</source>
         <translation>An error occurred while adding the layers to QGIS. See details in the log.</translation>
     </message>
