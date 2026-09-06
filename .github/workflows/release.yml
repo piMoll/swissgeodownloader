@@ -1,56 +1,92 @@
 name: 🔌 Plugin | Package and release
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+  # This workflow is triggered on
+  # 1) pushes to the master branch
+  # 2) pull requests with target master
+  # 3) GitHub releases
+
 on:
   push:
-    tags:
-      - '*'
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  release:
+    types: [ published ]
+  workflow_dispatch:
 
 jobs:
-  release:
+  plugin-package:
+    name: Packages and releases plugin
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
         with:
           python-version: '3.12'
 
-      - name: Install Qt lrelease
-        run: |
-          sudo apt-get update
-          sudo apt-get install qtbase5-dev qttools5-dev-tools
-
       - name: Install qgis-plugin-ci
-        run: pip3 install qgis-plugin-ci
+        run: pip3 install qgis-plugin-ci>=2.8.6
 
-      - name: copy readme, license and changelog
-        run: |
-          cp README.md swissgeodownloader/README.md
-          cp LICENSE swissgeodownloader/LICENSE
-          cp CHANGELOG.md swissgeodownloader/CHANGELOG.md
-
-      - name: Package
+      - name: Package the plugin as a dev version for preview
         if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         run: |
           VERSION=0.0.0
-          qgis-plugin-ci package ${VERSION}
+          qgis-plugin-ci -v package ${VERSION} \
+            --allow-uncommitted-changes
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload the dev version artifact
+        id: upload-artifact
+        uses: actions/upload-artifact@v7
         if: ${{ ! startsWith(github.ref, 'refs/tags/') }}
         with:
-          name: swissgeodownloader_dev
+          archive: false
           path: swissgeodownloader.0.0.0.zip
           if-no-files-found: error
 
-      - name: Release
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Comment on PR with artifact link
+        if: github.event_name == 'pull_request'
+        uses: marocchino/sticky-pull-request-comment@v3
+        with:
+          header: plugin-artifact
+          message: |
+            ## 🔌 Plugin Artifact
+
+            A development build of the plugin is available for testing:
+
+            **[⬇️ Download swissgeodownloader_dev.zip](${{ steps.upload-artifact.outputs.artifact-url }})**
+
+            > ⚠️ This is a development build from commit ${{ github.event.pull_request.head.sha }}.
+
+      - name: Release - Package release version
+        if: ${{ github.event_name == 'release' }}
         run: |
-          VERSION=${{ github.ref_name }}
-          qgis-plugin-ci release ${VERSION} \
-            --github-token ${{ secrets.GITHUB_TOKEN }} \
-            --osgeo-username ${{ secrets.OSGEO_USERNAME }} \
-            --osgeo-password ${{ secrets.OSGEO_PASSWORD }}
+          VERSION=${{ github.event.release.tag_name }}
+          qgis-plugin-ci -v package ${VERSION} \
+            --allow-uncommitted-changes
+
+      - name: Release - Upload package to the GitHub release page
+        if: ${{ github.event_name == 'release' }}
+        uses: softprops/action-gh-release@v2
+        with:
+          files: swissgeodownloader.${{ github.event.release.tag_name }}.zip
+
+#      # Release the plugin to the QGIS plugin repository.
+#      # This step is triggered when a release is created in GitHub.
+#      # Remember to set the `--github-token` and `--qgis_token` as environment variables in GitHub
+#      - name: Release the plugin to the QGIS plugin repository
+#        if: ${{ github.event_name == 'release' }}
+#        run: |
+#          VERSION=${{ github.event.release.tag_name }}
+#          qgis-plugin-ci release ${VERSION} \
+#            --allow-uncommitted-changes \
+#            --github-token ${{ secrets.GITHUB_TOKEN }} \
+#            --qgis-token ${{ secrets.QGIS_ORG_TOKEN }}
