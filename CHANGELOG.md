@@ -1,8 +1,16 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [2.3.0] - 2026-09-09
 ### Added
+- Improved layer metadata handling and retrieval
+- Use QGIS-internal STAC tools for collection and item retrieval
+- Add asynchronous collection loading, allowing requests to be canceled
+- Maintenance: Reorganize utils and tools, added security checks and automated code quality checks
+- Maintenance: Updated CI workflows and plugin packaging
+
+#### Fixed
+- Handle missing user locale on plugin startup
 
 ## [2.2.0] - 2026-02-25
 ### Added

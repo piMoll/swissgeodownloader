@@ -1,4 +1,3 @@
-swissgeodownloader/resources/resources.qrc export-ignore
 swissgeodownloader/scripts/** export-ignore
 swissgeodownloader/i18n/*.pro export-ignore
 swissgeodownloader/i18n/*.ts export-ignore

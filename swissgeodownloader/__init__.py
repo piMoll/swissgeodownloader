@@ -21,11 +21,11 @@
 
 import os
 
-__version__ = "2.2.0"
+__version__ = "2.3.0"
 
 DEBUG = False
 PLUGIN_DIR = os.path.dirname(__file__)
-_AVAILABLE_LOCALES = ["de", "en", "fr", "it"]
+_AVAILABLE_LOCALES = ["de", "en", "fr"]
 
 
 def classFactory(iface):
