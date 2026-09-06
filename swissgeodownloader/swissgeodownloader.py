@@ -22,9 +22,10 @@
 
 import os
 
-from qgis.PyQt.QtCore import QCoreApplication, QSettings, QTranslator, Qt
+from qgis.PyQt.QtCore import QCoreApplication, QTranslator, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
+from qgis.core import QgsSettings
 
 from swissgeodownloader import PLUGIN_DIR
 
@@ -40,7 +41,11 @@ class SwissGeoDownloader:
         self.iface = iface
 
         # Initialize locale
-        self.locale = QSettings().value("locale/userLocale")[0:2]
+        self.locale = QgsSettings().value(
+            "locale/userLocale",
+            "en",
+            type=str,
+        )[:2]
         locale_path = os.path.join(PLUGIN_DIR, "i18n", f"{self.locale}.qm")
 
         if not os.path.exists(locale_path):
